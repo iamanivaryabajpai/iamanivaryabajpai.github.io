@@ -3,84 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivar ya's Free Gaming Zone</title>
+    <title>Anivar ya's Ultimate Cyber Arcade</title>
     <style>
+        /* Cyberpunk Neon Theme */
         body {
-            background-color: #0b0c10;
+            background-color: #05050a;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
-        }
-        h1 {
-            color: #1f2833;
-            background: linear-gradient(45deg, #ff007f, #7f00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-        p { color: #66fcf1; font-size: 1.2rem; margin-bottom: 40px; }
-        
-        .games-container {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .game-box {
-            background-color: #1f2833;
-            border: 3px solid #45f3ff;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 0 15px rgba(69, 243, 255, 0.3);
-            transition: 0.3s;
+        h1 {
+            font-size: 3.5rem;
+            margin: 20px 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #ff007f, #00f0ff, #ff007f);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
         }
-        .game-box:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.5);
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .subtitle {
+            color: #00f0ff;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        /* 20+ Games Layout Grid */
+        .arcade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            width: 100%;
+            padding: 10px;
+        }
+
+        /* Futuristic Game Box */
+        .game-card {
+            background: rgba(15, 15, 30, 0.85);
+            border: 2px solid #1a1a3a;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
             border-color: #ff007f;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
         }
 
         .game-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #ffffff;
+            letter-spacing: 1px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+            width: 100%;
+            padding-bottom: 8px;
         }
 
-        /* Responsive Iframe for Games */
+        /* Game Iframe Style */
         iframe {
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             background: #000;
+            width: 100%;
+            height: 250px;
+        }
+
+        /* Footer Note */
+        footer {
+            margin-top: 60px;
+            color: #444;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <h1>🎮 ANIVAR YA'S GAMING ZONE 🎮</h1>
-    <p>Play Free Online HTML5 Games - No Download Required!</p>
+    <h1>🚀 ANIVAR YA'S CYBER ARCADE 🚀</h1>
+    <div class="subtitle">🔥 20+ Insane Free Games To Play Instantly 🔥</div>
 
-    <div class="games-container">
+    <div class="arcade-grid">
 
-        <!-- Game 1: Cyber Cars Punk Racing -->
-        <div class="game-box">
-            <div class="game-title">🏎️ Cyber Cars Racing</div>
-            <iframe src="https://html5.gamedistribution.com/6090cfca99654e53b6cb43e3ef749007/?gd_sdk_referrer_url=https%3A%2F%2Fgamedistribution.com%2Fgames%2Fcyber-cars-punk-racing" width="400" height="300" scrolling="none" frameborder="0"></iframe>
+        <!-- 1. Cyber Racing -->
+        <div class="game-card">
+            <div class="game-title">🏎️ Cyber Cars Punk Racing</div>
+            <iframe src="https://html5.gamedistribution.com/6090cfca99654e53b6cb43e3ef749007/"></iframe>
         </div>
 
-        <!-- Game 2: Merge To Million (Puzzle/Strategy) -->
-        <div class="game-box">
-            <div class="game-title">🧩 Merge To Million</div>
-            <iframe src="https://html5.gamedistribution.com/b0be8debc0004fecb87fa130f146be06/?gd_sdk_referrer_url=https%3A%2F%2Fgamedistribution.com%2Fgames%2Fmerge-to-million" width="400" height="300" scrolling="none" frameborder="0"></iframe>
+        <!-- 2. Merge to Million -->
+        <div class="game-card">
+            <div class="game-title">🧩 Merge To Million Puzzle</div>
+            <iframe src="https://html5.gamedistribution.com/b0be8debc0004fecb87fa130f146be06/"></iframe>
+        </div>
+
+        <!-- 3. FootChinko -->
+        <div class="game-card">
+            <div class="game-title">⚽ FootChinko (Soccer)</div>
+            <iframe src="https://html5.gamedistribution.com/00e84b80e4614e5a87b3fc402bb8019e/"></iframe>
+        </div>
+
+        <!-- 4. Knife Rain -->
+        <div class="game-card">
+            <div class="game-title">🗡️ Knife Rain</div>
+            <iframe src="https://html5.gamedistribution.com/f04be8da00d944e8bc70ff1d3bc42c7a/"></iframe>
+        </div>
+
+        <!-- 5. Table Tennis Pro -->
+        <div class="game-card">
+            <div class="game-title">🏓 Table Tennis World Tour</div>
+            <iframe src="https://html5.gamedistribution.com/264b18c0c4604d55b0a701a084c7b646/"></iframe>
+        </div>
+
+        <!-- 6. Archery World Tour -->
+        <div class="game-card">
+            <div class="game-title">🏹 Archery World Tour</div>
+            <iframe src="https://html5.gamedistribution.com/8397a61099614457bc5824c75908585f/"></iframe>
+        </div>
+
+        <!-- 7. Basketball FRVR -->
+        <div class="game-card">
+            <div class="game-title">🏀 Basketball Stars</div>
+            <iframe src="https://html5.gamedistribution.com/603233fa03f545169a94f6ec4ff70032/"></iframe>
+        </div>
+
+        <!-- 8. Classic 8 Ball Pool -->
+        <div class="game-card">
+            <div class="game-title">🎱 8 Ball Billiards Classic</div>
+            <iframe src="https://html5.gamedistribution.com/fc200b3f81e84e4bb1d2c2069fa2f33f/"></iframe>
+        </div>
+
+        <!-- 9. Penalty Challenge -->
+        <div class="game-card">
+            <div class="game-title">🥅 Penalty Challenge</div>
+            <iframe src="https://html5.gamedistribution.com/e2bd5b8229b4486cb4f8d38ee5d04581/"></iframe>
+        </div>
+
+        <!-- 10. Stickman Hook Line -->
+        <div class="game-card">
+            <div class="game-title">🥷 Stickman Swing</div>
+            <iframe src="https://html5.gamedistribution.com/5cd861070ffb4a69ad66efcb8423f89e/"></iframe>
+        </div>
+
+        <!-- 11. Jewel Rush -->
+        <div class="game-card">
+            <div class="game-title">💎 Jewel Legend Match-3</div>
+            <iframe src="https://html5.gamedistribution.com/83d69b365ff64ec998df90b39e6a0d4a/"></iframe>
+        </div>
+
+        <!-- 12. Subway Run Game -->
+        <div class="game-card">
+            <div class="game-title">🏃 Subway Skate Rush</div>
+            <iframe src="https://html5.gamedistribution.com/39db20bd215442e8bb33100b1a03fc65/"></iframe>
+        </div>
+
+        <!-- 13. Bubble Shooter Pro -->
+        <div class="game-card">
+            <div class="game-title">🎈 Bubble Shooter HD</div>
+            <iframe src="https://html5.gamedistribution.com/657a7d4cfbb24b56a9386c9d749962a9/"></iframe>
+        </div>
+
+        <!-- 14. Moto X3M Bike Race -->
+        <div class="game-card">
+            <div class="game-title">🏍️ Moto X3M Pool Party</div>
+            <iframe src="https://html5.gamedistribution.com/de6114eb79fb4b18b4887349141065e8/"></iframe>
+        </div>
+
+        <!-- 15. Real Flight Simulator -->
+        <div class="game-card">
+            <div class="game-title">✈️ Free Flight Sim</div>
+            <iframe src="https://html5.gamedistribution.com/264b9dbcb66e4a64860d4b9612662c11/"></iframe>
+        </div>
+
+        <!-- 16. Ludo Legend -->
+        <div class="game-card">
+            <div class="game-title">🎲 Ludo Classic Legend</div>
+            <iframe src="https://html5.gamedistribution.com/136bdf91f5444ca9b9d3118cf94cfec8/"></iframe>
+        </div>
+
+        <!-- 17. Block Champ Tetris -->
+        <div class="game-card">
+            <div class="game-title">🧱 Block Champ (Tetris)</div>
+            <iframe src="https://html5.gamedistribution.com/b163e79e6631405c935ee573cc9be995/"></iframe>
+        </div>
+
+        <!-- 18. Minesweeper Classic -->
+        <div class="game-card">
+            <div class="game-title">💣 Minesweeper Mania</div>
+            <iframe src="https://html5.gamedistribution.com/47f7d46ffb004276be880eb8784ea382/"></iframe>
+        </div>
+
+        <!-- 19. Extreme Car Parking -->
+        <div class="game-card">
+            <div class="game-title">🅿️ Super Car Parking</div>
+            <iframe src="https://html5.gamedistribution.com/cae0eb7e974e4708a46b2b73bc30e461/"></iframe>
+        </div>
+
+        <!-- 20. Alien Shooter Defenders -->
+        <div class="game-card">
+            <div class="game-title">👽 Alien Invaders Shoot</div>
+            <iframe src="https://html5.gamedistribution.com/0239ca578b9e4a3ab71ecf97e61a8ef1/"></iframe>
+        </div>
+
+        <!-- 21. Tic Tac Toe Neon -->
+        <div class="game-card">
+            <div class="game-title">❌ Tic Tac Toe Glow</div>
+            <iframe src="https://html5.gamedistribution.com/fb6dbcfda1704da88837265b4c4fa517/"></iframe>
         </div>
 
     </div>
+
+    <footer>© 2026 Anivar ya's Arcade Engine. Powered by GitHub.</footer>
 
 </body>
 </html>
