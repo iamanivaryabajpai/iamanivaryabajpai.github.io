@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="elmCqWEVeRQW5UAlibFFZJ3QMTJRXKo9bWhAuqR0MDc" />  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="elmcQWEvERQW5UAlibFFZJ3QMTJRXKo9bWhAuqR0MDc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anivar ya's 3D Mega Arcade</title>
     <style>
-        /* Premium 3D Light Cyber Theme - No Harsh Black, High Contrast Soft Look */
+        /* Premium 3D Light Cyber Theme - No Harsh Black */
         body {
             background: linear-gradient(135deg, #eef2f7 0%, #d5deef 100%);
             color: #2c3e50;
@@ -60,38 +61,20 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
-            overflow: hidden;
             height: 190px;
         }
 
-        /* 3D Pop Effect on Hover */
         .game-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 15px 20px 30px rgba(67, 100, 247, 0.15), -10px -10px 25px #ffffff;
             border-color: #4364f7;
         }
 
-        .card-icon {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.1));
-        }
+        .card-icon { font-size: 2.2rem; margin-bottom: 10px; }
+        .game-title { font-size: 1.3rem; font-weight: 700; color: #1e293b; }
+        .game-desc { color: #64748b; font-size: 0.9rem; margin: 8px 0 15px 0; line-height: 1.4; }
 
-        .game-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .game-desc {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin: 8px 0 15px 0;
-            line-height: 1.4;
-        }
-
-        /* Responsive Cool 3D Play Button */
+        /* Play Button */
         .play-btn {
             background: linear-gradient(135deg, #4364f7 0%, #6fb1fc 100%);
             color: #ffffff;
@@ -103,24 +86,53 @@
             cursor: pointer;
             width: 100%;
             text-align: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(67, 100, 247, 0.3);
-            box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
         .play-btn:hover {
             background: linear-gradient(135deg, #0052d4 0%, #4364f7 100%);
-            box-shadow: 0 6px 20px rgba(0, 82, 212, 0.5);
             transform: translateY(-2px);
         }
 
-        footer {
-            margin-top: 80px;
-            color: #747d8c;
-            font-size: 1rem;
-            font-weight: 500;
+        /* FULLSCREEN GAME MODAL (POPUP SYSTEM) */
+        .game-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
         }
+
+        .modal-content {
+            position: relative;
+            width: 95%;
+            max-width: 1024px;
+            height: 85vh;
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 30px; font-weight: bold; color: #fff;
+            cursor: pointer; z-index: 10000;
+            background: #ff4757; width: 40px; height: 40px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        iframe {
+            width: 100%; height: 100%; border: none;
+        }
+
+        footer { margin-top: 80px; color: #747d8c; font-size: 1rem; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -130,117 +142,96 @@
 
     <div class="arcade-grid">
 
+        <!-- Game 1 -->
         <div class="game-card">
             <div>
                 <div class="card-icon">🏎️</div>
                 <div class="game-title">Cyber Cars Racing</div>
                 <div class="game-desc">Futuristic 3D drift simulator with supercars.</div>
             </div>
-            <a href="https://html5.gamedistribution.com/6090cfca99654e53b6cb43e3ef749007/" target="_blank" class="play-btn">Play Instant</a>
+            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/6090cfca99654e53b6cb43e3ef749007/')">Play Instant</button>
         </div>
 
+        <!-- Game 2 -->
         <div class="game-card">
             <div>
                 <div class="card-icon">🧩</div>
                 <div class="game-title">Merge To Million</div>
                 <div class="game-desc">High-IQ math puzzle to hit the 1,000,000 block.</div>
             </div>
-            <a href="https://html5.gamedistribution.com/b0be8debc0004fecb87fa130f146be06/" target="_blank" class="play-btn">Play Instant</a>
+            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/b0be8debc0004fecb87fa130f146be06/')">Play Instant</button>
         </div>
 
+        <!-- Game 3 -->
         <div class="game-card">
             <div>
                 <div class="card-icon">⚽</div>
                 <div class="game-title">FootChinko Soccer</div>
                 <div class="game-desc">Epic crazy soccer matches combined with pinball.</div>
             </div>
-            <a href="https://html5.gamedistribution.com/00e84b80e4614e5a87b3fc402bb8019e/" target="_blank" class="play-btn">Play Instant</a>
+            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/00e84b80e4614e5a87b3fc402bb8019e/')">Play Instant</button>
         </div>
 
+        <!-- Game 4 -->
         <div class="game-card">
             <div>
                 <div class="card-icon">🗡️</div>
                 <div class="game-title">Knife Rain Master</div>
                 <div class="game-desc">Throw knives exactly on spinning target blocks.</div>
             </div>
-            <a href="https://html5.gamedistribution.com/f04be8da00d944e8bc70ff1d3bc42c7a/" target="_blank" class="play-btn">Play Instant</a>
+            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/f04be8da00d944e8bc70ff1d3bc42c7a/')">Play Instant</button>
         </div>
 
+        <!-- Game 5 -->
         <div class="game-card">
             <div>
                 <div class="card-icon">🏓</div>
                 <div class="game-title">Table Tennis Tour</div>
                 <div class="game-desc">Real paddle swipe physics global tournament.</div>
             </div>
-            <a href="https://html5.gamedistribution.com/264b18c0c4604d55b0a701a084c7b646/" target="_blank" class="play-btn">Play Instant</a>
+            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/264b18c0c4604d55b0a701a084c7b646/')">Play Instant</button>
         </div>
 
+        <!-- Game 6 -->
         <div class="game-card">
             <div>
                 <div class="card-icon">🏹</div>
                 <div class="game-title">Archery Master 3D</div>
                 <div class="game-desc">Aim and shoot arrows in windy stadium conditions.</div>
             </div>
-            <a href="https://html5.gamedistribution.com/8397a61099614457bc5824c75908585f/" target="_blank" class="play-btn">Play Instant</a>
-        </div>
-
-        <div class="game-card">
-            <div>
-                <div class="card-icon">🏀</div>
-                <div class="game-title">Basketball Arena</div>
-                <div class="game-desc">Perfect swiping swipe action loop challenge.</div>
-            </div>
-            <a href="https://html5.gamedistribution.com/603233fa03f545169a94f6ec4ff70032/" target="_blank" class="play-btn">Play Instant</a>
-        </div>
-
-        <div class="game-card">
-            <div>
-                <div class="card-icon">🎱</div>
-                <div class="game-title">8 Ball Billiards</div>
-                <div class="game-desc">Classic pocket pool physics arcade game.</div>
-            </div>
-            <a href="https://html5.gamedistribution.com/fc200b3f81e84e4bb1d2c2069fa2f33f/" target="_blank" class="play-btn">Play Instant</a>
-        </div>
-
-        <div class="game-card">
-            <div>
-                <div class="card-icon">🏍️</div>
-                <div class="game-title">Moto X3M Pool Party</div>
-                <div class="game-desc">Crazy intense dirt bike stunts over big loops.</div>
-            </div>
-            <a href="https://html5.gamedistribution.com/de6114eb79fb4b18b4887349141065e8/" target="_blank" class="play-btn">Play Instant</a>
-        </div>
-
-        <div class="game-card">
-            <div>
-                <div class="card-icon">🎈</div>
-                <div class="game-title">Bubble Shooter HD</div>
-                <div class="game-desc">Pop colorful bubble patterns instantly to clear board.</div>
-            </div>
-            <a href="https://html5.gamedistribution.com/657a7d4cfbb24b56a9386c9d749962a9/" target="_blank" class="play-btn">Play Instant</a>
-        </div>
-
-        <div class="game-card">
-            <div>
-                <div class="card-icon">🏃</div>
-                <div class="game-title">Subway Skate Rush</div>
-                <div class="game-desc">Endless running and dodging on railway tracks.</div>
-            </div>
-            <a href="https://html5.gamedistribution.com/39db20bd215442e8bb33100b1a03fc65/" target="_blank" class="play-btn">Play Instant</a>
-        </div>
-
-        <div class="game-card" style="background: linear-gradient(135deg, #ffffff 0%, #e6f0ff 100%); border: 2px dashed #4364f7;">
-            <div>
-                <div class="card-icon">🔥</div>
-                <div class="game-title">100+ Extra Games Live</div>
-                <div class="game-desc">Launch the main central server list containing 100+ trending games.</div>
-            </div>
-            <a href="https://api.gamedistribution.com/api/v1.0/users/b2b/games/?collection=all" target="_blank" class="play-btn" style="background: #2c3e50;">Open 100+ Feed</a>
+            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/8397a61099614457bc5824c75908585f/')">Play Instant</button>
         </div>
 
     </div>
 
+    <!-- THE GAME POPUP BOX -->
+    <div id="gameModal" class="game-modal">
+        <span class="close-btn" onclick="closeGame()">&times;</span>
+        <div class="modal-content">
+            <iframe id="gameFrame" src=""></iframe>
+        </div>
+    </div>
+
     <footer>© 2026 Anivar ya's Arcade Console V3. Anti-Strain Premium Setup.</footer>
 
+    <script>
+        function openGame(gameUrl) {
+            const modal = document.getElementById('gameModal');
+            const iframe = document.getElementById('gameFrame');
+            iframe.src = gameUrl;
+            modal.style.display = 'flex';
+        }
+
+        document.getElementById('gameModal').addEventListener('click', function(e) {
+            if (e.target === this) { closeGame(); }
+        });
+
+        function closeGame() {
+            const modal = document.getElementById('gameModal');
+            const iframe = document.getElementById('gameFrame');
+            iframe.src = ''; 
+            modal.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
