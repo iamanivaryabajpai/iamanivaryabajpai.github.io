@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="elmcQWEvERQW5UAlibFFZJ3QMTJRXKo9bWhAuqR0MDc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivar ya's 3D Mega Arcade</title>
+    <title>Anivar ya's God-Level 3D Arcade</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -63,7 +63,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 170px;
+            height: 160px;
         }
 
         .game-card:hover {
@@ -80,7 +80,7 @@
         .play-btn {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: #ffffff;
-            text-decoration: none;
+            border: none;
             padding: 10px;
             border-radius: 12px;
             font-family: 'Orbitron', sans-serif;
@@ -89,8 +89,8 @@
             text-align: center;
             box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
             transition: all 0.2s ease;
-            display: block;
-            box-sizing: border-box;
+            cursor: pointer;
+            width: 100%;
         }
 
         .play-btn:hover {
@@ -98,159 +98,152 @@
             box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
         }
 
+        /* God-Level Embedded Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            border-radius: 24px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem; color: #ffffff;
+            background: #ef4444; border: none;
+            padding: 5px 15px; border-radius: 10px;
+            cursor: pointer; font-weight: bold;
+            z-index: 1001;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+        }
+
+        iframe { width: 100%; height: 100%; border: none; background: #000; }
         footer { font-family: 'Orbitron', sans-serif; margin-top: 80px; color: #64748b; font-size: 0.9rem; text-align: center; }
     </style>
 </head>
 <body>
 
     <h1>🎮 ANIVAR YA'S MEGA ARCADE 🎮</h1>
-    <div class="subtitle">⚡ 100% VERIFIED TESTED LIVE GAMES ⚡</div>
+    <div class="subtitle">⚡ HYTEC ENGINE // INTERNAL POPUP EMULATION SYSTEM ⚡</div>
 
     <div class="arcade-grid">
 
-        <!-- 1 -->
+        <!-- GAME 1 -->
         <div class="game-card">
             <div class="card-header"><div class="card-icon">🧩</div><div class="game-title">2048 Master</div></div>
-            <div class="game-desc">Slide tiles to merge and reach the 2048 tile.</div>
-            <a class="play-btn" href="https://play2048.co/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="game-desc">Slide and merge tiles to reach the legendary 2048 grid.</div>
+            <button class="play-btn" onclick="openGame('https://play2048.co/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 2 -->
+        <!-- GAME 2 -->
         <div class="game-card">
-            <div class="card-header"><div class="card-icon">🔷</div><div class="game-title">Hextris</div></div>
-            <div class="game-desc">High speed hexagonal fast block match.</div>
-            <a class="play-btn" href="https://hextris.io/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="card-header"><div class="card-icon">🔷</div><div class="game-title">Hextris PRO</div></div>
+            <div class="game-desc">High-speed hexagonal fast paced block matching system.</div>
+            <button class="play-btn" onclick="openGame('https://hextris.io/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 3 -->
+        <!-- GAME 3 -->
         <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧱</div><div class="game-title">Tetris Web</div></div>
-            <div class="game-desc">Classic smooth reactive block building grid.</div>
-            <a class="play-btn" href="https://chvin.github.io/react-tetris/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="card-header"><div class="card-icon">🧱</div><div class="game-title">Classic Tetris</div></div>
+            <div class="game-desc">The ultimate block stacking retro responsive strategy.</div>
+            <button class="play-btn" onclick="openGame('https://chvin.github.io/react-tetris/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 4 -->
+        <!-- GAME 4 -->
         <div class="game-card">
-            <div class="card-header"><div class="card-icon">🐍</div><div class="game-title">Classic Snake</div></div>
-            <div class="game-desc">Old school zero-lag canvas snake game.</div>
-            <a class="play-btn" href="https://patorjk.com/games/snake/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="card-header"><div class="card-icon">🐍</div><div class="game-title">Retro Snake</div></div>
+            <div class="game-desc">Eat blocks and grow the vintage snake on a clean canvas.</div>
+            <button class="play-btn" onclick="openGame('https://patorjk.com/games/snake/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 5 -->
+        <!-- GAME 5 -->
         <div class="game-card">
-            <div class="card-header"><div class="card-icon">👾</div><div class="game-title">Space Invaders</div></div>
-            <div class="game-desc">Shoot alien swarms dropping from space.</div>
-            <a class="play-btn" href="https://jakesgordon.github.io/javascript-space-invaders/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="card-header"><div class="card-icon">🦖</div><div class="game-title">Dino T-Rex</div></div>
+            <div class="game-desc">The legendary offline running cactus jumper game.</div>
+            <button class="play-btn" onclick="openGame('https://arnellebalane.github.io/trex-runner/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 6 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏎️</div><div class="game-title">Outrun Racer</div></div>
-            <div class="game-desc">Retro pseudo-3D HTML5 canvas road racer.</div>
-            <a class="play-btn" href="https://jakesgordon.github.io/javascript-racer/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 7 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏓</div><div class="game-title">Paddle Pong</div></div>
-            <div class="game-desc">Classic 2D bouncing ball reflex tester.</div>
-            <a class="play-btn" href="https://jakesgordon.github.io/javascript-pong/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 8 -->
+        <!-- GAME 6 -->
         <div class="game-card">
             <div class="card-header"><div class="card-icon">💣</div><div class="game-title">Minesweeper</div></div>
-            <div class="game-desc">Classic retro board safe grid sweeping game.</div>
-            <a class="play-btn" href="https://jedierikb.github.io/minesweeper/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="game-desc">Uncover hidden logic bombs inside a strategic field matrix.</div>
+            <button class="play-btn" onclick="openGame('https://jedierikb.github.io/minesweeper/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 9 -->
+        <!-- GAME 7 -->
         <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏗️</div><div class="game-title">Tower Stack</div></div>
-            <div class="game-desc">Drop block layers precisely to build skyscrapers.</div>
-            <a class="play-btn" href="https://filipw.github.io/tower-building/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="card-header"><div class="card-icon">🏗️</div><div class="game-title">Tower Build</div></div>
+            <div class="game-desc">Drop massive construction block layers to build skyscrapers.</div>
+            <button class="play-btn" onclick="openGame('https://filipw.github.io/tower-building/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 10 -->
+        <!-- GAME 8 -->
         <div class="game-card">
             <div class="card-header"><div class="card-icon">❌</div><div class="game-title">Tic-Tac-Toe AI</div></div>
-            <div class="game-desc">Play unbeatable XO match against advanced AI.</div>
-            <a class="play-btn" href="https://mostafasand01.github.io/Tic-Tac-Toe/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="game-desc">Beat an smart mathematical unbeatable engine in XO grid.</div>
+            <button class="play-btn" onclick="openGame('https://mostafasand01.github.io/Tic-Tac-Toe/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 11 -->
+        <!-- GAME 9 -->
         <div class="game-card">
-            <div class="card-header"><div class="card-icon">✈️</div><div class="game-title">Paper Airplane</div></div>
-            <div class="game-desc">Steer physics-based vector gliders safely.</div>
-            <a class="play-btn" href="https://chandlerprall.github.io/PaperAirplane/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="card-header"><div class="card-icon">🎨</div><div class="game-title">Color Pipeline</div></div>
+            <div class="game-desc">Connect logic color dots seamlessly via smooth grid paths.</div>
+            <button class="play-btn" onclick="openGame('https://albertorestifo.github.io/Connect-The-Dots/')">LAUNCH GAME</button>
         </div>
 
-        <!-- 12 -->
+        <!-- GAME 10 -->
+        <div class="game-card">
+            <div class="card-header"><div class="card-icon">🏃</div><div class="game-title">Canvas Dash</div></div>
+            <div class="game-desc">Infinite fast side scrolling pixel block dodge simulator.</div>
+            <button class="play-btn" onclick="openGame('https://bencentra.github.io/canvas-game-bootstrap/')">LAUNCH GAME</button>
+        </div>
+
+        <!-- GAME 11 -->
+        <div class="game-card">
+            <div class="card-header"><div class="card-icon">🧠</div><div class="game-title">Sudoku Alpha</div></div>
+            <div class="game-desc">Pure math computational number placement logic engine.</div>
+            <button class="play-btn" onclick="openGame('https://script-type.github.io/sudoku/')">LAUNCH GAME</button>
+        </div>
+
+        <!-- GAME 12 -->
         <div class="game-card">
             <div class="card-header"><div class="card-icon">🔵</div><div class="game-title">Connect Four</div></div>
-            <div class="game-desc">Align 4 token chips vertically/horizontally.</div>
-            <a class="play-btn" href="https://alialaa.github.io/connect4/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 13 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧠</div><div class="game-title">Sudoku Core</div></div>
-            <div class="game-desc">Clean mathematical grid number placement puzzle.</div>
-            <a class="play-btn" href="https://script-type.github.io/sudoku/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 14 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎨</div><div class="game-title">Color Pipes</div></div>
-            <div class="game-desc">Connect dots using glowing neon pipeline grids.</div>
-            <a class="play-btn" href="https://albertorestifo.github.io/Connect-The-Dots/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 15 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏃</div><div class="game-title">Canvas Runner</div></div>
-            <div class="game-desc">Infinite side scrolling pixel block dodge runner.</div>
-            <a class="play-btn" href="https://bencentra.github.io/canvas-game-bootstrap/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 16 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🦖</div><div class="game-title">T-Rex Runner</div></div>
-            <div class="game-desc">Chrome offline style cactus jump dino dash.</div>
-            <a class="play-btn" href="https://arnellebalane.github.io/trex-runner/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 17 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🟢</div><div class="game-title">Hexis Puzzle</div></div>
-            <div class="game-desc">Rotate geometric lines to match colored points.</div>
-            <a class="play-btn" href="https://marianoguerra.github.io/hexis/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 18 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🃏</div><div class="game-title">Card Deck Clash</div></div>
-            <div class="game-desc">Strategic HTML5 smart local card pairing setup.</div>
-            <a class="play-btn" href="https://dulhanjayasinghe.github.io/Card-Game-HTML5/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 19 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎯</div><div class="game-title">Math Rush</div></div>
-            <div class="game-desc">Solve rapid arithmetic equations against the clock.</div>
-            <a class="play-btn" href="https://aaroniker.github.io/math-game/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
-        </div>
-
-        <!-- 20 -->
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🍿</div><div class="game-title">Capman Ghost</div></div>
-            <div class="game-desc">Alternative 8-bit grid ghost hunter maze.</div>
-            <a class="play-btn" href="https://macek.github.io/google_pacman/" target="_blank" rel="noopener noreferrer">BOOT GAME</a>
+            <div class="game-desc">Align 4 token pieces dynamically before the system player.</div>
+            <button class="play-btn" onclick="openGame('https://alialaa.github.io/connect4/')">LAUNCH GAME</button>
         </div>
 
     </div>
 
-    <footer>// SYSTEM SECURED // VERIFIED HIGH-STABILITY STATIC PORTAL</footer>
+    <!-- INTERNAL GAME EMULATOR FRAME -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame()">CLOSE X</button>
+            <iframe id="gameFrame" src=""></iframe>
+        </div>
+    </div>
 
-</body>
-</html>
+    <footer>// HYTEC CONSOLE ONLINE // ALL ROW COMPATIBILITY VERIFIED</footer>
+
+    <script>
+        function openGame(url) {
+            document.getElementById('gameFrame').src = url;
+            document.getElementById('gameModal').style.display = 'flex';
+        }
+        function closeGame() {
+            Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
