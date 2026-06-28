@@ -1,1 +1,157 @@
-<h1>rcb fir jeetegi ipl 3 tropy coming soon!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anivar ya's Tech Setup</title>
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #0d0e15;
+            color: #e2e8f0;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Header / Banner Section */
+        header {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(45deg, #00ffaa, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 20px rgba(0, 255, 170, 0.2);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* Gadgets Container */
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            padding: 40px 20px;
+        }
+
+        /* Cool Glow Cards */
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            width: 280px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Card Hover Effect */
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #00ffaa;
+            box-shadow: 0 15px 30px rgba(0, 255, 170, 0.2);
+        }
+
+        .card-tag {
+            background: rgba(0, 255, 170, 0.1);
+            color: #00ffaa;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            color: #ffffff;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        /* Neon Button */
+        .buy-btn {
+            display: block;
+            text-align: center;
+            background: linear-gradient(45deg, #00ffaa, #00cc88);
+            color: #0d0e15;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 255, 170, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            box-shadow: 0 6px 25px rgba(0, 255, 170, 0.6);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Anivar ya's Tech Setup 🚀</h1>
+        <p>The Ultimate Gaming & Coding Gear Recommendations</p>
+    </header>
+
+    <div class="grid-container">
+        
+        <!-- Gadget 1 -->
+        <div class="card">
+            <span class="card-tag">PERFORMANCE</span>
+            <h3>RGB Gaming Mouse</h3>
+            <p>Super low latency, ergonomic design, and insane DPI control for smooth flick shots.</p>
+            <a href="#" class="buy-btn">View Gear</a>
+        </div>
+
+        <!-- Gadget 2 -->
+        <div class="card">
+            <span class="card-tag">PRO TYPING</span>
+            <h3>Mechanical Keyboard</h3>
+            <p>Tactile clicky switches with per-key RGB customization. Built for fast typing and durability.</p>
+            <a href="#" class="buy-btn">View Gear</a>
+        </div>
+
+        <!-- Gadget 3 -->
+        <div class="card">
+            <span class="card-tag">AUDIO</span>
+            <h3>7.1 Gaming Headset</h3>
+            <p>Deep bass, surround sound spatial audio, and a crystal-clear noise-canceling mic.</p>
+            <a href="#" class="buy-btn">View Gear</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
