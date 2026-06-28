@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anivar ya's 3D Mega Arcade</title>
     <style>
-        /* Premium 3D Light Cyber Theme - No Harsh Black */
+        /* Premium 3D Light Cyber Theme */
         body {
             background: linear-gradient(135deg, #eef2f7 0%, #d5deef 100%);
             color: #2c3e50;
@@ -40,7 +40,6 @@
             text-align: center;
         }
 
-        /* 3D Grid Layout */
         .arcade-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -50,7 +49,6 @@
             padding: 10px;
         }
 
-        /* Premium 3D Neumorphic Glass Card */
         .game-card {
             background: rgba(255, 255, 255, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -74,11 +72,10 @@
         .game-title { font-size: 1.3rem; font-weight: 700; color: #1e293b; }
         .game-desc { color: #64748b; font-size: 0.9rem; margin: 8px 0 15px 0; line-height: 1.4; }
 
-        /* Play Button */
         .play-btn {
             background: linear-gradient(135deg, #4364f7 0%, #6fb1fc 100%);
             color: #ffffff;
-            border: none;
+            text-decoration: none;
             padding: 12px;
             border-radius: 16px;
             font-weight: bold;
@@ -88,48 +85,13 @@
             text-align: center;
             box-shadow: 0 4px 15px rgba(67, 100, 247, 0.3);
             transition: all 0.3s ease;
+            display: block;
+            box-sizing: border-box;
         }
 
         .play-btn:hover {
             background: linear-gradient(135deg, #0052d4 0%, #4364f7 100%);
             transform: translateY(-2px);
-        }
-
-        /* FULLSCREEN GAME MODAL (POPUP SYSTEM) */
-        .game-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            position: relative;
-            width: 95%;
-            max-width: 1024px;
-            height: 85vh;
-            background: #fff;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px; right: 20px;
-            font-size: 30px; font-weight: bold; color: #fff;
-            cursor: pointer; z-index: 10000;
-            background: #ff4757; width: 40px; height: 40px;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        iframe {
-            width: 100%; height: 100%; border: none;
         }
 
         footer { margin-top: 80px; color: #747d8c; font-size: 1rem; font-weight: 500; }
@@ -149,7 +111,7 @@
                 <div class="game-title">Cyber Cars Racing</div>
                 <div class="game-desc">Futuristic 3D drift simulator with supercars.</div>
             </div>
-            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/6090cfca99654e53b6cb43e3ef749007/')">Play Instant</button>
+            <a class="play-btn" href="https://html5.gamedistribution.com/6090cfca99654e53b6cb43e3ef749007/" target="_blank" rel="noopener noreferrer">Play Instant</a>
         </div>
 
         <!-- Game 2 -->
@@ -159,7 +121,7 @@
                 <div class="game-title">Merge To Million</div>
                 <div class="game-desc">High-IQ math puzzle to hit the 1,000,000 block.</div>
             </div>
-            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/b0be8debc0004fecb87fa130f146be06/')">Play Instant</button>
+            <a class="play-btn" href="https://html5.gamedistribution.com/b0be8debc0004fecb87fa130f146be06/" target="_blank" rel="noopener noreferrer">Play Instant</a>
         </div>
 
         <!-- Game 3 -->
@@ -169,7 +131,7 @@
                 <div class="game-title">FootChinko Soccer</div>
                 <div class="game-desc">Epic crazy soccer matches combined with pinball.</div>
             </div>
-            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/00e84b80e4614e5a87b3fc402bb8019e/')">Play Instant</button>
+            <a class="play-btn" href="https://html5.gamedistribution.com/00e84b80e4614e5a87b3fc402bb8019e/" target="_blank" rel="noopener noreferrer">Play Instant</a>
         </div>
 
         <!-- Game 4 -->
@@ -179,7 +141,7 @@
                 <div class="game-title">Knife Rain Master</div>
                 <div class="game-desc">Throw knives exactly on spinning target blocks.</div>
             </div>
-            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/f04be8da00d944e8bc70ff1d3bc42c7a/')">Play Instant</button>
+            <a class="play-btn" href="https://html5.gamedistribution.com/f04be8da00d944e8bc70ff1d3bc42c7a/" target="_blank" rel="noopener noreferrer">Play Instant</a>
         </div>
 
         <!-- Game 5 -->
@@ -189,7 +151,7 @@
                 <div class="game-title">Table Tennis Tour</div>
                 <div class="game-desc">Real paddle swipe physics global tournament.</div>
             </div>
-            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/264b18c0c4604d55b0a701a084c7b646/')">Play Instant</button>
+            <a class="play-btn" href="https://html5.gamedistribution.com/264b18c0c4604d55b0a701a084c7b646/" target="_blank" rel="noopener noreferrer">Play Instant</a>
         </div>
 
         <!-- Game 6 -->
@@ -199,39 +161,12 @@
                 <div class="game-title">Archery Master 3D</div>
                 <div class="game-desc">Aim and shoot arrows in windy stadium conditions.</div>
             </div>
-            <button class="play-btn" onclick="openGame('https://html5.gamedistribution.com/8397a61099614457bc5824c75908585f/')">Play Instant</button>
+            <a class="play-btn" href="https://html5.gamedistribution.com/8397a61099614457bc5824c75908585f/" target="_blank" rel="noopener noreferrer">Play Instant</a>
         </div>
 
-    </div>
-
-    <!-- THE GAME POPUP BOX -->
-    <div id="gameModal" class="game-modal">
-        <span class="close-btn" onclick="closeGame()">&times;</span>
-        <div class="modal-content">
-            <iframe id="gameFrame" src=""></iframe>
-        </div>
     </div>
 
     <footer>© 2026 Anivar ya's Arcade Console V3. Anti-Strain Premium Setup.</footer>
 
-    <script>
-        function openGame(gameUrl) {
-            const modal = document.getElementById('gameModal');
-            const iframe = document.getElementById('gameFrame');
-            iframe.src = gameUrl;
-            modal.style.display = 'flex';
-        }
-
-        document.getElementById('gameModal').addEventListener('click', function(e) {
-            if (e.target === this) { closeGame(); }
-        });
-
-        function closeGame() {
-            const modal = document.getElementById('gameModal');
-            const iframe = document.getElementById('gameFrame');
-            iframe.src = ''; 
-            modal.style.display = 'none';
-        }
-    </script>
 </body>
 </html>
