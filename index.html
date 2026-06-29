@@ -1,322 +1,332 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivar ya's Personal Workspace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Anivar ya's Smart Rasoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #f8fafc;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
+            background: #fff8f5;
+            color: #333;
+            padding: 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
+        .header {
             text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
         }
 
-        /* Clock Style */
-        .clock-card {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            margin-bottom: 25px;
-        }
-
-        #greeting {
-            font-size: 1.5rem;
-            color: #38bdf8;
-            font-weight: 300;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        #clock {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .header h1 {
+            font-size: 2rem;
             margin-bottom: 5px;
         }
 
-        #date {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            letter-spacing: 1px;
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
         }
 
-        /* Search Bar Style */
-        .search-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50px;
-            padding: 5px 10px;
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
-            transition: 0.3s;
+            gap: 8px;
         }
 
-        .search-card:focus-within {
-            border-color: #38bdf8;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        /* Ingredient Grid */
+        .ingredient-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
-        .search-card form {
-            display: flex;
-            width: 100%;
-        }
-
-        .search-card input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white;
-            padding: 12px 20px;
-            font-size: 1rem;
-        }
-
-        .search-card button {
-            background: #38bdf8;
-            color: #0f172a;
-            border: none;
-            outline: none;
-            padding: 10px 25px;
-            border-radius: 50px;
+        .ing-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 12px 5px;
+            border-radius: 12px;
             cursor: pointer;
+            text-align: center;
             font-weight: 600;
             transition: 0.2s;
+            font-size: 0.9rem;
         }
 
-        .search-card button:hover {
-            background: #0ea5e9;
+        .ing-btn.active {
+            background: #ffeedd;
+            border-color: #ff8e53;
+            color: #ff6b6b;
+            transform: scale(0.95);
         }
 
-        /* Quote Box */
-        .quote-box {
-            font-style: italic;
-            color: #cbd5e1;
-            margin-bottom: 30px;
-            font-size: 1rem;
-            line-height: 1.6;
-            padding: 0 20px;
+        /* Recipe Output */
+        .recipe-list {
+            margin-top: 15px;
         }
 
-        /* To-Do List Style */
-        .todo-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: left;
+        .recipe-item {
+            background: #fff9f6;
+            border-left: 4px solid #ff8e53;
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 10px;
+            animation: fadeIn 0.3s ease;
         }
 
-        .todo-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #818cf8;
-            letter-spacing: 1px;
+        .recipe-item h3 {
+            font-size: 1.1rem;
+            color: #d94848;
+            margin-bottom: 5px;
         }
 
-        .todo-input-group {
+        .recipe-item p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Ration Checklist */
+        .ration-item {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .todo-input-group input {
-            flex: 1;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 10px;
-            color: white;
-            outline: none;
-        }
-
-        .todo-input-group input:focus {
-            border-color: #818cf8;
-        }
-
-        .todo-input-group button {
-            background: #818cf8;
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .todo-list {
-            list-style: none;
-        }
-
-        .todo-item {
-            background: rgba(255,255,255,0.02);
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.02);
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f3f5;
         }
 
-        .todo-item button {
-            background: transparent;
+        .ration-item:last-child {
             border: none;
-            color: #ef4444;
+        }
+
+        .ration-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .ration-left input {
+            width: 18px;
+            height: 18px;
+            accent-color: #ff6b6b;
             cursor: pointer;
+        }
+
+        /* Action Button */
+        .btn-action {
+            background: #25d366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            background: #20ba5a;
+        }
+
+        .btn-magic {
+            background: #ff8e53;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         footer {
-            margin-top: 40px;
-            font-family: 'Orbitron', sans-serif;
+            margin-top: 20px;
             font-size: 0.8rem;
-            color: #64748b;
-            letter-spacing: 2px;
+            color: #aaa;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <!-- CLOCK CARD -->
-        <div class="clock-card">
-            <div id="greeting">Loading...</div>
-            <div id="clock">00:00:00</div>
-            <div id="date">Loading Date...</div>
-        </div>
-
-        <!-- SEARCH BAR -->
-        <div class="search-card">
-            <form action="https://www.google.com/search" method="get" target="_blank">
-                <input type="text" name="q" placeholder="Search Google directly from here..." required>
-                <button type="submit">Search</button>
-            </form>
-        </div>
-
-        <!-- MOTIVATIONAL QUOTE -->
-        <div class="quote-box" id="quote">
-            "The best way to predict the future is to create it."
-        </div>
-
-        <!-- TO-DO WORKSPACE -->
-        <div class="todo-card">
-            <h3>📌 Daily Focus Tasks</h3>
-            <div class="todo-input-group">
-                <input type="text" id="todo-input" placeholder="Add a new task for today...">
-                <button onclick="addTodo()">Add</button>
-            </div>
-            <ul class="todo-list" id="todo-list">
-                <!-- Tasks will appear here -->
-            </ul>
-        </div>
-
-        <footer>ANIVAR YA // DIGITAL HUB 2026</footer>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🍽️ SMART RASOI</h1>
+        <p>Anivar ya Ka Digital Kitchen Assistant</p>
     </div>
 
+    <!-- MAGIC SUGGESTION BUTTON -->
+    <button class="btn-action btn-magic" onclick="getMagicDish()">💡 Aaj Kya Banayein? (Magic Suggestion)</button>
+
+    <!-- SECTION 1: INGREDIENT SELECTOR -->
+    <div class="card">
+        <h2>🥕 घर में क्या-क्या सामान है?</h2>
+        <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">नीचे मौजूद सामानों पर क्लिक करें, रेसिपी अपने आप नीचे आ जाएगी:</p>
+        
+        <div class="ingredient-grid">
+            <button class="ing-btn" onclick="toggleIngredient(this, 'आलू')">🥔 आलू</button>
+            <button class="ing-btn" onclick="toggleIngredient(this, 'टमाटर')">🍅 टमाटर</button>
+            <button class="ing-btn" onclick="toggleIngredient(this, 'पनीर')">🧀 पनीर</button>
+            <button class="ing-btn" onclick="toggleIngredient(this, 'मटर')">🫛 मटर</button>
+            <button class="ing-btn" onclick="toggleIngredient(this, 'प्याज')">🧅 प्याज</button>
+            <button class="ing-btn" onclick="toggleIngredient(this, 'दूध')">🥛 दूध</button>
+        </div>
+    </div>
+
+    <!-- SECTION 2: RECIPE DISPLAY -->
+    <div class="card">
+        <h2>🍳 आपके लिए बेस्ट रेसिपीज:</h2>
+        <div class="recipe-list" id="recipe-output">
+            <p style="color: #999; text-align: center; font-size: 0.9rem; padding: 20px;">ऊपर से कम से कम एक सामान सेलेक्ट करें!</p>
+        </div>
+    </div>
+
+    <!-- SECTION 3: SMART RATION CHECKLIST -->
+    <div class="card">
+        <h2>📝 राशन की पर्ची (Checklist)</h2>
+        <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">जो सामान खत्म हो गया है उसपर टिक करें और सीधे WhatsApp पर भेजें:</p>
+        
+        <div id="ration-box">
+            <!-- Items generated via JS -->
+        </div>
+
+        <button class="btn-action" onclick="sendToWhatsApp()">📲 लिस्ट WhatsApp पर भेजें</button>
+    </div>
+
+    <footer>DESIGNED BY ANIVAR YA // DIGITAL HUB 2026</footer>
+
     <script>
-        // Real-time Clock & Dynamic Greeting Logic
-        function updateDashboard() {
-            const now = new Date();
-            
-            // Time string
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let seconds = now.getSeconds();
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
+        // Selected ingredients array
+        let selectedIngredients = [];
 
-            // Date string
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('date').innerText = now.toLocaleDateString('en-US', options);
-
-            // Greeting based on hours
-            let greeting = "Welcome";
-            if (hours < 12) greeting = "Good Morning, Anivar ya";
-            else if (hours < 17) greeting = "Good Afternoon, Anivar ya";
-            else if (hours < 21) greeting = "Good Evening, Anivar ya";
-            else greeting = "Good Night, Anivar ya";
-            document.getElementById('greeting').innerText = greeting;
-        }
-        setInterval(updateDashboard, 1000);
-        updateDashboard();
-
-        // Local Random Quotes System
-        const quotes = [
-            "Mehnat itni khamoshi se karo ki kamyabi shor macha de.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-            "Choti choti galtiyon se mat daro, wahi bada rasta dikhati hain.",
-            "Believe you can and you're halfway there."
+        // Full Recipe Database
+        const recipeDatabase = [
+            { name: "Jeera Aloo (जीरा आलू)", ing: ["आलू"], desc: "उबले आलू को छोटे टुकड़ों में काटें। कड़ाही में तेल गरम करके जीरा, हरी मिर्च और हल्दी डालें, फिर आलू डालकर 5 मिनट भूनें। तैयार!" },
+            { name: "Tamatar Chatni (टमाटर की चटनी)", ing: ["टमाटर", "प्याज"], desc: "टमाटर और प्याज को बारीक काटें। कड़ाही में थोड़ा तेल, राई और मिर्च का छौंक लगाकर इन्हें पकाएं। स्वाद अनुसार नमक और हल्की चीनी डालें।" },
+            { name: "Aloo Tamatar Sabzi (आलू टमाटर की रसेदार सब्‍जी)", ing: ["आलू", "टमाटर"], desc: "कुकर में तेल, जीरा, प्याज भूनें। टमाटर की प्यूरी और मसाले डालें। फिर कटे आलू और पानी डालकर 2 सीटी लगाएं। पूड़ी के साथ बेस्ट!" },
+            { name: "Matar Paneer (मटर पनीर)", ing: ["पनीर", "मटर", "टमाटर", "प्याज"], desc: "प्याज, टमाटर, अदरक का पेस्ट भूनें। उसमें हल्दी, गरम मसाला डालें। फिर मटर और पनीर के टुकड़े डालकर तरीदार पकाएं।" },
+            { name: "Paneer Bhurji (पनीर भुर्जी)", ing: ["पनीर", "प्याज", "टमाटर"], desc: "बारीक कटे प्याज-टमाटर को कड़ाही में भूनें। ऊपर से पनीर को मैश (क्रश) करके डालें, नमक-मिर्च मिलाकर 3 मिनट पकाएं।" },
+            { name: "Aloo Matar (आलू मटर की सूखी सब्‍जी)", ing: ["आलू", "मटर", "प्याज"], desc: "कड़ाही में तेल गरम करके जीरा-प्याज भूनें। आलू और हरी मटर डालकर ढक दें। धीमी आंच पर मसालों के साथ पकने दें।" },
+            { name: "Kheer (शाही खीर)", ing: ["दूध"], desc: "दूध को भारी बर्तन में उबालें। आधा कप भीगे चॉवल कूटकर डालें। गाढ़ा होने तक पकाएं और अंत में चीनी और इलायची डालें।" },
+            { name: "Matar Ki Chaat (मटर चाट)", ing: ["मटर", "टमाटर", "प्याज"], desc: "उबले मटर में बारीक कटा प्याज, टमाटर, हरी मिर्च, नींबू का रस और चाट मसाला मिलाएं। झटपट स्नैक तैयार!" }
         ];
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        document.getElementById('quote').innerText = `"${randomQuote}"`;
 
-        // To-Do List Core Logic (Saves in Browser Storage)
-        let todos = JSON.parse(localStorage.getItem('myTodos')) || ["Explore coding setups", "Show this website to family"];
+        // Ration Checklist Database
+        const rationItems = ["चीनी (Sugar)", "चायपत्ती (Tea)", "सरसों तेल (Oil)", "नमक (Salt)", "आटा (Atta)", "दाल (Dal)", "मसाले (Spices)"];
 
-        function renderTodos() {
-            const list = document.getElementById('todo-list');
-            list.innerHTML = '';
-            todos.forEach((todo, index) => {
-                const li = document.createElement('li');
-                li.className = 'todo-item';
-                li.innerHTML = `<span>${todo}</span><button onclick="deleteTodo(${index})">✕</button>`;
-                list.appendChild(li);
-            });
-            localStorage.setItem('myTodos', JSON.stringify(todos));
+        // Setup Ration UI
+        const rationBox = document.getElementById('ration-box');
+        rationItems.forEach((item, index) => {
+            rationBox.innerHTML += `
+                <div class="ration-item">
+                    <div class="ration-left">
+                        <input type="checkbox" id="item-${index}" value="${item}">
+                        <label for="item-${index}">${item}</label>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Function to toggle selection
+        function toggleIngredient(btn, item) {
+            btn.classList.toggle('active');
+            if (selectedIngredients.includes(item)) {
+                selectedIngredients = selectedIngredients.filter(i => i !== item);
+            } else {
+                selectedIngredients.push(item);
+            }
+            checkRecipes();
         }
 
-        function addTodo() {
-            const input = document.getElementById('todo-input');
-            if (input.value.trim() !== '') {
-                todos.push(input.value.trim());
-                input.value = '';
-                renderTodos();
+        // Logic to screen and display recipes
+        function checkRecipes() {
+            const output = document.getElementById('recipe-output');
+            if (selectedIngredients.length === 0) {
+                output.innerHTML = `<p style="color: #999; text-align: center; font-size: 0.9rem; padding: 20px;">ऊपर से कम से कम एक सामान सेलेक्ट करें!</p>`;
+                return;
+            }
+
+            // Filter recipes where ALL listed ingredients are available in selected list
+            let matches = recipeDatabase.filter(recipe => 
+                recipe.ing.every(needed => selectedIngredients.includes(needed))
+            );
+
+            if (matches.length === 0) {
+                output.innerHTML = `<p style="color: #999; text-align: center; font-size: 0.9rem; padding: 20px;">इन सामानों का कोई कॉम्बिनेशन नहीं मिला, कुछ और सेलेक्ट करें!</p>`;
+            } else {
+                output.innerHTML = '';
+                matches.forEach(recipe => {
+                    output.innerHTML += `
+                        <div class="recipe-item">
+                            <h3>${recipe.name}</h3>
+                            <p>${recipe.desc}</p>
+                        </div>
+                    `;
+                });
             }
         }
 
-        function deleteTodo(index) {
-            todos.splice(index, 1);
-            renderTodos();
+        // Magic Suggestion
+        function getMagicDish() {
+            const randomDish = recipeDatabase[Math.floor(Math.random() * recipeDatabase.length)];
+            alert(`💡 आज का स्पेशल सुझाव:\n\n"${randomDish.name}"\n\nविधि: ${randomDish.desc}`);
         }
 
-        // Allow pressing Enter key to add task
-        document.getElementById('todo-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') addTodo();
-        });
+        // Send Ration via WhatsApp
+        function sendToWhatsApp() {
+            let missingItems = [];
+            rationItems.forEach((item, index) => {
+                const cb = document.getElementById(`item-${index}`);
+                if (cb.checked) {
+                    missingItems.push(`• ${item}`);
+                }
+            });
 
-        renderTodos();
+            if (missingItems.length === 0) {
+                alert("कृपया पहले उन सामानों पर टिक करें जो खत्म हो गए हैं!");
+                return;
+            }
+
+            let text = `*घरेलू राशन की सूची (Smart Rasoi App)*\nयह सामान खत्म हो गया है, कृपया ले आएं:\n\n${missingItems.join('\n')}\n\n_Generated via Anivar ya's Hub_`;
+            let encodedText = encodeURIComponent(text);
+            window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+        }
     </script>
 </body>
 </html>
