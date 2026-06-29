@@ -3,49 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LucknowPulse | Anivarya Bajpai</title>
+    <title>LucknowPulse | The Super Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-white min-h-screen">
+<body class="bg-gray-50 text-gray-900 font-sans">
 
-    <nav class="p-6 text-center text-4xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
-        LUCKNOW PULSE
-    </nav>
+    <!-- Sidebar / Header -->
+    <header class="bg-white border-b p-6 flex justify-between items-center shadow-sm">
+        <h1 class="text-3xl font-black text-blue-900">LUCKNOW<span class="text-blue-500">PULSE</span></h1>
+        <div class="text-sm font-semibold text-gray-500">Welcome, Anivarya Bajpai</div>
+    </header>
 
-    <main class="max-w-5xl mx-auto p-4">
-        <!-- Hero Section -->
-        <div class="relative rounded-3xl overflow-hidden h-64 shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1596706037885-303e8f85f392?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-60">
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <h1 class="text-3xl font-bold">Innovation Hub Lucknow</h1>
-                <p class="text-sm">Curated by Anivarya Bajpai</p>
-            </div>
+    <main class="max-w-6xl mx-auto p-6">
+        <!-- Hero Spotlight -->
+        <div class="bg-gradient-to-r from-blue-700 to-blue-900 rounded-3xl p-10 text-white shadow-2xl mb-10">
+            <h2 class="text-4xl font-bold">Lucknow is Evolving.</h2>
+            <p class="mt-2 text-blue-100 opacity-80">Tech, Trends, and Life – All in one dashboard.</p>
         </div>
 
-        <!-- Dynamic Grid -->
-        <section class="grid md:grid-cols-3 gap-6 mt-10">
-            <!-- Trending Box -->
-            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-blue-500 transition">
-                <h2 class="text-xl font-bold mb-4 text-blue-400">Trending Now</h2>
-                <ul class="space-y-2 text-sm">
-                    <li>• AI City Tech Roadmap</li>
-                    <li>• Lucknow Street Food Guide</li>
-                    <li>• Smart Energy Solutions</li>
+        <!-- Dashboard Grid (The Super App Core) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- News Section -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-bold text-blue-800 mb-4">Latest Trends</h3>
+                <ul class="space-y-4">
+                    <li class="border-b pb-2">AI City: New Roadmap Revealed</li>
+                    <li class="border-b pb-2">Smart Grid Charging Active</li>
+                    <li>Upcoming Tech Expos in July</li>
                 </ul>
             </div>
-            <!-- Links Box -->
-            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-emerald-500 transition">
-                <h2 class="text-xl font-bold mb-4 text-emerald-400">Useful Links</h2>
-                <a href="https://up.gov.in" class="block hover:text-emerald-300">UP Government Portal</a>
-                <a href="https://lucknow.nic.in" class="block hover:text-emerald-300">District Administration</a>
+
+            <!-- Service Hub -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-bold text-emerald-700 mb-4">City Services</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="bg-emerald-50 text-emerald-700 p-3 rounded-xl font-bold text-sm">Gov Portal</button>
+                    <button class="bg-emerald-50 text-emerald-700 p-3 rounded-xl font-bold text-sm">Rail Status</button>
+                    <button class="bg-emerald-50 text-emerald-700 p-3 rounded-xl font-bold text-sm">Electricity</button>
+                    <button class="bg-emerald-50 text-emerald-700 p-3 rounded-xl font-bold text-sm">Emergency</button>
+                </div>
             </div>
-            <!-- Contact -->
-            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-purple-500 transition">
-                <h2 class="text-xl font-bold mb-4 text-purple-400">Let's Connect</h2>
-                <p class="text-xs italic">Building the future of Lucknow, one code at a time.</p>
+
+            <!-- Event Highlight -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-bold text-purple-700 mb-4">Featured Event</h3>
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb474865" class="rounded-xl h-32 w-full object-cover mb-3">
+                <p class="font-bold">Innovation Hub Meetup</p>
+                <p class="text-xs text-gray-500">Next Weekend | Hazratganj</p>
             </div>
-        </section>
+
+        </div>
     </main>
+
+    <footer class="text-center p-10 text-gray-400 text-sm">
+        LucknowPulse 2026 | Powered by Innovation
+    </footer>
 
 </body>
 </html>
