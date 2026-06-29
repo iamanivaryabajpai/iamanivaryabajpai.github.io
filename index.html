@@ -2,77 +2,828 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <title>ANIVARYA RASOI - FULL CODE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIVARYA RASOI v6.0 - Ultimate Cartoon Alarm OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root { --brand: #ff4f2b; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fdfdfd; padding: 20px; }
-        .app-container { max-width: 600px; margin: auto; }
-        .app-card { background: white; border: 2px solid var(--brand); padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        h2 { color: var(--brand); font-weight: 800; }
-        .recipe-box { margin-top: 20px; padding: 20px; background: #fff5f2; border-left: 6px solid var(--brand); border-radius: 12px; font-weight: 600; line-height: 1.6; }
-        input, select { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; box-sizing: border-box; }
-        button { width: 100%; padding: 16px; background: var(--brand); color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #e04526; }
+        /* ==========================================================================
+           PART 1: MASTER UI STYLING & LAYOUT
+           ========================================================================== */
+        :root {
+            --brand: #ff4f2b;
+            --brand-gradient: linear-gradient(135deg, #ff4f2b 0%, #ff7849 100%);
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-dark: #0f172a;
+            --text-gray: #475569;
+            --input-bg: #ffffff;
+            --shadow: 0 20px 40px rgba(15, 23, 42, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 245, 240, 0.8)), 
+                        url('https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-dark);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 630px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .brand-header {
+            background: var(--card-bg);
+            border: 2px solid #ffffff;
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .brand-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-header p {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .app-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .app-card h2 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .main-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 2px solid rgba(255, 79, 43, 0.15);
+            border-radius: 14px;
+            padding: 14px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .meal-tabs-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .meal-tab-btn {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            color: var(--text-gray);
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .meal-tab-btn.active {
+            background: var(--brand-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(255, 79, 43, 0.15);
+        }
+
+        .smart-chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .chip-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--brand);
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .chip-btn {
+            background: #ffffff;
+            border: 1px solid rgba(255, 79, 43, 0.1);
+            color: var(--text-dark);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .config-box {
+            background: #ffffff;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 79, 43, 0.08);
+        }
+
+        .config-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            display: block;
+        }
+
+        .custom-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           PART 2: DISPLAY CARDS & ADVANCED ALARM UI STYLING
+           ========================================================================== */
+        .recipe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .next-btn {
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .recipe-box-output {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .recipe-banner {
+            width: 100%;
+            height: 170px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .recipe-body {
+            padding: 16px;
+        }
+
+        .recipe-badge-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .badge-diet { background: #e6fcf5; color: #0ca678; }
+        .badge-cal { background: #fff5f5; color: #fa5252; }
+
+        .recipe-title {
+            color: #d9381e;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .recipe-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+        .feature-block-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .feat-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 8px;
+            border: 1px dashed rgba(0,0,0,0.08);
+            cursor: pointer;
+        }
+
+        .feat-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .feat-budget { color: #2b6cb0; }
+        .feat-sub { color: #d69e2e; }
+        .feat-text { font-size: 0.8rem; font-weight: 600; }
+
+        .audio-container {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn {
+            background: var(--brand-gradient);
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .audio-status {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .timer-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .live-timer-display {
+            background: #fff5f5;
+            color: var(--brand);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 800;
+            margin-top: 8px;
+            border: 1px solid rgba(255,79,43,0.12);
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .t-ctrl-btn {
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .transformer-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #166534;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        .ration-input-group {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .ration-btn-add {
+            background: var(--brand-gradient);
+            color: white;
+            border: none;
+            padding: 0 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .ration-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+
+        .ration-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .ration-del-btn {
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 3px 6px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.7rem;
+        }
+
+        .ration-control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border: none;
+            padding: 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            cursor: pointer;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="app-card">
-        <h2>👨‍🍳 AI Recipe Generator</h2>
-        <input type="text" id="ing" placeholder="Samagri likhein (e.g., leftover rice, potato)">
-        <button onclick="findRecipe()">Recipe Generate Karein</button>
-        <div id="out" class="recipe-box">Result yahan aayega...</div>
-    </div><div class="app-card">
-        <h2>🚨 Cartoon Voice Alarm</h2>
-        <select id="char">
-            <option value="oggy">Oggy (High Pitch)</option>
-            <option value="doraemon">Doraemon (Balanced)</option>
-            <option value="shinchan">Shinchan (Funny)</option>
-        </select>
-        <button onclick="setAlarm()" style="background: #333;">Alarm Set Karein</button>
-    </div>
-</div>
 
-<script>
-    function findRecipe() {
-        const i = document.getElementById('ing').value.toLowerCase();
-        const out = document.getElementById('out');
-        
-        // Advanced logic matches your input specifically
-        if (i.includes('rice') && i.includes('potato')) {
-            out.innerHTML = "<b>Recipe: Ultimate Aloo-Rice Cutlet [Dhaba Style]</b><br><br>1. Leftover rice aur uble aloo ko mash karein.<br>2. Isme chat masala, namak, aur dhaniya mix karein.<br>3. Tikki banakar shallow fry karein.<br>4. <i>Ye recipe premium selection ka hissa hai!</i>";
-        } else if (i.includes('bread') && i.includes('corn')) {
-            out.innerHTML = "<b>Recipe: Ultimate Corn, Potato & Bread Fusion Toast</b><br><br>Mashed aloo mein sweet corn aur masala milakar bread par spread karein aur butter mein toast karein.";
-        } else {
-            out.innerHTML = "Kripya 'leftover rice, potato' jaisa combo likhein.";
-        }
-    }function setAlarm() {
-        const char = document.getElementById('char').value;
-        alert("Alarm set! 5 second wait karein...");
-        
-        setTimeout(() => {
-            let text = "";
-            let pitch = 1.0;
-            let rate = 1.0;
+    <div class="app-container">
+        <div class="brand-header">
+            <h1>ANIVARYA RASOI</h1>
+            <p>Smart Gastronomy OS</p>
+        </div>
 
-            if (char === 'oggy') {
-                text = "Zaldi dekho aake, khana jal raha hai, dakchki dakchki, me bahut bhookha hoon!";
-                pitch = 1.9; rate = 1.4;
-            } else if (char === 'doraemon') {
-                text = "Nobita! Gadget nikalne se pehle gas band karo, khana jal gaya toh mummy bohot maarengi!";
-                pitch = 1.2; rate = 1.1;
-            } else {
-                text = "Mizae san, jaldi aao varna khana koyla ban jayega! Hehehe!";
-                pitch = 2.0; rate = 1.3;
-            }
+        <div class="app-card">
+            <h2>🔍 आपके पास क्या सामग्री है?</h2>
             
-            const s = new SpeechSynthesisUtterance(text);
-            s.lang = 'hi-IN';
-            s.pitch = pitch;
-            s.rate = rate;
-            window.speechSynthesis.speak(s);
-        }, 5000);
-    }
-</script>
+            <div class="meal-tabs-container">
+                <button id="tab-breakfast" class="meal-tab-btn active" onclick="switchMealType('Breakfast')">🍳 Breakfast</button>
+                <button id="tab-lunch" class="meal-tab-btn" onclick="switchMealType('Lunch')">🍛 Lunch</button>
+                <button id="tab-dinner" class="meal-tab-btn" onclick="switchMealType('Dinner')">🍲 Dinner</button>
+            </div>
+
+            <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सामग्री का नाम डालें (जैसे: bread, paneer, suji)...">
+            
+            <div class="smart-chips-row">
+                <div class="chip-label">⭐ Quick Combinations:</div>
+                <button class="chip-btn" onclick="injectQuickSuggestion('Bread and Corn')">🥪 Bread + Corn</button>
+                <button class="chip-btn" onclick="injectQuickSuggestion('Paneer')">🍢 Paneer Special</button>
+                <button class="chip-btn" onclick="injectQuickSuggestion('Suji')">🥣 Suji Delicacy</button>
+            </div>
+
+            <div class="config-grid" style="align-items: center;">
+                <div class="config-box">
+                    <span class="config-label">🌶️ Spice Tuning:</span>
+                    <select id="spice-selector" class="custom-select" onchange="runRecipeEngine()">
+                        <option value="कम तीखा">Mild Tone</option>
+                        <option value="चटपटा" selected>Medium Punch</option>
+                        <option value="तेज मसाला">Gourmet Spicy</option>
+                    </select>
+                </div>
+                <div class="config-box" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span class="config-label">👥 Servings:</span>
+                        <div id="portion-display-value" style="font-size: 0.9rem; font-weight: 800; color: var(--text-dark); margin-top: 2px;">1 Person</div>
+                    </div>
+                    <div style="display: flex; gap: 4px;">
+                        <button onclick="modifyPortionsCount(-1)" style="background: #e2e8f0; border: none; width: 26px; height: 26px; border-radius: 6px; font-weight: 800; cursor: pointer; color: var(--text-dark);">-</button>
+                        <button onclick="modifyPortionsCount(1)" style="background: var(--brand-gradient); border: none; width: 26px; height: 26px; border-radius: 6px; font-weight: 800; cursor: pointer; color: white;">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-card" style="border-top: 4px solid var(--brand);">
+            <h2>🌟 Kitchen Voice Alarm Dashboard</h2>
+            
+            <div class="config-box" style="margin-bottom: 12px; background: #fff5f5; border: 1px solid rgba(255,79,43,0.15);">
+                <span class="config-label" style="color: var(--brand); font-weight: 800;">🗣️ Select Cartoon Alarm Character:</span>
+                <select id="alarm-character-selector" class="custom-select" style="font-weight: 700; color: var(--text-dark);">
+                    <option value="oggy" selected>🐱 Oggy (Zaldi dekho aake...)</option>
+                    <option value="doraemon">🤖 Doraemon (Nobita ki tarah khana mat jalao...)</option>
+                    <option value="shinchan">👶 Shinchan (Arey waah, shimlamirch toh nahi bani na?)</option>
+                    <option value="raju">👨 Raju Rastogi - 3 Idiots (Khana jal gaya toh ammi kapde dhoyengi...)</option>
+                </select>
+            </div>
+
+            <p class="chip-label" style="margin-bottom: 4px;">⏱️ AI Kitchen Timer:</p>
+            <div class="timer-grid">
+                <button class="timer-btn" onclick="setupKitchenTimer(3, 'Chai (चाय)')">☕ Chai (3m)</button>
+                <button class="timer-btn" onclick="setupKitchenTimer(5, 'Maggi (मैगी)')">🍜 Maggi (5m)</button>
+                <button class="timer-btn" onclick="setupKitchenTimer(10, 'Rice (चावल)')">🍚 Rice (10m)</button>
+                <button class="timer-btn" onclick="setupKitchenTimer(15, 'Sabzi (सब्जी)')">🥘 Sabzi (15m)</button>
+            </div>
+            
+            <div id="timer-live-zone" class="live-timer-display" style="display: none;">
+                <div id="timer-text-render">Timer Init...</div>
+                <div class="timer-controls" style="margin-top: 8px;">
+                    <button class="t-ctrl-btn" onclick="pauseKitchenTimer()">⏸️ Pause</button>
+                    <button class="t-ctrl-btn" onclick="resumeKitchenTimer()">▶️ Resume</button>
+                    <button class="t-ctrl-btn" style="background:#ef4444;" onclick="stopCartoonAlarm()">🛑 Stop Alarm</button>
+                </div>
+            </div>
+
+            <p class="chip-label" style="margin-top: 14px; margin-bottom: 4px;">🍽️ Leftover Transformer:</p>
+            <div id="leftover-transformer-zone" class="transformer-box" onclick="rotateLeftoverTip()">
+                💡 Click here to load creative tips to transform remaining kitchen food!
+            </div>
+        </div>
+
+        <div class="app-card" style="border: 2px solid #ff4f2b; background: linear-gradient(#ffffff, #fffdfb);">
+            <div class="recipe-header">
+                <h2>👑 Premium Master Culinary Deck</h2>
+                <button class="next-btn" style="background: var(--brand-gradient);" onclick="rotateRecipeSelection()">✨ Next Style (100+ Deck)</button>
+            </div>
+            <div id="engine-canvas-route">
+                <div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 600;">
+                    सामग्री का नाम लिखकर 'Breakfast, Lunch, Dinner' टैब पर क्लिक करें!
+                </div>
+            </div>
+        </div>
+
+        <div class="app-card" style="border-bottom: 4px solid #4ade80;">
+            <h2>🛒 घर का खत्म राशन / Inventory List</h2>
+            <div class="ration-input-group">
+                <input type="text" id="ration-item-input" class="main-input" placeholder="खत्म सामान का नाम लिखें...">
+                <button class="ration-btn-add" onclick="addNewRationItem()">+ Add</button>
+            </div>
+            <ul class="ration-list" id="ration-list-container"></ul>
+            <div class="ration-control-buttons">
+                <button class="btn-secondary" onclick="copyEntireRationList()">📋 Copy Whole List</button>
+                <button class="btn-secondary" style="color: #ef4444; background: #fff5f5;" onclick="clearAllRationItems()">🗑️ Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRecipeIndex = 0;
+        let matchedRecipesList = [];
+        let currentMealType = "Breakfast";
+        let globalPortionsCount = 1;
+        
+        let kitchenTimerInterval = null;
+        let timerTotalSeconds = 0;
+        let timerIsPaused = false;
+        let timerCurrentItem = "";
+        let alarmSpeechInterval = null;
+        let isAlarmActive = false;
+
+        const foodImagesPool = [
+            "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80"
+        ];
+
+        const templateBaseCore = [
+            { styleSuffix: "Classic Desi Tadka Fusion", actionText: "को सबसे पहले अच्छे से साफ़ करके छोटे टुकड़ों में काट लें। अब एक पैन में सरसों का तेल या घी गरम करें, उसमें जीरा, हींग और कटी हुई हरी मिर्च का छौंक लगाएं। इसके बाद इसमें कटे हुए INGREDIENT_PLACEHOLDER को डालकर धीमी आंच पर सुनहरा होने तक पकाएं।" }
+        ];
+
+        const styleModifiers = [
+            { type: "Premium Cheese Loaded Style", tweak: "ऊपर से भरपूर कद्दूकस किया हुआ अमूल चीज और ऑरिगेनो स्प्रिंकल करें।" }
+        ];
+
+        const leftoverTipsPool = ["💡 बचे हुए उबले आलू और ब्रेड से झटपट 'Premium Fusion Toast' बनाएं!"];
+        let currentTipIndex = 0;
+        const substitutePool = ["Butter की जगह Ghee इस्तेमाल करें"];
+        let currentSubIndex = 0;
+        let rationInventoryDeck = ["Milk (दूध) - 1 Packet"];
+
+        // CHARACTER DATABASES FOR ALARMS (JOKES + DIALOGUES)
+        const characterAlarmDatabase = {
+            oggy: {
+                text: "Zaldi dekho aake, apka khana cockroach kha jayenge, jldi dekho ake dakchki dakchi dakchki dakchi! Khana jal gaya toh me zor zor se rounga aa haa haa!",
+                pitch: 1.9,
+                rate: 1.35
+            },
+            doraemon: {
+                text: "Arey Nobita! Gadget nikalne se pehle gas toh band karo! Khana jal raha hai! Agar aaj kitchen jala diya toh mom hamey dho degi aur me doremon chocolate cake bhi nahi kha paunga!",
+                pitch: 1.6,
+                rate: 1.05
+            },
+            shinchan: {
+                text: "Arey waah! Lagta hai badi pyaari khushbu aa rahi hai! Mizae san, jaldi aao varna khana jal kar koyaala ban jayega! Hehehe, shimla mirch bani hai toh me bilkul nahi khaunga!",
+                pitch: 2.0,
+                rate: 0.9
+            },
+            raju: {
+                text: "Abe jaldi bhag gas band kar! Ammi bolti hai khana jal gaya toh paneer ki jagah namak chatna padega! Aur agar kitchen me aag lagi toh papa bolenge, btech me fail ho gaya mera beta!",
+                pitch: 1.1,
+                rate: 1.1
+            }
+        };
+
+        function saveCurrentAppState() {
+            localStorage.setItem('rasoi_search_query', document.getElementById('recipe-search-box').value);
+            localStorage.setItem('rasoi_portions', globalPortionsCount);
+            localStorage.setItem('rasoi_meal_type', currentMealType);
+        }
+
+        function loadSavedAppState() {
+            const savedQuery = localStorage.getItem('rasoi_search_query');
+            const savedPortions = localStorage.getItem('rasoi_portions');
+            const savedMeal = localStorage.getItem('rasoi_meal_type');
+            if (savedQuery !== null) document.getElementById('recipe-search-box').value = savedQuery;
+            if (savedPortions !== null) {
+                globalPortionsCount = parseInt(savedPortions);
+                document.getElementById('portion-display-value').innerText = `${globalPortionsCount} Person`;
+            }
+            if (savedMeal !== null) {
+                currentMealType = savedMeal;
+                document.querySelectorAll('.meal-tab-btn').forEach(btn => btn.classList.remove('active'));
+                const targetTab = document.getElementById(`tab-${currentMealType.toLowerCase()}`);
+                if(targetTab) targetTab.classList.add('active');
+            }
+            if(document.getElementById('recipe-search-box').value.trim().length >= 2) runRecipeEngine();
+        }
+
+        function modifyPortionsCount(amount) {
+            globalPortionsCount += amount;
+            if (globalPortionsCount < 1) globalPortionsCount = 1;
+            document.getElementById('portion-display-value').innerText = `${globalPortionsCount} Person`;
+            runRecipeEngine();
+        }
+
+        function switchMealType(mealType) {
+            currentMealType = mealType;
+            document.querySelectorAll('.meal-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${mealType.toLowerCase()}`).classList.add('active');
+            runRecipeEngine();
+        }
+
+        function injectQuickSuggestion(phrase) {
+            document.getElementById('recipe-search-box').value = phrase;
+            runRecipeEngine();
+        }
+
+        function runRecipeEngine() {
+            const rawInput = document.getElementById('recipe-search-box').value.trim();
+            const spice = document.getElementById('spice-selector').value;
+            const canvas = document.getElementById('engine-canvas-route');
+
+            saveCurrentAppState();
+
+            if(rawInput.length < 2) {
+                canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 600;">सामग्री का naam likhein!</div>`;
+                return;
+            }
+
+            matchedRecipesList = [];
+
+            for (let i = 1; i <= 105; i++) {
+                let imgIndex = i % foodImagesPool.length;
+                let templateIndex = (i - 1) % templateBaseCore.length;
+                let styleIndex = i % styleModifiers.length;
+                let calculatedCost = 30 + (i * 4) % 65;
+                let caloriesCount = 120 + (i * 3) % 90;
+
+                let currentTemplate = templateBaseCore[templateIndex];
+                let currentStyle = styleModifiers[styleIndex];
+
+                let contextualSteps = currentTemplate.actionText.replace(/INGREDIENT_PLACEHOLDER/g, `"${rawInput}"`);
+                let finalRecipeTitle = `${rawInput} : Special ${currentTemplate.styleSuffix}`;
+                let finalRecipeSteps = `यह आपके ${currentMealType} की विधि है: ${contextualSteps} ट्विस्ट: ${currentStyle.tweak} तीखा: ${spice}.`;
+
+                matchedRecipesList.push({
+                    optionTitle: `${currentMealType} Variant ${i}: ${finalRecipeTitle}`,
+                    calories: `${caloriesCount} Cal`,
+                    recipeText: finalRecipeSteps,
+                    image: foodImagesPool[imgIndex],
+                    budget: `₹${calculatedCost}`
+                });
+            }
+            renderCanvasNode();
+        }
+
+        function renderCanvasNode() {
+            const canvas = document.getElementById('engine-canvas-route');
+            if(matchedRecipesList.length === 0) return;
+            let indexPointer = currentRecipeIndex % matchedRecipesList.length;
+            let currentItem = matchedRecipesList[indexPointer];
+
+            canvas.innerHTML = `
+                <div class="recipe-box-output">
+                    <div class="recipe-banner" style="background-image: url('${currentItem.image}')"></div>
+                    <div class="recipe-body">
+                        <div class="recipe-title">${currentItem.optionTitle}</div>
+                        <div class="recipe-desc">${currentItem.recipeText}</div>
+                        <div class="feature-block-grid">
+                            <div class="feat-box"><div class="feat-text">${currentItem.budget}</div></div>
+                            <div class="feat-box"><div class="feat-text">${substitutePool[currentSubIndex]}</div></div>
+                        </div>
+                        <div class="audio-container">
+                            <button class="audio-btn" onclick="speakClearFemaleRecipe()">🔊 Play Guide</button>
+                            <button class="audio-btn" style="background:#ef4444;" onclick="stopVoiceSpeech()">🛑 Stop</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function rotateRecipeSelection() {
+            currentRecipeIndex++;
+            renderCanvasNode();
+        }
+
+        function speakClearFemaleRecipe() {
+            window.speechSynthesis.cancel();
+            if(matchedRecipesList.length === 0) return;
+            let pureText = matchedRecipesList[currentRecipeIndex % matchedRecipesList.length].recipeText;
+            const utterance = new SpeechSynthesisUtterance(pureText);
+            utterance.lang = 'hi-IN';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopVoiceSpeech() { window.speechSynthesis.cancel(); }
+
+        // ==========================================================================
+        // CARTOON VOICE ALARM CORE ENGINE
+        // ==========================================================================
+        function setupKitchenTimer(minutes, itemName) {
+            stopCartoonAlarm();
+            clearInterval(kitchenTimerInterval);
+            timerCurrentItem = itemName;
+            timerTotalSeconds = minutes * 60;
+            timerIsPaused = false;
+            document.getElementById('timer-live-zone').style.style.display = "block";
+            document.getElementById('timer-live-zone').style.display = "block";
+            runTimerTick();
+        }
+
+        function runTimerTick() {
+            clearInterval(kitchenTimerInterval);
+            kitchenTimerInterval = setInterval(() => {
+                if(!timerIsPaused) {
+                    let m = Math.floor(timerTotalSeconds / 60);
+                    let s = timerTotalSeconds % 60;
+                    document.getElementById('timer-text-render').innerHTML = `⏳ <b>${timerCurrentItem}:</b> ${m}m ${s < 10 ? '0' : ''}${s}s left`;
+                    
+                    if(timerTotalSeconds <= 0) {
+                        clearInterval(kitchenTimerInterval);
+                        let charKey = document.getElementById('alarm-character-selector').value;
+                        document.getElementById('timer-text-render').innerHTML = `
+                            <div style="color:#ff4f2b; font-weight:900; text-transform:uppercase;">🚨 <b>${charKey.toUpperCase()} ALERT ACTIVE!</b></div>
+                            <button onclick="stopCartoonAlarm()" style="background:#ef4444; color:white; border:none; padding:8px 14px; border-radius:8px; margin-top:8px; font-weight:700; cursor:pointer;">🛑 Stop Alarm</button>
+                        `;
+                        playSelectedCartoonAlarm(charKey);
+                    }
+                    timerTotalSeconds--;
+                }
+            }, 1000);
+        }
+
+        function playSelectedCartoonAlarm(characterKey) {
+            if(isAlarmActive) return;
+            isAlarmActive = true;
+
+            const charConfig = characterAlarmDatabase[characterKey] || characterAlarmDatabase.oggy;
+
+            function triggerSpeechNode() {
+                if(!isAlarmActive) return;
+                window.speechSynthesis.cancel();
+                
+                let utterance = new SpeechSynthesisUtterance(charConfig.text);
+                utterance.lang = 'hi-IN';
+                utterance.pitch = charConfig.pitch;  // Adjust pitch dynamically for voice match
+                utterance.rate = charConfig.rate;    // Adjust speed
+                
+                // Fine-tune specific voices if system permits
+                let voices = window.speechSynthesis.getVoices();
+                let fVoice = voices.find(v => v.lang.includes('hi') && v.name.toLowerCase().includes('google'));
+                if(fVoice) utterance.voice = fVoice;
+
+                window.speechSynthesis.speak(utterance);
+            }
+
+            triggerSpeechNode();
+            alarmSpeechInterval = setInterval(triggerSpeechNode, 6000); // Loops the viral dialogue
+        }
+
+        function stopCartoonAlarm() {
+            isAlarmActive = false;
+            clearInterval(alarmSpeechInterval);
+            window.speechSynthesis.cancel();
+            document.getElementById('timer-live-zone').style.display = "none";
+        }
+
+        function pauseKitchenTimer() { timerIsPaused = true; }
+        function resumeKitchenTimer() { timerIsPaused = false; }
+
+        function updateRationInterface() {
+            const container = document.getElementById('ration-list-container');
+            container.innerHTML = "";
+            rationInventoryDeck.forEach((item, index) => {
+                container.innerHTML += `<li class="ration-item"><span>📌 ${item}</span><button class="ration-del-btn" onclick="deleteRationItem(${index})">Remove</button></li>`;
+            });
+        }
+        function addNewRationItem() {
+            const inputField = document.getElementById('ration-item-input');
+            if(inputField.value.trim().length === 0) return;
+            rationInventoryDeck.push(inputField.value.trim());
+            inputField.value = "";
+            updateRationInterface();
+        }
+        function deleteRationItem(idx) { rationInventoryDeck.splice(idx, 1); updateRationInterface(); }
+        function clearAllRationItems() { rationInventoryDeck = []; updateRationInterface(); }
+        function copyEntireRationList() {
+            let txt = "Ration:\n" + rationInventoryDeck.join("\n");
+            navigator.clipboard.writeText(txt).then(() => alert("Copied!"));
+        }
+
+        window.onload = () => { updateRationInterface(); loadSavedAppState(); };
+    </script>
 </body>
 </html>
