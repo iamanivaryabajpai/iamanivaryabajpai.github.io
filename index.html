@@ -2,368 +2,321 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-site-verification" content="elmcQWEvERQW5UAlibFFZJ3QMTJRXKo9bWhAuqR0MDc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivar ya's God-Level 3D Arcade</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Anivar ya's Personal Workspace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
-            color: #0f172a;
-            font-family: 'Poppins', sans-serif;
+        * {
             margin: 0;
-            padding: 30px 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            justify-content: center;
+            padding: 20px;
         }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin: 20px 0 5px 0;
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Clock Style */
+        .clock-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+
+        #greeting {
+            font-size: 1.5rem;
+            color: #38bdf8;
+            font-weight: 300;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            background: linear-gradient(45deg, #2563eb, #3b82f6, #60a5fa);
+        }
+
+        #clock {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #38bdf8, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 8px 12px rgba(37, 99, 235, 0.2));
-            text-align: center;
+            margin-bottom: 5px;
         }
 
-        .subtitle {
-            font-family: 'Orbitron', sans-serif;
-            color: #475569;
-            font-size: 1rem;
-            margin-bottom: 40px;
-            font-weight: 600;
+        #date {
+            font-size: 1.1rem;
+            color: #94a3b8;
             letter-spacing: 1px;
-            text-align: center;
         }
 
-        .arcade-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            max-width: 1440px;
-            width: 100%;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-            padding: 18px;
-            box-shadow: 10px 10px 20px #b8c4d9, -10px -10px 20px #ffffff;
-            transition: all 0.3s ease;
+        /* Search Bar Style */
+        .search-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            padding: 5px 10px;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 160px;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+            transition: 0.3s;
         }
 
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 15px 15px 30px rgba(37, 99, 235, 0.15), -10px -10px 25px #ffffff;
-            border-color: #2563eb;
+        .search-card:focus-within {
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
         }
 
-        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; }
-        .card-icon { font-size: 2rem; }
-        .game-title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 800; color: #1e293b; }
-        .game-desc { color: #64748b; font-size: 0.85rem; margin: 5px 0 12px 0; line-height: 1.4; }
-
-        .play-btn {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 12px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 800;
-            font-size: 0.9rem;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
-            transition: all 0.2s ease;
-            display: block;
-            box-sizing: border-box;
+        .search-card form {
+            display: flex;
             width: 100%;
         }
 
-        .play-btn:hover {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+        .search-card input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1rem;
         }
 
-        footer { font-family: 'Orbitron', sans-serif; margin-top: 80px; color: #64748b; font-size: 0.9rem; text-align: center; }
+        .search-card button {
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            outline: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .search-card button:hover {
+            background: #0ea5e9;
+        }
+
+        /* Quote Box */
+        .quote-box {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
+
+        /* To-Do List Style */
+        .todo-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .todo-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #818cf8;
+            letter-spacing: 1px;
+        }
+
+        .todo-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .todo-input-group input {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 10px;
+            color: white;
+            outline: none;
+        }
+
+        .todo-input-group input:focus {
+            border-color: #818cf8;
+        }
+
+        .todo-input-group button {
+            background: #818cf8;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            background: rgba(255,255,255,0.02);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .todo-item button {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: #64748b;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🎮 ANIVAR YA'S MEGA ARCADE 🎮</h1>
-    <div class="subtitle">⚡ HYTEC ABSOLUTE CONSOLE // 50+ REAL WORKING OPEN ARCHITECTURE ⚡</div>
-
-    <div class="arcade-grid">
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧩</div><div class="game-title">2048 Master</div></div>
-            <div class="game-desc">Slide and merge numerical logic grid tiles.</div>
-            <a class="play-btn" href="https://play2048.co/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🔷</div><div class="game-title">Hextris PRO</div></div>
-            <div class="game-desc">High-speed hexagonal fast paced block matching.</div>
-            <a class="play-btn" href="https://hextris.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧱</div><div class="game-title">React Tetris</div></div>
-            <div class="game-desc">Hyper-smooth block stacking layout challenge.</div>
-            <a class="play-btn" href="https://chvin.github.io/react-tetris/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🐍</div><div class="game-title">Retro Snake</div></div>
-            <div class="game-desc">Classic zero-lag block eating snake canvas.</div>
-            <a class="play-btn" href="https://patorjk.com/games/snake/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
+    <div class="container">
+        
+        <!-- CLOCK CARD -->
+        <div class="clock-card">
+            <div id="greeting">Loading...</div>
+            <div id="clock">00:00:00</div>
+            <div id="date">Loading Date...</div>
         </div>
 
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🦕</div><div class="game-title">T-Rex Jumper</div></div>
-            <div class="game-desc">Chrome offline style cactus jump dino dash.</div>
-            <a class="play-btn" href="https://arnellebalane.github.io/trex-runner/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">💣</div><div class="game-title">Minesweeper</div></div>
-            <div class="game-desc">Classic retro board probability bomb sweeping.</div>
-            <a class="play-btn" href="https://jedierikb.github.io/minesweeper/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏗️</div><div class="game-title">Tower Stack</div></div>
-            <div class="game-desc">Drop box blocks smoothly to build sky towers.</div>
-            <a class="play-btn" href="https://filipw.github.io/tower-building/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">❌</div><div class="game-title">Tic-Tac-Toe AI</div></div>
-            <div class="game-desc">Unbeatable smart matrix XO pairing platform.</div>
-            <a class="play-btn" href="https://mostafasand01.github.io/Tic-Tac-Toe/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
+        <!-- SEARCH BAR -->
+        <div class="search-card">
+            <form action="https://www.google.com/search" method="get" target="_blank">
+                <input type="text" name="q" placeholder="Search Google directly from here..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎨</div><div class="game-title">Color Pipes</div></div>
-            <div class="game-desc">Connect matching glowing colors with line grids.</div>
-            <a class="play-btn" href="https://albertorestifo.github.io/Connect-The-Dots/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏃</div><div class="game-title">Canvas Dash</div></div>
-            <div class="game-desc">Infinite fast side scrolling pixel block dodge.</div>
-            <a class="play-btn" href="https://bencentra.github.io/canvas-game-bootstrap/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧠</div><div class="game-title">Sudoku Core</div></div>
-            <div class="game-desc">Clean mathematical grid number placement puzzle.</div>
-            <a class="play-btn" href="https://script-type.github.io/sudoku/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🔵</div><div class="game-title">Connect Four</div></div>
-            <div class="game-desc">Align 4 token chips vertically/horizontally.</div>
-            <a class="play-btn" href="https://alialaa.github.io/connect4/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
+        <!-- MOTIVATIONAL QUOTE -->
+        <div class="quote-box" id="quote">
+            "The best way to predict the future is to create it."
         </div>
 
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🟢</div><div class="game-title">Hexis Puzzle</div></div>
-            <div class="game-desc">Rotate geometric lines to match colored points.</div>
-            <a class="play-btn" href="https://marianoguerra.github.io/hexis/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🃏</div><div class="game-title">Card Clash</div></div>
-            <div class="game-desc">Strategic HTML5 smart local card pairing setup.</div>
-            <a class="play-btn" href="https://dulhanjayasinghe.github.io/Card-Game-HTML5/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎯</div><div class="game-title">Math Rush</div></div>
-            <div class="game-desc">Solve rapid arithmetic equations against time.</div>
-            <a class="play-btn" href="https://aaroniker.github.io/math-game/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏎️</div><div class="game-title">Micro Racers</div></div>
-            <div class="game-desc">Top-down micro mini-circuit racing formula.</div>
-            <a class="play-btn" href="https://ivan-wong.github.io/micro-racers/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
+        <!-- TO-DO WORKSPACE -->
+        <div class="todo-card">
+            <h3>📌 Daily Focus Tasks</h3>
+            <div class="todo-input-group">
+                <input type="text" id="todo-input" placeholder="Add a new task for today...">
+                <button onclick="addTodo()">Add</button>
+            </div>
+            <ul class="todo-list" id="todo-list">
+                <!-- Tasks will appear here -->
+            </ul>
         </div>
 
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">📐</div><div class="game-title">Geometry Jump</div></div>
-            <div class="game-desc">Rhythm-based classic platformer dashboard.</div>
-            <a class="play-btn" href="https://geometry-dash.co/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏓</div><div class="game-title">Retro Pong</div></div>
-            <div class="game-desc">The historic arcade 2D paddle bouncing match.</div>
-            <a class="play-btn" href="https://tanayseven.github.io/pong-game/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎒</div><div class="game-title">Backpack Space</div></div>
-            <div class="game-desc">Inventory management grid space puzzle logic.</div>
-            <a class="play-btn" href="https://theasuro.github.io/backpack-puzzle/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🥚</div><div class="game-title">Egg Catcher</div></div>
-            <div class="game-desc">Catch falling items in your structural baskets.</div>
-            <a class="play-btn" href="https://gregoryaswilliams.github.io/egg-catcher/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">⚔️</div><div class="game-title">Slither.io Arena</div></div>
-            <div class="game-desc">Eat glowing orbs and trap online rival snakes.</div>
-            <a class="play-btn" href="https://slither.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🕳️</div><div class="game-title">Hole.io Hub</div></div>
-            <div class="game-desc">Grow into a massive black hole eating city grids.</div>
-            <a class="play-btn" href="https://hole-io.com/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">📄</div><div class="game-title">Paper.io 2</div></div>
-            <div class="game-desc">Conquer maximum territory zones with fluid paths.</div>
-            <a class="play-btn" href="https://paper-io.com/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">✈️</div><div class="game-title">Wings.io War</div></div>
-            <div class="game-desc">High velocity dynamic jet dogfight missile shooter.</div>
-            <a class="play-btn" href="https://wings.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🍪</div><div class="game-title">Cookie Clicker</div></div>
-            <div class="game-desc">Tap the structural cookie item endlessly for score.</div>
-            <a class="play-btn" href="https://orteil.dashnet.org/cookieclicker/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎨</div><div class="game-title">Gats.io Tactical</div></div>
-            <div class="game-desc">Top-down multiplayer tactical weapon arena.</div>
-            <a class="play-btn" href="https://gats.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🪵</div><div class="game-title">Lordz.io Empire</div></div>
-            <div class="game-desc">Assemble massive medieval military army swarms.</div>
-            <a class="play-btn" href="https://lordz.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">💥</div><div class="game-title">Splix.io Grid</div></div>
-            <div class="game-desc">Block matching territory logic connection grids.</div>
-            <a class="play-btn" href="https://splix.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">📦</div><div class="game-title">Sokoban Crate</div></div>
-            <div class="game-desc">Push industrial warehouse storage pieces onto markers.</div>
-            <a class="play-btn" href="https://www.sokoban.online/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧱</div><div class="game-title">Breakout Brick</div></div>
-            <div class="game-desc">Smash neon cell blocks using ball reflection vectors.</div>
-            <a class="play-btn" href="https://mdn.github.io/2d-breakout-game/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🚀</div><div class="game-title">Ateroids Core</div></div>
-            <div class="game-desc">Blast incoming space elements using dynamic velocity thrusts.</div>
-            <a class="play-btn" href="https://dmcinnes.github.io/asteroids/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🐸</div><div class="game-title">Frogger Street</div></div>
-            <div class="game-desc">Help entities navigate dense moving traffic lines safely.</div>
-            <a class="play-btn" href="https://cbateman.github.io/frogger/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧊</div><div class="game-title">Voxiom.io</div></div>
-            <div class="game-desc">Voxel-based 3D tactical crafting shooter arena.</div>
-            <a class="play-btn" href="https://voxiom.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🗺️</div><div class="game-title">GeoGuessr Free</div></div>
-            <div class="game-desc">Identify global coordinate nodes based on street captures.</div>
-            <a class="play-btn" href="https://www.geoguessr.com/free" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🛡️</div><div class="game-title">Ev.io Cyber</div></div>
-            <div class="game-desc">Futuristic halo-style dynamic sci-fi multi brawler shooter.</div>
-            <a class="play-btn" href="https://ev.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🥚</div><div class="game-title">Shell Shockers</div></div>
-            <div class="game-desc">High velocity egg-based multiplayer combat simulator.</div>
-            <a class="play-btn" href="https://shellshock.io/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏰</div><div class="game-title">Tower Defense</div></div>
-            <div class="game-desc">Tactical turret management blocking enemy pathway runs.</div>
-            <a class="play-btn" href="https://puzzledmclean.github.io/html5-tower-defense/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🛩️</div><div class="game-title">Sky Canvas Jet</div></div>
-            <div class="game-desc">Shoot down moving scrolling horizontal alien fighters.</div>
-            <a class="play-btn" href="https://straker.github.io/html5-canvas-game-boilerplate/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🍿</div><div class="game-title">Pacman Online</div></div>
-            <div class="game-desc">Original ghost tracking grid maze recreation system.</div>
-            <a class="play-btn" href="https://macek.github.io/google_pacman/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🛸</div><div class="game-title">Space Invader v2</div></div>
-            <div class="game-desc">Defend your structural lower matrix against incoming lasers.</div>
-            <a class="play-btn" href="https://jakesgordon.github.io/javascript-space-invaders/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧹</div><div class="game-title">Minesweeper Pro</div></div>
-            <div class="game-desc">Uncover spatial grids calculating proximity metrics.</div>
-            <a class="play-btn" href="https://vanyah.github.io/minesweeper/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🔨</div><div class="game-title">Whack-A-Mole</div></div>
-            <div class="game-desc">Hit the fast popping terrain nodes instantly for multiplier combos.</div>
-            <a class="play-btn" href="https://brenna-walsh.github.io/whack-a-mole/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">💎</div><div class="game-title">Jewel Match 3</div></div>
-            <div class="game-desc">Align dynamic luxury crystal rows before out of limits.</div>
-            <a class="play-btn" href="https://skymun.github.io/match3-game/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🧠</div><div class="game-title">Memory Grid</div></div>
-            <div class="game-desc">Flip hidden cards and map uniform image structures.</div>
-            <a class="play-btn" href="https://allisonwyss.github.io/memory-game/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏹</div><div class="game-title">Archery Target</div></div>
-            <div class="game-desc">Calculate velocity metrics to pierce high center point lines.</div>
-            <a class="play-btn" href="https://jessicalm.github.io/archery-game/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🔠</div><div class="game-title">Word Anagram</div></div>
-            <div class="game-desc">Assemble jumbled alphabetic fragments into valid dictionary terms.</div>
-            <a class="play-btn" href="https://mitchgordon.github.io/anagrams/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🏎️</div><div class="game-title">Outrun Track</div></div>
-            <div class="game-desc">Classic dynamic retro layout vector road speed track racing.</div>
-            <a class="play-btn" href="https://jakesgordon.github.io/javascript-racer/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-        <div class="game-card">
-            <div class="card-header"><div class="card-icon">🎹</div><div class="game-title">Simon Audio</div></div>
-            <div class="game-desc">Repeat continuous pattern arrays tracking visual and audio loops.</div>
-            <a class="play-btn" href="https://luchisg.github.io/simon-says/" target="_blank" rel="noopener noreferrer">LAUNCH GAME</a>
-        </div>
-
+        <footer>ANIVAR YA // DIGITAL HUB 2026</footer>
     </div>
 
-    <footer>// HYTEC ARCHITECTURE OPERATIONAL // 52 INDEPENDENT ACTIVE NODES DETECTED</footer>
+    <script>
+        // Real-time Clock & Dynamic Greeting Logic
+        function updateDashboard() {
+            const now = new Date();
+            
+            // Time string
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
 
+            // Date string
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').innerText = now.toLocaleDateString('en-US', options);
+
+            // Greeting based on hours
+            let greeting = "Welcome";
+            if (hours < 12) greeting = "Good Morning, Anivar ya";
+            else if (hours < 17) greeting = "Good Afternoon, Anivar ya";
+            else if (hours < 21) greeting = "Good Evening, Anivar ya";
+            else greeting = "Good Night, Anivar ya";
+            document.getElementById('greeting').innerText = greeting;
+        }
+        setInterval(updateDashboard, 1000);
+        updateDashboard();
+
+        // Local Random Quotes System
+        const quotes = [
+            "Mehnat itni khamoshi se karo ki kamyabi shor macha de.",
+            "The only limit to our realization of tomorrow is our doubts of today.",
+            "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            "Choti choti galtiyon se mat daro, wahi bada rasta dikhati hain.",
+            "Believe you can and you're halfway there."
+        ];
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quote').innerText = `"${randomQuote}"`;
+
+        // To-Do List Core Logic (Saves in Browser Storage)
+        let todos = JSON.parse(localStorage.getItem('myTodos')) || ["Explore coding setups", "Show this website to family"];
+
+        function renderTodos() {
+            const list = document.getElementById('todo-list');
+            list.innerHTML = '';
+            todos.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                li.innerHTML = `<span>${todo}</span><button onclick="deleteTodo(${index})">✕</button>`;
+                list.appendChild(li);
+            });
+            localStorage.setItem('myTodos', JSON.stringify(todos));
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            if (input.value.trim() !== '') {
+                todos.push(input.value.trim());
+                input.value = '';
+                renderTodos();
+            }
+        }
+
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            renderTodos();
+        }
+
+        // Allow pressing Enter key to add task
+        document.getElementById('todo-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addTodo();
+        });
+
+        renderTodos();
+    </script>
 </body>
 </html>
