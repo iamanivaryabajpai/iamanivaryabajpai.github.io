@@ -139,7 +139,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* Spice Selector Style */
         .config-bar {
             display: flex;
             justify-content: space-between;
@@ -229,7 +228,6 @@
             line-height: 1.6;
         }
 
-        /* Voice Speaker Button */
         .audio-btn {
             background: #e9ecef;
             border: none;
@@ -325,14 +323,13 @@
 <body>
 
     <div class="app-container">
-
         <!-- BRANDING HEAD CONTAINER -->
         <div class="brand-header">
             <h1>ANIVARYA RASOI</h1>
             <p>Smart Global Gastronomy OS</p>
         </div>
 
-        <!-- CAPABILITIES & SEARCH INTERFACE -->
+        <!-- SEARCH INTERFACE -->
         <div class="app-card">
             <h2>🔍 आपके पास अभी क्या सामान उपलब्ध है?</h2>
             
@@ -344,7 +341,7 @@
             </div>
 
             <div class="input-group">
-                <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सब्जी या सामान का नाम लिखें...">
+                <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सामान का नाम लिखें (जैसे: bread aloo, paneer)...">
             </div>
 
             <div class="config-bar">
@@ -357,7 +354,7 @@
             </div>
         </div>
 
-        <!-- CORE OUTPUT GENERATOR CANVAS -->
+        <!-- CORE OUTPUT DECK -->
         <div class="app-card">
             <div class="recipe-header">
                 <h2>🍳 Elite Recipes Master Deck</h2>
@@ -365,12 +362,12 @@
             </div>
             <div id="engine-canvas-route">
                 <div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 500;">
-                    Type any item to instantly generate 20+ smart tailored meal profiles!
+                    Type any valid cooking ingredient (at least 3 letters) to unpack custom meal profiles!
                 </div>
             </div>
         </div>
 
-        <!-- MISSING RATION MANAGEMENT COMPONENT -->
+        <!-- RATION COMPONENT -->
         <div class="app-card">
             <h2>📝 Missing Ration List (खत्म सामान)</h2>
             <div class="ration-input-bar">
@@ -390,25 +387,20 @@
         let customRationItemsArray = ["Milk (दूध)", "Sugar (चीनी)"];
         let matchedRecipesList = [];
 
-        // Contextual database mapping for precise smart filtering
-        const mealStyleTemplates = {
+        // Dual-Combo Context Templates Database Matrix
+        const multiStyleTemplates = {
             breakfast: [
-                { suffix: "Healthy Steamed Bowl", diet: "Low-Cal", cal: "120 kcal", desc: "को बारीक काटकर स्टीम करें, फिर ऊपर से भुना जीरा, हल्का काला नमक और नींबू का रस डालकर मिक्स करें। सुबह के लिए एकदम हल्का और सुपाच्य नाश्ता।" },
-                { suffix: "Savoury Instant Chilla", diet: "High-Protein", cal: "180 kcal", desc: "को कद्दूकस करके बेसन और थोड़े से पानी के साथ मिलाकर चीले का घोल बनाएं। तवे पर हल्का सा घी लगाकर दोनों तरफ से सेकें।" },
-                { suffix: "Diet Grilled Toast Splash", diet: "Fitness First", cal: "150 kcal", desc: "को मैश करें, उसमें नमक-मिर्च मिलाएं और ब्रेड स्लाइस के बीच रखकर सैंडविच की तरह ग्रिल कर लें। चाय के साथ परफेक्ट मैच।" },
-                { suffix: "Light Detox Cleanser Soup", diet: "Detox Diet", cal: "90 kcal", desc: "को पानी में अदरक और टमाटर के साथ उबालें। मिक्सी में ब्लेंड करके छान लें, फिर काली मिर्च डालकर गरमा-गरम पिएं।" }
+                { suffix: "Crispy Golden Toast Crunch", diet: "Quick Snack", cal: "190 kcal", desc: "को अच्छी तरह मिक्स/मैश करें। तवे पर मक्खन गरम करके मसालों के मिश्रण को ब्रेड के ऊपर फैलाएं और दोनों तरफ से एकदम क्रिस्पी होने तक सेकें।" },
+                { suffix: "Healthy Steamed Fusion Roll", diet: "Low-Cal", cal: "140 kcal", desc: "का एक थिक और चटपटा पेस्ट बनाएं, इसे हल्के मॉइस्ट बेस में रोल करें और 5 मिनट के लिए भाप (steam) में पकाएं। सुबह के लिए लाइट एंड हेल्दी नाश्ता।" },
+                { suffix: "Classic Grilled Stuffing Feast", diet: "High-Carb Boost", cal: "230 kcal", desc: "को एक साथ मिलाकर भुने हुए जीरे, धनिया और हरी मिर्च के साथ मैश करें। सैंडविच मेकर में डालकर गोल्डन होने तक टोस्ट करें।" }
             ],
             lunch: [
-                { suffix: "Traditional Dry Stir-Fry", diet: "Balanced Indian", cal: "240 kcal", desc: "को छोटे टुकड़ों में काटें। कढ़ाई में सरसों तेल, मेथी दाना और हरी मिर्च का तड़का देकर मसालेदार सूखी सब्जी तैयार करें।" },
-                { suffix: "Dhaba Style Homestyle Curry", diet: "Traditional", cal: "290 kcal", desc: "को प्याज, टमाटर, अदरक-लहसुन के भुने हुए मसाले की थिक तरी में डालकर पकाएं। इसे गरमा-गरम रोटियों और चावल के साथ परोसें।" },
-                { suffix: "Dopiaza Semi-Dry Fusion", diet: "Flavor King", cal: "310 kcal", desc: "में दो तरह से कटे प्याज (बारीक और बड़े क्यूब्स) का इस्तेमाल करें। गरम मसाला डालकर इसे लटपटी गाढ़ी ग्रेवी का रूप दें।" },
-                { suffix: "Nutritious Dal Blend Pot", diet: "High-Fiber", cal: "210 kcal", desc: "को बारीक काटकर अरहर या मूंग दाल के साथ कुकर में हल्दी-नमक डालकर उबालें। बाद में हींग-जीरे का बेहतरीन घी का तड़का लगाएं।" }
+                { suffix: "Rich Masala Homestyle Combo Sabzi", diet: "Traditional Lunch", cal: "310 kcal", desc: "को छोटे क्यूब्स में काट लें। कड़ाही में सरसों तेल गरम करके प्याज-टमाटर की प्यूरी के साथ दोनों सामग्रियों को लटपटा गाढ़ा होने तक पकाएं।" },
+                { suffix: "Dhaba Style Fusion Curry", diet: "Spicy Treats", cal: "340 kcal", desc: "का इस्तेमाल करके खड़े मसालों के साथ अदरक-लहसुन का पेस्ट भूनें और एक गाढ़ी थिक तरी तैयार करें। चावल या सादी रोटी के साथ परफेक्ट कॉम्बिनेशन।" }
             ],
             dinner: [
-                { suffix: "Melt-in-Mouth Shahi Kofta Curry", diet: "Rich Indian", cal: "420 kcal", desc: "को कद्दूकस करके बेसन के साथ इसके छोटे कोफ्ते तल लें। फिर काजू-टमाटर की मखमली शाही ग्रेवी बनाकर उसमें कोफ्ते डालें।" },
-                { suffix: "Kashmiri Rogue Style Roast", diet: "Gourmet Craft", cal: "380 kcal", desc: "को गहरे मसालों, सोंठ पाउडर, सौंफ पाउडर और शुद्ध कश्मीरी लाल मिर्च के साथ सरसों तेल में धीमी आंच पर गाढ़ा पकाएं।" },
-                { suffix: "Creamy Malai Butter Gravy", diet: "Premium Cheat-Day", cal: "450 kcal", desc: "को फ्राई करके टमाटर प्यूरी और ताज़ा मलाई (क्रीम) के गाढ़े बेस में डालें। कसूरी मेथी और मक्खन से फिनिश करें।" },
-                { suffix: "Slow-Cooked Dum Special", diet: "Royal Treat", cal: "360 kcal", desc: "को मसालों के साथ मिक्स करके कुकर या भारी तले के बर्तन में थोड़ा पानी डालकर आटा लगाकर सील करें और धीमी आंच पर दम दें।" }
+                { suffix: "Royal Ultimate Crafted Platter", diet: "Premium Dinner", cal: "410 kcal", desc: "को आपस में मिलाकर इसके छोटे कोफ्ते या पैटीज़ बना लें, फिर काजू-मलाई की मखमली रिच ग्रेवी तैयार करके उसमें इसे डालकर 5 मिनट दम दें।" },
+                { suffix: "Slow-Cooked Fusion Clay-Pot Masala", diet: "Gourmet Edition", cal: "390 kcal", desc: "को गरम मसाला, कसूरी मेथी और मक्खन के गाढ़े बेस में मिक्स करें और धीमी आंच पर ढककर पकाएं ताकि दोनों का फ्लेवर अंदर तक चला जाए।" }
             ]
         };
 
@@ -448,49 +440,53 @@
             runRecipeEngine();
         }
 
-        // Context-Aware Multiplier Logic Engine
+        // Strict Validation & Multi-Ingredient Combination Processing Core
         function runRecipeEngine() {
-            const searchKeyword = document.getElementById('recipe-search-box').value.toLowerCase().trim();
+            const rawInput = document.getElementById('recipe-search-box').value.trim();
             const spiceLevel = document.getElementById('spice-selector').value;
             const canvas = document.getElementById('engine-canvas-route');
 
-            if(searchKeyword === '') {
+            // Hard Fix 1: If empty or less than 3 letters, strict clean view (No single letters like 'i')
+            if(rawInput.length < 3) {
                 matchedRecipesList = [];
-                canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 500;">Type any item to instantly generate 20+ smart tailored meal profiles!</div>`;
+                canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 500;">Type any valid cooking ingredient (at least 3 letters) to unpack custom meal profiles!</div>`;
                 return;
             }
 
-            let ingredientTitle = searchKeyword.charAt(0).toUpperCase() + searchKeyword.slice(1);
+            // Split items by space or comma to check for multiple ingredients
+            let itemsArray = rawInput.split(/[\s,]+/).filter(item => item.length >= 3);
             
-            // Map common Hindi terms to cleaner titles if typed
-            if(searchKeyword.includes("lauki")) ingredientTitle = "Lauki (लौकी)";
-            if(searchKeyword.includes("aloo")) ingredientTitle = "Aloo (आलू)";
-            if(searchKeyword.includes("paneer")) ingredientTitle = "Paneer (पनीर)";
-            if(searchKeyword.includes("matar")) ingredientTitle = "Matar (मटर)";
+            if(itemsArray.length === 0) {
+                matchedRecipesList = [];
+                canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 500;">Type a clear ingredient name.</div>`;
+                return;
+            }
+
+            // Title formatting based on single or multiple ingredients
+            let combinedDisplayTitle = itemsArray.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" + ");
 
             let pool = [];
-            
-            // Build Contextual Variations based on Selected Segment Tag
+            // Dynamically construct contextual pools based on active meal tab selection
             if (globalActiveSegment === 'all' || globalActiveSegment === 'breakfast') {
-                pool = pool.concat(mealStyleTemplates.breakfast.map(s => ({...s, nameType: `Breakfast Special: ${ingredientTitle} ${s.suffix}` })));
+                pool = pool.concat(multiStyleTemplates.breakfast.map(s => ({...s, nameType: `Breakfast Special: ${combinedDisplayTitle} ${s.suffix}` })));
             }
             if (globalActiveSegment === 'all' || globalActiveSegment === 'lunch') {
-                pool = pool.concat(mealStyleTemplates.lunch.map(s => ({...s, nameType: `Lunch Masterpiece: ${ingredientTitle} ${s.suffix}` })));
+                pool = pool.concat(multiStyleTemplates.lunch.map(s => ({...s, nameType: `Lunch Masterpiece: ${combinedDisplayTitle} ${s.suffix}` })));
             }
             if (globalActiveSegment === 'all' || globalActiveSegment === 'dinner') {
-                pool = pool.concat(mealStyleTemplates.dinner.map(s => ({...s, nameType: `Dinner Delight: ${ingredientTitle} ${s.suffix}` })));
+                pool = pool.concat(multiStyleTemplates.dinner.map(s => ({...s, nameType: `Dinner Delight: ${combinedDisplayTitle} ${s.suffix}` })));
             }
 
-            // Generate full 20+ unique cycle variations dynamically
+            // Generate full 20 cycle combos strictly matching the multiple input items
             matchedRecipesList = [];
-            for(let i=0; i<20; i++) {
+            for(let i = 0; i < 20; i++) {
                 let template = pool[i % pool.length];
-                let variationNum = i + 1;
+                let optionNo = i + 1;
                 matchedRecipesList.push({
-                    name: `[Option ${variationNum}] ${template.nameType}`,
+                    name: `[Option ${optionNo}] ${template.nameType}`,
                     diet: template.diet,
                     cal: template.cal,
-                    desc: `🍲 **${ingredientTitle}** ${template.desc}\n\n🌶️ *Spice Preference Rule:* इस डिश को आपके चयन के अनुसार **${spiceLevel}** प्रोफाइल के साथ तैयार किया गया है।`
+                    desc: `🧑‍🍳 **Instructions for ${combinedDisplayTitle}:** सबसे पहले ${itemsArray.join(" और ")} ${template.desc}\n\n🌶️ *Spice Preference:* इस डिश को आपके स्वादानुसार **${spiceLevel}** प्रोफाइल के साथ कस्टमाइज किया गया है।`
                 });
             }
 
@@ -522,32 +518,26 @@
 
         function rotateRecipeSelection() {
             if(matchedRecipesList.length === 0) return;
-            window.speechSynthesis.cancel(); // Stop audio if user skips
+            window.speechSynthesis.cancel();
             currentRecipeIndex++;
             renderActiveNodeCanvas();
         }
 
-        // Native High End Text-To-Speech Feature
         function speakRecipeText() {
             window.speechSynthesis.cancel();
             const textBlock = matchedRecipesList[currentRecipeIndex % matchedRecipesList.length].desc;
-            
-            // Clean up emojis from markdown before reading
             const cleanText = textBlock.replace(/[^\w\s\u0900-\u097F,.:]/g, '');
-            
             const utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.lang = 'hi-IN';
             utterance.rate = 1.0;
-            
             document.getElementById('speaker-icon').innerText = "⏳ Speaking...";
             utterance.onend = () => { document.getElementById('speaker-icon').innerText = "🔊"; };
-            
             window.speechSynthesis.speak(utterance);
         }
 
         function copyRationListToClipboard() {
             if(customRationItemsArray.length === 0) {
-                alert("List खाली है, पहले कुछ Items ऐड कर लो भाई!");
+                alert("List खाली है!");
                 return;
             }
             let textToCopy = `📋 ANIVARYA RASOI - Missing Ration Checklist:\n\n` + customRationItemsArray.map(item => `• ${item}`).join('\n');
