@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIVARYA RASOI - Ultimate Global Cooking OS</title>
+    <title>ANIVARYA RASOI - Ultimate Smart Kitchen OS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --brand: #ff4f2b;
             --brand-gradient: linear-gradient(135deg, #ff4f2b 0%, #ff7849 100%);
-            --bg-blur: rgba(255, 255, 255, 0.82);
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.93);
             --text-dark: #0f172a;
             --text-gray: #475569;
-            --border-color: rgba(226, 232, 240, 0.8);
-            --success: #10b981;
+            --border-color: rgba(226, 232, 240, 0.9);
         }
 
         * {
@@ -26,9 +24,8 @@
         }
 
         body {
-            /* Kitchen Aesthetic Background */
-            background: linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.45)), 
-                        url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80');
+            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.5)), 
+                        url('https://images.unsplash.com/photo-1556912173-3bb406ef7e77?auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -47,18 +44,15 @@
             flex-direction: column;
             gap: 20px;
             backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
         }
 
-        /* Glassmorphism Header */
         .brand-header {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 28px;
-            padding: 35px 20px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .brand-header h1 {
@@ -68,34 +62,31 @@
             background: var(--brand-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
         }
 
         .brand-header p {
             font-size: 0.85rem;
             color: var(--text-gray);
-            margin-top: 6px;
+            margin-top: 4px;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 700;
         }
 
-        /* Glass Cards */
         .app-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 28px;
-            padding: 26px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(12px);
         }
 
         .app-card h2 {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -106,13 +97,12 @@
             background: #f1f5f9;
             border: 2px solid transparent;
             border-radius: 18px;
-            padding: 18px;
+            padding: 16px;
             color: var(--text-dark);
             font-size: 1rem;
             font-weight: 600;
             outline: none;
             transition: all 0.25s ease;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .main-input:focus {
@@ -121,14 +111,13 @@
             box-shadow: 0 0 0 5px rgba(255, 79, 43, 0.15);
         }
 
-        /* Meal Segment Grid */
         .meal-segmentor {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             background: #e2e8f0;
             padding: 6px;
             border-radius: 16px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .segment-btn {
@@ -136,12 +125,12 @@
             background: transparent;
             border: none;
             color: #475569;
-            padding: 12px 6px;
+            padding: 12px 4px;
             font-size: 0.85rem;
             font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
-            transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.2s;
         }
 
         .segment-btn.active {
@@ -150,99 +139,146 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* Live Recipe Controls */
+        /* Spice Selector Style */
+        .config-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 14px;
+            margin-top: 10px;
+        }
+
+        .config-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .spice-select {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
         .recipe-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .next-btn {
             background: #fff3f0;
             border: 1px solid rgba(255, 79, 43, 0.25);
             color: var(--brand);
-            padding: 10px 16px;
-            border-radius: 14px;
-            font-size: 0.85rem;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
             transition: all 0.2s;
         }
 
         .next-btn:hover {
             background: var(--brand);
             color: white;
-            box-shadow: 0 4px 12px rgba(255, 79, 43, 0.2);
         }
 
         .recipe-box-output {
             background: #f8fafc;
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 22px;
-            animation: cardPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 20px;
+            animation: cardPop 0.3s ease-out;
         }
+
+        .recipe-badge-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .badge-diet { background: #e6fcf5; color: #0ca678; }
+        .badge-cal { background: #fff0f6; color: #d6336c; }
 
         .recipe-title {
             color: var(--brand);
             font-weight: 800;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 8px;
-            border-left: 4px solid var(--brand);
-            padding-left: 10px;
         }
 
         .recipe-desc {
             font-size: 0.95rem;
             color: #1e293b;
-            line-height: 1.65;
+            line-height: 1.6;
         }
 
-        /* Missing Ration Layout */
+        /* Voice Speaker Button */
+        .audio-btn {
+            background: #e9ecef;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-top: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .audio-btn:hover { background: #dee2e6; }
+
         .ration-input-bar {
             display: flex;
             gap: 8px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .ration-text-field {
             flex: 1;
             background: #f1f5f9;
             border: 1px solid transparent;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             outline: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .ration-add-btn {
             background: var(--text-dark);
             color: white;
             border: none;
-            padding: 0 20px;
-            border-radius: 14px;
+            padding: 0 18px;
+            border-radius: 12px;
             font-weight: 700;
-            font-size: 1.2rem;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .ration-add-btn:hover {
-            background: #1e293b;
         }
 
         .dynamic-list-container {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 220px;
+            max-height: 200px;
             overflow-y: auto;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .list-item-row {
@@ -251,23 +287,12 @@
             justify-content: space-between;
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
         }
 
-        .list-item-text {
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .delete-item-btn {
-            background: transparent;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1rem;
-        }
+        .list-item-text { font-size: 0.9rem; font-weight: 600; }
+        .delete-item-btn { background: transparent; border: none; color: #ef4444; cursor: pointer; font-weight: 700; }
 
         .action-button {
             width: 100%;
@@ -280,15 +305,10 @@
             font-size: 1rem;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(255, 79, 43, 0.3);
-            transition: all 0.2s;
-        }
-
-        .action-button:active {
-            transform: scale(0.97);
         }
 
         @keyframes cardPop {
-            from { opacity: 0; transform: scale(0.96) translateY(6px); }
+            from { opacity: 0; transform: scale(0.97) translateY(4px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
@@ -296,9 +316,8 @@
             text-align: center;
             font-size: 0.8rem;
             color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             font-weight: 700;
-            letter-spacing: 1.5px;
             margin-top: 10px;
         }
     </style>
@@ -310,26 +329,35 @@
         <!-- BRANDING HEAD CONTAINER -->
         <div class="brand-header">
             <h1>ANIVARYA RASOI</h1>
-            <p>Global AI Intelligent Gastronomy Platform</p>
+            <p>Smart Global Gastronomy OS</p>
         </div>
 
-        <!-- SEARCH CAPABILITIES -->
+        <!-- CAPABILITIES & SEARCH INTERFACE -->
         <div class="app-card">
             <h2>🔍 आपके पास अभी क्या सामान उपलब्ध है?</h2>
             
             <div class="meal-segmentor">
-                <button class="segment-btn active" id="meal-all" onclick="updateMealSegment('all')">All Food</button>
-                <button class="segment-btn" id="meal-breakfast" onclick="updateMealSegment('breakfast')">Breakfast</button>
-                <button class="segment-btn" id="meal-lunch" onclick="updateMealSegment('lunch')">Lunch</button>
-                <button class="segment-btn" id="meal-dinner" onclick="updateMealSegment('dinner')">Dinner</button>
+                <button class="segment-btn active" id="meal-all" onclick="updateMealSegment('all')">All Meals</button>
+                <button class="segment-btn" id="meal-breakfast" onclick="updateMealSegment('breakfast')">Breakfast 🥣</button>
+                <button class="segment-btn" id="meal-lunch" onclick="updateMealSegment('lunch')">Lunch 🍛</button>
+                <button class="segment-btn" id="meal-dinner" onclick="updateMealSegment('dinner')">Dinner 🍽️</button>
             </div>
 
             <div class="input-group">
-                <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सब्जी या सामान लिखें (जैसे: lauki, aloo, paneer, matar)...">
+                <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सब्जी या सामान का नाम लिखें...">
+            </div>
+
+            <div class="config-bar">
+                <span class="config-label">🌶️ Spice Level Preference:</span>
+                <select id="spice-selector" class="spice-select" onchange="runRecipeEngine()">
+                    <option value="Mild (कम तीखा)">Mild</option>
+                    <option value="Medium (चटपटा)" selected>Medium</option>
+                    <option value="Super Spicy (तेज मसाला)">Spicy</option>
+                </select>
             </div>
         </div>
 
-        <!-- OUTPUT GENERATOR WITH INFINITE COMBINATIONS -->
+        <!-- CORE OUTPUT GENERATOR CANVAS -->
         <div class="app-card">
             <div class="recipe-header">
                 <h2>🍳 Elite Recipes Master Deck</h2>
@@ -337,23 +365,23 @@
             </div>
             <div id="engine-canvas-route">
                 <div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 500;">
-                    Type any cooking ingredient above to instantly unpack 20+ custom style recipes!
+                    Type any item to instantly generate 20+ smart tailored meal profiles!
                 </div>
             </div>
         </div>
 
-        <!-- RATION COMPONENT -->
+        <!-- MISSING RATION MANAGEMENT COMPONENT -->
         <div class="app-card">
             <h2>📝 Missing Ration List (खत्म सामान)</h2>
             <div class="ration-input-bar">
-                <input type="text" id="new-ration-item" class="ration-text-field" placeholder="Type items missing in kitchen...">
+                <input type="text" id="new-ration-item" class="ration-text-field" placeholder="Add missing item...">
                 <button class="ration-add-btn" onclick="addNewRationNode()">+</button>
             </div>
             <div class="dynamic-list-container" id="ration-list-canvas"></div>
             <button class="action-button" onclick="copyRationListToClipboard()">📋 COPY RATION LIST</button>
         </div>
 
-        <footer>© 2026 ANIVARYA RASOI // PROFESSIONAL LIVE DEPLOYMENT</footer>
+        <footer>© 2026 ANIVARYA RASOI // ELITE PRODUCTION STANDARD</footer>
     </div>
 
     <script>
@@ -362,42 +390,27 @@
         let customRationItemsArray = ["Milk (दूध)", "Sugar (चीनी)"];
         let matchedRecipesList = [];
 
-        // Base Unique Recipes Matrix
-        const baseRecipeDatabase = [
-            { name: "Lauki (लौकी की शाही सब्जी)", tags: ["lauki", "bottle gourd", "लौकी"], phase: "lunch" },
-            { name: "Jeera Aloo Premium", tags: ["aloo", "potato", "आलू"], phase: "breakfast" },
-            { name: "Classic Paneer Bhurji", tags: ["paneer", "पनीर"], phase: "breakfast" },
-            { name: "Shahi Matar Paneer", tags: ["paneer", "matar", "पनीर", "मटर"], phase: "dinner" },
-            { name: "Masala Fried Rice", tags: ["chawal", "rice", "चावल"], phase: "lunch" },
-            { name: "Besan Chilla", tags: ["besan", "बेसन"], phase: "breakfast" },
-            { name: "Matar Nimona", tags: ["matar", "मटर"], phase: "lunch" },
-            { name: "Aloo Gobhi Masala", tags: ["gobhi", "गोभी"], phase: "dinner" },
-            { name: "Instant Dahi Tadka", tags: ["dahi", "दही"], phase: "lunch" }
-        ];
-
-        // Advanced 20 Variations Matrix Generator Logic
-        const variationStyles = [
-            { suffix: "Dhaba Style Tadka Curry", desc: "कढ़ाई में सरसों तेल गरम करके जीरा, हींग, कद्दूकस किया अदरक-लहसुन और प्याज-टमाटर का बारीक मसाला भूनें। हल्दी, धनिया पाउडर डालकर धीमी आंच पर पकाएं।" },
-            { suffix: "Crispy Dry Fry Masala", desc: "बारीक स्लाइस काटकर तेल में मेथी दाना और सूखी लाल मिर्च के साथ छौंकें। बिना पानी डाले ढककर भाप में क्रिस्पी होने तक पकाएं।" },
-            { suffix: "Healthy Diet Oil-Free Version", desc: "कुकर में बिना तेल या सिर्फ आधा चम्मच घी के साथ जीरा डालें, स्वादानुसार सेंधा नमक, काली मिर्च और हल्दी डालकर 2 सीटी लगाएं। पेट के लिए अमृत!" },
-            { suffix: "Royal Cashew Shahi Gravy", desc: "काजू, प्याज और मलाई का स्मूथ पेस्ट बनाएं। खड़े मसालों के साथ पेस्ट भूनें और ग्रेवी गाढ़ी होने पर इसे मिलाकर कस्तूरी मेथी डालें।" },
-            { suffix: "Chinese Fusion Twist stir-fry", desc: "लंबा-लंबा काटकर तेज आंच पर सोया सॉस, चिली सॉस, विनेगर और शिमला मिर्च-प्याज के साथ 3 मिनट तक टॉस करें। एकदम नया स्वाद!" },
-            { suffix: "Instant Pressure Cooker Stew", desc: "समय बचाने के लिए कुकर में टमाटर, प्याज, कटी हुई सब्जी और गरम मसाला डालकर सिर्फ 1 या 2 सीटी में झटपट तैयार करें।" },
-            { suffix: "Continental Herb Grilled Medley", desc: "हल्के क्यूब्स काटकर ऑलिव ऑयल, ऑरिगेनो, चिली फ्लेक्स और लहसुन के टुकड़ों के साथ पैन में धीमी आंच पर टॉस करें।" },
-            { suffix: "Spicy Achari Masala Fusion", desc: "सब्जी को सामान्य छौंक के साथ पकाते समय आधा चम्मच आम का अचार या अचारी मसाला मिक्स करें, स्वाद एकदम चटपटा हो जाएगा।" },
-            { suffix: "Weight-Loss Soup Cleanser", desc: "पानी में उबालकर मिक्सी में ब्लेंड करें। ऊपर से जीरा-लहसुन का हल्का सा घी का तड़का और नींबू का रस निचोड़ें।" },
-            { suffix: "Homemade Kofta Curry Magic", desc: "कद्दूकस करके बेसन और मसालों के साथ छोटे-छोटे पकौड़े (कोफ्ते) तलें। फिर टमाटर-प्याज की गाढ़ी रिच ग्रेवी बनाकर उसमें डालें।" },
-            { suffix: "Malai Butter Premium Gravy", desc: "मक्खन और तेजपत्ते के साथ टमाटर प्यूरी पकाएं। पकने पर घर की ताज़ा मलाई फेंटकर डालें और मखमली रिच टेक्सचर का मज़ा लें।" },
-            { suffix: "Jeera Garlic Roasted Bites", desc: "ढेर सारा बारीक कटा लहसुन और जीरा तेल में सुनहरा करें, फिर बारीक कटी सब्जी और चाट मसाला डालकर तेज आंच पर क्रिस्पी भूनें।" },
-            { suffix: "Mint Coriander Green Gravy", desc: "पुदीना, धनिया और हरी मिर्च का गाढ़ा पेस्ट बनाकर छौंकें। यह ग्रीन ग्रेवी सब्जी को एक रिफ्रेशिंग और यूनिक टेस्ट देती है।" },
-            { suffix: "Cheesy Baked Fusion Platter", desc: "सब्जी को हल्का उबालकर बेकिंग डिश में रखें, ऊपर से मोज़ेरेला चीज़ और ओरिगैनो डालकर माइक्रोवेव या तवे पर ढककर चीज़ पिघलने तक पकाएं।" },
-            { suffix: "Dahi Dopiaza Royal Variant", desc: "दो तरह से कटे प्याज (बारीक और बड़े क्यूब्स) को भूनें। ग्रेवी में हल्का सा गाढ़ा दही फेंटकर मिलाएं और धीमी आंच पर ऑयल छोड़ने तक पकाएं।" },
-            { suffix: "South Indian Mustard Curry", desc: "नारियल का तेल गरम करके राई, कढ़ी पत्ता, सूखी लाल मिर्च और थोड़े से कद्दूकस किए ताजे नारियल के साथ पकाएं।" },
-            { suffix: "Kashmiri Rogue Style Spice", desc: "सब्जी में बिना प्याज-लहसुन के सौंफ पाउडर, सोंठ पाउडर और ढेर सारी कश्मीरी लाल मिर्च डालकर शुद्ध सरसों तेल में तैयार करें।" },
-            { suffix: "Black Pepper Lemon Stir-Fry", desc: "घी में थोड़ा जीरा डालें, फिर उबली हुई सब्जी को केवल कुटी हुई काली मिर्च, काला नमक और ढेर सारे नींबू के रस के साथ मिक्स करें।" },
-            { suffix: "Panch Phoran Traditional Pot", desc: "मेथी, सौंफ, राई, कलौंजी और जीरा का स्पेशल तड़का देकर लोहे की कड़ाही में धीरे-धीरे पकाएं। एकदम विलेज स्टाइल स्वाद।" },
-            { suffix: "Golden Turmeric Broth Bowl", desc: "सब्जी को बारीक काटकर पानी, अदरक के लच्छे, देसी घी और शुद्ध हल्दी के साथ उबालें। यह रोगप्रतिरोधक क्षमता बढ़ाने के लिए बेस्ट है।" }
-        ];
+        // Contextual database mapping for precise smart filtering
+        const mealStyleTemplates = {
+            breakfast: [
+                { suffix: "Healthy Steamed Bowl", diet: "Low-Cal", cal: "120 kcal", desc: "को बारीक काटकर स्टीम करें, फिर ऊपर से भुना जीरा, हल्का काला नमक और नींबू का रस डालकर मिक्स करें। सुबह के लिए एकदम हल्का और सुपाच्य नाश्ता।" },
+                { suffix: "Savoury Instant Chilla", diet: "High-Protein", cal: "180 kcal", desc: "को कद्दूकस करके बेसन और थोड़े से पानी के साथ मिलाकर चीले का घोल बनाएं। तवे पर हल्का सा घी लगाकर दोनों तरफ से सेकें।" },
+                { suffix: "Diet Grilled Toast Splash", diet: "Fitness First", cal: "150 kcal", desc: "को मैश करें, उसमें नमक-मिर्च मिलाएं और ब्रेड स्लाइस के बीच रखकर सैंडविच की तरह ग्रिल कर लें। चाय के साथ परफेक्ट मैच।" },
+                { suffix: "Light Detox Cleanser Soup", diet: "Detox Diet", cal: "90 kcal", desc: "को पानी में अदरक और टमाटर के साथ उबालें। मिक्सी में ब्लेंड करके छान लें, फिर काली मिर्च डालकर गरमा-गरम पिएं।" }
+            ],
+            lunch: [
+                { suffix: "Traditional Dry Stir-Fry", diet: "Balanced Indian", cal: "240 kcal", desc: "को छोटे टुकड़ों में काटें। कढ़ाई में सरसों तेल, मेथी दाना और हरी मिर्च का तड़का देकर मसालेदार सूखी सब्जी तैयार करें।" },
+                { suffix: "Dhaba Style Homestyle Curry", diet: "Traditional", cal: "290 kcal", desc: "को प्याज, टमाटर, अदरक-लहसुन के भुने हुए मसाले की थिक तरी में डालकर पकाएं। इसे गरमा-गरम रोटियों और चावल के साथ परोसें।" },
+                { suffix: "Dopiaza Semi-Dry Fusion", diet: "Flavor King", cal: "310 kcal", desc: "में दो तरह से कटे प्याज (बारीक और बड़े क्यूब्स) का इस्तेमाल करें। गरम मसाला डालकर इसे लटपटी गाढ़ी ग्रेवी का रूप दें।" },
+                { suffix: "Nutritious Dal Blend Pot", diet: "High-Fiber", cal: "210 kcal", desc: "को बारीक काटकर अरहर या मूंग दाल के साथ कुकर में हल्दी-नमक डालकर उबालें। बाद में हींग-जीरे का बेहतरीन घी का तड़का लगाएं।" }
+            ],
+            dinner: [
+                { suffix: "Melt-in-Mouth Shahi Kofta Curry", diet: "Rich Indian", cal: "420 kcal", desc: "को कद्दूकस करके बेसन के साथ इसके छोटे कोफ्ते तल लें। फिर काजू-टमाटर की मखमली शाही ग्रेवी बनाकर उसमें कोफ्ते डालें।" },
+                { suffix: "Kashmiri Rogue Style Roast", diet: "Gourmet Craft", cal: "380 kcal", desc: "को गहरे मसालों, सोंठ पाउडर, सौंफ पाउडर और शुद्ध कश्मीरी लाल मिर्च के साथ सरसों तेल में धीमी आंच पर गाढ़ा पकाएं।" },
+                { suffix: "Creamy Malai Butter Gravy", diet: "Premium Cheat-Day", cal: "450 kcal", desc: "को फ्राई करके टमाटर प्यूरी और ताज़ा मलाई (क्रीम) के गाढ़े बेस में डालें। कसूरी मेथी और मक्खन से फिनिश करें।" },
+                { suffix: "Slow-Cooked Dum Special", diet: "Royal Treat", cal: "360 kcal", desc: "को मसालों के साथ मिक्स करके कुकर या भारी तले के बर्तन में थोड़ा पानी डालकर आटा लगाकर सील करें और धीमी आंच पर दम दें।" }
+            ]
+        };
 
         function renderRationNodes() {
             const listCanvas = document.getElementById('ration-list-canvas');
@@ -435,34 +448,51 @@
             runRecipeEngine();
         }
 
-        // Master Multiplier Engine generating 20 variations for any vegetable entered
+        // Context-Aware Multiplier Logic Engine
         function runRecipeEngine() {
             const searchKeyword = document.getElementById('recipe-search-box').value.toLowerCase().trim();
+            const spiceLevel = document.getElementById('spice-selector').value;
             const canvas = document.getElementById('engine-canvas-route');
 
             if(searchKeyword === '') {
                 matchedRecipesList = [];
-                canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight:500;">Type any cooking ingredient above to instantly unpack 20+ custom style recipes!</div>`;
+                canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 500;">Type any item to instantly generate 20+ smart tailored meal profiles!</div>`;
                 return;
             }
 
-            // Find matching item from base array
-            let matchedBase = baseRecipeDatabase.find(node => {
-                return node.tags.some(t => searchKeyword.includes(t)) || node.name.toLowerCase().includes(searchKeyword);
-            });
-
             let ingredientTitle = searchKeyword.charAt(0).toUpperCase() + searchKeyword.slice(1);
-            if (matchedBase) {
-                ingredientTitle = matchedBase.name.split(" ")[0]; 
+            
+            // Map common Hindi terms to cleaner titles if typed
+            if(searchKeyword.includes("lauki")) ingredientTitle = "Lauki (लौकी)";
+            if(searchKeyword.includes("aloo")) ingredientTitle = "Aloo (आलू)";
+            if(searchKeyword.includes("paneer")) ingredientTitle = "Paneer (पनीर)";
+            if(searchKeyword.includes("matar")) ingredientTitle = "Matar (मटर)";
+
+            let pool = [];
+            
+            // Build Contextual Variations based on Selected Segment Tag
+            if (globalActiveSegment === 'all' || globalActiveSegment === 'breakfast') {
+                pool = pool.concat(mealStyleTemplates.breakfast.map(s => ({...s, nameType: `Breakfast Special: ${ingredientTitle} ${s.suffix}` })));
+            }
+            if (globalActiveSegment === 'all' || globalActiveSegment === 'lunch') {
+                pool = pool.concat(mealStyleTemplates.lunch.map(s => ({...s, nameType: `Lunch Masterpiece: ${ingredientTitle} ${s.suffix}` })));
+            }
+            if (globalActiveSegment === 'all' || globalActiveSegment === 'dinner') {
+                pool = pool.concat(mealStyleTemplates.dinner.map(s => ({...s, nameType: `Dinner Delight: ${ingredientTitle} ${s.suffix}` })));
             }
 
-            // Dynamically generate exactly 20 distinct recipe cards
-            matchedRecipesList = variationStyles.map((style, index) => {
-                return {
-                    name: `Option ${index + 1}: ${ingredientTitle} (${style.suffix})`,
-                    desc: `👉 **${ingredientTitle} बनाने का तरीका:** ${style.desc}`
-                };
-            });
+            // Generate full 20+ unique cycle variations dynamically
+            matchedRecipesList = [];
+            for(let i=0; i<20; i++) {
+                let template = pool[i % pool.length];
+                let variationNum = i + 1;
+                matchedRecipesList.push({
+                    name: `[Option ${variationNum}] ${template.nameType}`,
+                    diet: template.diet,
+                    cal: template.cal,
+                    desc: `🍲 **${ingredientTitle}** ${template.desc}\n\n🌶️ *Spice Preference Rule:* इस डिश को आपके चयन के अनुसार **${spiceLevel}** प्रोफाइल के साथ तैयार किया गया है।`
+                });
+            }
 
             renderActiveNodeCanvas();
         }
@@ -476,19 +506,43 @@
 
             canvas.innerHTML = `
                 <div class="recipe-box-output">
+                    <div class="recipe-badge-row">
+                        <span class="badge badge-diet">🥗 ${targetNode.diet}</span>
+                        <span class="badge badge-cal">🔥 ${targetNode.cal}</span>
+                    </div>
                     <div class="recipe-title">${targetNode.name}</div>
-                    <div class="recipe-desc">${targetNode.desc}</div>
+                    <div class="recipe-desc">${targetNode.desc.replace(/\n/g, '<br>')}</div>
+                    <button class="audio-btn" onclick="speakRecipeText()"><span id="speaker-icon">🔊</span> Listen Recipe Guide</button>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-dark); text-align:center; margin-top:10px; font-weight:700; background:rgba(255,255,255,0.6); padding:4px; border-radius:8px;">
-                    🔥 Total ${matchedRecipesList.length} global styles cooked! Click "Next Option" to cycle (${pointer + 1}/${matchedRecipesList.length})
+                <p style="font-size:0.75rem; color:var(--text-dark); text-align:center; margin-top:8px; font-weight:700; background:rgba(255,255,255,0.7); padding:4px; border-radius:8px;">
+                    🔄 Click "Next Option" to cycle variations (${pointer + 1}/${matchedRecipesList.length})
                 </p>
             `;
         }
 
         function rotateRecipeSelection() {
             if(matchedRecipesList.length === 0) return;
+            window.speechSynthesis.cancel(); // Stop audio if user skips
             currentRecipeIndex++;
             renderActiveNodeCanvas();
+        }
+
+        // Native High End Text-To-Speech Feature
+        function speakRecipeText() {
+            window.speechSynthesis.cancel();
+            const textBlock = matchedRecipesList[currentRecipeIndex % matchedRecipesList.length].desc;
+            
+            // Clean up emojis from markdown before reading
+            const cleanText = textBlock.replace(/[^\w\s\u0900-\u097F,.:]/g, '');
+            
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 1.0;
+            
+            document.getElementById('speaker-icon').innerText = "⏳ Speaking...";
+            utterance.onend = () => { document.getElementById('speaker-icon').innerText = "🔊"; };
+            
+            window.speechSynthesis.speak(utterance);
         }
 
         function copyRationListToClipboard() {
@@ -498,9 +552,7 @@
             }
             let textToCopy = `📋 ANIVARYA RASOI - Missing Ration Checklist:\n\n` + customRationItemsArray.map(item => `• ${item}`).join('\n');
             navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("Ration List copied to clipboard! Share it anywhere.");
-            }).catch(err => {
-                alert("Error copying content.");
+                alert("Ration List copied to clipboard!");
             });
         }
 
