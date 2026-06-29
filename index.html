@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIVARYA RASOI v4.0 - Global Smart Gastronomy OS</title>
+    <title>ANIVARYA RASOI v4.5 - Global Smart Gastronomy OS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -184,8 +184,7 @@
             outline: none;
             cursor: pointer;
         }
-    </style>
-</head><style>
+    </style><style>
         /* RECIPE BOX DISPLAY & BUTTON STYLES */
         .recipe-header {
             display: flex;
@@ -457,17 +456,17 @@
                 <button id="tab-dinner" class="meal-tab-btn" onclick="switchMealType('Dinner')">🍲 Dinner</button>
             </div>
 
-            <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सामग्री का नाम डालें (जैसे: bread, potato, paneer, suji)...">
+            <input type="text" id="recipe-search-box" class="main-input" oninput="runRecipeEngine()" placeholder="सामग्री का नाम डालें (जैसे: bread and corn and potato)...">
             
             <div class="smart-chips-row">
                 <div class="chip-label">⭐ Quick Combinations:</div>
-                <button class="chip-btn" onclick="injectQuickSuggestion('bread and potato')">🥪 Bread & Potato</button>
-                <button class="chip-btn" onclick="injectQuickSuggestion('paneer tikka')">🍢 Paneer Special</button>
-                <button class="chip-btn" onclick="injectQuickSuggestion('suji halwa')">🥣 Suji Delicacy</button>
-                <button class="chip-btn" onclick="injectQuickSuggestion('maggi combo')">🍜 Maggi Twist</button>
+                <button class="chip-btn" onclick="injectQuickSuggestion('bread and corn and potato')">🥪 Bread + Corn + Potato</button>
+                <button class="chip-btn" onclick="injectQuickSuggestion('paneer and aloo')">🍢 Paneer & Aloo Combo</button>
+                <button class="chip-btn" onclick="injectQuickSuggestion('suji upma')">🥣 Suji Delicacy</button>
+                <button class="chip-btn" onclick="injectQuickSuggestion('maggi masala')">🍜 Maggi Twist</button>
             </div>
 
-            <div class="config-grid">
+            <div class="config-grid" style="align-items: center;">
                 <div class="config-box">
                     <span class="config-label">🌶️ Spice Tuning:</span>
                     <select id="spice-selector" class="custom-select" onchange="runRecipeEngine()">
@@ -476,13 +475,16 @@
                         <option value="तेज मसाला">Gourmet Spicy</option>
                     </select>
                 </div>
-                <div class="config-box">
-                    <span class="config-label">👥 Servings:</span>
-                    <select id="portion-scaler" class="custom-select" onchange="runRecipeEngine()">
-                        <option value="1" selected>1 Person</option>
-                        <option value="2">2 People</option>
-                        <option value="4">4 People</option>
-                    </select>
+                <!-- UPGRADED SERVINGS CONTROLLER WITH PLUS/MINUS COUNTER -->
+                <div class="config-box" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span class="config-label">👥 Servings:</span>
+                        <div id="portion-display-value" style="font-size: 0.9rem; font-weight: 800; color: var(--text-dark); margin-top: 2px;">1 Person</div>
+                    </div>
+                    <div style="display: flex; gap: 4px;">
+                        <button onclick="modifyPortionsCount(-1)" style="background: #e2e8f0; border: none; width: 26px; height: 26px; border-radius: 6px; font-weight: 800; cursor: pointer; color: var(--text-dark);">-</button>
+                        <button onclick="modifyPortionsCount(1)" style="background: var(--brand-gradient); border: none; width: 26px; height: 26px; border-radius: 6px; font-weight: 800; cursor: pointer; color: white;">+</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -552,6 +554,7 @@
         let currentRecipeIndex = 0;
         let matchedRecipesList = [];
         let currentMealType = "Breakfast";
+        let globalPortionsCount = 1;
         
         // Upgraded Alarm & Timer Variables
         let kitchenTimerInterval = null;
@@ -562,7 +565,6 @@
         let alarmOscillatorLoop = null;
         let isAlarmActive = false;
 
-        // Custom Images Storage Pool
         const foodImagesPool = [
             "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
             "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80",
@@ -570,12 +572,11 @@
             "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
         ];
 
-        // Leftover Transformer Tips
         const leftoverTipsPool = [
-            "💡 बचे हुए उबले आलू और ब्रेड से झटपट 'Bread Rolls' या क्रिस्पी 'Aloo Sandwich' बनाएं!",
+            "💡 बचे हुए उबले आलू, कॉर्न और ब्रेड से झटपट 'Premium Fusion Toast' बनाएं!",
             "💡 बची हुई सूजी के हलवे को दूध में मिलाकर गाढ़ी 'सूजी शीरा रबड़ी' का ट्विस्ट दे सकते हैं।",
             "💡 बची हुई सूखी सब्जी या पनीर को मैश करके परांठे में स्टफ करें, स्वादिष्ट नाश्ता तैयार!",
-            "💡 अगर ब्रेड सूख रही हो तो उसे मिक्सी में पीसकर 'Breadcrumbs' बना लें, टिक्की क्रिस्पी करने के काम आएगी।"
+            "💡 अगर ब्रेड सूख रही हो तो उसे मिक्सी में पीसकर 'Breadcrumbs' बना लें।"
         ];
         let currentTipIndex = 0;
 
@@ -589,14 +590,14 @@
 
         let rationInventoryDeck = ["Milk (दूध) - 1 Packet", "Bread (ब्रेड) - 1 Packet"];
 
-        // Robust Multi-Ingredient Mapping
-        const realRecipesData = [
-            { keywords: ["bread", "potato", "aloo"], name: "Aloo Bread Toast", steps: "उबले आलू को मैश करके नमक, मिर्च और चाट मसाला मिलाएं। इस मिश्रण को ब्रेड स्लाइस पर फैलाएं और तवे पर हल्का सा बटर या घी लगाकर दोनों तरफ से गोल्डन क्रिस्पी होने तक सेकें।" },
-            { keywords: ["paneer"], name: "Kadhai Paneer Home Style", steps: "पैन में तेल गरम करके शिमला मिर्च और प्याज भूनें। टमाटर, अदरक-लहसुन पेस्ट और मसाले पकाएं। पनीर क्यूब्स और हल्की मलाई मिलाकर 5 मिनट धीमी आंच पर सेट करें।" },
-            { keywords: ["suji"], name: "Instant Suji Cheela", steps: "सूजी और दही का गाढ़ा घोल बनाकर 10 मिनट रखें। इसमें मनपसंद सब्जियां, नमक और मिर्च मिलाएं। तवे पर बैटर फैलाकर दोनों तरफ से क्रिस्पी होने तक अच्छी तरह सेकें।" },
-            { keywords: ["maggi"], name: "Street Style Maggi Masala", steps: "कढ़ाई में तेल गरम करके बारीक प्याज, टमाटर और हरी मिर्च सौते करें। पानी और मैगी मसाला डालें, उबाल आने पर मैगी नूडल्स डालें और 2-3 मिनट में गरमा-गरम परोसें।" },
-            { keywords: ["chawal"], name: "Chawal Ka Atta Dosa", steps: "चावल के आटे में पानी, बारीक प्याज, हरी मिर्च, जीरा और नमक मिलाकर एकदम पतला छाछ जैसा घोल बनाएं। तेज गर्म तवे पर फैलाकर जालीदार क्रिस्पी डोसा तैयार करें।" }
-        ];
+        function modifyPortionsCount(amount) {
+            globalPortionsCount += amount;
+            if (globalPortionsCount < 1) globalPortionsCount = 1;
+            if (globalPortionsCount > 20) globalPortionsCount = 20;
+            
+            document.getElementById('portion-display-value').innerText = `${globalPortionsCount} ${globalPortionsCount === 1 ? 'Person' : 'People'}`;
+            runRecipeEngine();
+        }
 
         function switchMealType(mealType) {
             currentMealType = mealType;
@@ -610,17 +611,9 @@
             runRecipeEngine();
         }
 
-        function cleanIngredientsTitle(inputStr) {
-            if(!inputStr) return "";
-            let cleaned = inputStr.replace(/\b(and|aur|ka|ke|ki|with|&)\b/gi, " ");
-            let words = cleaned.split(/[\s,]+/).filter(w => w.trim().length > 1);
-            return words.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" & ");
-        }
-
         function runRecipeEngine() {
             const rawInput = document.getElementById('recipe-search-box').value.trim().toLowerCase();
             const spice = document.getElementById('spice-selector').value;
-            const servings = document.getElementById('portion-scaler').value;
             const canvas = document.getElementById('engine-canvas-route');
 
             if(rawInput.length < 2) {
@@ -629,30 +622,42 @@
                 return;
             }
 
-            let titleFormatted = cleanIngredientsTitle(rawInput);
             matchedRecipesList = [];
 
-            // Multi-Keyword Matching Algorithm
-            let selectedDish = realRecipesData[0]; 
-            for (let item of realRecipesData) {
-                let matchesAll = item.keywords.some(kw => rawInput.includes(kw));
-                if (matchesAll) {
-                    selectedDish = item;
-                    break;
-                }
+            // ADVANCED MULTI-INGREDIENT COMBO DETECTOR (Bread + Corn + Potato Integration)
+            let detectedItems = [];
+            if(rawInput.includes("bread")) detectedItems.push("Crispy Toast Bread");
+            if(rawInput.includes("corn")) detectedItems.push("Sweet Golden Corn");
+            if(rawInput.includes("potato") || rawInput.includes("aloo")) detectedItems.push("Spiced Mashed Potato");
+            if(rawInput.includes("paneer")) detectedItems.push("Soft Fresh Paneer");
+            if(rawInput.includes("suji")) detectedItems.push("Roasted Golden Suji");
+
+            let mainDishName = "";
+            let coreStepsText = "";
+
+            if (detectedItems.length >= 3) {
+                mainDishName = "Ultimate Corn, Potato & Bread Fusion Toast";
+                coreStepsText = "ब्रेड स्लाइस लें। उबले हुए आलू को अच्छी तरह मैश करके उसमें उबले कॉर्न के दाने, हरी मिर्च, चाट मसाला और स्वादानुसार नमक मिलाएं। इस मसालेदार पेस्ट को ब्रेड पर अच्छी तरह लगाएं। अब नॉन-स्टिक तवे पर थोड़ा सा घी या बटर डालकर ब्रेड को दोनों तरफ से एकदम सुनहरा और क्रिस्पी होने तक अच्छी तरह सेक लें।";
+            } else if (detectedItems.length === 2) {
+                mainDishName = `${detectedItems[0]} & ${detectedItems[1]} Mix Masterclass`;
+                coreStepsText = `इन दोनों सामग्रियों को आपस में मिलाकर तवे पर बारीक कटी प्याज, जीरा और गरम मसाले का तड़का लगाएं। स्वादानुसार हल्का पानी छिड़क कर धीमी आंच पर 5 मिनट पकाएं और गरमा-गरम परोसें।`;
+            } else {
+                let primaryMaterial = detectedItems[0] || "Special Item";
+                mainDishName = `Desi Style ${primaryMaterial} Platter`;
+                coreStepsText = "पैन में तेल गरम करके जीरा, हरी मिर्च और हींग का तड़का लगाएं। सामग्री डालकर हल्दी, नमक और धनिया पाउडर मिलाएं और क्रिस्पी होने तक धीमी आंच पर फ्राई करें।";
             }
 
-            // Generate 100+ Deck safely without crashing
-            for (let i = 1; i <= 102; i++) {
+            // Generate 100+ Premium Non-Crashing Options Deck
+            for (let i = 1; i <= 105; i++) {
                 let imgIndex = i % foodImagesPool.length;
-                let calculatedCost = 35 + (i * 3) % 60;
-                let caloriesCount = 140 + (i * 5) % 140;
+                let calculatedCost = 40 + (i * 2) % 55;
+                let caloriesCount = 125 + (i * 3) % 120;
 
-                let recipeFinalSteps = `यह आपके ${currentMealType} की विशेष विधि है। ${selectedDish.steps} इसे आपके स्वाद अनुसार ${spice} रखा गया है और यह ${servings} लोगों के लिए पर्याप्त है।`;
+                let recipeFinalSteps = `यह आपके ${currentMealType} की विशेष स्वादिष्ट रेसिपी है। ${coreStepsText} इसे आपके स्वाद के अनुसार ${spice} रखा गया है और यह ${globalPortionsCount} लोगों के लिए पर्याप्त मात्रा में तैयार होगी।`;
 
                 matchedRecipesList.push({
-                    optionTitle: `${currentMealType} Special - Option ${i}: ${selectedDish.name}`,
-                    calories: `${caloriesCount * servings} Cal`,
+                    optionTitle: `${currentMealType} Combo Variant ${i}: ${mainDishName}`,
+                    calories: `${caloriesCount * globalPortionsCount} Cal`,
                     recipeText: recipeFinalSteps,
                     image: foodImagesPool[imgIndex],
                     budget: `₹${calculatedCost} Approx`
@@ -674,7 +679,7 @@
                     <div class="recipe-banner" style="background-image: url('${currentItem.image}')"></div>
                     <div class="recipe-body">
                         <div class="recipe-badge-row">
-                            <span class="badge badge-diet">🥗 ${currentMealType} Setup</span>
+                            <span class="badge badge-diet">🥗 ${currentMealType} Upgrade</span>
                             <span class="badge badge-cal">🔥 ${currentItem.calories}</span>
                         </div>
                         <div class="recipe-title">${currentItem.optionTitle}</div>
@@ -693,7 +698,7 @@
 
                         <div class="audio-container">
                             <button class="audio-btn" onclick="speakClearFemaleRecipe()"><span id="speaker-icon">🔊</span> Play Female Guide</button>
-                            <span class="audio-status" id="audio-status-text">क्लिक करके शुद्ध महिला की आवाज़ में सुनें</span>
+                            <span class="audio-status" id="audio-status-text">क्लिक करके मधुर आवाज़ में सुनें</span>
                         </div>
                     </div>
                 </div>
@@ -717,6 +722,7 @@
             document.getElementById('leftover-transformer-zone').innerHTML = leftoverTipsPool[currentTipIndex];
         }
 
+        // UPGRADED HI-FI CRUNCH-FREE NATURAL FEMALE AUDIO LAYER
         function speakClearFemaleRecipe() {
             window.speechSynthesis.cancel();
             if(matchedRecipesList.length === 0) return;
@@ -726,30 +732,31 @@
 
             const utterance = new SpeechSynthesisUtterance(pureText);
             utterance.lang = 'hi-IN';
-            utterance.rate = 0.88;
-            utterance.pitch = 1.35;
+            utterance.rate = 0.90; 
+            utterance.pitch = 1.25; // Professional balanced acoustic frequency for standard clear speech
 
             let systemVoices = window.speechSynthesis.getVoices();
+            // Target high quality engines explicitly
             let selectedVoice = systemVoices.find(voice => 
                 (voice.lang.includes('hi') || voice.lang.includes('IN')) && 
-                (voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('google') || voice.name.toLowerCase().includes('zira'))
+                (voice.name.toLowerCase().includes('google') || voice.name.toLowerCase().includes('swara') || voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('zira'))
             );
 
             if(selectedVoice) utterance.voice = selectedVoice;
 
             const statusNode = document.getElementById('audio-status-text');
             document.getElementById('speaker-icon').innerText = "⏳";
-            statusNode.innerText = "Playing guide...";
+            statusNode.innerText = "Narrating in premium crystal voice...";
 
             utterance.onend = () => {
                 document.getElementById('speaker-icon').innerText = "🔊";
-                statusNode.innerText = "Finished.";
+                statusNode.innerText = "Finished Narration.";
             };
 
             window.speechSynthesis.speak(utterance);
         }
 
-        // UPGRADED SOOTHING LOOP ALARM & TIMER SYSTEM
+        // ACCEPTS SOOTHING CONTINUOUS CHIME TONE LOOP
         function setupKitchenTimer(minutes, itemName) {
             stopSoothingAlarm();
             clearInterval(kitchenTimerInterval);
@@ -771,8 +778,8 @@
                     if(timerTotalSeconds <= 0) {
                         clearInterval(kitchenTimerInterval);
                         document.getElementById('timer-text-render').innerHTML = `
-                            <div style="animation: pulse 1s infinite; color:#ef4444; font-weight:900;">🚨 <b>${timerCurrentItem} Tayar Hai!</b></div>
-                            <button onclick="stopSoothingAlarm()" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:6px; margin-top:5px; font-weight:700; cursor:pointer;">🛑 Stop Alarm</button>
+                            <div style="color:#ff4f2b; font-weight:900;">🚨 <b>${timerCurrentItem} Ready!</b></div>
+                            <button onclick="stopSoothingAlarm()" style="background:#ff4f2b; color:white; border:none; padding:6px 14px; border-radius:8px; margin-top:6px; font-weight:700; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">🛑 Stop Alarm</button>
                         `;
                         playSoothingAlarmLoop();
                     }
@@ -786,25 +793,24 @@
             isAlarmActive = true;
             alarmAudioContext = new (window.AudioContext || window.webkitAudioContext)();
             
-            // Soft Continuous Zen/Chime generator loop
             function triggerChimePulse() {
                 if (!isAlarmActive) return;
                 let osc = alarmAudioContext.createOscillator();
                 let gainNode = alarmAudioContext.createGain();
                 
-                osc.type = "sine"; // Pure smooth sine wave (not sharp/buzzing)
-                osc.frequency.setValueAtTime(523.25, alarmAudioContext.currentTime); // C5 Smooth Musical Note
+                osc.type = "sine"; // Premium acoustic wave setup
+                osc.frequency.setValueAtTime(440, alarmAudioContext.currentTime); // Relaxing warm note
                 
-                gainNode.gain.setValueAtTime(0.3, alarmAudioContext.currentTime); // Low non-piercing volume
-                gainNode.gain.exponentialRampToValueAtTime(0.001, alarmAudioContext.currentTime + 1.4);
+                gainNode.gain.setValueAtTime(0.25, alarmAudioContext.currentTime); 
+                gainNode.gain.exponentialRampToValueAtTime(0.001, alarmAudioContext.currentTime + 1.8);
                 
                 osc.connect(gainNode);
                 gainNode.connect(alarmAudioContext.destination);
                 
                 osc.start();
-                osc.stop(alarmAudioContext.currentTime + 1.5);
+                osc.stop(alarmAudioContext.currentTime + 1.9);
                 
-                alarmOscillatorLoop = setTimeout(triggerChimePulse, 1500);
+                alarmOscillatorLoop = setTimeout(triggerChimePulse, 2000);
             }
             triggerChimePulse();
         }
@@ -823,7 +829,7 @@
         function resumeKitchenTimer() { timerIsPaused = false; }
         function resetKitchenTimer() { stopSoothingAlarm(); }
 
-        // RATION LIST
+        // RATION CONTROLS
         function updateRationInterface() {
             const container = document.getElementById('ration-list-container');
             container.innerHTML = "";
@@ -858,9 +864,9 @@
 
         function copyEntireRationList() {
             if(rationInventoryDeck.length === 0) return;
-            let textStack = "🚨 *ANIVARYA RASOI - MISSING RATION LIST* 🚨\n\n";
+            let textStack = "🚨 *ANIVARYA RASOI - RATION LIST* 🚨\n\n";
             rationInventoryDeck.forEach((item, idx) => { textStack += `${idx + 1}. ${item}\n`; });
-            navigator.clipboard.writeText(textStack).then(() => { alert("Ration list copy ho gayi!"); });
+            navigator.clipboard.writeText(textStack).then(() => { alert("List copied!"); });
         }
 
         window.onload = () => {
