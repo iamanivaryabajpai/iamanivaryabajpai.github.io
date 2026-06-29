@@ -3,330 +3,433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivar ya's Smart Rasoi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Anivar ya's Smart Rasoi OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #ff5f40;
+            --primary-glow: rgba(255, 95, 64, 0.2);
+            --bg: #0b0f19;
+            --surface: #151c2c;
+            --surface-bright: #1e2640;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: #fff8f5;
-            color: #333;
+            background: var(--bg);
+            color: var(--text);
             padding: 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            color: white;
-            padding: 30px 20px;
-            border-radius: 20px;
+        .container {
             width: 100%;
-            max-width: 600px;
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-
-        .card h2 {
-            font-size: 1.2rem;
-            color: #ff6b6b;
-            margin-bottom: 15px;
+            max-width: 650px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header-system {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 95, 64, 0.3);
+            border-radius: 24px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 15px var(--primary-glow);
+        }
+
+        .header-system h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff5f40, #ff9f43);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-system p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .glass-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .glass-card h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ff9f43;
+            margin-bottom: 12px;
+        }
+
+        /* Live Smart Search Box */
+        .search-container {
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
 
-        /* Ingredient Grid */
-        .ingredient-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .ing-btn {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            padding: 12px 5px;
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: center;
-            font-weight: 600;
-            transition: 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .ing-btn.active {
-            background: #ffeedd;
-            border-color: #ff8e53;
-            color: #ff6b6b;
-            transform: scale(0.95);
-        }
-
-        /* Recipe Output */
-        .recipe-list {
-            margin-top: 15px;
-        }
-
-        .recipe-item {
-            background: #fff9f6;
-            border-left: 4px solid #ff8e53;
+        .search-box {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid rgba(255, 95, 64, 0.4);
+            border-radius: 16px;
             padding: 15px;
-            border-radius: 0 12px 12px 0;
-            margin-bottom: 10px;
-            animation: fadeIn 0.3s ease;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
         }
 
-        .recipe-item h3 {
+        .search-box:focus {
+            border-color: #ff9f43;
+            box-shadow: 0 0 15px rgba(255, 159, 67, 0.3);
+        }
+
+        .hint-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Recipe Layout Output with Dynamic Refresh Integrated */
+        .recipe-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .refresh-btn {
+            background: rgba(255, 159, 67, 0.15);
+            border: 1px solid #ff9f43;
+            color: #ff9f43;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: #ff9f43;
+            color: #0b0f19;
+        }
+
+        .recipe-node {
+            background: var(--surface-bright);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 18px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .node-title {
+            color: #ff5f40;
+            font-weight: 700;
             font-size: 1.1rem;
-            color: #d94848;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
-        .recipe-item p {
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.5;
+        .node-instruction {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 12px;
         }
 
-        /* Ration Checklist */
-        .ration-item {
+        .timer-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 10px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f1f3f5;
         }
 
-        .ration-item:last-child {
+        .timer-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: var(--success);
+            font-weight: 800;
+        }
+
+        .timer-ctrl-btn {
+            background: var(--success);
+            color: white;
             border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .ration-left {
+        .ration-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .ration-core {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
         }
 
-        .ration-left input {
+        .ration-core input {
             width: 18px;
             height: 18px;
-            accent-color: #ff6b6b;
-            cursor: pointer;
+            accent-color: var(--primary);
         }
 
-        /* Action Button */
-        .btn-action {
-            background: #25d366;
+        .trigger-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
+            padding: 15px;
+            border-radius: 16px;
+            font-weight: 700;
             font-size: 1rem;
-            font-weight: 600;
             cursor: pointer;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
             margin-top: 10px;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
 
-        .btn-action:hover {
-            background: #20ba5a;
-        }
-
-        .btn-magic {
-            background: #ff8e53;
-            margin-bottom: 15px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         footer {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #aaa;
             text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-top: 10px;
+            padding-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>🍽️ SMART RASOI</h1>
-        <p>Anivar ya Ka Digital Kitchen Assistant</p>
-    </div>
+    <div class="container">
 
-    <!-- MAGIC SUGGESTION BUTTON -->
-    <button class="btn-action btn-magic" onclick="getMagicDish()">💡 Aaj Kya Banayein? (Magic Suggestion)</button>
-
-    <!-- SECTION 1: INGREDIENT SELECTOR -->
-    <div class="card">
-        <h2>🥕 घर में क्या-क्या सामान है?</h2>
-        <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">नीचे मौजूद सामानों पर क्लिक करें, रेसिपी अपने आप नीचे आ जाएगी:</p>
-        
-        <div class="ingredient-grid">
-            <button class="ing-btn" onclick="toggleIngredient(this, 'आलू')">🥔 आलू</button>
-            <button class="ing-btn" onclick="toggleIngredient(this, 'टमाटर')">🍅 टमाटर</button>
-            <button class="ing-btn" onclick="toggleIngredient(this, 'पनीर')">🧀 पनीर</button>
-            <button class="ing-btn" onclick="toggleIngredient(this, 'मटर')">🫛 मटर</button>
-            <button class="ing-btn" onclick="toggleIngredient(this, 'प्याज')">🧅 प्याज</button>
-            <button class="ing-btn" onclick="toggleIngredient(this, 'दूध')">🥛 दूध</button>
-        </div>
-    </div>
-
-    <!-- SECTION 2: RECIPE DISPLAY -->
-    <div class="card">
-        <h2>🍳 आपके लिए बेस्ट रेसिपीज:</h2>
-        <div class="recipe-list" id="recipe-output">
-            <p style="color: #999; text-align: center; font-size: 0.9rem; padding: 20px;">ऊपर से कम से कम एक सामान सेलेक्ट करें!</p>
-        </div>
-    </div>
-
-    <!-- SECTION 3: SMART RATION CHECKLIST -->
-    <div class="card">
-        <h2>📝 राशन की पर्ची (Checklist)</h2>
-        <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">जो सामान खत्म हो गया है उसपर टिक करें और सीधे WhatsApp पर भेजें:</p>
-        
-        <div id="ration-box">
-            <!-- Items generated via JS -->
+        <!-- HEADER HEAD -->
+        <div class="header-system">
+            <h1>SMART RASOI OS</h1>
+            <p>Anivar ya // Quantum Engine v3.0</p>
         </div>
 
-        <button class="btn-action" onclick="sendToWhatsApp()">📲 लिस्ट WhatsApp पर भेजें</button>
-    </div>
+        <!-- SEARCH SEARCH CORES -->
+        <div class="glass-card">
+            <h2>🔍 घर में अभी क्या-क्या सामान बचा है?</h2>
+            <div class="search-container">
+                <input type="text" id="kitchen-search" class="search-box" oninput="processKitchenMatrix()" placeholder="यहाँ लिखें (जैसे: aloo, tamatar, chawal, dahi)...">
+                <p class="hint-text">💡 **मल्टीपल चीजें भी लिख सकते हैं!** जैसे ही आप टाइप करेंगे, बची हुई चीजों से बनने वाली रेसिपी नीचे अपने आप बदल जाएगी।</p>
+            </div>
+        </div>
 
-    <footer>DESIGNED BY ANIVAR YA // DIGITAL HUB 2026</footer>
+        <!-- OUTPUT GRID SCREEN -->
+        <div class="glass-card">
+            <div class="recipe-header-flex">
+                <h2>🍳 आपके लिए बेस्ट रेसिपी मैच:</h2>
+                <button class="refresh-btn" onclick="shuffleRecipeCycle()">🔄 Next Option (बदलें)</button>
+            </div>
+            <div id="recipe-engine-output">
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 20px;">
+                    ऊपर बॉक्स में लिखना शुरू करें, मैजिक रेसिपीज यहाँ दिखाई देंगी!
+                </div>
+            </div>
+        </div>
+
+        <!-- SUPPLY CHAIN WHATSAPP LEDGER -->
+        <div class="glass-card">
+            <h2>📝 जो राशन खत्म है, टिक करके WhatsApp करें</h2>
+            <div style="margin-top: 12px;" id="ration-container"></div>
+            <button class="trigger-btn" onclick="sendRationLedger()">📲 SEND LIST TO WHATSAPP</button>
+        </div>
+
+        <footer>// QUANTUM AI SEARCH ACTIVE // 2026</footer>
+    </div>
 
     <script>
-        // Selected ingredients array
-        let selectedIngredients = [];
+        let recipeShuffleOffset = 0;
+        let matchedNodesPool = [];
 
-        // Full Recipe Database
-        const recipeDatabase = [
-            { name: "Jeera Aloo (जीरा आलू)", ing: ["आलू"], desc: "उबले आलू को छोटे टुकड़ों में काटें। कड़ाही में तेल गरम करके जीरा, हरी मिर्च और हल्दी डालें, फिर आलू डालकर 5 मिनट भूनें। तैयार!" },
-            { name: "Tamatar Chatni (टमाटर की चटनी)", ing: ["टमाटर", "प्याज"], desc: "टमाटर और प्याज को बारीक काटें। कड़ाही में थोड़ा तेल, राई और मिर्च का छौंक लगाकर इन्हें पकाएं। स्वाद अनुसार नमक और हल्की चीनी डालें।" },
-            { name: "Aloo Tamatar Sabzi (आलू टमाटर की रसेदार सब्‍जी)", ing: ["आलू", "टमाटर"], desc: "कुकर में तेल, जीरा, प्याज भूनें। टमाटर की प्यूरी और मसाले डालें। फिर कटे आलू और पानी डालकर 2 सीटी लगाएं। पूड़ी के साथ बेस्ट!" },
-            { name: "Matar Paneer (मटर पनीर)", ing: ["पनीर", "मटर", "टमाटर", "प्याज"], desc: "प्याज, टमाटर, अदरक का पेस्ट भूनें। उसमें हल्दी, गरम मसाला डालें। फिर मटर और पनीर के टुकड़े डालकर तरीदार पकाएं।" },
-            { name: "Paneer Bhurji (पनीर भुर्जी)", ing: ["पनीर", "प्याज", "टमाटर"], desc: "बारीक कटे प्याज-टमाटर को कड़ाही में भूनें। ऊपर से पनीर को मैश (क्रश) करके डालें, नमक-मिर्च मिलाकर 3 मिनट पकाएं।" },
-            { name: "Aloo Matar (आलू मटर की सूखी सब्‍जी)", ing: ["आलू", "मटर", "प्याज"], desc: "कड़ाही में तेल गरम करके जीरा-प्याज भूनें। आलू और हरी मटर डालकर ढक दें। धीमी आंच पर मसालों के साथ पकने दें।" },
-            { name: "Kheer (शाही खीर)", ing: ["दूध"], desc: "दूध को भारी बर्तन में उबालें। आधा कप भीगे चॉवल कूटकर डालें। गाढ़ा होने तक पकाएं और अंत में चीनी और इलायची डालें।" },
-            { name: "Matar Ki Chaat (मटर चाट)", ing: ["मटर", "टमाटर", "प्याज"], desc: "उबले मटर में बारीक कटा प्याज, टमाटर, हरी मिर्च, नींबू का रस और चाट मसाला मिलाएं। झटपट स्नैक तैयार!" }
+        // Huge Multi-Ingredient Local Recipe Database Map (covers vast food items)
+        const masterRecipeDatabase = [
+            { name: "Jeera Aloo (जीरा आलू)", keys: ["aloo", "आलू"], time: 5, desc: "कड़ाही में तेल गरम करके जीरा और मिर्च चटकाएं, फिर उबले कटे आलू, हल्दी और नमक डालकर 5 मिनट अच्छे से भूनें।" },
+            { name: "Dum Aloo (दम आलू)", keys: ["aloo", "आलू"], time: 15, desc: "छोटे आलुओं को डीप फ्राई करें। फिर टमाटर-प्याज की थिक ग्रेवी बनाकर मसालों के साथ धीमी आंच पर दम दें।" },
+            { name: "Tamatar ki Chatni (टमाटर चटनी)", keys: ["tamatar", "tomato", "टमाटर"], time: 7, desc: "कटे टमाटर को तेल, राई और मिर्च के छौंक में पकाएं, पकने पर थोड़ा गुड़ या चीनी डालें। खट्टी-मीठी चटनी तैयार!" },
+            { name: "Paneer Bhurji (पनीर भुर्जी)", keys: ["paneer", "पनीर"], time: 6, desc: "कढ़ाई में बारीक कटा प्याज-टमाटर भूनें। उसमें हल्दी, गरम मसाला और मैश किया हुआ पनीर डालकर 3 मिनट पकाएं।" },
+            { name: "Matar Paneer (मटर पनीर)", keys: ["paneer", "matar", "पनीर", "मटर"], time: 15, desc: "टमाटर, प्याज, अदरक का पेस्ट भूनें। उसमें हरी मटर और पनीर के क्यूब्स डालकर तरीदार तरी वाली सब्जी पकाएं।" },
+            { name: "Matar Nimona (मटर का निमोना)", keys: ["matar", "aloo", "मटर"], time: 15, desc: "हरी मटर को मिक्सी में दरदरा पीसकर तेल में खूब भूनें। फिर फ्राई आलू और पानी डालकर बढ़िया गाढ़ी तरी तैयार करें।" },
+            { name: "Fried Rice (मसालेदार फ्राइड राइस)", keys: ["chawal", "rice", "चावल"], time: 5, desc: "बचे हुए चावल को कड़ाही में थोड़ा तेल, जीरा, प्याज, हरी मिर्च और मैगी मसाला डालकर हाई फ्लेम पर 2 मिनट टॉस करें।" },
+            { name: "Veg Pulao (वेज पुलाव)", keys: ["chawal", "rice", "matar", "aloo", "चावल"], time: 12, desc: "कुकर में घी गरम करके खड़े मसाले, प्याज, मटर, आलू भूनें। फिर चावल और पानी डालकर 1 सीटी लगाएं।" },
+            { name: "Besan Chilla (बेसन चीला)", keys: ["besan", "बेसन"], time: 5, desc: "बेसन में पानी, थोड़ा नमक, अजवाइन और कटी मिर्च डालकर पतला घोल बनाएं। तवे पर थोड़ा तेल लगाकर डोसे की तरह सेकें।" },
+            { name: "Gatte ki Sabzi (गट्टे की सब्जी)", keys: ["besan", "dahi", "बेसन", "दही"], time: 18, desc: "बेसन के रोल बनाकर उबालें और पीस काटें। फिर दही और मसालों की ग्रेवी बनाकर उसमें गट्टे डालकर गाढ़ा पकाएं।" },
+            { name: "Aloo Gobhi (आलू गोभी की सूखी सब्जी)", keys: ["gobhi", "aloo", "गोभी"], time: 12, desc: "कड़ाही में तेल, जीरा, हींग का तड़का दें। आलू और गोभी के टुकड़ों को हल्दी-नमक के साथ ढककर धीमी आंच पर पकाएं।" },
+            { name: "Dahi Fry (तड़के वाला दही)", keys: ["dahi", "curd", "दही"], time: 3, desc: "दही को फेंट लें। कड़ाही में थोड़ा घी गरम करके राई, कढ़ी पत्ता, प्याज और सूखी लाल मिर्च का तड़का दही के ऊपर लगाएं।" },
+            { name: "Bread Upma (ब्रेड उपमा)", keys: ["bread", "ब्रेड"], time: 5, desc: "बread के छोटे टुकड़े करें। कड़ाही में तेल, राई, प्याज और टमाटर भूनकर ब्रेड डालें, ऊपर से हल्का पानी छिड़क कर मिक्स करें।" },
+            { name: "Maggi Masala Twist (मैगी ट्विस्ट)", keys: ["maggi", "मैगी"], time: 3, desc: "पानी उबालकर मैगी नूडल्स और टेस्टमेकर डालें। एक्स्ट्रा स्वाद के लिए थोड़ा सा बटर और चिली फ्लेक्स ऊपर से मिलाएं।" }
         ];
 
-        // Ration Checklist Database
-        const rationItems = ["चीनी (Sugar)", "चायपत्ती (Tea)", "सरसों तेल (Oil)", "नमक (Salt)", "आटा (Atta)", "दाल (Dal)", "मसाले (Spices)"];
+        const fixedRationItems = ["चीनी (Sugar)", "सरसों तेल (Oil)", "नमक (Salt)", "आटा (Atta)", "चायपत्ती (Tea)", "दूध (Milk)"];
 
-        // Setup Ration UI
-        const rationBox = document.getElementById('ration-box');
-        rationItems.forEach((item, index) => {
-            rationBox.innerHTML += `
-                <div class="ration-item">
-                    <div class="ration-left">
-                        <input type="checkbox" id="item-${index}" value="${item}">
-                        <label for="item-${index}">${item}</label>
+        // Initialize Ration View
+        function initRation() {
+            const box = document.getElementById('ration-container');
+            box.innerHTML = '';
+            fixedRationItems.forEach((item, idx) => {
+                box.innerHTML += `
+                    <div class="ration-row">
+                        <div class="ration-core"><input type="checkbox" class="ration-ledger-cb" value="${item}"><span>${item}</span></div>
                     </div>
-                </div>
-            `;
-        });
-
-        // Function to toggle selection
-        function toggleIngredient(btn, item) {
-            btn.classList.toggle('active');
-            if (selectedIngredients.includes(item)) {
-                selectedIngredients = selectedIngredients.filter(i => i !== item);
-            } else {
-                selectedIngredients.push(item);
-            }
-            checkRecipes();
+                `;
+            });
         }
 
-        // Logic to screen and display recipes
-        function checkRecipes() {
-            const output = document.getElementById('recipe-output');
-            if (selectedIngredients.length === 0) {
-                output.innerHTML = `<p style="color: #999; text-align: center; font-size: 0.9rem; padding: 20px;">ऊपर से कम से कम एक सामान सेलेक्ट करें!</p>`;
+        // Main Dynamic Engine Processing Lookups
+        function processKitchenMatrix() {
+            const rawInput = document.getElementById('kitchen-search').value.toLowerCase().trim();
+            const output = document.getElementById('recipe-engine-output');
+
+            if (rawInput === '') {
+                matchedNodesPool = [];
+                output.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 20px;">ऊपर बॉक्स में लिखना शुरू करें, मैजिक रेसिपीज यहाँ दिखाई देंगी!</div>`;
                 return;
             }
 
-            // Filter recipes where ALL listed ingredients are available in selected list
-            let matches = recipeDatabase.filter(recipe => 
-                recipe.ing.every(needed => selectedIngredients.includes(needed))
-            );
-
-            if (matches.length === 0) {
-                output.innerHTML = `<p style="color: #999; text-align: center; font-size: 0.9rem; padding: 20px;">इन सामानों का कोई कॉम्बिनेशन नहीं मिला, कुछ और सेलेक्ट करें!</p>`;
-            } else {
-                output.innerHTML = '';
-                matches.forEach(recipe => {
-                    output.innerHTML += `
-                        <div class="recipe-item">
-                            <h3>${recipe.name}</h3>
-                            <p>${recipe.desc}</p>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        // Magic Suggestion
-        function getMagicDish() {
-            const randomDish = recipeDatabase[Math.floor(Math.random() * recipeDatabase.length)];
-            alert(`💡 आज का स्पेशल सुझाव:\n\n"${randomDish.name}"\n\nविधि: ${randomDish.desc}`);
-        }
-
-        // Send Ration via WhatsApp
-        function sendToWhatsApp() {
-            let missingItems = [];
-            rationItems.forEach((item, index) => {
-                const cb = document.getElementById(`item-${index}`);
-                if (cb.checked) {
-                    missingItems.push(`• ${item}`);
-                }
+            // Identify match criteria against any word sequence typed
+            matchedNodesPool = masterRecipeDatabase.filter(recipe => {
+                return recipe.keys.some(key => rawInput.includes(key));
             });
 
-            if (missingItems.length === 0) {
-                alert("कृपया पहले उन सामानों पर टिक करें जो खत्म हो गए हैं!");
+            if (matchedNodesPool.length === 0) {
+                output.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 20px;">⚠️ सॉरी, इस चीज़ की रेसिपी अभी सेव्ड नहीं है, कुछ और लिखकर ट्राई करें!</div>`;
                 return;
             }
 
-            let text = `*घरेलू राशन की सूची (Smart Rasoi App)*\nयह सामान खत्म हो गया है, कृपया ले आएं:\n\n${missingItems.join('\n')}\n\n_Generated via Anivar ya's Hub_`;
-            let encodedText = encodeURIComponent(text);
-            window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+            recipeShuffleOffset = 0; // reset sequence index
+            renderSelectedNode();
         }
+
+        // Render target active component
+        function renderSelectedNode() {
+            const output = document.getElementById('recipe-engine-output');
+            if(matchedNodesPool.length === 0) return;
+
+            let targetIndex = recipeShuffleOffset % matchedNodesPool.length;
+            let activeNode = matchedNodesPool[targetIndex];
+
+            output.innerHTML = `
+                <div class="recipe-node">
+                    <div class="node-title">${activeNode.name}</div>
+                    <div class="node-instruction">${activeNode.desc}</div>
+                    <div class="timer-box">
+                        <span style="font-size:0.8rem; color:#94a3b8;">⏱️ Cook Timer Setup:</span>
+                        <div class="timer-display" id="runtime-txt">${activeNode.time}:00</div>
+                        <button class="timer-ctrl-btn" id="runtime-btn" onclick="launchCountdown(${activeNode.time})">START</button>
+                    </div>
+                </div>
+                <p style="font-size:0.72rem; color:#64748b; text-align:center; margin-top:6px;">💡 टोटल ${matchedNodesPool.length} रेसिपी मिलीं। दूसरी देखने के लिए ऊपर "Next Option" दबाएं (${targetIndex + 1}/${matchedNodesPool.length})</p>
+            `;
+        }
+
+        function shuffleRecipeCycle() {
+            if (matchedNodesPool.length <= 1) {
+                alert("इस आइटम के लिए अभी एक ही बेस्ट रेसिपी लोड है या आपने अभी कुछ सर्च नहीं किया है!");
+                return;
+            }
+            recipeShuffleOffset++;
+            renderSelectedNode();
+        }
+
+        // Built-in Smart Kitchen Timer Thread
+        let timerClockId = null;
+        function launchCountdown(mins) {
+            const btn = document.getElementById('runtime-btn');
+            const txt = document.getElementById('runtime-txt');
+
+            if (timerClockId) {
+                clearInterval(timerClockId);
+                timerClockId = null;
+                btn.innerText = "START";
+                btn.style.background = "#10b981";
+                txt.innerText = `${mins}:00`;
+                return;
+            }
+
+            btn.innerText = "RESET";
+            btn.style.background = "#ef4444";
+            let secs = mins * 60;
+
+            timerClockId = setInterval(() => {
+                secs--;
+                let m = Math.floor(secs / 60);
+                let s = secs % 60;
+                txt.innerText = `${m}:${s < 10 ? '0' + s : s}`;
+
+                if (secs <= 0) {
+                    clearInterval(timerClockId);
+                    timerClockId = null;
+                    txt.innerText = "READY!";
+                    btn.innerText = "START";
+                    btn.style.background = "#10b981";
+                    
+                    // Trigger Audio Alarm Beep
+                    let actx = new (window.AudioContext || window.webkitAudioContext)();
+                    let osc = actx.createOscillator();
+                    osc.connect(actx.destination);
+                    osc.start();
+                    setTimeout(() => osc.stop(), 1000);
+                }
+            }, 1000);
+        }
+
+        function sendRationLedger() {
+            let list = [];
+            document.querySelectorAll('.ration-ledger-cb').forEach(cb => { if(cb.checked) list.push(`• ${cb.value}`); });
+            if(list.length === 0) { alert("Pehle list par tick lagayein!"); return; }
+            let text = `*घरेलू राशन लिस्ट (Anivar ya's Rasoi)*\n\n${list.join('\n')}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        initRation();
     </script>
 </body>
 </html>
