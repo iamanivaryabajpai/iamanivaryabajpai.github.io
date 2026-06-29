@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivar ya's Smart Rasoi OS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Smart Rasoi OS - Light Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #ff5f40;
-            --primary-glow: rgba(255, 95, 64, 0.2);
-            --bg: #0b0f19;
-            --surface: #151c2c;
-            --surface-bright: #1e2640;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+            --primary-bright: #ff4522;
+            --bg: #f3f4f6;
+            --surface: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
             --success: #10b981;
+            --border: #e5e7eb;
         }
 
         * {
@@ -27,7 +27,7 @@
 
         body {
             background: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             padding: 20px 10px;
             display: flex;
             flex-direction: column;
@@ -37,138 +37,149 @@
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
+        /* Clean Light Header */
         .header-system {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 95, 64, 0.3);
-            border-radius: 24px;
-            padding: 25px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 15px var(--primary-glow);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
         .header-system h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #ff5f40, #ff9f43);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            color: var(--primary);
         }
 
         .header-system p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 5px;
-            letter-spacing: 1px;
+            margin-top: 4px;
+            font-weight: 500;
             text-transform: uppercase;
         }
 
-        .glass-card {
+        /* Aesthetic Light Cards */
+        .premium-card {
             background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 22px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        .glass-card h2 {
-            font-size: 1.15rem;
+        .premium-card h2 {
+            font-size: 1.05rem;
             font-weight: 600;
-            color: #ff9f43;
-            margin-bottom: 12px;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Live Smart Search Box */
-        .search-container {
+        /* Smart Flexible Input Area */
+        .search-wrapper {
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .search-box {
             width: 100%;
-            background: rgba(0,0,0,0.4);
-            border: 2px solid rgba(255, 95, 64, 0.4);
-            border-radius: 16px;
-            padding: 15px;
-            color: white;
-            font-size: 1rem;
+            background: #f9fafb;
+            border: 2px solid #d1d5db;
+            border-radius: 14px;
+            padding: 14px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.2s ease;
         }
 
         .search-box:focus {
-            border-color: #ff9f43;
-            box-shadow: 0 0 15px rgba(255, 159, 67, 0.3);
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 95, 64, 0.15);
         }
 
         .hint-text {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             line-height: 1.4;
         }
 
-        /* Recipe Layout Output with Dynamic Refresh Integrated */
-        .recipe-header-flex {
+        /* Flex Header for Dynamic Swapping */
+        .card-header-flex {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 8px;
         }
 
         .refresh-btn {
-            background: rgba(255, 159, 67, 0.15);
-            border: 1px solid #ff9f43;
-            color: #ff9f43;
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            background: #fff5f3;
+            border: 1px solid rgba(255, 95, 64, 0.3);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
-            transition: 0.2s;
+            gap: 4px;
+            transition: all 0.2s;
         }
 
         .refresh-btn:hover {
-            background: #ff9f43;
-            color: #0b0f19;
+            background: var(--primary);
+            color: #ffffff;
         }
 
+        /* Recipe Dynamic Node Layout */
         .recipe-node {
-            background: var(--surface-bright);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 18px;
-            padding: 18px;
-            animation: slideUp 0.3s ease-out;
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 6px;
+            animation: fadeIn 0.25s ease-out;
         }
 
         .node-title {
-            color: #ff5f40;
+            color: var(--primary-bright);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 6px;
         }
 
         .node-instruction {
             font-size: 0.88rem;
-            color: #cbd5e1;
-            line-height: 1.6;
+            color: #374151;
+            line-height: 1.5;
             margin-bottom: 12px;
         }
 
+        /* Functional Light Timer */
         .timer-box {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 10px 15px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -176,71 +187,78 @@
 
         .timer-display {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--success);
-            font-weight: 800;
+            font-weight: 700;
         }
 
         .timer-ctrl-btn {
             background: var(--success);
             color: white;
             border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
         }
 
+        /* Clean Ledger System */
         .ration-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: rgba(0,0,0,0.2);
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 8px;
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 6px;
         }
 
         .ration-core {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 0.88rem;
+            font-weight: 500;
         }
 
         .ration-core input {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             accent-color: var(--primary);
+            cursor: pointer;
         }
 
         .trigger-btn {
             width: 100%;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1rem;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
-            margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(255, 95, 64, 0.2);
+            transition: all 0.2s;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(8px); }
+        .trigger-btn:hover {
+            background: var(--primary-bright);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         footer {
             text-align: center;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            letter-spacing: 2px;
-            margin-top: 10px;
-            padding-bottom: 20px;
+            letter-spacing: 1px;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -248,73 +266,72 @@
 
     <div class="container">
 
-        <!-- HEADER HEAD -->
+        <!-- HEADER AREA -->
         <div class="header-system">
-            <h1>SMART RASOI OS</h1>
-            <p>Anivar ya // Quantum Engine v3.0</p>
+            <h1>SMART RASOI</h1>
+            <p>Anivar ya // Light OS Engine v3.5</p>
         </div>
 
-        <!-- SEARCH SEARCH CORES -->
-        <div class="glass-card">
-            <h2>🔍 घर में अभी क्या-क्या सामान बचा है?</h2>
-            <div class="search-container">
-                <input type="text" id="kitchen-search" class="search-box" oninput="processKitchenMatrix()" placeholder="यहाँ लिखें (जैसे: aloo, tamatar, chawal, dahi)...">
-                <p class="hint-text">💡 **मल्टीपल चीजें भी लिख सकते हैं!** जैसे ही आप टाइप करेंगे, बची हुई चीजों से बनने वाली रेसिपी नीचे अपने आप बदल जाएगी।</p>
+        <!-- SEARCH INPUT PANEL -->
+        <div class="premium-card">
+            <h2>🔍 घर में अभी क्या सामान बचा है?</h2>
+            <div class="search-wrapper">
+                <input type="text" id="kitchen-search" class="search-box" oninput="processKitchenMatrix()" placeholder="यहाँ लिखें (जैसे: chawal, paneer, besan, matar, aloo)...">
+                <p class="hint-text">💡 **जो भी बचा है लिखो!** जैसे: 'paneer' या 'chawal' या 'besan', यह तुरंत काम करेगा।</p>
             </div>
         </div>
 
-        <!-- OUTPUT GRID SCREEN -->
-        <div class="glass-card">
-            <div class="recipe-header-flex">
-                <h2>🍳 आपके लिए बेस्ट रेसिपी मैच:</h2>
+        <!-- RECIPE RENDERING BOX -->
+        <div class="premium-card">
+            <div class="card-header-flex">
+                <h2>🍳 बेस्ट रेसिपी मैच:</h2>
                 <button class="refresh-btn" onclick="shuffleRecipeCycle()">🔄 Next Option (बदलें)</button>
             </div>
             <div id="recipe-engine-output">
-                <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 20px;">
-                    ऊपर बॉक्स में लिखना शुरू करें, मैजिक रेसिपीज यहाँ दिखाई देंगी!
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px;">
+                    ऊपर बॉक्स में लिखना शुरू करें, मैजिक रेसिपीज तुरंत लोड होंगी!
                 </div>
             </div>
         </div>
 
-        <!-- SUPPLY CHAIN WHATSAPP LEDGER -->
-        <div class="glass-card">
+        <!-- WHATSAPP CHECKLIST -->
+        <div class="premium-card">
             <h2>📝 जो राशन खत्म है, टिक करके WhatsApp करें</h2>
-            <div style="margin-top: 12px;" id="ration-container"></div>
+            <div style="margin-top: 10px;" id="ration-container"></div>
             <button class="trigger-btn" onclick="sendRationLedger()">📲 SEND LIST TO WHATSAPP</button>
         </div>
 
-        <footer>// QUANTUM AI SEARCH ACTIVE // 2026</footer>
+        <footer>// LIGHT ENGINE ONLINE // MULTI SEARCH ACTIVE</footer>
     </div>
 
     <script>
         let recipeShuffleOffset = 0;
         let matchedNodesPool = [];
 
-        // Huge Multi-Ingredient Local Recipe Database Map (covers vast food items)
+        // Broad Multi-Ingredient Database Pool (Fixed to trigger correctly)
         const masterRecipeDatabase = [
             { name: "Jeera Aloo (जीरा आलू)", keys: ["aloo", "आलू"], time: 5, desc: "कड़ाही में तेल गरम करके जीरा और मिर्च चटकाएं, फिर उबले कटे आलू, हल्दी और नमक डालकर 5 मिनट अच्छे से भूनें।" },
             { name: "Dum Aloo (दम आलू)", keys: ["aloo", "आलू"], time: 15, desc: "छोटे आलुओं को डीप फ्राई करें। फिर टमाटर-प्याज की थिक ग्रेवी बनाकर मसालों के साथ धीमी आंच पर दम दें।" },
-            { name: "Tamatar ki Chatni (टमाटर चटनी)", keys: ["tamatar", "tomato", "टमाटर"], time: 7, desc: "कटे टमाटर को तेल, राई और मिर्च के छौंक में पकाएं, पकने पर थोड़ा गुड़ या चीनी डालें। खट्टी-मीठी चटनी तैयार!" },
-            { name: "Paneer Bhurji (पनीर भुर्जी)", keys: ["paneer", "पनीर"], time: 6, desc: "कढ़ाई में बारीक कटा प्याज-टमाटर भूनें। उसमें हल्दी, गरम मसाला और मैश किया हुआ पनीर डालकर 3 मिनट पकाएं।" },
-            { name: "Matar Paneer (मटर पनीर)", keys: ["paneer", "matar", "पनीर", "मटर"], time: 15, desc: "टमाटर, प्याज, अदरक का पेस्ट भूनें। उसमें हरी मटर और पनीर के क्यूब्स डालकर तरीदार तरी वाली सब्जी पकाएं।" },
-            { name: "Matar Nimona (मटर का निमोना)", keys: ["matar", "aloo", "मटर"], time: 15, desc: "हरी मटर को मिक्सी में दरदरा पीसकर तेल में खूब भूनें। फिर फ्राई आलू और पानी डालकर बढ़िया गाढ़ी तरी तैयार करें।" },
+            { name: "Tamatar ki Chatni (टमाटर चटनी)", keys: ["tamatar", "tomato", "टमाटर"], time: 7, desc: "कटे टमाटर को तेल, राई और मिर्च के छौंक में पकाएं, पकने पर थोड़ा गुड़ या चीनी डालें।" },
+            { name: "Paneer Bhurji (झटपट पनीर भुर्जी)", keys: ["paneer", "पनीर"], time: 6, desc: "कढ़ाई में बारीक कटा प्याज-टमाटर भूनें। उसमें हल्दी, गरम मसाला और मैश किया हुआ पनीर डालकर 3 मिनट पकाएं।" },
+            { name: "Matar Paneer (शाही मटर पनीर)", keys: ["paneer", "matar", "पनीर", "मटर"], time: 15, desc: "टमाटर, प्याज, अदरक का पेस्ट भूनें। उसमें हरी मटर और पनीर के क्यूब्स डालकर तरीदार सब्जी पकाएं।" },
+            { name: "Matar Nimona (मटर का निमोना)", keys: ["matar", "matar", "मटर"], time: 15, desc: "हरी मटर को मिक्सी में दरदरा पीसकर तेल में खूब भूनें। फिर फ्राई आलू और पानी डालकर बढ़िया गाढ़ी तरी तैयार करें।" },
             { name: "Fried Rice (मसालेदार फ्राइड राइस)", keys: ["chawal", "rice", "चावल"], time: 5, desc: "बचे हुए चावल को कड़ाही में थोड़ा तेल, जीरा, प्याज, हरी मिर्च और मैगी मसाला डालकर हाई फ्लेम पर 2 मिनट टॉस करें।" },
-            { name: "Veg Pulao (वेज पुलाव)", keys: ["chawal", "rice", "matar", "aloo", "चावल"], time: 12, desc: "कुकर में घी गरम करके खड़े मसाले, प्याज, मटर, आलू भूनें। फिर चावल और पानी डालकर 1 सीटी लगाएं।" },
-            { name: "Besan Chilla (बेसन चीला)", keys: ["besan", "बेसन"], time: 5, desc: "बेसन में पानी, थोड़ा नमक, अजवाइन और कटी मिर्च डालकर पतला घोल बनाएं। तवे पर थोड़ा तेल लगाकर डोसे की तरह सेकें।" },
+            { name: "Veg Pulao (वेज पुलाव)", keys: ["chawal", "rice", "चावल", "matar", "मटर"], time: 12, desc: "कुकर में घी गरम करके खड़े मसाले, प्याज, मटर भूनें। फिर चावल और पानी डालकर 1 सीटी लगाएं।" },
+            { name: "Besan Chilla (बेसन चीला)", keys: ["besan", "बेसन"], time: 5, desc: "बेसन में पानी, थोड़ा नमक, अजवाइन डालकर पतला घोल बनाएं। तवे पर थोड़ा तेल लगाकर डोसे की तरह सेकें।" },
             { name: "Gatte ki Sabzi (गट्टे की सब्जी)", keys: ["besan", "dahi", "बेसन", "दही"], time: 18, desc: "बेसन के रोल बनाकर उबालें और पीस काटें। फिर दही और मसालों की ग्रेवी बनाकर उसमें गट्टे डालकर गाढ़ा पकाएं।" },
-            { name: "Aloo Gobhi (आलू गोभी की सूखी सब्जी)", keys: ["gobhi", "aloo", "गोभी"], time: 12, desc: "कड़ाही में तेल, जीरा, हींग का तड़का दें। आलू और गोभी के टुकड़ों को हल्दी-नमक के साथ ढककर धीमी आंच पर पकाएं।" },
+            { name: "Aloo Gobhi (आलू गोभी की सूखी सब्जी)", keys: ["gobhi", "gobhi", "गोभी"], time: 12, desc: "कड़ाही में तेल, जीरा, हींग का तड़का दें। आलू और गोभी के टुकड़ों को हल्दी-नमक के साथ ढककर धीमी आंच पर पकाएं।" },
             { name: "Dahi Fry (तड़के वाला दही)", keys: ["dahi", "curd", "दही"], time: 3, desc: "दही को फेंट लें। कड़ाही में थोड़ा घी गरम करके राई, कढ़ी पत्ता, प्याज और सूखी लाल मिर्च का तड़का दही के ऊपर लगाएं।" },
-            { name: "Bread Upma (ब्रेड उपमा)", keys: ["bread", "ब्रेड"], time: 5, desc: "बread के छोटे टुकड़े करें। कड़ाही में तेल, राई, प्याज और टमाटर भूनकर ब्रेड डालें, ऊपर से हल्का पानी छिड़क कर मिक्स करें।" },
-            { name: "Maggi Masala Twist (मैगी ट्विस्ट)", keys: ["maggi", "मैगी"], time: 3, desc: "पानी उबालकर मैगी नूडल्स और टेस्टमेकर डालें। एक्स्ट्रा स्वाद के लिए थोड़ा सा बटर और चिली फ्लेक्स ऊपर से मिलाएं।" }
+            { name: "Bread Upma (ब्रेड उपमा)", keys: ["bread", "ब्रेड"], time: 5, desc: "ब्रेड के छोटे टुकड़े करें। कड़ाही में तेल, राई, प्याज और टमाटर भूनकर ब्रेड डालें, ऊपर से हल्का पानी छिड़क कर मिक्स करें।" },
+            { name: "Maggi Masala Twist (मैगी ट्विस्ट)", keys: ["maggi", "noodles", "मैगी"], time: 3, desc: "पानी उबालकर मैगी नूडल्स और टेस्टमेकर डालें। एक्स्ट्रा स्वाद के लिए थोड़ा सा बटर और चिली फ्लेक्स ऊपर से मिलाएं।" }
         ];
 
         const fixedRationItems = ["चीनी (Sugar)", "सरसों तेल (Oil)", "नमक (Salt)", "आटा (Atta)", "चायपत्ती (Tea)", "दूध (Milk)"];
 
-        // Initialize Ration View
         function initRation() {
             const box = document.getElementById('ration-container');
             box.innerHTML = '';
-            fixedRationItems.forEach((item, idx) => {
+            fixedRationItems.forEach(item => {
                 box.innerHTML += `
                     <div class="ration-row">
                         <div class="ration-core"><input type="checkbox" class="ration-ledger-cb" value="${item}"><span>${item}</span></div>
@@ -323,32 +340,31 @@
             });
         }
 
-        // Main Dynamic Engine Processing Lookups
+        // Deep Search Matrix Fixing the "Only Aloo" bug
         function processKitchenMatrix() {
             const rawInput = document.getElementById('kitchen-search').value.toLowerCase().trim();
             const output = document.getElementById('recipe-engine-output');
 
             if (rawInput === '') {
                 matchedNodesPool = [];
-                output.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 20px;">ऊपर बॉक्स में लिखना शुरू करें, मैजिक रेसिपीज यहाँ दिखाई देंगी!</div>`;
+                output.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px;">ऊपर बॉक्स में लिखना शुरू करें, मैजिक रेसिपीज तुरंत लोड होंगी!</div>`;
                 return;
             }
 
-            // Identify match criteria against any word sequence typed
+            // Loop and accurately filter if ANY typed key matches search query
             matchedNodesPool = masterRecipeDatabase.filter(recipe => {
                 return recipe.keys.some(key => rawInput.includes(key));
             });
 
             if (matchedNodesPool.length === 0) {
-                output.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 20px;">⚠️ सॉरी, इस चीज़ की रेसिपी अभी सेव्ड नहीं है, कुछ और लिखकर ट्राई करें!</div>`;
+                output.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px;">⚠️ सॉरी, इस चीज़ की रेसिपी अभी डेटाबेस में नहीं है, कुछ और लिखकर देखें!</div>`;
                 return;
             }
 
-            recipeShuffleOffset = 0; // reset sequence index
+            recipeShuffleOffset = 0;
             renderSelectedNode();
         }
 
-        // Render target active component
         function renderSelectedNode() {
             const output = document.getElementById('recipe-engine-output');
             if(matchedNodesPool.length === 0) return;
@@ -361,25 +377,24 @@
                     <div class="node-title">${activeNode.name}</div>
                     <div class="node-instruction">${activeNode.desc}</div>
                     <div class="timer-box">
-                        <span style="font-size:0.8rem; color:#94a3b8;">⏱️ Cook Timer Setup:</span>
+                        <span style="font-size:0.78rem; color:var(--text-muted);">⏱️ Cook Timer:</span>
                         <div class="timer-display" id="runtime-txt">${activeNode.time}:00</div>
                         <button class="timer-ctrl-btn" id="runtime-btn" onclick="launchCountdown(${activeNode.time})">START</button>
                     </div>
                 </div>
-                <p style="font-size:0.72rem; color:#64748b; text-align:center; margin-top:6px;">💡 टोटल ${matchedNodesPool.length} रेसिपी मिलीं। दूसरी देखने के लिए ऊपर "Next Option" दबाएं (${targetIndex + 1}/${matchedNodesPool.length})</p>
+                <p style="font-size:0.72rem; color:var(--text-muted); text-align:center; margin-top:8px;">💡 कुल ${matchedNodesPool.length} ऑप्शंस मिले। दूसरा देखने के लिए "Next Option" दबाएं (${targetIndex + 1}/${matchedNodesPool.length})</p>
             `;
         }
 
         function shuffleRecipeCycle() {
             if (matchedNodesPool.length <= 1) {
-                alert("इस आइटम के लिए अभी एक ही बेस्ट रेसिपी लोड है या आपने अभी कुछ सर्च नहीं किया है!");
+                alert("इस आइटम के लिए अभी एक ही बेस्ट रेसिपी लोड है!");
                 return;
             }
             recipeShuffleOffset++;
             renderSelectedNode();
         }
 
-        // Built-in Smart Kitchen Timer Thread
         let timerClockId = null;
         function launchCountdown(mins) {
             const btn = document.getElementById('runtime-btn');
@@ -411,12 +426,11 @@
                     btn.innerText = "START";
                     btn.style.background = "#10b981";
                     
-                    // Trigger Audio Alarm Beep
                     let actx = new (window.AudioContext || window.webkitAudioContext)();
                     let osc = actx.createOscillator();
                     osc.connect(actx.destination);
                     osc.start();
-                    setTimeout(() => osc.stop(), 1000);
+                    setTimeout(() => osc.stop(), 800);
                 }
             }, 1000);
         }
@@ -424,7 +438,7 @@
         function sendRationLedger() {
             let list = [];
             document.querySelectorAll('.ration-ledger-cb').forEach(cb => { if(cb.checked) list.push(`• ${cb.value}`); });
-            if(list.length === 0) { alert("Pehle list par tick lagayein!"); return; }
+            if(list.length === 0) { alert("Pehle items par tick lagayein!"); return; }
             let text = `*घरेलू राशन लिस्ट (Anivar ya's Rasoi)*\n\n${list.join('\n')}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         }
