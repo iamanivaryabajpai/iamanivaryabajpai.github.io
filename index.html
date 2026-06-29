@@ -6,6 +6,9 @@
     <title>ANIVARYA RASOI v4.5 - Global Smart Gastronomy OS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* ==========================================================================
+           PART 1: UPGRADED KITCHEN OS UI STYLING & LAYOUT
+           ========================================================================== */
         :root {
             --brand: #ff4f2b;
             --brand-gradient: linear-gradient(135deg, #ff4f2b 0%, #ff7849 100%);
@@ -184,8 +187,10 @@
             outline: none;
             cursor: pointer;
         }
-    </style><style>
-        /* RECIPE BOX DISPLAY & BUTTON STYLES */
+
+        /* ==========================================================================
+           PART 2: DISPLAY CARDS & ADVANCED TIMER SOUND STYLING
+           ========================================================================== */
         .recipe-header {
             display: flex;
             justify-content: space-between;
@@ -307,7 +312,6 @@
             font-weight: 500;
         }
 
-        /* TIMER & NEW TRANSFORMATION WIDGET PANELS */
         .timer-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -368,7 +372,6 @@
             cursor: pointer;
         }
 
-        /* RATION MANAGER GRID SYSTEMS */
         .ration-input-group {
             display: flex;
             gap: 6px;
@@ -436,8 +439,12 @@
             text-align: center;
         }
     </style>
-</head><body>
+</head>
+<body>
 
+    <!-- ==========================================================================
+       PART 3: HTML CORE APP CONTAINER ENGINE
+       ========================================================================== */ -->
     <div class="app-container">
         <!-- BRAND HEADER -->
         <div class="brand-header">
@@ -475,7 +482,7 @@
                         <option value="तेज मसाला">Gourmet Spicy</option>
                     </select>
                 </div>
-                <!-- UPGRADED SERVINGS CONTROLLER WITH PLUS/MINUS COUNTER -->
+                <!-- SERVINGS COUNTER -->
                 <div class="config-box" style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <span class="config-label">👥 Servings:</span>
@@ -489,12 +496,11 @@
             </div>
         </div>
 
-        <!-- UPGRADED UTILITY DASHBOARD (TRANSFORMER & TIMER) -->
+        <!-- UPGRADED UTILITY DASHBOARD -->
         <div class="app-card" style="border-top: 4px solid var(--brand);">
             <h2>🌟 Upgraded Kitchen Utility Dashboard</h2>
             
-            <!-- MULTI-TIMER SECTION -->
-            <p class="chip-label" style="margin-bottom: 4px;">⏱️ Upgraded AI Kitchen Timer (with Controls):</p>
+            <p class="chip-label" style="margin-bottom: 4px;">⏱️ AI Kitchen Timer (with Controls):</p>
             <div class="timer-grid">
                 <button class="timer-btn" onclick="setupKitchenTimer(3, 'Chai (चाय)')">☕ Chai (3m)</button>
                 <button class="timer-btn" onclick="setupKitchenTimer(5, 'Maggi (मैगी)')">🍜 Maggi (5m)</button>
@@ -504,25 +510,24 @@
             
             <div id="timer-live-zone" class="live-timer-display" style="display: none;">
                 <div id="timer-text-render">Timer Init...</div>
-                <div class="timer-controls">
+                <div class="timer-controls" style="margin-top: 8px;">
                     <button class="t-ctrl-btn" onclick="pauseKitchenTimer()">⏸️ Pause</button>
                     <button class="t-ctrl-btn" onclick="resumeKitchenTimer()">▶️ Resume</button>
-                    <button class="t-ctrl-btn" style="background:#ef4444;" onclick="resetKitchenTimer()">🔄 Reset</button>
+                    <button class="t-ctrl-btn" style="background:#ef4444;" onclick="stopFunnyAlarm()">🔄 Reset/Stop</button>
                 </div>
             </div>
 
-            <!-- LEFTOVER TRANSFORMER & SMART MEAL PLANNER -->
             <p class="chip-label" style="margin-top: 14px; margin-bottom: 4px;">🍽️ Leftover Transformer & Kitchen Tip Tracker:</p>
             <div id="leftover-transformer-zone" class="transformer-box" onclick="rotateLeftoverTip()">
                 💡 Click here to load creative tips to transform remaining kitchen food or unique combos!
             </div>
         </div>
 
-        <!-- MASTER RECIPE DISPLAY DECK -->
-        <div class="app-card">
+        <!-- NEW ULTRA-ATTRACTIVE PREMIUM RECIPE DISPLAY BOX -->
+        <div class="app-card" style="border: 2px solid #ff4f2b; background: linear-gradient(#ffffff, #fffdfb);">
             <div class="recipe-header">
-                <h2>👑 Master Culinary Display Box</h2>
-                <button class="next-btn" onclick="rotateRecipeSelection()">🔄 Next Art (100+ Deck)</button>
+                <h2>👑 Premium Master Culinary Deck</h2>
+                <button class="next-btn" style="background: var(--brand-gradient); box-shadow: 0 4px 10px rgba(255, 79, 43, 0.2);" onclick="rotateRecipeSelection()">✨ Next Style (100+ Deck)</button>
             </div>
             <div id="engine-canvas-route">
                 <div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 600;">
@@ -539,30 +544,29 @@
                 <button class="ration-btn-add" onclick="addNewRationItem()">+ Add</button>
             </div>
             
-            <ul class="ration-list" id="ration-list-container">
-                <!-- Dynamic Items will render here safely -->
-            </ul>
+            <ul class="ration-list" id="ration-list-container"></ul>
 
             <div class="ration-control-buttons">
                 <button class="btn-secondary" onclick="copyEntireRationList()">📋 Copy Whole List</button>
                 <button class="btn-secondary" style="color: #ef4444; background: #fff5f5;" onclick="clearAllRationItems()">🗑️ Clear All</button>
             </div>
         </div>
+    </div>
 
-    </div> <!-- Close App Container --><!-- REAL-TIME CORE SMART LOGIC ENGINE SCRIPT -->
+    <!-- ==========================================================================
+       PART 4: CORE JAVASCRIPT LOGIC ENGINE & DYNAMIC TTS / TIMERS
+       ========================================================================== */ -->
     <script>
         let currentRecipeIndex = 0;
         let matchedRecipesList = [];
         let currentMealType = "Breakfast";
         let globalPortionsCount = 1;
         
-        // Upgraded Alarm & Timer Variables
         let kitchenTimerInterval = null;
         let timerTotalSeconds = 0;
         let timerIsPaused = false;
         let timerCurrentItem = "";
-        let alarmAudioContext = null;
-        let alarmOscillatorLoop = null;
+        let alarmSpeechInterval = null;
         let isAlarmActive = false;
 
         const foodImagesPool = [
@@ -572,30 +576,60 @@
             "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
         ];
 
+        const styleModifiers = [
+            { type: "Premium Cheese Loaded Twist", tweak: "ऊपर से कद्दूकस किया हुआ अमूल चीज़ और चिली फ्लेक्स डालें, जिससे यह पूरी तरह चीज़ी टेक्सचर में बदल जाएगा।" },
+            { type: "Desi Dhaba Butter Tadka Style", tweak: "एक छोटे पैन में असली घी, जीरा और कश्मीरी लाल मिर्च का छौंक तैयार करके ऊपर से गरma-गरम पलट दें।" },
+            { type: "Gourmet Street Style Crunchy Mix", tweak: "मसाले में बारीक कटी हुई हरी शिमला मिर्च और कच्ची प्याज का क्रंच शामिल करें ताकि हर बाइट में बेहतरीन स्वाद आए।" },
+            { type: "Diet Friendly Low-Calorie Version", tweak: "तेल या बटर की जगह ऑलिव ऑयल की सिर्फ दो बूंदें स्प्रे करके इसे धीमी आंच पर धीरे-धीरे रोस्ट करें।" },
+            { type: "Classic Chatpata Masala Special", tweak: "मिश्रण में आधा चम्मच एक्स्ट्रा अमचूर पाउडर, चाट मसाला और थोड़ा सा काला नमक डालकर स्वाद को एकदम चटपटा बनाएं।" }
+        ];
+
         const leftoverTipsPool = [
             "💡 बचे हुए उबले आलू, कॉर्न और ब्रेड से झटपट 'Premium Fusion Toast' बनाएं!",
-            "💡 बची हुई सूजी के हलवे को दूध में मिलाकर गाढ़ी 'सूजी शीरा रबड़ी' का ट्विस्ट दे सकते हैं।",
-            "💡 बची हुई सूखी सब्जी या पनीर को मैश करके परांठे में स्टफ करें, स्वादिष्ट नाश्ता तैयार!",
-            "💡 अगर ब्रेड सूख रही हो तो उसे मिक्सी में पीसकर 'Breadcrumbs' बना लें।"
+            "💡 बची हुई सूजी के हलवे को दूध में मिलाकर गाढ़ी 'सूजी शीरा रबड़ी' का ट्विस्ट दे सकते हैं।"
         ];
         let currentTipIndex = 0;
 
         const substitutePool = [
             "Butter की जगह Refined Oil या Ghee इस्तेमाल करें",
-            "Lemon Juice की जगह Amchur (अमचूर) पाउडर का उपयोग करें",
-            "Dahi (दही) की जगह हल्के नींबू के रस की बूंदें डालें",
-            "Sugar की जगह Jaggery (गुड़) या Honey का इस्तेमाल करें"
+            "Lemon Juice की जगह Amchur (अमचूर) पाउडर का उपयोग करें"
         ];
         let currentSubIndex = 0;
 
         let rationInventoryDeck = ["Milk (दूध) - 1 Packet", "Bread (ब्रेड) - 1 Packet"];
 
+        function saveCurrentAppState() {
+            localStorage.setItem('rasoi_search_query', document.getElementById('recipe-search-box').value);
+            localStorage.setItem('rasoi_portions', globalPortionsCount);
+            localStorage.setItem('rasoi_meal_type', currentMealType);
+        }
+
+        function loadSavedAppState() {
+            const savedQuery = localStorage.getItem('rasoi_search_query');
+            const savedPortions = localStorage.getItem('rasoi_portions');
+            const savedMeal = localStorage.getItem('rasoi_meal_type');
+
+            if (savedQuery !== null) document.getElementById('recipe-search-box').value = savedQuery;
+            if (savedPortions !== null) {
+                globalPortionsCount = parseInt(savedPortions);
+                document.getElementById('portion-display-value').innerText = `${globalPortionsCount} ${globalPortionsCount === 1 ? 'Person' : 'People'}`;
+            }
+            if (savedMeal !== null) {
+                currentMealType = savedMeal;
+                document.querySelectorAll('.meal-tab-btn').forEach(btn => btn.classList.remove('active'));
+                const targetTab = document.getElementById(`tab-${currentMealType.toLowerCase()}`);
+                if(targetTab) targetTab.classList.add('active');
+            }
+            if(document.getElementById('recipe-search-box').value.trim().length >= 2) {
+                runRecipeEngine();
+            }
+        }
+
         function modifyPortionsCount(amount) {
             globalPortionsCount += amount;
             if (globalPortionsCount < 1) globalPortionsCount = 1;
-            if (globalPortionsCount > 20) globalPortionsCount = 20;
-            
             document.getElementById('portion-display-value').innerText = `${globalPortionsCount} ${globalPortionsCount === 1 ? 'Person' : 'People'}`;
+            saveCurrentAppState();
             runRecipeEngine();
         }
 
@@ -603,11 +637,13 @@
             currentMealType = mealType;
             document.querySelectorAll('.meal-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`tab-${mealType.toLowerCase()}`).classList.add('active');
+            saveCurrentAppState();
             runRecipeEngine();
         }
 
         function injectQuickSuggestion(phrase) {
             document.getElementById('recipe-search-box').value = phrase;
+            saveCurrentAppState();
             runRecipeEngine();
         }
 
@@ -616,49 +652,47 @@
             const spice = document.getElementById('spice-selector').value;
             const canvas = document.getElementById('engine-canvas-route');
 
+            saveCurrentAppState();
+
             if(rawInput.length < 2) {
-                matchedRecipesList = [];
                 canvas.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 20px; font-weight: 600;">सामग्री का नाम लिखकर 'Breakfast, Lunch, Dinner' टैब पर क्लिक करें!</div>`;
                 return;
             }
 
             matchedRecipesList = [];
 
-            // ADVANCED MULTI-INGREDIENT COMBO DETECTOR (Bread + Corn + Potato Integration)
-            let detectedItems = [];
-            if(rawInput.includes("bread")) detectedItems.push("Crispy Toast Bread");
-            if(rawInput.includes("corn")) detectedItems.push("Sweet Golden Corn");
-            if(rawInput.includes("potato") || rawInput.includes("aloo")) detectedItems.push("Spiced Mashed Potato");
-            if(rawInput.includes("paneer")) detectedItems.push("Soft Fresh Paneer");
-            if(rawInput.includes("suji")) detectedItems.push("Roasted Golden Suji");
+            let hasBread = rawInput.includes("bread");
+            let hasCorn = rawInput.includes("corn");
+            let hasPotato = rawInput.includes("potato") || rawInput.includes("aloo");
 
-            let mainDishName = "";
-            let coreStepsText = "";
+            let baseDishName = "Desi Combination Fusion";
+            let baseStepsText = "सभी सामग्रियों को अच्छे से मिक्स करके पैन में हल्का सा तेल, जीरा और हल्दी डालकर 5 मिनट के लिए धीमी आंच पर सौते करें।";
 
-            if (detectedItems.length >= 3) {
-                mainDishName = "Ultimate Corn, Potato & Bread Fusion Toast";
-                coreStepsText = "ब्रेड स्लाइस लें। उबले हुए आलू को अच्छी तरह मैश करके उसमें उबले कॉर्न के दाने, हरी मिर्च, चाट मसाला और स्वादानुसार नमक मिलाएं। इस मसालेदार पेस्ट को ब्रेड पर अच्छी तरह लगाएं। अब नॉन-स्टिक तवे पर थोड़ा सा घी या बटर डालकर ब्रेड को दोनों तरफ से एकदम सुनहरा और क्रिस्पी होने तक अच्छी तरह सेक लें।";
-            } else if (detectedItems.length === 2) {
-                mainDishName = `${detectedItems[0]} & ${detectedItems[1]} Mix Masterclass`;
-                coreStepsText = `इन दोनों सामग्रियों को आपस में मिलाकर तवे पर बारीक कटी प्याज, जीरा और गरम मसाले का तड़का लगाएं। स्वादानुसार हल्का पानी छिड़क कर धीमी आंच पर 5 मिनट पकाएं और गरमा-गरम परोसें।`;
-            } else {
-                let primaryMaterial = detectedItems[0] || "Special Item";
-                mainDishName = `Desi Style ${primaryMaterial} Platter`;
-                coreStepsText = "पैन में तेल गरम करके जीरा, हरी मिर्च और हींग का तड़का लगाएं। सामग्री डालकर हल्दी, नमक और धनिया पाउडर मिलाएं और क्रिस्पी होने तक धीमी आंच पर फ्राई करें।";
+            if (hasBread && hasCorn && hasPotato) {
+                baseDishName = "Ultimate Corn & Potato Toast";
+                baseStepsText = "सबसे पहले उबले आलू को अच्छे से मैश करें। उसमें उबले हुए स्वीट कॉर्न के दाने, बारीक कटी हरी मिर्च, धनिया, चाट मसाला और नमक मिलाएं। इस तैयार चटपटे मसालेदार पेस्ट को ब्रेड स्लाइस के ऊपर अच्छे से फैलाएं। अब नॉन-स्टिक तवे पर थोड़ा मक्खन या घी लगाकर दोनों तरफ से सैंडविच को एकदम क्रिस्पी और गोल्डन होने तक अच्छी तरह सेक लें।";
+            } else if (hasBread && hasPotato) {
+                baseDishName = "Classic Spiced Aloo Toast";
+                baseStepsText = "उबले आलू को मैश करके नमक, मिर्च और अमचूर मिलाएं। इस मसाले को ब्रेड पर लगाकर तवे पर बटर के साथ क्रिस्पी होने तक सेकें।";
+            } else if (hasCorn && hasPotato) {
+                baseDishName = "Chatpata Potato Corn Chaat";
+                baseStepsText = "उबले आलू के टुकड़े और उबले कॉर्न मिक्स करें। ऊपर से नींबू, चाट मसाला, हरी मिर्च और हरा धनिया डालकर अच्छे से टॉस करें।";
             }
 
-            // Generate 100+ Premium Non-Crashing Options Deck
             for (let i = 1; i <= 105; i++) {
                 let imgIndex = i % foodImagesPool.length;
-                let calculatedCost = 40 + (i * 2) % 55;
-                let caloriesCount = 125 + (i * 3) % 120;
+                let modifierIndex = i % styleModifiers.length;
+                let calculatedCost = 40 + (i * 3) % 45;
+                let caloriesCount = 120 + (i * 2) % 90;
 
-                let recipeFinalSteps = `यह आपके ${currentMealType} की विशेष स्वादिष्ट रेसिपी है। ${coreStepsText} इसे आपके स्वाद के अनुसार ${spice} रखा गया है और यह ${globalPortionsCount} लोगों के लिए पर्याप्त मात्रा में तैयार होगी।`;
+                let currentStyle = styleModifiers[modifierIndex];
+                let finalRecipeTitle = `${baseDishName} (${currentStyle.type})`;
+                let finalRecipeSteps = `यह आपके ${currentMealType} की विशेष विधि है। ${baseStepsText} इसके बाद, इसमें एक विशेष ट्विस्ट देने के लिए: ${currentStyle.tweak} इसे आपके स्वाद अनुसार ${spice} रखा गया है और यह ${globalPortionsCount} लोगों के लिए पर्याप्त होगी।`;
 
                 matchedRecipesList.push({
-                    optionTitle: `${currentMealType} Combo Variant ${i}: ${mainDishName}`,
+                    optionTitle: `${currentMealType} Custom Variant ${i}: ${finalRecipeTitle}`,
                     calories: `${caloriesCount * globalPortionsCount} Cal`,
-                    recipeText: recipeFinalSteps,
+                    recipeText: finalRecipeSteps,
                     image: foodImagesPool[imgIndex],
                     budget: `₹${calculatedCost} Approx`
                 });
@@ -679,11 +713,11 @@
                     <div class="recipe-banner" style="background-image: url('${currentItem.image}')"></div>
                     <div class="recipe-body">
                         <div class="recipe-badge-row">
-                            <span class="badge badge-diet">🥗 ${currentMealType} Upgrade</span>
+                            <span class="badge badge-diet" style="background: #fff0f6; color: #d6336c;">💝 Premium Selection</span>
                             <span class="badge badge-cal">🔥 ${currentItem.calories}</span>
                         </div>
-                        <div class="recipe-title">${currentItem.optionTitle}</div>
-                        <div class="recipe-desc">${currentItem.recipeText}</div>
+                        <div class="recipe-title" style="color: #ff4f2b;">${currentItem.optionTitle}</div>
+                        <div class="recipe-desc" style="background: #fdfaf7; padding: 12px; border-radius: 12px; border-left: 4px solid #ff4f2b; font-weight: 500;">${currentItem.recipeText}</div>
                         
                         <div class="feature-block-grid">
                             <div class="feat-box">
@@ -691,14 +725,15 @@
                                 <div class="feat-text">${currentItem.budget}</div>
                             </div>
                             <div class="feat-box" onclick="rotateSmartSubstitute()">
-                                <div class="feat-title feat-sub">💡 Smart Substitute (Click to Swap)</div>
+                                <div class="feat-title feat-sub">💡 Smart Substitute (Click)</div>
                                 <div class="feat-text" id="live-substitute-text">${substitutePool[currentSubIndex]}</div>
                             </div>
                         </div>
 
-                        <div class="audio-container">
-                            <button class="audio-btn" onclick="speakClearFemaleRecipe()"><span id="speaker-icon">🔊</span> Play Female Guide</button>
-                            <span class="audio-status" id="audio-status-text">क्लिक करके मधुर आवाज़ में सुनें</span>
+                        <div class="audio-container" style="gap: 6px; display: flex; flex-wrap: wrap; margin-top: 14px;">
+                            <button class="audio-btn" onclick="speakClearFemaleRecipe()"><span id="speaker-icon">🔊</span> Play Crystal Guide</button>
+                            <button class="audio-btn" style="background: #ef4444;" onclick="stopVoiceSpeech()">🛑 Stop Voice</button>
+                            <span class="audio-status" id="audio-status-text" style="width:100%; display:block; margin-top:4px; font-weight:700; color:var(--text-gray);">क्लिक करके शुद्ध मधुर आवाज़ में सुनें</span>
                         </div>
                     </div>
                 </div>
@@ -707,7 +742,7 @@
 
         function rotateRecipeSelection() {
             if(matchedRecipesList.length === 0) return;
-            window.speechSynthesis.cancel();
+            stopVoiceSpeech();
             currentRecipeIndex++;
             renderCanvasNode();
         }
@@ -722,7 +757,6 @@
             document.getElementById('leftover-transformer-zone').innerHTML = leftoverTipsPool[currentTipIndex];
         }
 
-        // UPGRADED HI-FI CRUNCH-FREE NATURAL FEMALE AUDIO LAYER
         function speakClearFemaleRecipe() {
             window.speechSynthesis.cancel();
             if(matchedRecipesList.length === 0) return;
@@ -733,32 +767,31 @@
             const utterance = new SpeechSynthesisUtterance(pureText);
             utterance.lang = 'hi-IN';
             utterance.rate = 0.90; 
-            utterance.pitch = 1.25; // Professional balanced acoustic frequency for standard clear speech
+            utterance.pitch = 1.25; 
 
             let systemVoices = window.speechSynthesis.getVoices();
-            // Target high quality engines explicitly
             let selectedVoice = systemVoices.find(voice => 
                 (voice.lang.includes('hi') || voice.lang.includes('IN')) && 
-                (voice.name.toLowerCase().includes('google') || voice.name.toLowerCase().includes('swara') || voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('zira'))
+                (voice.name.toLowerCase().includes('google') || voice.name.toLowerCase().includes('swara') || voice.name.toLowerCase().includes('female'))
             );
 
             if(selectedVoice) utterance.voice = selectedVoice;
 
             const statusNode = document.getElementById('audio-status-text');
-            document.getElementById('speaker-icon').innerText = "⏳";
-            statusNode.innerText = "Narrating in premium crystal voice...";
+            statusNode.innerText = "Narrating in professional clear voice...";
 
-            utterance.onend = () => {
-                document.getElementById('speaker-icon').innerText = "🔊";
-                statusNode.innerText = "Finished Narration.";
-            };
-
+            utterance.onend = () => { statusNode.innerText = "Finished."; };
             window.speechSynthesis.speak(utterance);
         }
 
-        // ACCEPTS SOOTHING CONTINUOUS CHIME TONE LOOP
+        function stopVoiceSpeech() {
+            window.speechSynthesis.cancel();
+            const statusNode = document.getElementById('audio-status-text');
+            if (statusNode) statusNode.innerText = "Voice stopped.";
+        }
+
         function setupKitchenTimer(minutes, itemName) {
-            stopSoothingAlarm();
+            stopFunnyAlarm();
             clearInterval(kitchenTimerInterval);
             timerCurrentItem = itemName;
             timerTotalSeconds = minutes * 60;
@@ -778,58 +811,47 @@
                     if(timerTotalSeconds <= 0) {
                         clearInterval(kitchenTimerInterval);
                         document.getElementById('timer-text-render').innerHTML = `
-                            <div style="color:#ff4f2b; font-weight:900;">🚨 <b>${timerCurrentItem} Ready!</b></div>
-                            <button onclick="stopSoothingAlarm()" style="background:#ff4f2b; color:white; border:none; padding:6px 14px; border-radius:8px; margin-top:6px; font-weight:700; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">🛑 Stop Alarm</button>
+                            <div style="color:#ff4f2b; font-weight:900;">🚨 <b>Oggy Warning: Cockroach Alert!</b></div>
+                            <button onclick="stopFunnyAlarm()" style="background:#ef4444; color:white; border:none; padding:8px 14px; border-radius:8px; margin-top:8px; font-weight:700; cursor:pointer;">🛑 Stop Oggy Alarm</button>
                         `;
-                        playSoothingAlarmLoop();
+                        playFunnyOggyAlarm();
                     }
                     timerTotalSeconds--;
                 }
             }, 1000);
         }
 
-        function playSoothingAlarmLoop() {
-            if (isAlarmActive) return;
+        function playFunnyOggyAlarm() {
+            if(isAlarmActive) return;
             isAlarmActive = true;
-            alarmAudioContext = new (window.AudioContext || window.webkitAudioContext)();
-            
-            function triggerChimePulse() {
-                if (!isAlarmActive) return;
-                let osc = alarmAudioContext.createOscillator();
-                let gainNode = alarmAudioContext.createGain();
+
+            function triggerOggyVoiceSpeech() {
+                if(!isAlarmActive) return;
+                window.speechSynthesis.cancel();
                 
-                osc.type = "sine"; // Premium acoustic wave setup
-                osc.frequency.setValueAtTime(440, alarmAudioContext.currentTime); // Relaxing warm note
+                let funnyText = "Zaldi dekho aake, apka khana cockroach kha jayenge, jldi dekho ake dakchki dakchi dakchki dakchi!";
+                let oggyUtterance = new SpeechSynthesisUtterance(funnyText);
+                oggyUtterance.lang = 'hi-IN';
+                oggyUtterance.pitch = 1.95; 
+                oggyUtterance.rate = 1.35;  
                 
-                gainNode.gain.setValueAtTime(0.25, alarmAudioContext.currentTime); 
-                gainNode.gain.exponentialRampToValueAtTime(0.001, alarmAudioContext.currentTime + 1.8);
-                
-                osc.connect(gainNode);
-                gainNode.connect(alarmAudioContext.destination);
-                
-                osc.start();
-                osc.stop(alarmAudioContext.currentTime + 1.9);
-                
-                alarmOscillatorLoop = setTimeout(triggerChimePulse, 2000);
+                window.speechSynthesis.speak(oggyUtterance);
             }
-            triggerChimePulse();
+
+            triggerOggyVoiceSpeech();
+            alarmSpeechInterval = setInterval(triggerOggyVoiceSpeech, 5500);
         }
 
-        function stopSoothingAlarm() {
+        function stopFunnyAlarm() {
             isAlarmActive = false;
-            clearTimeout(alarmOscillatorLoop);
-            if (alarmAudioContext) {
-                alarmAudioContext.close();
-                alarmAudioContext = null;
-            }
+            clearInterval(alarmSpeechInterval);
+            window.speechSynthesis.cancel();
             document.getElementById('timer-live-zone').style.display = "none";
         }
 
         function pauseKitchenTimer() { timerIsPaused = true; }
         function resumeKitchenTimer() { timerIsPaused = false; }
-        function resetKitchenTimer() { stopSoothingAlarm(); }
 
-        // RATION CONTROLS
         function updateRationInterface() {
             const container = document.getElementById('ration-list-container');
             container.innerHTML = "";
@@ -872,6 +894,7 @@
         window.onload = () => {
             updateRationInterface();
             rotateLeftoverTip();
+            loadSavedAppState();
             if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
                 speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
             }
