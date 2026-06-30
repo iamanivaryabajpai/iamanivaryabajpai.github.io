@@ -1,110 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIVARYA BAJPAI | AI STUDIO</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card-hover:hover { transform: translateY(-10px); transition: 0.3s ease; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        body { background-color: #f9f9f9; }
+    </style>
 </head>
-<body class="bg-white text-black font-sans p-5">
+<body class="p-5 md:p-10 font-sans">
 
-    <h1 class="text-7xl font-black text-center my-10 tracking-tighter">ANIVARYA BAJPAI</h1>
+    <!-- Header -->
+    <header class="text-center py-16">
+        <h1 class="text-6xl md:text-9xl font-black tracking-tighter uppercase text-black">Anivarya Bajpai</h1>
+        <p class="text-gray-500 mt-4 tracking-widest uppercase text-sm">AI Generative & 3D Studio</p>
+    </header>
 
     <!-- AI Generator -->
-    <div class="max-w-2xl mx-auto border-2 border-black p-8 rounded-2xl mb-20">
-        <h2 class="text-2xl font-bold mb-4">AI Image Generator</h2>
-        <input type="text" id="aiPrompt" placeholder="What to create?" class="w-full p-4 border rounded-xl mb-4">
-        <button onclick="generateAI()" class="w-full bg-black text-white py-4 rounded-xl font-bold">GENERATE & SAVE</button>
-        <img id="aiResult" class="w-full mt-6 rounded-xl hidden">
+    <div class="max-w-xl mx-auto glass p-8 rounded-3xl mb-20 text-center border border-gray-200">
+        <h2 class="text-xl font-bold mb-6">Create AI 3D Art</h2>
+        <input type="text" id="aiPrompt" placeholder="Describe your 3D idea..." class="w-full p-4 border rounded-2xl mb-4 bg-white shadow-inner outline-none">
+        <button id="genBtn" class="w-full bg-black text-white py-4 rounded-2xl font-bold hover:bg-gray-800 transition">GENERATE & SAVE</button>
     </div>
 
     <!-- Gallery -->
-    <div id="galleryContainer" class="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto"></div>
+    <h2 class="text-3xl font-black text-center mb-10 text-black">PROJECT GALLERY</h2>
+    <div id="galleryContainer" class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
 
-    <!-- Hidden Host Panel (Visible only with #admin in URL) -->
-    <div id="adminPanel" class="hidden fixed bottom-10 right-10 bg-black text-white p-6 rounded-2xl shadow-2xl">
-        <h3 class="font-bold mb-2">ADMIN PANEL</h3>
-        <input type="text" id="imgUrl" placeholder="Direct Image URL" class="w-full p-2 mb-2 text-black rounded">
-        <button onclick="uploadGallery()" class="bg-red-600 w-full py-2 rounded">ADD TO GALLERY</button>
+    <!-- Admin Panel (Visible ONLY if URL has ?admin=true) -->
+    <div id="adminPanel" class="hidden max-w-xl mx-auto mt-20 p-8 bg-black text-white rounded-3xl shadow-2xl">
+        <h3 class="font-bold mb-4 text-red-500 uppercase tracking-widest text-sm">Admin Only - Host Panel</h3>
+        <input type="text" id="imgUrl" placeholder="Direct Image URL (.jpg/.png)" class="w-full p-3 mb-2 text-black rounded-xl outline-none">
+        <input type="text" id="imgTitle" placeholder="Project Title" class="w-full p-3 mb-4 text-black rounded-xl outline-none">
+        <button id="uploadBtn" class="bg-red-600 w-full py-3 rounded-xl font-bold hover:bg-red-700 transition">ADD TO GALLERY</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, collectionBhai, samajh gaya. Tum chahte ho ki website **live functional** ho, **white theme** mein ho, aur usme **AI Image Generator** (API ke saath) integrated ho.
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-### Important: Kaam Kyun Nahi Kar Raha Tha?
-Firebase ka code bina "Firebase App" initialize kiye aur sahi keys ke bina nahi chalta. Maine niche **complete functional code** diya hai.
-
-### 1. White Theme + Professional AI Studio
-Ye code copy karo aur apni `index.html` mein daal do:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ANIVARYA BAJPAI | AI STUDIO</title>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-</head>
-<body class="bg-white text-black p-10 font-sans">
-
-    <!-- Header -->
-    <header class="py-20 text-center">
-        <h1 class="text-7xl font-black tracking-tighter uppercase">Anivarya Bajpai</h1>
-        <p class="text-gray-500">AI ART GENERATOR & STUDIO</p>
-    </header>
-
-    <!-- Generator Section (AI Integration) -->
-    <div class="max-w-2xl mx-auto border-2 border-black p-10 rounded-3xl mb-20">
-        <h2 class="text-2xl font-bold mb-4">Generate 3D AI Image</h2>
-        <input type="text" id="aiPrompt" placeholder="Describe your 3D idea..." class="w-full p-4 mb-4 border-2 border-black rounded-xl">
-        <button onclick="generateImage()" class="w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800">GENERATE & SAVE</button>
-        <div id="aiResult" class="mt-6 text-center"></div>
-    </div>
-
-    <!-- Gallery -->
-    <div id="galleryContainer" class="grid grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
-
-    <!-- Host Panel (Hidden - Only for you) -->
-    <div id="hostPanel" class="max-w-2xl mx-auto mt-20 p-8 bg-gray-100 rounded-3xl border-2 border-dashed border-gray-400">
-        <h3 class="font-bold mb-4 text-red-600">HOST PANEL (Add Manual URL)</h3>
-        <input type="text" id="imgUrl" placeholder="Direct Image URL" class="w-full p-3 mb-2 border rounded-lg">
-        <input type="text" id="imgTitle" placeholder="Project Title" class="w-full p-3 mb-4 border rounded-lg">
-        <button onclick="uploadProject()" class="bg-red-600 text-white w-full py-3 rounded-lg font-bold">ADD TO GALLERY</button>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "[https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js](https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js)";
-        import { getFirestore, collection, addDoc, onSnapshot } from "[https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js](https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js)";
-
-        const firebaseConfig = { /* ... tumhari same config ... */ };
+        // Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA0cnfHQugICJ6GpYCmYDvjjxbf001fks8",
+            authDomain: "weee-35c80.firebaseapp.com",
+            projectId: "weee-35c80",
+            storageBucket: "weee-35c80.firebasestorage.app",
+            messagingSenderId: "835643616336",
+            appId: "1:835643616336:web:a974eee55dd87ch4cb555"
+        };
         const db = getFirestore(initializeApp(firebaseConfig));
 
-        // 1. AI Generator (Simulated for speed)
-        window.generateImage = async () => {
+        // Admin Visibility
+        if (window.location.search.includes("admin=true")) {
+            document.getElementById('adminPanel').classList.remove('hidden');
+        }
+
+        // AI Generation Logic
+        document.getElementById('genBtn').onclick = async () => {
             const prompt = document.getElementById('aiPrompt').value;
-            if(!prompt) return alert("Kuch likho!");
-            document.getElementById('aiResult').innerHTML = "Generating 3D Art...";
-            
-            // Yahan hum DALL-E ya kisi AI API ka link laga sakte hain
-            const aiLink = "[https://source.unsplash.com/random/800x600/?3d](https://source.unsplash.com/random/800x600/?3d)," + prompt;
-            await addDoc(collection(db, "projects"), { image: aiLink, title: prompt, type: 'gallery' });
-            document.getElementById('aiResult').innerHTML = "Done! Image saved to gallery.";
+            if(!prompt) return alert("Kuch toh likho!");
+            const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=800&height=800&seed=42`;
+            await addDoc(collection(db, "projects"), { image: url, title: prompt, type: 'gallery' });
+            alert("Image Generated & Saved!");
         };
 
-        // 2. Host Upload
-        window.uploadProject = async () => {
-            const image = document.getElementById('imgUrl').value;
+        // Upload Logic
+        document.getElementById('uploadBtn').onclick = async () => {
+            const img = document.getElementById('imgUrl').value;
             const title = document.getElementById('imgTitle').value;
-            await addDoc(collection(db, "projects"), { image, title, type: 'gallery' });
-            alert("Uploaded!");
+            await addDoc(collection(db, "projects"), { image: img, title: title, type: 'gallery' });
+            alert("Added to gallery!");
         };
 
-        // 3. Display Data
+        // Real-time Gallery Update
         onSnapshot(collection(db, "projects"), (snapshot) => {
             const container = document.getElementById('galleryContainer');
             container.innerHTML = "";
             snapshot.forEach((doc) => {
                 const d = doc.data();
                 if(d.type === 'gallery') {
-                    container.innerHTML += `<div class="border-2 border-black p-2 rounded-2xl"><img src="${d.image}" class="w-full h-64 object-cover rounded-xl"><h4 class="font-bold py-2">${d.title}</h4></div>`;
+                    container.innerHTML += `
+                        <div class="card-hover glass p-4 rounded-3xl border border-gray-100">
+                            <img src="${d.image}" class="w-full h-64 object-cover rounded-2xl mb-4" onerror="this.style.display='none'">
+                            <h4 class="font-bold text-center text-black">${d.title}</h4>
+                        </div>`;
                 }
             });
         });
