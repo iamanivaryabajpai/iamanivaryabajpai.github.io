@@ -6,7 +6,7 @@
     <title>Anivarya Bajpai | AI Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="p-10">
+<body class="bg-white p-10">
 
     <!-- Generator Section -->
     <div class="max-w-3xl mx-auto bg-gray-50 p-10 rounded-3xl mb-20">
@@ -20,12 +20,12 @@
     <h2 class="text-3xl font-bold text-center mb-10">3D Project Gallery</h2>
     <div id="galleryContainer" class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
 
-    <!-- Host Panel -->
+    <!-- Host Panel (FREE - Link based) -->
     <div class="max-w-3xl mx-auto mt-20 p-10 bg-red-50 rounded-3xl border-2 border-red-200">
         <h3 class="font-bold text-red-600 mb-4">HOST PANEL (Add Image URL)</h3>
-        <input type="text" id="imgUrl" placeholder="Paste Image Link here..." class="w-full p-4 mb-4 rounded-xl border">
+        <input type="text" id="imgUrl" placeholder="Paste Image Direct Link (e.g., from imgbb.com)..." class="w-full p-4 mb-4 rounded-xl border">
         <input type="text" id="imgTitle" placeholder="Project Title" class="w-full p-4 mb-4 rounded-xl border">
-        <button onclick="uploadProject()" class="bg-red-600 text-white px-10 py-4 rounded-xl font-bold">UPLOAD TO GALLERY</button>
+        <button onclick="uploadProject()" class="bg-red-600 text-white px-10 py-4 rounded-xl font-bold">ADD TO GALLERY</button>
     </div>
 
     <script type="module">
@@ -51,17 +51,21 @@
                 idea: document.getElementById('userIdea').value,
                 type: 'request'
             });
-            alert("Request sent!");
+            alert("Request sent successfully!");
         };
 
-        // Upload to Gallery (Host)
+        // Upload to Gallery (Using Image Link)
         window.uploadProject = async () => {
+            const url = document.getElementById('imgUrl').value;
+            const title = document.getElementById('imgTitle').value;
+            if (!url) return alert("Link paste karo!");
+
             await addDoc(collection(db, "projects"), { 
-                image: document.getElementById('imgUrl').value,
-                title: document.getElementById('imgTitle').value,
-                type: 'gallery'
+                image: url, 
+                title: title, 
+                type: 'gallery' 
             });
-            alert("Uploaded!");
+            alert("Gallery mein add ho gaya!");
         };
 
         // Live Gallery Update
@@ -71,10 +75,7 @@
             snapshot.forEach((doc) => {
                 const d = doc.data();
                 if(d.type === 'gallery') {
-                    container.innerHTML += `<div class="p-4 border rounded-2xl">
-                        <img src="${d.image}" class="w-full h-48 object-cover rounded-xl mb-4">
-                        <h4 class="font-bold">${d.title}</h4>
-                    </div>`;
+                    container.innerHTML += `<div class="p-4 border rounded-2xl"><img src="${d.image}" class="w-full h-48 object-cover rounded-xl mb-4"><h4 class="font-bold">${d.title}</h4></div>`;
                 }
             });
         });
