@@ -10,28 +10,36 @@
             margin: 0; 
             height: 100vh; 
             display: flex; 
+            flex-direction: column;
             justify-content: center; 
             align-items: center; 
             background: white; 
-            font-family: 'Arial Black', sans-serif;
+            font-family: sans-serif;
+            text-align: center;
         }
         .name-text {
             font-size: 8vw;
             font-weight: 900;
-            letter-spacing: -2px;
             color: black;
             text-transform: uppercase;
-            transition: transform 0.3s ease;
+            margin-bottom: 20px;
         }
-        .name-text:hover {
-            transform: scale(1.05);
-            cursor: default;
+        .bio-text {
+            font-size: 1.5rem;
+            color: #666;
+            font-weight: 300;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
     <div class="name-text">ANIVARYA BAJPAI</div>
+    <div class="bio-text">
+        14 years old | Living life my way.<br>
+        Cricket is my rhythm, Virat Kohli is the vibe.<br>
+        Born to bleed Red—RCB fan for life.
+    </div>
 
 </body>
 </html>
