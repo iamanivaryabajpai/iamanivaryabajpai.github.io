@@ -12,12 +12,12 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-8">
 
-    <!-- Clean Header -->
+    <!-- Header -->
     <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-16 uppercase">
         ANIVARYA <span class="text-red-600">CORE</span>
     </h1>
 
-    <!-- Refined Dashboard Grid -->
+    <!-- Dashboard Grid -->
     <div class="grid md:grid-cols-3 gap-6 w-full max-w-5xl">
         
         <div class="glass-card p-8 rounded-3xl hover:bg-white/5 transition-all">
@@ -26,16 +26,26 @@
         </div>
 
         <div class="glass-card p-8 rounded-3xl hover:border-green-500 transition-all">
-            <h2 id="terminal-header" class="text-sm font-bold tracking-widest text-green-500 mb-2">>_ SYSTEM</h2>
-            <p id="live-time" class="font-mono text-gray-300">Loading live sync...</p>
+            <h2 class="text-sm font-bold tracking-widest text-green-500 mb-2">>_ SYSTEM</h2>
+            <p id="live-time" class="font-mono text-gray-300">Loading sync...</p>
         </div>
 
         <div class="glass-card p-8 rounded-3xl hover:bg-white/5 transition-all">
             <h2 class="text-sm font-bold tracking-widest text-gray-500 mb-2">STATUS</h2>
             <p>Architecting the future. Online.</p>
         </div>
-
     </div>
+
+    <!-- Engagement Layer -->
+    <section class="mt-12 w-full max-w-5xl">
+        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-6">Connect</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="mailto:your-email@example.com" class="glass-card p-4 rounded-xl text-center hover:text-red-500 transition">Email</a>
+            <a href="https://github.com/iamanivaryabajpai" class="glass-card p-4 rounded-xl text-center hover:text-white transition">GitHub</a>
+            <a href="#" class="glass-card p-4 rounded-xl text-center hover:text-blue-400 transition">Twitter</a>
+            <a href="#" class="glass-card p-4 rounded-xl text-center hover:text-green-400 transition">WhatsApp</a>
+        </div>
+    </section>
 
     <script>
         function updateTime() {
