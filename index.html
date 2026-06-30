@@ -2,47 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANIVARYA BAJPAI | AI STUDIO</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .card-hover:hover { transform: translateY(-10px); transition: 0.3s ease; }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        body { background-color: #f9f9f9; }
-    </style>
 </head>
-<body class="p-5 md:p-10 font-sans">
-
-    <!-- Header -->
-    <header class="text-center py-16">
-        <h1 class="text-6xl md:text-9xl font-black tracking-tighter uppercase text-black">Anivarya Bajpai</h1>
-        <p class="text-gray-500 mt-4 tracking-widest uppercase text-sm">AI Generative & 3D Studio</p>
+<body class="bg-gray-100 p-5 font-sans">
+    <header class="text-center py-10">
+        <h1 class="text-5xl font-black uppercase">Anivarya Bajpai</h1>
     </header>
 
-    <!-- AI Generator -->
-    <div class="max-w-xl mx-auto glass p-8 rounded-3xl mb-20 text-center border border-gray-200">
-        <h2 class="text-xl font-bold mb-6">Create AI 3D Art</h2>
-        <input type="text" id="aiPrompt" placeholder="Describe your 3D idea..." class="w-full p-4 border rounded-2xl mb-4 bg-white shadow-inner outline-none">
-        <button id="genBtn" class="w-full bg-black text-white py-4 rounded-2xl font-bold hover:bg-gray-800 transition">GENERATE & SAVE</button>
+    <!-- Generator -->
+    <div class="max-w-md mx-auto bg-white p-6 rounded-2xl shadow-lg mb-10">
+        <input type="text" id="aiPrompt" placeholder="Describe 3D art..." class="w-full p-3 border rounded-lg mb-3">
+        <button id="genBtn" class="w-full bg-black text-white py-3 rounded-lg font-bold">GENERATE & SAVE</button>
     </div>
 
     <!-- Gallery -->
-    <h2 class="text-3xl font-black text-center mb-10 text-black">PROJECT GALLERY</h2>
-    <div id="galleryContainer" class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
-
-    <!-- Admin Panel (Visible ONLY if URL has ?admin=true) -->
-    <div id="adminPanel" class="hidden max-w-xl mx-auto mt-20 p-8 bg-black text-white rounded-3xl shadow-2xl">
-        <h3 class="font-bold mb-4 text-red-500 uppercase tracking-widest text-sm">Admin Only - Host Panel</h3>
-        <input type="text" id="imgUrl" placeholder="Direct Image URL (.jpg/.png)" class="w-full p-3 mb-2 text-black rounded-xl outline-none">
-        <input type="text" id="imgTitle" placeholder="Project Title" class="w-full p-3 mb-4 text-black rounded-xl outline-none">
-        <button id="uploadBtn" class="bg-red-600 w-full py-3 rounded-xl font-bold hover:bg-red-700 transition">ADD TO GALLERY</button>
-    </div>
+    <div id="galleryContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-        // Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyA0cnfHQugICJ6GpYCmYDvjjxbf001fks8",
             authDomain: "weee-35c80.firebaseapp.com",
@@ -53,41 +33,20 @@
         };
         const db = getFirestore(initializeApp(firebaseConfig));
 
-        // Admin Visibility
-        if (window.location.search.includes("admin=true")) {
-            document.getElementById('adminPanel').classList.remove('hidden');
-        }
-
-        // AI Generation Logic
         document.getElementById('genBtn').onclick = async () => {
             const prompt = document.getElementById('aiPrompt').value;
-            if(!prompt) return alert("Kuch toh likho!");
-            const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=800&height=800&seed=42`;
-            await addDoc(collection(db, "projects"), { image: url, title: prompt, type: 'gallery' });
-            alert("Image Generated & Saved!");
+            if(!prompt) return;
+            const imgUrl = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=500&height=500&seed=1`;
+            await addDoc(collection(db, "projects"), { image: imgUrl, title: prompt, type: 'gallery', timestamp: Date.now() });
+            alert("Image added!");
         };
 
-        // Upload Logic
-        document.getElementById('uploadBtn').onclick = async () => {
-            const img = document.getElementById('imgUrl').value;
-            const title = document.getElementById('imgTitle').value;
-            await addDoc(collection(db, "projects"), { image: img, title: title, type: 'gallery' });
-            alert("Added to gallery!");
-        };
-
-        // Real-time Gallery Update
-        onSnapshot(collection(db, "projects"), (snapshot) => {
+        onSnapshot(query(collection(db, "projects"), orderBy("timestamp", "desc")), (snapshot) => {
             const container = document.getElementById('galleryContainer');
             container.innerHTML = "";
             snapshot.forEach((doc) => {
                 const d = doc.data();
-                if(d.type === 'gallery') {
-                    container.innerHTML += `
-                        <div class="card-hover glass p-4 rounded-3xl border border-gray-100">
-                            <img src="${d.image}" class="w-full h-64 object-cover rounded-2xl mb-4" onerror="this.style.display='none'">
-                            <h4 class="font-bold text-center text-black">${d.title}</h4>
-                        </div>`;
-                }
+                container.innerHTML += `<div class="bg-white p-2 rounded-xl shadow"><img src="${d.image}" class="w-full h-60 object-cover rounded-lg"><p class="text-center py-2 font-bold">${d.title}</p></div>`;
             });
         });
     </script>
