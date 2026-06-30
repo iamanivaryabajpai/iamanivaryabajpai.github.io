@@ -7,16 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background: #ffffff; 
-            color: #000000; 
-            font-family: 'Inter', sans-serif; 
-        }
+        body { background: #ffffff; color: #000000; font-family: 'Inter', sans-serif; }
     </style>
 </head>
 <body>
 
-    <!-- Professional Navigation -->
+    <!-- Navigation -->
     <nav class="max-w-7xl mx-auto px-8 py-10 flex justify-between items-center">
         <div class="text-xl font-bold tracking-tighter">ANIVARYA.BAJPAI</div>
         <div class="flex gap-10 text-sm font-semibold uppercase tracking-widest text-gray-500">
@@ -39,6 +35,31 @@
             <button class="border border-black px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-gray-100 transition">Read Process</button>
         </div>
     </main>
+
+    <!-- Project Grid Section -->
+    <section class="max-w-7xl mx-auto px-8 py-20 border-t border-gray-100">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-12">Selected Projects</h2>
+        
+        <div class="grid md:grid-cols-2 gap-12">
+            <!-- Project 1 -->
+            <div class="group cursor-pointer">
+                <div class="h-96 bg-gray-100 mb-6 flex items-center justify-center overflow-hidden">
+                    <span class="text-gray-400 text-sm italic">Project Thumbnail</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-2 group-hover:underline">3D Commercial Figurines</h3>
+                <p class="text-gray-600">Technical modeling & acrylic-base design.</p>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="group cursor-pointer">
+                <div class="h-96 bg-gray-100 mb-6 flex items-center justify-center overflow-hidden">
+                    <span class="text-gray-400 text-sm italic">Project Thumbnail</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-2 group-hover:underline">Digital Logic Engine</h3>
+                <p class="text-gray-600">Complex automation and architectural workflows.</p>
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>
