@@ -3,49 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Title aur Description update kar diya hai taaki Google "Smart Rasoi" hataye -->
     <title>ANIVARYA CORE</title>
+    <meta name="description" content="ANIVARYA CORE - High-performance digital architecture, interactive physics, and modern tech solutions.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: #050505; color: #e5e5e5; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .glass-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .gravity-mode { position: absolute; transition: all 1s ease; }
+        .gravity-mode { position: absolute; transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
     </style>
 </head>
 <body id="main-body" class="min-h-screen flex flex-col items-center justify-center p-8">
 
     <div id="content-wrapper" class="w-full max-w-5xl flex flex-col items-center">
+        <!-- Main Header -->
         <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-16 uppercase">
             ANIVARYA <span class="text-red-600">CORE</span>
         </h1>
 
+        <!-- Dashboard Grid -->
         <div class="grid md:grid-cols-3 gap-6 w-full">
             <div class="glass-card p-8 rounded-3xl">
                 <h2 class="text-sm font-bold tracking-widest text-gray-500 mb-2">IDENTITY</h2>
                 <p>Digital existence. Architected.</p>
             </div>
+            
             <div class="glass-card p-8 rounded-3xl">
                 <h2 id="clock" class="text-sm font-bold tracking-widest text-green-500 mb-2">TIME: --:--:--</h2>
                 <button onclick="startGravity()" class="mt-4 text-xs bg-white text-black px-4 py-2 rounded-full font-bold uppercase hover:bg-red-500 transition">Initiate Physics</button>
             </div>
+
             <div class="glass-card p-8 rounded-3xl">
                 <h2 class="text-sm font-bold tracking-widest text-gray-500 mb-2">STATUS</h2>
                 <p>System operational.</p>
             </div>
         </div>
+
+        <!-- Social Connect -->
+        <section class="mt-12 w-full">
+            <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-6 text-center">Connect</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="#" class="glass-card p-4 rounded-xl text-center hover:text-red-500 transition">Email</a>
+                <a href="https://github.com/iamanivaryabajpai" target="_blank" class="glass-card p-4 rounded-xl text-center hover:text-white transition">GitHub</a>
+                <a href="#" class="glass-card p-4 rounded-xl text-center hover:text-blue-400 transition">Twitter</a>
+                <a href="#" class="glass-card p-4 rounded-xl text-center hover:text-green-400 transition">WhatsApp</a>
+            </div>
+        </section>
     </div>
 
     <script>
+        // Real-time Clock
         function updateTime() {
             document.getElementById('clock').innerText = "TIME: " + new Date().toLocaleTimeString();
         }
         setInterval(updateTime, 1000);
+        updateTime();
 
+        // Physics/Gravity Effect
         function startGravity() {
-            const elements = document.querySelectorAll('.glass-card, h1');
-            elements.forEach(el => {
+            const elements = document.querySelectorAll('.glass-card, h1, section');
+            elements.forEach((el, index) => {
                 el.classList.add('gravity-mode');
-                el.style.top = "100vh";
-                el.style.transform = "rotate(45deg)";
+                el.style.top = (window.innerHeight + 100) + "px";
+                el.style.left = (Math.random() * window.innerWidth) + "px";
+                el.style.transform = `rotate(${Math.random() * 90 - 45}deg)`;
             });
         }
     </script>
