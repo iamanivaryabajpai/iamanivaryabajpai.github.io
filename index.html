@@ -5,63 +5,33 @@
     <title>Anivarya Bajpai</title>
     <meta name="description" content="Official website of Anivarya Bajpai">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/matter-js@0.19.0/build/matter.min.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; background: white; }
+        body { 
+            margin: 0; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: white; 
+            font-family: 'Arial Black', sans-serif;
+        }
+        .name-text {
+            font-size: 8vw;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: black;
+            text-transform: uppercase;
+            transition: transform 0.3s ease;
+        }
+        .name-text:hover {
+            transform: scale(1.05);
+            cursor: default;
+        }
     </style>
 </head>
 <body>
 
-    <script>
-        const { Engine, Render, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter;
-        const engine = Engine.create();
-        const render = Render.create({ 
-            element: document.body, 
-            engine: engine, 
-            options: { width: window.innerWidth, height: window.innerHeight, wireframes: false, background: 'white' }
-        });
-        
-        // Ground
-        const ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight + 20, window.innerWidth, 40, { isStatic: true });
-        Composite.add(engine.world, [ground]);
+    <div class="name-text">ANIVARYA BAJPAI</div>
 
-        // Name creation (ANIVARYA BAJPAI - Centered)
-        const fullName = "ANIVARYA BAJPAI";
-        const totalLetters = fullName.length;
-        const startX = (window.innerWidth / 2) - ((totalLetters * 70) / 2);
-
-        fullName.split('').forEach((char, i) => {
-            if (char === " ") return; // Skip space
-            const body = Bodies.rectangle(startX + (i * 70), 100, 60, 80, { 
-                render: { fillStyle: '#000000' }, 
-                restitution: 0.6, 
-                friction: 0.1 
-            });
-            Composite.add(engine.world, [body]);
-        });
-
-        // Mouse interaction
-        const mouse = Mouse.create(render.canvas);
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: { stiffness: 0.2, render: { visible: false } }
-        });
-        Composite.add(engine.world, mouseConstraint);
-
-        Render.run(render);
-        Runner.run(Runner.create(), engine);
-
-        // Click to EXPLODE
-        window.addEventListener('click', (e) => {
-            engine.world.bodies.forEach(b => {
-                if(!b.isStatic) {
-                    Matter.Body.applyForce(b, b.position, {
-                        x: (Math.random() - 0.5) * 0.2, 
-                        y: -0.3
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
