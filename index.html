@@ -3,138 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Master Tags to instantly purge old search results -->
-    <title>ANIVARYA CORE</title>
-    <meta name="description" content="ANIVARYA CORE — High-performance digital products, logic engines, and advanced web architecture.">
-    
+    <title>Piyush Bajpayee | Professional Architecture</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background: #020202; 
-            color: #f3f4f6; 
-            font-family: 'Space Grotesk', sans-serif; 
-            overflow-x: hidden;
-        }
-        .mono-font { font-family: 'JetBrains Mono', monospace; }
-        .cyber-panel { 
-            background: rgba(10, 10, 10, 0.75); 
-            border: 1px solid rgba(255, 51, 51, 0.15);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .cyber-panel:hover {
-            border-color: rgba(255, 51, 51, 0.5);
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.1);
-        }
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .content-layer {
-            position: relative;
-            z-index: 10;
-        }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: #1a1a1a; }
+        .nav-link { transition: color 0.3s ease; }
+        .nav-link:hover { color: #000; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6 md:p-12">
+<body>
 
-    <!-- Canvas Engine for World-Class Mathematical Particles -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+        <div class="text-xl font-bold tracking-tighter">PIYUSH.DEV</div>
+        <div class="flex gap-8 text-sm font-medium text-gray-500">
+            <a href="#" class="nav-link">Work</a>
+            <a href="#" class="nav-link">Services</a>
+            <a href="#" class="nav-link">About</a>
+            <a href="#" class="bg-black text-white px-5 py-2 rounded-full">Contact</a>
+        </div>
+    </nav>
 
-    <div id="content-wrapper" class="content-layer w-full max-w-6xl flex flex-col items-center">
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto px-8 py-20 md:py-32">
+        <h1 class="text-5xl md:text-8xl font-bold tracking-tight mb-8">Architecting digital <br>excellence.</h1>
+        <p class="text-xl md:text-2xl text-gray-600 max-w-2xl leading-relaxed">Piyush Bajpayee is a digital architect focused on building high-impact web experiences and scalable solutions.</p>
         
-        <!-- Premium Minimalist Header -->
-        <header class="text-center mb-16 select-none animate-pulse">
-            <h1 class="text-7xl md:text-9xl font-black tracking-tighter uppercase relative">
-                ANIVARYA <span class="text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">CORE</span>
-            </h1>
-            <p class="mono-font text-xs tracking-[0.5em] text-gray-500 mt-4 uppercase">System Architecture / Logic Laboratory</p>
-        </header>
+        <div class="flex gap-4 mt-12">
+            <button class="bg-black text-white px-8 py-4 rounded-full font-semibold">View Projects</button>
+            <button class="border border-gray-300 px-8 py-4 rounded-full font-semibold hover:bg-gray-50">Read Bio</button>
+        </div>
+    </section>
 
-        <!-- Premium Dashboard Grid -->
-        <div class="grid md:grid-cols-3 gap-6 w-full mb-12">
-            
-            <!-- Card 1: Identity -->
-            <div class="cyber-panel p-8 rounded-2xl transition-all duration-300 group">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xs font-bold tracking-widest text-gray-500 uppercase mono-font">// IDENTITY</h2>
-                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                </div>
-                <p class="text-gray-300 text-lg font-light leading-relaxed">High-performance digital ecosystem designed for global impact and seamless computation.</p>
+    <!-- Services Grid -->
+    <section class="max-w-7xl mx-auto px-8 py-20 border-t border-gray-100">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-12">Core Capabilities</h2>
+        <div class="grid md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="text-2xl font-semibold mb-4">Web Architecture</h3>
+                <p class="text-gray-600">Building robust, secure, and lightning-fast web applications from the ground up.</p>
             </div>
-            
-            <!-- Card 2: Interactive Cyber Engine -->
-            <div class="cyber-panel p-8 rounded-2xl transition-all duration-300">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xs font-bold tracking-widest text-green-500 uppercase mono-font">>_ CORE_SYNC</h2>
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
-                </div>
-                <div id="clock" class="mono-font text-2xl font-bold text-gray-200 tracking-wide mb-6">SYS_TIME: --:--:--</div>
-                <button onclick="overridePhysics()" class="w-full text-xs mono-font bg-white text-black py-3 rounded-xl font-bold uppercase tracking-wider hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-[1.02]">
-                    OVERRIDE PHYSICS
-                </button>
+            <div>
+                <h3 class="text-2xl font-semibold mb-4">UI/UX Design</h3>
+                <p class="text-gray-600">Creating intuitive interfaces that focus on user journey and conversion.</p>
             </div>
-
-            <!-- Card 3: System Status -->
-            <div class="cyber-panel p-8 rounded-2xl transition-all duration-300">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xs font-bold tracking-widest text-gray-500 uppercase mono-font">// STATUS</h2>
-                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                </div>
-                <p class="text-gray-300 text-lg font-light leading-relaxed">Architecting resilient data models. Nodes secure. Matrix streaming active.</p>
+            <div>
+                <h3 class="text-2xl font-semibold mb-4">Strategy</h3>
+                <p class="text-gray-600">Helping brands scale with data-driven insights and technical planning.</p>
             </div>
         </div>
+    </section>
 
-        <!-- Professional Engagement Network Links -->
-        <footer class="w-full">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="#" class="cyber-panel p-4 rounded-xl text-center mono-font text-xs tracking-widest uppercase hover:text-red-400 transition-all">Secure_Mail</a>
-                <a href="https://github.com/iamanivaryabajpai" target="_blank" class="cyber-panel p-4 rounded-xl text-center mono-font text-xs tracking-widest uppercase hover:text-white transition-all">GitHub_Repo</a>
-                <a href="#" class="cyber-panel p-4 rounded-xl text-center mono-font text-xs tracking-widest uppercase hover:text-blue-400 transition-all">Network_X</a>
-                <a href="#" class="cyber-panel p-4 rounded-xl text-center mono-font text-xs tracking-widest uppercase hover:text-green-400 transition-all">Secure_Signal</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- System Logic JavaScript -->
-    <script>
-        // High-Precision Terminal Time Machine
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('clock').innerText = "SYS_TIME: " + now.toLocaleTimeString();
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
-
-        // Premium Matrix Particle Vector Mathematics
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.6;
-                this.radius = Math.random() * 1.5 + 0.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vxNormally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+</body>
+</html>
