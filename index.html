@@ -3,45 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivarya Bajpai | Digital Identity</title>
+    <title>Anivarya Bajpai | AI Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { background: #ffffff; color: #000000; font-family: sans-serif; }</style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="max-w-7xl mx-auto px-8 py-10 flex justify-between items-center">
-        <div class="text-xl font-bold tracking-tighter">ANIVARYA.BAJPAI</div>
-    </nav>
+<body class="p-10">
 
-    <main class="max-w-7xl mx-auto px-8 py-20">
-        <!-- Hero Section -->
-        <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-10">AI 3D<br>STUDIO</h1>
-        
-        <!-- Generator Section -->
-        <div id="ai-generator" class="bg-gray-50 p-10 rounded-3xl mb-20">
-            <h2 class="text-2xl font-bold mb-6">Generate Your Idea</h2>
-            <input type="text" id="userName" placeholder="Your Name" class="w-full p-4 mb-4 rounded-xl border">
-            <textarea id="userIdea" placeholder="Describe your 3D idea..." class="w-full p-4 mb-4 rounded-xl border h-32"></textarea>
-            <button onclick="submitRequest()" class="bg-black text-white px-10 py-4 rounded-full font-bold uppercase">Generate / Request</button>
-        </div>
+    <!-- Generator Section -->
+    <div class="max-w-3xl mx-auto bg-gray-50 p-10 rounded-3xl mb-20">
+        <h2 class="text-2xl font-bold mb-6">Generate Your Idea</h2>
+        <input type="text" id="userName" placeholder="Your Name" class="w-full p-4 mb-4 rounded-xl border">
+        <textarea id="userIdea" placeholder="Describe your 3D idea..." class="w-full p-4 mb-4 rounded-xl border h-32"></textarea>
+        <button onclick="submitRequest()" class="bg-black text-white px-10 py-4 rounded-full font-bold">GENERATE REQUEST</button>
+    </div>
 
-        <!-- User 3D Gallery -->
-        <h2 class="text-2xl font-bold mb-8">User 3D Gallery</h2>
-        <div id="galleryContainer" class="grid md:grid-cols-3 gap-6 mb-20">
-            <div class="border-2 border-dashed p-10 text-center rounded-2xl text-gray-400">Gallery is empty. Submit a project!</div>
-        </div>
+    <!-- Gallery Section -->
+    <h2 class="text-3xl font-bold text-center mb-10">3D Project Gallery</h2>
+    <div id="galleryContainer" class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
 
-        <!-- Host Panel (Only for you) -->
-        <div id="hostPanel" class="p-10 bg-red-50 rounded-3xl border-2 border-red-200">
-            <h3 class="font-bold text-red-600 mb-4">HOST PANEL (Add Image)</h3>
-            <input type="file" id="imageInput" class="mb-4">
-            <button onclick="uploadProject()" class="bg-red-600 text-white px-6 py-2 rounded-lg">Upload to Gallery</button>
-        </div>
-    </main>
+    <!-- Host Panel -->
+    <div class="max-w-3xl mx-auto mt-20 p-10 bg-red-50 rounded-3xl border-2 border-red-200">
+        <h3 class="font-bold text-red-600 mb-4">HOST PANEL (Add Image URL)</h3>
+        <input type="text" id="imgUrl" placeholder="Paste Image Link here..." class="w-full p-4 mb-4 rounded-xl border">
+        <input type="text" id="imgTitle" placeholder="Project Title" class="w-full p-4 mb-4 rounded-xl border">
+        <button onclick="uploadProject()" class="bg-red-600 text-white px-10 py-4 rounded-xl font-bold">UPLOAD TO GALLERY</button>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA0cnfHQugICJ6GpYCmYDvjjxbf001fks8",
@@ -53,11 +42,42 @@
             measurementId: "G-NZTH3GK42Q"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getFirestore(initializeApp(firebaseConfig));
 
-        window.submitRequest = () => alert("Request sent to Anivarya!");
-        window.uploadProject = () => alert("Project added to gallery!");
+        // Submit Request
+        window.submitRequest = async () => {
+            await addDoc(collection(db, "projects"), { 
+                name: document.getElementById('userName').value, 
+                idea: document.getElementById('userIdea').value,
+                type: 'request'
+            });
+            alert("Request sent!");
+        };
+
+        // Upload to Gallery (Host)
+        window.uploadProject = async () => {
+            await addDoc(collection(db, "projects"), { 
+                image: document.getElementById('imgUrl').value,
+                title: document.getElementById('imgTitle').value,
+                type: 'gallery'
+            });
+            alert("Uploaded!");
+        };
+
+        // Live Gallery Update
+        onSnapshot(collection(db, "projects"), (snapshot) => {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const d = doc.data();
+                if(d.type === 'gallery') {
+                    container.innerHTML += `<div class="p-4 border rounded-2xl">
+                        <img src="${d.image}" class="w-full h-48 object-cover rounded-xl mb-4">
+                        <h4 class="font-bold">${d.title}</h4>
+                    </div>`;
+                }
+            });
+        });
     </script>
 </body>
 </html>
