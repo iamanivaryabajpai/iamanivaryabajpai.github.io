@@ -5,56 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANIVARYA CORE</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center">
-
-    <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter">
-        ANIVARYA CORE
-    </h1>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIVARYA CORE</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #000; color: #fff; cursor: crosshair; }
-        .terminal-font { font-family: 'Courier New', Courier, monospace; }
-        .glass-effect { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
+        body { background: #050505; color: #e5e5e5; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6">
+<body class="min-h-screen flex flex-col items-center justify-center p-8">
 
-    <!-- Header (Based on your Screenshot 2026-06-30 100544.png) -->
-    <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-12">
-        ANIVARYA CORE
+    <!-- Clean Header -->
+    <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-16 uppercase">
+        ANIVARYA <span class="text-red-600">CORE</span>
     </h1>
 
-    <!-- Modular Container -->
+    <!-- Refined Dashboard Grid -->
     <div class="grid md:grid-cols-3 gap-6 w-full max-w-5xl">
         
-        <!-- 1. Monolith (Elegant) -->
-        <div class="glass-effect p-8 rounded-2xl border border-white/10 hover:border-white transition">
-            <h2 class="text-xl font-bold mb-4">MONOLITH</h2>
-            <p class="text-gray-400 text-sm">Pure, minimal, and premium.</p>
+        <div class="glass-card p-8 rounded-3xl hover:bg-white/5 transition-all">
+            <h2 class="text-sm font-bold tracking-widest text-gray-500 mb-2">IDENTITY</h2>
+            <p>Premium digital presence designed for impact.</p>
         </div>
 
-        <!-- 2. Terminal (Geeky) -->
-        <div class="glass-effect p-8 rounded-2xl border border-green-900/30 hover:border-green-500 transition">
-            <h2 class="text-xl font-bold mb-4 text-green-500 terminal-font">>_ TERMINAL</h2>
-            <p class="text-gray-400 text-sm terminal-font">root@core:~$ initiate_load</p>
+        <div class="glass-card p-8 rounded-3xl hover:border-green-500 transition-all">
+            <h2 id="terminal-header" class="text-sm font-bold tracking-widest text-green-500 mb-2">>_ SYSTEM</h2>
+            <p id="live-time" class="font-mono text-gray-300">Loading live sync...</p>
         </div>
 
-        <!-- 3. Abstract Logic (Math) -->
-        <div class="glass-effect p-8 rounded-2xl border border-blue-900/30 hover:border-blue-500 transition">
-            <h2 class="text-xl font-bold mb-4">LOGIC ENGINE</h2>
-            <p class="text-gray-400 text-sm">Visualizing complex structures.</p>
+        <div class="glass-card p-8 rounded-3xl hover:bg-white/5 transition-all">
+            <h2 class="text-sm font-bold tracking-widest text-gray-500 mb-2">STATUS</h2>
+            <p>Architecting the future. Online.</p>
         </div>
 
     </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('live-time').innerText = "TIME: " + now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
 
 </body>
 </html>
