@@ -3,57 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivarya Bajpai | AI 3D Studio</title>
+    <title>Anivarya Bajpai | Digital Identity</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>body { background: #ffffff; color: #000000; font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-white">
+<body>
 
-    <!-- Navigation -->
-    <nav class="max-w-7xl mx-auto px-8 py-10 flex justify-between items-center border-b">
+    <!-- Original Clean Navigation -->
+    <nav class="max-w-7xl mx-auto px-8 py-10 flex justify-between items-center">
         <div class="text-xl font-bold tracking-tighter">ANIVARYA.BAJPAI</div>
+        <div class="flex gap-10 text-sm font-semibold uppercase tracking-widest text-gray-500">
+            <a href="#" class="hover:text-black transition">Work</a>
+            <a href="#" class="hover:text-black transition">About</a>
+        </div>
+        <a href="#contact" class="bg-black text-white px-8 py-3 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-gray-800 transition">Contact</a>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-8 py-20">
-        
-        <!-- AI Generator Section (Ab ye dikhega) -->
-        <section id="ai-generator" class="bg-gray-50 p-10 rounded-3xl mb-20">
-            <h1 class="text-4xl font-black mb-6">AI 3D Project Generator</h1>
-            <div class="space-y-4">
-                <input type="text" id="userName" placeholder="Your Name" class="w-full p-4 rounded-xl border">
-                <textarea id="userIdea" placeholder="Describe your 3D idea (e.g., Pixar style banana)..." class="w-full p-4 rounded-xl border h-32"></textarea>
-                <button onclick="submitRequest()" class="w-full bg-black text-white py-4 rounded-xl font-bold uppercase">Generate / Submit Request</button>
-            </div>
-        </section>
-
-        <!-- User Gallery Section -->
-        <section id="gallery" class="mb-20">
-            <h2 class="text-2xl font-bold mb-8">Generated 3D Gallery</h2>
-            <div id="galleryContainer" class="grid md:grid-cols-3 gap-6">
-                <!-- Data yahan database se aayega -->
-                <div class="border-2 border-dashed p-10 text-center rounded-2xl text-gray-400">
-                    Gallery is empty. Submit a project to start!
-                </div>
-            </div>
-        </section>
-
-        <!-- Host Management Panel (Only for You) -->
-        <section class="border-t pt-10">
-            <h3 class="text-xl font-bold mb-6 text-red-500">Host Management Panel</h3>
-            <div class="bg-red-50 p-6 rounded-2xl space-y-4">
-                <p>Upload new 3D assets directly to the gallery:</p>
-                <input type="file" id="imageUpload" class="block w-full text-sm">
-                <button onclick="uploadToGallery()" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold">Approve & Upload to Gallery</button>
-            </div>
-        </section>
+    <!-- Original Hero Section -->
+    <main class="max-w-7xl mx-auto px-8 py-20">
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-10">ANIVARYA<br>BAJPAI</h1>
+        <p class="text-2xl text-gray-600 max-w-2xl leading-relaxed">
+            Architecting digital ecosystems and high-performance logic engines. Building at the intersection of creative design and technical precision.
+        </p>
     </main>
 
-    <script>
-        function submitRequest() {
-            alert("Project request submitted! As the host, I will review this and add it to the gallery.");
-        }
-        function uploadToGallery() {
-            alert("Image uploaded successfully to the gallery!");
-        }
-    </script>
+    <!-- Original Project Grid (The one you liked in Screenshot 2026-06-30 111141.jpg) -->
+    <section class="max-w-7xl mx-auto px-8 py-20 border-t border-gray-100">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-12">Selected Projects</h2>
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="group cursor-pointer">
+                <div class="h-96 bg-gray-200 mb-6 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1617791160505-6f00504e3519?q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <h3 class="text-2xl font-bold">3D Commercial Figurines</h3>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="h-96 bg-gray-200 mb-6 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <h3 class="text-2xl font-bold">Digital Logic Engine</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- New AI Features (Added below in the same 'Cool' Style) -->
+    <section id="contact" class="max-w-7xl mx-auto px-8 py-20 border-t border-gray-100 bg-gray-50 rounded-3xl mb-20">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-12">AI 3D Project Generator</h2>
+        
+        <div class="grid md:grid-cols-2 gap-12">
+            <!-- Form Section -->
+            <div class="space-y-6">
+                <input type="text" placeholder="Your Name" class="w-full p-4 rounded-xl border">
+                <textarea placeholder="Describe your 3D idea (e.g., Pixar style banana)..." class="w-full p-4 rounded-xl border h-32"></textarea>
+                <button class="w-full bg-black text-white py-4 rounded-full font-bold uppercase tracking-widest hover:bg-gray-800 transition">Generate Project</button>
+            </div>
+            <!-- Gallery Display -->
+            <div class="border-2 border-dashed border-gray-300 rounded-2xl flex items-center justify-center p-10 text-gray-500">
+                Generated 3D Gallery (Coming Soon)
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>
