@@ -8,7 +8,10 @@
 </head>
 <body class="bg-white p-10">
 
-    <!-- Generator Section -->
+    <header class="max-w-7xl mx-auto text-center py-10">
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter">ANIVARYA BAJPAI</h1>
+    </header>
+
     <div class="max-w-3xl mx-auto bg-gray-50 p-10 rounded-3xl mb-20">
         <h2 class="text-2xl font-bold mb-6">Generate Your Idea</h2>
         <input type="text" id="userName" placeholder="Your Name" class="w-full p-4 mb-4 rounded-xl border">
@@ -16,14 +19,12 @@
         <button onclick="submitRequest()" class="bg-black text-white px-10 py-4 rounded-full font-bold">GENERATE REQUEST</button>
     </div>
 
-    <!-- Gallery Section -->
     <h2 class="text-3xl font-bold text-center mb-10">3D Project Gallery</h2>
     <div id="galleryContainer" class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto"></div>
 
-    <!-- Host Panel (FREE - Link based) -->
     <div class="max-w-3xl mx-auto mt-20 p-10 bg-red-50 rounded-3xl border-2 border-red-200">
         <h3 class="font-bold text-red-600 mb-4">HOST PANEL (Add Image URL)</h3>
-        <input type="text" id="imgUrl" placeholder="Paste Image Direct Link (e.g., from imgbb.com)..." class="w-full p-4 mb-4 rounded-xl border">
+        <input type="text" id="imgUrl" placeholder="Paste Direct Image Link..." class="w-full p-4 mb-4 rounded-xl border">
         <input type="text" id="imgTitle" placeholder="Project Title" class="w-full p-4 mb-4 rounded-xl border">
         <button onclick="uploadProject()" class="bg-red-600 text-white px-10 py-4 rounded-xl font-bold">ADD TO GALLERY</button>
     </div>
@@ -46,36 +47,30 @@
 
         // Submit Request
         window.submitRequest = async () => {
-            await addDoc(collection(db, "projects"), { 
-                name: document.getElementById('userName').value, 
-                idea: document.getElementById('userIdea').value,
-                type: 'request'
-            });
-            alert("Request sent successfully!");
+            const name = document.getElementById('userName').value;
+            const idea = document.getElementById('userIdea').value;
+            await addDoc(collection(db, "projects"), { name, idea, type: 'request' });
+            alert("Request sent!");
         };
 
-        // Upload to Gallery (Using Image Link)
+        // Upload Gallery
         window.uploadProject = async () => {
             const url = document.getElementById('imgUrl').value;
             const title = document.getElementById('imgTitle').value;
-            if (!url) return alert("Link paste karo!");
-
-            await addDoc(collection(db, "projects"), { 
-                image: url, 
-                title: title, 
-                type: 'gallery' 
-            });
-            alert("Gallery mein add ho gaya!");
+            await addDoc(collection(db, "projects"), { image: url, title: title, type: 'gallery' });
+            alert("Added to gallery!");
         };
 
-        // Live Gallery Update
+        // Fetch & Merge Data
         onSnapshot(collection(db, "projects"), (snapshot) => {
             const container = document.getElementById('galleryContainer');
             container.innerHTML = "";
             snapshot.forEach((doc) => {
                 const d = doc.data();
                 if(d.type === 'gallery') {
-                    container.innerHTML += `<div class="p-4 border rounded-2xl"><img src="${d.image}" class="w-full h-48 object-cover rounded-xl mb-4"><h4 class="font-bold">${d.title}</h4></div>`;
+                    container.innerHTML += `<div class="p-4 border rounded-2xl shadow-sm"><img src="${d.image}" class="w-full h-48 object-cover rounded-xl mb-4" onerror="this.style.display='none'"><h4 class="font-bold">${d.title}</h4></div>`;
+                } else {
+                    container.innerHTML += `<div class="p-4 border rounded-2xl bg-gray-50"><h4 class="font-bold">${d.name}</h4><p class="text-sm">${d.idea}</p></div>`;
                 }
             });
         });
