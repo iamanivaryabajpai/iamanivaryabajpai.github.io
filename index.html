@@ -70,7 +70,7 @@
         Are you a stadium? Because my heart beats only when you're crowded with smiles! 😉✨
     </div>
 
-    <!-- LIVE PHOTO BOX (Hamesha dikhega jab photo set hogi) -->
+    <!-- LIVE PHOTO BOX -->
     <div id="logo-container" class="mb-6 hidden">
         <div class="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-slate-200 via-white to-slate-900 shadow-xl">
             <img id="dynamic-logo" src="" alt="Live Profile" class="w-full h-full object-cover rounded-full border-2 border-white">
@@ -117,8 +117,8 @@
         const logoContainer = document.getElementById('logo-container');
         const dynamicLogo = document.getElementById('dynamic-logo');
 
-        // Page load hote hi turant purana data display karo
-        function loadSavedData() {
+        // On Page Load: Data check karo aur restore karo
+        window.addEventListener('DOMContentLoaded', () => {
             const storedImg = localStorage.getItem('savedLogoImage');
             const storedDesc = localStorage.getItem('savedStatusDesc');
 
@@ -129,49 +129,45 @@
             if (storedDesc) {
                 descInput.value = storedDesc;
             }
-        }
-
-        // Photo file pick hote hi turant use convert karke save karo
-        imageInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Image base64 string ko local storage me save karo
-                    localStorage.setItem('savedLogoImage', e.target.result);
-                    dynamicLogo.src = e.target.result;
-                    logoContainer.classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
         });
 
-        // Post Button Action
+        // Click Handle Logic
         postBtn.addEventListener('click', function() {
             const descText = descInput.value.trim();
-            const currentImg = localStorage.getItem('savedLogoImage');
+            const file = imageInput.files[0];
 
-            if (!currentImg) {
-                alert("Please select a photo first!");
-                return;
-            }
             if (!descText) {
                 alert("Please write a description!");
                 return;
             }
 
-            // Description ko browser history storage me lock karo
-            localStorage.setItem('savedStatusDesc', descText);
-            
-            // Visual Update
-            dynamicLogo.src = currentImg;
-            logoContainer.classList.remove('hidden');
-            
-            alert("Data permanently posted! Ab refresh karo, kuch cancel nahi hoga.");
+            // Agar user ne nayi photo select kari hai
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    
+                    // Dono ko local storage me save karo
+                    localStorage.setItem('savedLogoImage', base64Image);
+                    localStorage.setItem('savedStatusDesc', descText);
+                    
+                    // UI render
+                    dynamicLogo.src = base64Image;
+                    logoContainer.classList.remove('hidden');
+                    alert("Successfully Posted & Saved!");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Agar photo pehle se thi aur sirf text badla
+                const existingImg = localStorage.getItem('savedLogoImage');
+                if (!existingImg) {
+                    alert("Please select a photo first!");
+                    return;
+                }
+                localStorage.setItem('savedStatusDesc', descText);
+                alert("Description Updated & Saved!");
+            }
         });
-
-        // Initialize Engine
-        window.addEventListener('DOMContentLoaded', loadSavedData);
     </script>
 
 </body>
