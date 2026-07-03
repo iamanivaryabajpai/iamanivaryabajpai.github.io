@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Anivarya Bajpai</title>
     <meta name="description" content="Official website of Anivarya Bajpai">
-    <!-- Premium Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -117,56 +116,46 @@
         const logoContainer = document.getElementById('logo-container');
         const dynamicLogo = document.getElementById('dynamic-logo');
 
-        // On Page Load: Data check karo aur restore karo
+        // Restore automatically on load
         window.addEventListener('DOMContentLoaded', () => {
-            const storedImg = localStorage.getItem('savedLogoImage');
-            const storedDesc = localStorage.getItem('savedStatusDesc');
-
-            if (storedImg) {
-                dynamicLogo.src = storedImg;
+            const savedImg = localStorage.getItem('user_photo');
+            const savedDesc = localStorage.getItem('user_desc');
+            if (savedImg) {
+                dynamicLogo.src = savedImg;
                 logoContainer.classList.remove('hidden');
             }
-            if (storedDesc) {
-                descInput.value = storedDesc;
+            if (savedDesc) {
+                descInput.value = savedDesc;
             }
         });
 
-        // Click Handle Logic
+        // Safe Execution Pipeline
         postBtn.addEventListener('click', function() {
-            const descText = descInput.value.trim();
             const file = imageInput.files[0];
+            const textValue = descInput.value.trim();
 
-            if (!descText) {
-                alert("Please write a description!");
-                return;
+            if (textValue) {
+                localStorage.setItem('user_desc', textValue);
             }
 
-            // Agar user ne nayi photo select kari hai
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Image = e.target.result;
-                    
-                    // Dono ko local storage me save karo
-                    localStorage.setItem('savedLogoImage', base64Image);
-                    localStorage.setItem('savedStatusDesc', descText);
-                    
-                    // UI render
-                    dynamicLogo.src = base64Image;
-                    logoContainer.classList.remove('hidden');
-                    alert("Successfully Posted & Saved!");
+                reader.onload = function(event) {
+                    const imgData = event.target.result;
+                    try {
+                        localStorage.setItem('user_photo', imgData);
+                        dynamicLogo.src = imgData;
+                        logoContainer.classList.remove('hidden');
+                    } catch (error) {
+                        // Safe fallback handling for extremely large images
+                        dynamicLogo.src = imgData;
+                        logoContainer.classList.remove('hidden');
+                    }
                 };
                 reader.readAsDataURL(file);
-            } else {
-                // Agar photo pehle se thi aur sirf text badla
-                const existingImg = localStorage.getItem('savedLogoImage');
-                if (!existingImg) {
-                    alert("Please select a photo first!");
-                    return;
-                }
-                localStorage.setItem('savedStatusDesc', descText);
-                alert("Description Updated & Saved!");
             }
+            
+            alert("Posted Successfully!");
         });
     </script>
 
