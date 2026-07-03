@@ -70,10 +70,10 @@
         Are you a stadium? Because my heart beats only when you're crowded with smiles! 😉✨
     </div>
 
-    <!-- ORIGINAL PHOTO SHOW Area -->
+    <!-- LIVE PHOTO BOX (Hamesha dikhega jab photo set hogi) -->
     <div id="logo-container" class="mb-6 hidden">
-        <div class="relative w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-slate-200 via-white to-slate-900 shadow-xl">
-            <img id="dynamic-logo" src="" alt="Cool Logo" class="w-full h-full object-cover rounded-full border-2 border-white">
+        <div class="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-slate-200 via-white to-slate-900 shadow-xl">
+            <img id="dynamic-logo" src="" alt="Live Profile" class="w-full h-full object-cover rounded-full border-2 border-white">
         </div>
     </div>
 
@@ -85,7 +85,7 @@
         Born to bleed Red—RCB fan for life.
     </div>
 
-    <!-- MAIN UPLOAD AND DESCRIPTION BOX -->
+    <!-- INPUT FORM AND POST SETUP -->
     <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-2 text-left">Upload your photo</label>
@@ -102,7 +102,7 @@
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-2 text-left">Write Description</label>
             <textarea id="desc-input" placeholder="Apne baare me kuch likho..." rows="3" 
-                class="w-full text-sm text-slate-700 p-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 resize-none"></textarea>
+                class="w-full text-sm text-slate-700 p-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 resize-none bg-slate-50/50"></textarea>
         </div>
 
         <button id="post-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-xl transition-all shadow-md">
@@ -114,29 +114,44 @@
         const imageInput = document.getElementById('image-input');
         const descInput = document.getElementById('desc-input');
         const postBtn = document.getElementById('post-btn');
-        
         const logoContainer = document.getElementById('logo-container');
         const dynamicLogo = document.getElementById('dynamic-logo');
 
-        let imageDataUrl = localStorage.getItem('savedLogoImage') || "";
+        // Page load hote hi turant purana data display karo
+        function loadSavedData() {
+            const storedImg = localStorage.getItem('savedLogoImage');
+            const storedDesc = localStorage.getItem('savedStatusDesc');
 
-        // Handle Image Selection
+            if (storedImg) {
+                dynamicLogo.src = storedImg;
+                logoContainer.classList.remove('hidden');
+            }
+            if (storedDesc) {
+                descInput.value = storedDesc;
+            }
+        }
+
+        // Photo file pick hote hi turant use convert karke save karo
         imageInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    imageDataUrl = e.target.result;
+                    // Image base64 string ko local storage me save karo
+                    localStorage.setItem('savedLogoImage', e.target.result);
+                    dynamicLogo.src = e.target.result;
+                    logoContainer.classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // Handle Post Button Click
+        // Post Button Action
         postBtn.addEventListener('click', function() {
             const descText = descInput.value.trim();
+            const currentImg = localStorage.getItem('savedLogoImage');
 
-            if (!imageDataUrl) {
+            if (!currentImg) {
                 alert("Please select a photo first!");
                 return;
             }
@@ -145,30 +160,18 @@
                 return;
             }
 
-            // Permanent browser storage sync
-            localStorage.setItem('savedLogoImage', imageDataUrl);
+            // Description ko browser history storage me lock karo
             localStorage.setItem('savedStatusDesc', descText);
-
-            // Instant UI update
-            displayData(imageDataUrl, descText);
-            alert("Posted successfully! Refresh karke check karlo, data nahi jayega.");
-        });
-
-        function displayData(img, desc) {
-            dynamicLogo.src = img;
+            
+            // Visual Update
+            dynamicLogo.src = currentImg;
             logoContainer.classList.remove('hidden');
-            descInput.value = desc; // Description box ke andar original content fill rakhega
-        }
-
-        // On Page Load: Restore Saved State
-        window.addEventListener('DOMContentLoaded', () => {
-            const storedImg = localStorage.getItem('savedLogoImage');
-            const storedDesc = localStorage.getItem('savedStatusDesc');
-
-            if (storedImg && storedDesc) {
-                displayData(storedImg, storedDesc);
-            }
+            
+            alert("Data permanently posted! Ab refresh karo, kuch cancel nahi hoga.");
         });
+
+        // Initialize Engine
+        window.addEventListener('DOMContentLoaded', loadSavedData);
     </script>
 
 </body>
