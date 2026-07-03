@@ -9,7 +9,7 @@
     <style>
         body { 
             margin: 0; 
-            height: 100vh; 
+            min-height: 100vh; /* Changed to min-height so content doesn't cut off if it grows */
             display: flex; 
             flex-direction: column;
             justify-content: center; 
@@ -17,7 +17,7 @@
             background: radial-gradient(circle at center, #ffffff 0%, #f8fafc 100%); 
             font-family: 'Inter', sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
         .name-text {
             font-size: 8vw;
@@ -42,7 +42,7 @@
             backdrop-filter: blur(8px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.8);
-            margin-bottom: 30px; /* Added margin to separate from the upload section */
+            margin-bottom: 30px;
         }
         @media (max-width: 640px) {
             .bio-text {
@@ -62,9 +62,14 @@
         Born to bleed Red—RCB fan for life.
     </div>
 
-    <div class="w-full max-w-md bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-        <label class="block text-sm font-semibold text-slate-700 mb-2">Upload your image</label>
-        <input type="file" accept="image/*" 
+    <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col items-center">
+        
+        <div id="preview-container" class="hidden mb-4">
+            <img id="image-preview" src="#" alt="Uploaded Photo" class="w-32 height-32 h-32 w-32 object-cover rounded-full border-4 border-slate-100 shadow-md">
+        </div>
+
+        <label class="block text-sm font-semibold text-slate-700 mb-3">Upload your photo</label>
+        <input type="file" id="image-input" accept="image/*" 
             class="block w-full text-sm text-slate-500
             file:mr-4 file:py-2 file:px-4
             file:rounded-full file:border-0
@@ -73,6 +78,28 @@
             hover:file:bg-slate-800
             cursor-pointer file:cursor-pointer transition-all" />
     </div>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                
+                // Show the preview area once the file is loaded
+                reader.addEventListener('load', function() {
+                    imagePreview.setAttribute('src', this.result);
+                    previewContainer.classList.remove('hidden');
+                });
+                
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 
 </body>
 </html>
