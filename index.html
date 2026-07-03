@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Anivarya Bajpai</title>
     <meta name="description" content="Official website of Anivarya Bajpai">
+    <!-- Premium Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -14,6 +15,7 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center; 
+            /* Starting premium white theme gradient */
             background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%); 
             font-family: 'Inter', sans-serif;
             text-align: center;
@@ -56,6 +58,18 @@
             border: 1px solid rgba(255, 255, 255, 0.7);
             margin-bottom: 30px;
         }
+        /* Elegant Description Box */
+        .desc-box {
+            font-size: 1.1rem;
+            color: #1e293b;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
         @media (max-width: 640px) {
             .bio-text { font-size: 1rem; padding: 16px 24px; }
             .name-text { font-size: 12vw; }
@@ -69,13 +83,14 @@
         Are you a stadium? Because my heart beats only when you're crowded with smiles! 😉✨
     </div>
 
-    <!-- LIVE PHOTO BOX -->
-    <div id="logo-container" class="mb-6 hidden">
-        <div class="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-slate-200 via-white to-slate-900 shadow-xl">
-            <img id="dynamic-logo" src="" alt="Live Profile" class="w-full h-full object-cover rounded-full border-2 border-white">
-        </div>
+    <!-- COOL ROUNDED PHOTO FRAME -->
+    <div class="mb-6">
+        <!-- Apne GitHub repo me photo upload karo aur uska naam 'src' me daal do, abhi ke liye placeholder lagaya hai -->
+        <img src="https://via.placeholder.com/150" alt="Anivarya Bajpai" 
+             class="w-32 h-32 object-cover rounded-full border-4 border-white shadow-xl mx-auto ring-4 ring-slate-100">
     </div>
 
+    <!-- STARTING PREMIUM TITLES -->
     <div class="name-text">ANIVARYA BAJPAI</div>
     
     <div class="bio-text">
@@ -84,80 +99,13 @@
         Born to bleed Red—RCB fan for life.
     </div>
 
-    <!-- INPUT FORM AND POST SETUP -->
-    <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-        <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2 text-left">Upload your photo</label>
-            <input type="file" id="image-input" accept="image/*" 
-                class="block w-full text-sm text-slate-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-slate-900 file:text-white
-                hover:file:bg-slate-800
-                cursor-pointer file:cursor-pointer transition-all" />
-        </div>
-
-        <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2 text-left">Write Description</label>
-            <textarea id="desc-input" placeholder="Apne baare me kuch likho..." rows="3" 
-                class="w-full text-sm text-slate-700 p-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 resize-none bg-slate-50/50"></textarea>
-        </div>
-
-        <button id="post-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-xl transition-all shadow-md">
-            Post Now
-        </button>
+    <!-- CLEAN PERMANENT DESCRIPTION BOX -->
+    <div class="desc-box">
+        <h3 class="font-bold text-slate-800 mb-2 text-center">Current Status</h3>
+        <p class="text-slate-600 leading-relaxed text-center">
+            Welcome to my official premium corner! Always loading updates with style. 🚀
+        </p>
     </div>
-
-    <script>
-        const imageInput = document.getElementById('image-input');
-        const descInput = document.getElementById('desc-input');
-        const postBtn = document.getElementById('post-btn');
-        const logoContainer = document.getElementById('logo-container');
-        const dynamicLogo = document.getElementById('dynamic-logo');
-
-        // Restore automatically on load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedImg = localStorage.getItem('user_photo');
-            const savedDesc = localStorage.getItem('user_desc');
-            if (savedImg) {
-                dynamicLogo.src = savedImg;
-                logoContainer.classList.remove('hidden');
-            }
-            if (savedDesc) {
-                descInput.value = savedDesc;
-            }
-        });
-
-        // Safe Execution Pipeline
-        postBtn.addEventListener('click', function() {
-            const file = imageInput.files[0];
-            const textValue = descInput.value.trim();
-
-            if (textValue) {
-                localStorage.setItem('user_desc', textValue);
-            }
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const imgData = event.target.result;
-                    try {
-                        localStorage.setItem('user_photo', imgData);
-                        dynamicLogo.src = imgData;
-                        logoContainer.classList.remove('hidden');
-                    } catch (error) {
-                        // Safe fallback handling for extremely large images
-                        dynamicLogo.src = imgData;
-                        logoContainer.classList.remove('hidden');
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-            
-            alert("Posted Successfully!");
-        });
-    </script>
 
 </body>
 </html>
