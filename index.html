@@ -14,7 +14,6 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center; 
-            /* Subtle modern radial background instead of a flat harsh white */
             background: radial-gradient(circle at center, #ffffff 0%, #f8fafc 100%); 
             font-family: 'Inter', sans-serif;
             text-align: center;
@@ -23,30 +22,28 @@
         .name-text {
             font-size: 8vw;
             font-weight: 900;
-            /* Premium dark text gradient */
             background: linear-gradient(135deg, #1e293b 0%, #000000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             margin-bottom: 24px;
-            letter-spacing: -0.02em; /* Sleek, tight letter spacing for large titles */
+            letter-spacing: -0.02em;
         }
         .bio-text {
             font-size: 1.25rem;
-            color: #475569; /* Softer slate grey for premium readability */
+            color: #475569; 
             font-weight: 400;
             line-height: 1.8;
             max-width: 600px;
             letter-spacing: 0.01em;
-            /* Elegant, soft box shadow layout to center the focus */
             background: rgba(255, 255, 255, 0.7);
             padding: 24px 40px;
             border-radius: 16px;
             backdrop-filter: blur(8px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px; /* Added margin to separate from the upload section */
         }
-        /* Mobile optimization for text size */
         @media (max-width: 640px) {
             .bio-text {
                 font-size: 1rem;
@@ -58,10 +55,23 @@
 <body>
 
     <div class="name-text">ANIVARYA BAJPAI</div>
+    
     <div class="bio-text">
         14 years old | Living life my way.<br>
         Cricket is my rhythm, Virat Kohli is the vibe.<br>
         Born to bleed Red—RCB fan for life.
+    </div>
+
+    <div class="w-full max-w-md bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">Upload your image</label>
+        <input type="file" accept="image/*" 
+            class="block w-full text-sm text-slate-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            file:bg-slate-900 file:text-white
+            hover:file:bg-slate-800
+            cursor-pointer file:cursor-pointer transition-all" />
     </div>
 
 </body>
