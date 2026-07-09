@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anivarya Bajpai | Official Profile</title>
-    <meta name="description" content="Official professional website of Anivarya Bajpai">
+    <!-- Premium Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -23,218 +24,226 @@
             background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 100%);
             min-height: 100vh;
         }
-        .premium-blur {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        /* Custom smooth scrollbar for feed */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 9999px;
+        .instagram-glow:hover {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
         }
     </style>
 </head>
 <body class="font-sans text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
 
-    <header class="max-w-2xl mx-auto pt-12 px-4 text-center">
-        <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm mb-8 animate-fade-in">
-            <span>😉✨</span>
-            <span>Are you a stadium? Because my heart beats only when you're crowded with smiles!</span>
-        </div>
-
-        <div class="relative w-32 h-32 mx-auto mb-6 group">
-            <div class="absolute inset-0 bg-gradient-to-tr from-slate-200 to-slate-400 rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity"></div>
-            <img src="https://via.placeholder.com/150" alt="Anivarya Bajpai" id="profile-img"
-                 class="relative w-32 h-32 object-cover rounded-full border-4 border-white shadow-md ring-1 ring-slate-100 z-10">
-        </div>
-
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 uppercase mb-4">
-            Anivarya Bajpai
-        </h1>
-
-        <div class="bg-white/70 border border-slate-200/80 rounded-2xl p-6 premium-blur shadow-sm max-w-xl mx-auto mb-6 text-center">
-            <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Personal Profile</p>
-            <div class="text-slate-700 text-base space-y-1 font-medium">
-                <p>14 years old <span class="text-slate-300">|</span> Living life my way</p>
-                <p>Cricket is my rhythm <span class="text-slate-300">|</span> Virat Kohli is the vibe</p>
-                <p class="text-red-600 font-bold">Born to bleed Red — RCB fan for life ❤️</p>
-            </div>
-        </div>
-
-        <div class="bg-slate-900 text-white rounded-2xl p-5 max-w-xl mx-auto shadow-xl text-left flex items-center justify-between">
-            <div>
-                <h3 class="font-bold text-sm tracking-wide uppercase text-slate-400">Current Status</h3>
-                <p class="text-slate-200 text-sm mt-1">Welcome to my official premium corner! Always loading updates with style. 🚀</p>
-            </div>
-            <button onclick="openModal()" class="shrink-0 ml-4 bg-white text-slate-900 font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-slate-100 transition shadow-sm">
-                + Create Post
+    <!-- INSTA-STYLE TOP NAVIGATION BAR -->
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 py-3">
+        <div class="max-w-xl mx-auto flex items-center justify-between">
+            <span class="font-black text-xl tracking-tight bg-gradient-to-r from-red-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">ANIVARYA CORE</span>
+            <button onclick="openModal()" class="bg-slate-900 text-white font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">
+                + New Post
             </button>
+        </div>
+    </nav>
+
+    <!-- TOP PROFILE HERO PROFILE HEADER -->
+    <header class="max-w-xl mx-auto pt-8 px-4">
+        <!-- Interactive Pitch Line -->
+        <div class="bg-amber-50 border border-amber-200/60 text-amber-900 text-xs md:text-sm font-semibold p-3 rounded-2xl shadow-sm mb-6 text-center">
+            😉 Are you a stadium? Because my heart beats only when you're crowded with smiles! ✨
+        </div>
+
+        <!-- Main User Info Layout Grid -->
+        <div class="flex items-center gap-6 mb-6">
+            <div class="relative w-24 h-24 shrink-0">
+                <div class="absolute inset-0 bg-gradient-to-tr from-amber-400 via-pink-500 to-red-600 rounded-full p-[3px]">
+                    <div class="w-full h-full bg-white rounded-full p-[2px]">
+                        <img src="https://via.placeholder.com/150" alt="Anivarya Bajpai" class="w-full h-full object-cover rounded-full">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-2">
+                <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 uppercase">Anivarya Bajpai</h1>
+                <div class="flex gap-4 text-xs font-bold text-slate-500">
+                    <div><span class="text-slate-900 font-extrabold" id="header-post-count">0</span> posts</div>
+                    <div><span class="text-slate-900 font-extrabold">RCB</span> fan for life</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Styled Bio Card Element -->
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm text-sm">
+            <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px] mb-2">Verified Biography</p>
+            <div class="text-slate-700 space-y-1 font-medium">
+                <p>🎂 14 years old • Living life my way.</p>
+                <p>🏏 Cricket is my rhythm, Virat Kohli is the vibe.</p>
+                <p class="text-red-600 font-bold flex items-center gap-1">❤️ Born to bleed Red — Team RCB.</p>
+            </div>
         </div>
     </header>
 
-    <hr class="max-w-xl mx-auto my-10 border-slate-200/60">
+    <hr class="max-w-xl mx-auto my-8 border-slate-200/60">
 
+    <!-- POSTS TIMELINE TIMELINE FEED -->
     <main class="max-w-xl mx-auto px-4 pb-24">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-bold tracking-tight text-slate-800">My Dynamic Feed Updates</h2>
-            <span id="post-count" class="text-xs font-semibold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full border border-slate-200">0 Posts</span>
-        </div>
-
         <div id="feed-container" class="space-y-6">
-            </div>
+            <!-- JavaScript Engine injects functional modules here dynamically -->
+        </div>
     </main>
 
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-bold text-slate-900">Create New Post</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 font-medium text-sm">Cancel</button>
+    <!-- COMPONENT: POST DIALOG WINDOW -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="font-extrabold text-slate-900 text-sm tracking-wide uppercase">Create New Post</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 font-bold text-sm">Close</button>
             </div>
             
-            <form id="post-form" onsubmit="handlePostSubmit(event)" class="p-6 space-y-4">
+            <form id="post-form" onsubmit="handlePostSubmit(event)" class="p-5 space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Post Description Text</label>
-                    <textarea id="post-caption" required rows="3" placeholder="What's happening? Share your thoughts, sports hype, or vibe..." 
-                              class="w-full rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent resize-none"></textarea>
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Post Content Caption</label>
+                    <textarea id="post-caption" required rows="3" placeholder="Write something cool... What's on your mind today?" 
+                              class="w-full rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent resize-none font-medium"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Upload Photo (Image File)</label>
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Add Image Media Asset (Optional)</label>
                     <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:bg-slate-50 transition relative">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
                         <div class="space-y-1">
-                            <svg class="mx-auto h-8 w-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class="text-xs font-semibold text-slate-600">Click to upload file from your device</p>
-                            <p id="file-chosen-name" class="text-xs font-medium text-emerald-600 truncate"></p>
+                            <p class="text-xs font-bold text-slate-600">📸 Select Image from Device</p>
+                            <p id="file-chosen-name" class="text-xs font-semibold text-emerald-600 truncate mt-1"></p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 text-white font-semibold text-sm py-3 rounded-xl hover:bg-slate-800 transition shadow-md">
-                    Publish to Feed
+                <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl hover:bg-slate-800 transition shadow-md">
+                    Publish Post File
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- CORE LOCALSTORAGE DATA PIPELINE LOGIC CONTROLLER -->
     <script>
-        // Array holding feed data states
         let posts = [];
 
-        // App Init Lifecycle hook
         window.addEventListener('DOMContentLoaded', () => {
             loadPostsFromStorage();
-            setupFileChangeListener();
+            
+            // Sync selection text updates natively instantly on change
+            document.getElementById('post-image').addEventListener('change', function() {
+                if(this.files && this.files[0]) {
+                    document.getElementById('file-chosen-name').innerText = `Target: ${this.files[0].name}`;
+                }
+            });
         });
 
-        // Open Modal Controller
         function openModal() {
             document.getElementById('post-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Freeze background tracking
         }
 
-        // Close Modal Controller
         function closeModal() {
             document.getElementById('post-modal').classList.add('hidden');
-            document.body.style.overflow = ''; // Unfreeze background
             document.getElementById('post-form').reset();
             document.getElementById('file-chosen-name').innerText = '';
         }
 
-        // Helper showing UI upload validation file labels
-        function setupFileChangeListener() {
-            const input = document.getElementById('post-image');
-            input.addEventListener('change', function() {
-                if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Selected: ${this.files[0].name}`;
-                }
-            });
-        }
-
-        // Core data pipeline: Transforms image to binary Base64 string safely without storage limits natively
+        // Optimized Submission pipeline with absolute compression layers
         function handlePostSubmit(e) {
             e.preventDefault();
-            const caption = document.getElementById('post-caption').value;
+            
+            const caption = document.getElementById('post-caption').value.trim();
             const fileInput = document.getElementById('post-image');
             const file = fileInput.files[0];
 
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const base64Image = event.target.result;
-                    createNewPostObject(caption, base64Image);
+                    const img = new Image();
+                    img.onload = function() {
+                        // Max out canvas boundaries safely to prevent storage full crashes
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        const max_size = 600; 
+
+                        if (width > height) {
+                            if (width > max_size) {
+                                height *= max_size / width;
+                                width = max_size;
+                            }
+                        } else {
+                            if (height > max_size) {
+                                width *= max_size / height;
+                                height = max_size;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        const optimizedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        executePostCreation(caption, optimizedBase64);
+                    };
+                    img.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
             } else {
-                // Text-only fallback layout setup
-                createNewPostObject(caption, null);
+                executePostCreation(caption, null);
             }
         }
 
-        // Object instance processing engine
-        function createNewPostObject(caption, imageSrc) {
-            const newPost = {
-                id: 'post_' + Date.now(),
+        function executePostCreation(caption, imageSrc) {
+            const postObj = {
+                id: 'id_' + Date.now(),
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
                 image: imageSrc,
                 likes: 0
             };
 
-            posts.unshift(newPost); // Adds newly minted object right at top profile row feed
+            posts.unshift(postObj);
             savePostsToStorage();
             renderFeedItems();
             closeModal();
         }
 
-        // Action mechanics: Like increments
+        // LIKE FUNCTION FIX: Finds item matching exact instance string and forces clean mathematical re-evaluation state
         function likePost(id) {
-            const postIndex = posts.findIndex(p => p.id === id);
-            if (postIndex !== -1) {
-                posts[postIndex].likes += 1;
+            const targetIndex = posts.findIndex(p => p.id === id);
+            if (targetIndex !== -1) {
+                posts[targetIndex].likes = (posts[targetIndex].likes || 0) + 1;
                 savePostsToStorage();
                 renderFeedItems();
             }
         }
 
-        // Action mechanics: Remove post from tracking state
         function deletePost(id) {
-            if(confirm("Are you sure you want to delete this update?")) {
+            if(confirm("Delete this update forever?")) {
                 posts = posts.filter(p => p.id !== id);
                 savePostsToStorage();
                 renderFeedItems();
             }
         }
 
-        // Encapsulation Save Module
         function savePostsToStorage() {
-            localStorage.setItem('anivarya_website_posts', JSON.stringify(posts));
+            localStorage.setItem('anivarya_core_database', JSON.stringify(posts));
         }
 
-        // Engine parsing structural database loader
         function loadPostsFromStorage() {
-            const savedData = localStorage.getItem('anivarya_website_posts');
-            if (savedData) {
+            const rawData = localStorage.getItem('anivarya_core_database');
+            if (rawData) {
                 try {
-                    posts = JSON.parse(savedData);
-                } catch(e) {
+                    posts = JSON.parse(rawData);
+                } catch(err) {
                     posts = [];
                 }
             } else {
-                // Starter Default mockup placeholder layout initialization data point setup 
                 posts = [
                     {
-                        id: 'default_1',
+                        id: 'seed_init_1',
                         timestamp: 'Just now',
-                        caption: 'Welcome to my sleek, ultra-clean web terminal environment setup. Try creating dynamic posts natively using files on your device directly up top!',
+                        caption: 'Welcome to the core terminal hub. Everything here works directly on local browser states. Try posting an update to check persistence!',
                         image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
-                        likes: 7
+                        likes: 18
                     }
                 ];
                 savePostsToStorage();
@@ -242,63 +251,66 @@
             renderFeedItems();
         }
 
-        // Virtualized DOM node paint render controller logic
         function renderFeedItems() {
             const container = document.getElementById('feed-container');
-            const countBadge = document.getElementById('post-count');
+            const countHeader = document.getElementById('header-post-count');
             
-            countBadge.innerText = `${posts.length} ${posts.length === 1 ? 'Post' : 'Posts'}`;
+            countHeader.innerText = posts.length;
             container.innerHTML = '';
 
-            if (posts.length === 0) {
+            if(posts.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-12 border border-dashed border-slate-200 rounded-2xl bg-white/40">
-                        <p class="text-slate-400 font-medium text-sm">Your dynamic feed timeline is currently empty.</p>
+                    <div class="text-center py-12 border border-dashed border-slate-200 rounded-2xl bg-white/50">
+                        <p class="text-slate-400 font-bold text-xs tracking-wide uppercase">No Timeline feeds found.</p>
                     </div>
                 `;
                 return;
             }
 
             posts.forEach(post => {
-                let imgMarkup = '';
-                if (post.image) {
-                    imgMarkup = `
-                        <div class="border-b border-slate-100 overflow-hidden bg-slate-50">
-                            <img src="${post.image}" class="w-full h-auto max-h-[400px] object-cover mx-auto" alt="Post Asset Media">
+                let mediaSection = '';
+                if(post.image) {
+                    mediaSection = `
+                        <div class="bg-slate-50 border-b border-slate-100 overflow-hidden">
+                            <img src="${post.image}" class="w-full h-auto max-h-[450px] object-cover mx-auto" alt="Timeline Media Element">
                         </div>
                     `;
                 }
 
-                const cardHtml = `
-                    <div class="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm transition hover:shadow-md">
-                        <div class="px-5 py-4 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-xs">AB</div>
+                const postMarkup = `
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm instagram-glow transition-all duration-200">
+                        <!-- Top header of post info card -->
+                        <div class="px-4 py-3 flex items-center justify-between border-b border-slate-50">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-full bg-slate-900 text-white font-extrabold text-[10px] flex items-center justify-center">AB</div>
                                 <div>
-                                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800">Anivarya Bajpai</h4>
-                                    <span class="text-[10px] font-medium text-slate-400">${post.timestamp}</span>
+                                    <h4 class="text-xs font-bold text-slate-800 tracking-tight">anivaryabajpai</h4>
+                                    <span class="text-[9px] font-semibold text-slate-400 block -mt-0.5">${post.timestamp}</span>
                                 </div>
                             </div>
-                            <button onclick="deletePost('${post.id}')" class="text-slate-300 hover:text-red-500 transition text-sm font-medium px-2 py-1">
-                                Delete
-                            </button>
+                            <button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
                         </div>
 
-                        ${imgMarkup}
+                        <!-- Main Image Space -->
+                        ${mediaSection}
 
-                        <div class="p-5 text-sm leading-relaxed text-slate-700 font-medium text-left">
-                            ${post.caption}
+                        <!-- Description Space -->
+                        <div class="p-4 text-sm font-medium text-slate-800 text-left leading-relaxed">
+                            <span class="font-extrabold text-xs tracking-tight text-slate-900 mr-1.5 uppercase">anivaryabajpai</span> ${post.caption}
                         </div>
 
-                        <div class="px-5 py-3 border-t border-slate-50 bg-slate-50/50 flex items-center">
-                            <button onclick="likePost('${post.id}')" class="group flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-red-500 transition">
-                                <svg class="w-4 h-4 text-slate-400 group-hover:text-red-500 transition fill-none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                                <span>Like (${post.likes})</span>
+                        <!-- Activity interaction foot bar rows -->
+                        <div class="px-4 py-3 border-t border-slate-50 bg-slate-50/40 flex items-center">
+                            <button onclick="likePost('${post.id}')" class="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-red-500 transition group">
+                                <svg class="w-4 h-4 text-slate-400 group-hover:text-red-500 transition-colors fill-red-500 ${post.likes > 0 ? 'text-red-500' : 'text-slate-400 fill-none'}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span>Likes (${post.likes || 0})</span>
                             </button>
                         </div>
                     </div>
                 `;
-                container.insertAdjacentHTML('beforeend', cardHtml);
+                container.insertAdjacentHTML('beforeend', postMarkup);
             });
         }
     </script>
