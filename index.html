@@ -3,314 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivarya Bajpai | Official Profile</title>
-    <!-- Premium Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS -->
+    <title>Anivarya Bajpai | Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 100%);
-            min-height: 100vh;
-        }
-        .instagram-glow:hover {
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
-        }
+        body { background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 100%); min-height: 100vh; }
+        .feed-card:hover { box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.05); }
     </style>
 </head>
-<body class="font-sans text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
+<body class="font-sans text-slate-900 antialiased bg-slate-50">
 
     <!-- INSTA-STYLE TOP NAVIGATION BAR -->
-    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 py-3">
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 py-3.5">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tight bg-gradient-to-r from-red-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">ANIVARYA CORE</span>
-            <button onclick="openModal()" class="bg-slate-900 text-white font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">
+            <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-red-500 via-pink-500 to-amber-500 bg-clip-text text-transparent">ANIVARYA CORE</span>
+            <button onclick="openModal()" class="bg-slate-900 text-white font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-slate-800 transition active:scale-95">
                 + New Post
             </button>
         </div>
     </nav>
 
-    <!-- TOP PROFILE HERO PROFILE HEADER -->
+    <!-- HEADER SECTION -->
     <header class="max-w-xl mx-auto pt-8 px-4">
-        <!-- Interactive Pitch Line -->
-        <div class="bg-amber-50 border border-amber-200/60 text-amber-900 text-xs md:text-sm font-semibold p-3 rounded-2xl shadow-sm mb-6 text-center">
+        <div class="bg-amber-50/70 border border-amber-100 text-amber-900 text-xs md:text-sm font-semibold p-3.5 rounded-2xl shadow-sm mb-6 text-center">
             😉 Are you a stadium? Because my heart beats only when you're crowded with smiles! ✨
         </div>
 
-        <!-- Main User Info Layout Grid -->
         <div class="flex items-center gap-6 mb-6">
-            <div class="relative w-24 h-24 shrink-0">
-                <div class="absolute inset-0 bg-gradient-to-tr from-amber-400 via-pink-500 to-red-600 rounded-full p-[3px]">
+            <div class="relative w-20 h-20 shrink-0">
+                <div class="absolute inset-0 bg-gradient-to-tr from-amber-400 via-pink-500 to-red-500 rounded-full p-[2.5px]">
                     <div class="w-full h-full bg-white rounded-full p-[2px]">
-                        <img src="https://via.placeholder.com/150" alt="Anivarya Bajpai" class="w-full h-full object-cover rounded-full">
+                        <img src="https://via.placeholder.com/150" alt="Anivarya" class="w-full h-full object-cover rounded-full">
                     </div>
                 </div>
             </div>
-            
-            <div class="space-y-2">
+            <div class="space-y-1.5">
                 <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 uppercase">Anivarya Bajpai</h1>
                 <div class="flex gap-4 text-xs font-bold text-slate-500">
                     <div><span class="text-slate-900 font-extrabold" id="header-post-count">0</span> posts</div>
-                    <div><span class="text-slate-900 font-extrabold">RCB</span> fan for life</div>
+                    <div class="text-red-600">RCB fan for life ❤️</div>
                 </div>
             </div>
         </div>
 
-        <!-- Styled Bio Card Element -->
-        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm text-sm">
-            <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px] mb-2">Verified Biography</p>
-            <div class="text-slate-700 space-y-1 font-medium">
+        <div class="bg-white border border-slate-200/60 rounded-2xl p-4 shadow-sm text-sm">
+            <div class="text-slate-600 space-y-1 font-medium">
                 <p>🎂 14 years old • Living life my way.</p>
                 <p>🏏 Cricket is my rhythm, Virat Kohli is the vibe.</p>
-                <p class="text-red-600 font-bold flex items-center gap-1">❤️ Born to bleed Red — Team RCB.</p>
             </div>
         </div>
     </header>
 
-    <hr class="max-w-xl mx-auto my-8 border-slate-200/60">
+    <hr class="max-w-xl mx-auto my-8 border-slate-200/40">
 
-    <!-- POSTS TIMELINE TIMELINE FEED -->
+    <!-- TIMELINE FEED -->
     <main class="max-w-xl mx-auto px-4 pb-24">
-        <div id="feed-container" class="space-y-6">
-            <!-- JavaScript Engine injects functional modules here dynamically -->
-        </div>
+        <div id="feed-container" class="space-y-6"></div>
     </main>
 
-    <!-- COMPONENT: POST DIALOG WINDOW -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <!-- POST MODAL -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden">
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-extrabold text-slate-900 text-sm tracking-wide uppercase">Create New Post</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 font-bold text-sm">Close</button>
+                <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wider">Create New Post</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xs uppercase">Cancel</button>
             </div>
             
-            <form id="post-form" onsubmit="handlePostSubmit(event)" class="p-5 space-y-4">
+            <form id="post-form" class="p-5 space-y-4">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Post Content Caption</label>
-                    <textarea id="post-caption" required rows="3" placeholder="Write something cool... What's on your mind today?" 
-                              class="w-full rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent resize-none font-medium"></textarea>
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Caption</label>
+                    <textarea id="post-caption" required rows="3" placeholder="What's on your mind?" 
+                              class="w-full rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-950 resize-none font-medium"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Add Image Media Asset (Optional)</label>
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Image (Optional)</label>
                     <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:bg-slate-50 transition relative">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <div class="space-y-1">
-                            <p class="text-xs font-bold text-slate-600">📸 Select Image from Device</p>
-                            <p id="file-chosen-name" class="text-xs font-semibold text-emerald-600 truncate mt-1"></p>
-                        </div>
+                        <p class="text-xs font-bold text-slate-500">📸 Choose Photo</p>
+                        <p id="file-chosen-name" class="text-xs font-semibold text-emerald-600 truncate mt-1"></p>
                     </div>
                 </div>
 
-                <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl hover:bg-slate-800 transition shadow-md">
-                    Publish Post File
+                <button type="submit" class="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl hover:bg-slate-800 transition active:scale-[0.99]">
+                    Publish Post
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- CORE LOCALSTORAGE DATA PIPELINE LOGIC CONTROLLER -->
+    <!-- STABLE EVENT ENGINE -->
     <script>
         let posts = [];
 
         window.addEventListener('DOMContentLoaded', () => {
-            loadPostsFromStorage();
+            loadPosts();
             
-            // Sync selection text updates natively instantly on change
+            // File input label update
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Target: ${this.files[0].name}`;
+                    document.getElementById('file-chosen-name').innerText = `Ready: ${this.files[0].name}`;
+                }
+            });
+
+            // Form submission interceptor to completely prevent refresh failures
+            document.getElementById('post-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const caption = document.getElementById('post-caption').value.trim();
+                const fileInput = document.getElementById('post-image');
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+                            if (width > 600) { height *= 600 / width; width = 600; }
+                            canvas.width = width;
+                            canvas.height = height;
+                            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.6));
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    saveNewPost(caption, null);
                 }
             });
         });
 
-        function openModal() {
-            document.getElementById('post-modal').classList.remove('hidden');
-        }
-
+        function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
         function closeModal() {
             document.getElementById('post-modal').classList.add('hidden');
             document.getElementById('post-form').reset();
             document.getElementById('file-chosen-name').innerText = '';
         }
 
-        // Optimized Submission pipeline with absolute compression layers
-        function handlePostSubmit(e) {
-            e.preventDefault();
-            
-            const caption = document.getElementById('post-caption').value.trim();
-            const fileInput = document.getElementById('post-image');
-            const file = fileInput.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        // Max out canvas boundaries safely to prevent storage full crashes
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        const max_size = 600; 
-
-                        if (width > height) {
-                            if (width > max_size) {
-                                height *= max_size / width;
-                                width = max_size;
-                            }
-                        } else {
-                            if (height > max_size) {
-                                width *= max_size / height;
-                                height = max_size;
-                            }
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        const optimizedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                        executePostCreation(caption, optimizedBase64);
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                executePostCreation(caption, null);
-            }
-        }
-
-        function executePostCreation(caption, imageSrc) {
-            const postObj = {
+        function saveNewPost(caption, imgData) {
+            const newPost = {
                 id: 'id_' + Date.now(),
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
-                image: imageSrc,
+                image: imgData,
                 likes: 0
             };
-
-            posts.unshift(postObj);
-            savePostsToStorage();
-            renderFeedItems();
+            posts.unshift(newPost);
+            localStorage.setItem('anivarya_stable_db', JSON.stringify(posts));
+            renderFeed();
             closeModal();
         }
 
-        // LIKE FUNCTION FIX: Finds item matching exact instance string and forces clean mathematical re-evaluation state
-        function likePost(id) {
-            const targetIndex = posts.findIndex(p => p.id === id);
-            if (targetIndex !== -1) {
-                posts[targetIndex].likes = (posts[targetIndex].likes || 0) + 1;
-                savePostsToStorage();
-                renderFeedItems();
-            }
-        }
-
-        function deletePost(id) {
-            if(confirm("Delete this update forever?")) {
-                posts = posts.filter(p => p.id !== id);
-                savePostsToStorage();
-                renderFeedItems();
-            }
-        }
-
-        function savePostsToStorage() {
-            localStorage.setItem('anivarya_core_database', JSON.stringify(posts));
-        }
-
-        function loadPostsFromStorage() {
-            const rawData = localStorage.getItem('anivarya_core_database');
-            if (rawData) {
-                try {
-                    posts = JSON.parse(rawData);
-                } catch(err) {
-                    posts = [];
-                }
+        function loadPosts() {
+            const data = localStorage.getItem('anivarya_stable_db');
+            if (data) {
+                try { posts = JSON.parse(data); } catch(e) { posts = []; }
             } else {
-                posts = [
-                    {
-                        id: 'seed_init_1',
-                        timestamp: 'Just now',
-                        caption: 'Welcome to the core terminal hub. Everything here works directly on local browser states. Try posting an update to check persistence!',
-                        image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
-                        likes: 18
-                    }
-                ];
-                savePostsToStorage();
+                posts = [{
+                    id: 'init_welcome',
+                    timestamp: 'Just now',
+                    caption: 'System up and running smoothly. Create your post above!',
+                    image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
+                    likes: 3
+                }];
+                localStorage.setItem('anivarya_stable_db', JSON.stringify(posts));
             }
-            renderFeedItems();
+            renderFeed();
         }
 
-        function renderFeedItems() {
+        function renderFeed() {
             const container = document.getElementById('feed-container');
-            const countHeader = document.getElementById('header-post-count');
-            
-            countHeader.innerText = posts.length;
+            document.getElementById('header-post-count').innerText = posts.length;
             container.innerHTML = '';
 
             if(posts.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 border border-dashed border-slate-200 rounded-2xl bg-white/50">
-                        <p class="text-slate-400 font-bold text-xs tracking-wide uppercase">No Timeline feeds found.</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="text-center py-12 bg-white border border-slate-200 rounded-2xl text-slate-400 font-bold text-xs uppercase">No posts yet.</div>`;
                 return;
             }
 
             posts.forEach(post => {
-                let mediaSection = '';
-                if(post.image) {
-                    mediaSection = `
-                        <div class="bg-slate-50 border-b border-slate-100 overflow-hidden">
-                            <img src="${post.image}" class="w-full h-auto max-h-[450px] object-cover mx-auto" alt="Timeline Media Element">
-                        </div>
-                    `;
-                }
+                const card = document.createElement('div');
+                card.className = 'bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm feed-card transition-all duration-200';
+                
+                let mediaHtml = post.image ? `<div class="bg-slate-50 border-b border-slate-100"><img src="${post.image}" class="w-full h-auto max-h-[450px] object-cover mx-auto"></div>` : '';
 
-                const postMarkup = `
-                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm instagram-glow transition-all duration-200">
-                        <!-- Top header of post info card -->
-                        <div class="px-4 py-3 flex items-center justify-between border-b border-slate-50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-7 h-7 rounded-full bg-slate-900 text-white font-extrabold text-[10px] flex items-center justify-center">AB</div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-slate-800 tracking-tight">anivaryabajpai</h4>
-                                    <span class="text-[9px] font-semibold text-slate-400 block -mt-0.5">${post.timestamp}</span>
-                                </div>
+                card.innerHTML = `
+                    <div class="px-4 py-3 flex items-center justify-between border-b border-slate-50">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold text-[10px] flex items-center justify-center">AB</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">anivaryabajpai</h4>
+                                <span class="text-[9px] font-medium text-slate-400 block">${post.timestamp}</span>
                             </div>
-                            <button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
                         </div>
-
-                        <!-- Main Image Space -->
-                        ${mediaSection}
-
-                        <!-- Description Space -->
-                        <div class="p-4 text-sm font-medium text-slate-800 text-left leading-relaxed">
-                            <span class="font-extrabold text-xs tracking-tight text-slate-900 mr-1.5 uppercase">anivaryabajpai</span> ${post.caption}
-                        </div>
-
-                        <!-- Activity interaction foot bar rows -->
-                        <div class="px-4 py-3 border-t border-slate-50 bg-slate-50/40 flex items-center">
-                            <button onclick="likePost('${post.id}')" class="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-red-500 transition group">
-                                <svg class="w-4 h-4 text-slate-400 group-hover:text-red-500 transition-colors fill-red-500 ${post.likes > 0 ? 'text-red-500' : 'text-slate-400 fill-none'}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                </svg>
-                                <span>Likes (${post.likes || 0})</span>
-                            </button>
-                        </div>
+                        <button class="delete-btn text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1" data-id="${post.id}">Delete</button>
+                    </div>
+                    ${mediaHtml}
+                    <div class="p-4 text-sm font-medium text-slate-800 text-left leading-relaxed">
+                        <span class="font-bold text-xs text-slate-950 mr-1.5 uppercase">anivaryabajpai</span>${post.caption}
+                    </div>
+                    <div class="px-4 py-3 border-t border-slate-50 bg-slate-50/40 flex items-center">
+                        <button class="like-btn flex items-center gap-1.5 text-xs font-bold transition text-slate-600 hover:text-red-500" data-id="${post.id}">
+                            <svg class="w-4 h-4 transition-colors ${post.likes > 0 ? 'text-red-500 fill-red-500' : 'text-slate-400 fill-none'}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            <span>Likes (${post.likes || 0})</span>
+                        </button>
                     </div>
                 `;
-                container.insertAdjacentHTML('beforeend', postMarkup);
+
+                // Add strict click listners to completely eliminate quote errors
+                card.querySelector('.like-btn').addEventListener('click', () => {
+                    post.likes = (post.likes || 0) + 1;
+                    localStorage.setItem('anivarya_stable_db', JSON.stringify(posts));
+                    renderFeed();
+                });
+
+                card.querySelector('.delete-btn').addEventListener('click', () => {
+                    if(confirm("Delete this post?")) {
+                        posts = posts.filter(p => p.id !== post.id);
+                        localStorage.setItem('anivarya_stable_db', JSON.stringify(posts));
+                        renderFeed();
+                    }
+                });
+
+                container.appendChild(card);
             });
         }
     </script>
