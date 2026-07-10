@@ -3,431 +3,416 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ANIVARYA_CORE // Pure Quantum Network v7.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
+    <title>ANIVARYA // Elite Minimal Network</title>
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { 
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif']
-                    }
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body { 
-            background: #ffffff;
-            color: #0f172a;
-            min-height: 100vh;
-            overflow-x: hidden;
+        body {
+            background-color: #fafafa;
+            color: #1c1c1e;
             -webkit-tap-highlight-color: transparent;
         }
-        
-        /* Impossible Kinetic Depth Filter */
-        .kinetic-view {
-            filter: blur(8px) scale(0.96) grayscale(40%);
-            opacity: 0.6;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Smooth native-like elastic scrolling */
+        .scroll-container {
+            -webkit-overflow-scrolling: touch;
         }
-        .kinetic-view.focused-node {
-            filter: blur(0px) scale(1) grayscale(0%);
-            opacity: 1;
-            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.08);
+        /* Active bottom tab premium treatment */
+        .tab-active {
+            color: #000000 !important;
+            font-weight: 700;
         }
-
-        /* Neural Synapse Animation */
-        @keyframes dynamicPulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-            70% { transform: scale(1.03); box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        /* Micro-interactions for premium feel */
+        .premium-btn {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s;
         }
-        .synapse-active {
-            animation: dynamicPulse 2s infinite ease-in-out;
-        }
-
-        /* Fluid Dock Active State */
-        .dock-active {
-            color: #4f46e5 !important;
-            background: #f4f5f9;
+        .premium-btn:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
-<body class="font-sans antialiased pb-28 selection:bg-indigo-600 selection:text-white">
+<body class="font-sans antialiased pb-24">
 
-    <!-- MINIMALISTIC SUPREME LAYER TOP NAV -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-5 py-4">
+    <!-- GLOBAL TOP PREMIUM NAVIGATION -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4">
         <div class="max-w-md mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-2.5 h-2.5 rounded-full bg-indigo-600 synapse-active"></div>
-                <span class="font-display font-black text-2xl tracking-tighter text-slate-900">ANIVARYA<span class="text-indigo-600">.</span>CORE</span>
-            </div>
-            <div id="auth-status-bar"></div>
+            <span class="font-extrabold text-xl tracking-tight text-black">anivarya<span class="text-gray-400">.</span></span>
+            <div id="auth-status-container" class="text-xs font-medium text-gray-500"></div>
         </div>
     </nav>
 
-    <!-- SECURE HARDWARE SYSTEM HANDSHAKE GATEWAY -->
-    <div id="auth-container" class="max-w-md mx-auto px-4 pt-4 hidden">
-        <div class="bg-slate-50 border border-slate-100 p-6 rounded-[28px]">
+    <!-- MINIMAL INITIALIZATION BOX -->
+    <div id="auth-box" class="max-w-md mx-auto px-4 pt-4 hidden">
+        <div class="bg-white border border-gray-200/80 p-6 rounded-3xl shadow-sm">
             <div class="flex justify-between items-center mb-4">
-                <h3 id="auth-title" class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">Neural Handshake Protocol</h3>
-                <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-indigo-600 font-bold underline">Register Account</button>
+                <h3 id="auth-view-title" class="text-xs font-bold uppercase tracking-wider text-gray-400">Identity Hook</h3>
+                <button onclick="toggleAuthView()" id="auth-switch-btn" class="text-xs text-gray-900 font-semibold underline">Create Account</button>
             </div>
-            <form id="auth-form" class="space-y-3">
-                <input type="text" id="auth-user" required placeholder="Unique Global Handle ID" class="w-full p-3.5 rounded-2xl border border-slate-200 bg-white text-xs text-slate-900 outline-none focus:border-indigo-600 transition">
-                <input type="password" id="auth-pass" required placeholder="Cryptographic Access Phrase" class="w-full p-3.5 rounded-2xl border border-slate-200 bg-white text-xs text-slate-900 outline-none focus:border-indigo-600 transition">
-                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl text-xs tracking-wider transition">INITIALIZE CORE LINK</button>
+            <form id="auth-system-form" class="space-y-3">
+                <input type="text" id="username-input" required placeholder="Your Global Handle" class="w-full px-4 py-3 rounded-2xl border border-gray-200 bg-gray-50/50 text-sm text-black outline-none focus:border-black transition">
+                <input type="password" id="password-input" required placeholder="Secure Passcode" class="w-full px-4 py-3 rounded-2xl border border-gray-200 bg-gray-50/50 text-sm text-black outline-none focus:border-black transition">
+                <button type="submit" class="w-full bg-black hover:bg-gray-900 text-white font-semibold py-3 rounded-2xl text-xs tracking-wide transition shadow-sm premium-btn">CONNECT</button>
             </form>
         </div>
     </div>
 
-    <!-- MAIN EXCLUSIVE NETWORK ENGINE WRAPPER -->
-    <main class="max-w-md mx-auto px-3 pt-4">
-        
-        <!-- COMPONENT 1: FLUID DATA BROADCAST STREAM -->
-        <div id="view-feed" class="space-y-5">
+    <!-- MAIN PLATFORM INTERFACE VIEWPORT -->
+    <main class="max-w-md mx-auto px-4 pt-4">
+
+        <!-- VIEW 1: PREMIUM CONTENT STREAM -->
+        <div id="stream-view" class="space-y-6">
             
-            <!-- MASTER OVERLORD EXECUTIVE PROFILE BRAND CARD -->
-            <div class="bg-slate-50 border border-slate-100 rounded-[32px] p-6 relative overflow-hidden">
-                <div class="flex items-center gap-5 relative z-10">
-                    <div class="w-20 h-20 shrink-0 rounded-3xl p-1 bg-white border border-slate-200/60 shadow-sm">
-                        <img src="https://i.imgur.com/W29FclD.png" alt="Anivarya" class="w-full h-full object-cover rounded-2xl">
+            <!-- ELITE BIO PROFILE HEADER -->
+            <div class="bg-white border border-gray-100 rounded-[32px] p-6 shadow-xs flex items-center gap-5">
+                <div class="w-16 h-16 shrink-0 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200/50">
+                    <img src="https://i.imgur.com/W29FclD.png" alt="Anivarya" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-1">
+                    <div class="flex items-center gap-1.5">
+                        <h2 class="text-xl font-bold tracking-tight text-black">Anivarya Bajpai</h2>
+                        <span class="w-4 h-4 bg-black text-white text-[9px] font-bold flex items-center justify-center rounded-full">✓</span>
                     </div>
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-1.5">
-                            <h2 class="text-2xl font-display font-black tracking-tight text-slate-900">Anivarya Bajpai</h2>
-                            <span class="w-4 h-4 bg-indigo-600 text-white text-[9px] font-bold flex items-center justify-center rounded-full">✓</span>
-                        </div>
-                        <p class="text-[9px] font-bold tracking-widest text-slate-400 uppercase">SYSTEM ARCHITECT & GLOBAL CONSOLE OWNER</p>
-                        <div class="flex gap-2 pt-1">
-                            <span class="bg-white text-[8px] font-black px-2.5 py-1 rounded-xl text-slate-800 border border-slate-200/80 shadow-xs">👑 OVERLORD STATUS</span>
-                            <span class="bg-indigo-50 text-[8px] font-black px-2.5 py-1 rounded-xl text-indigo-600 border border-indigo-100">🔥 OVERDRIVE 999+</span>
-                        </div>
+                    <p class="text-[10px] font-medium tracking-wide text-gray-400 uppercase">Platform Founder</p>
+                    <div class="flex gap-2 pt-1">
+                        <span class="bg-gray-100 text-[9px] font-bold px-2.5 py-0.5 rounded-lg text-gray-800">👑 Overlord</span>
+                        <span class="bg-gray-50 text-[9px] font-bold px-2.5 py-0.5 rounded-lg text-gray-500 border border-gray-100">Active</span>
                     </div>
                 </div>
             </div>
 
-            <!-- TRANSMISSION ACTION CONTROLLER -->
-            <div class="flex justify-between items-center bg-slate-50/60 p-2 rounded-2xl border border-slate-100">
-                <span class="text-[9px] font-bold text-slate-400 pl-3 uppercase tracking-wider">Neural Pipeline Active</span>
-                <button onclick="openModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-[10px] tracking-wider px-4 py-2.5 rounded-xl shadow-sm transition">+ Cast Global Artifact</button>
+            <!-- CAST ARTIFACT INPUT CONTROL -->
+            <div class="flex justify-between items-center bg-white p-2.5 rounded-2xl border border-gray-100 shadow-xs">
+                <span class="text-xs font-medium text-gray-400 pl-3">Share something epic...</span>
+                <button onclick="openPublishModal()" class="bg-black hover:bg-gray-900 text-white font-semibold text-xs px-4 py-2 rounded-xl transition premium-btn shadow-sm">+ Publish</button>
             </div>
 
-            <!-- HIGH-FIDELITY LIVE STREAM PIPELINE FEED -->
-            <div id="feed-container" class="space-y-6"></div>
+            <!-- CORE CONSOLIDATED FEED STREAM -->
+            <div id="dynamic-feed-root" class="space-y-5"></div>
         </div>
 
-        <!-- COMPONENT 2: ENCRYPTED MULTI-THREADED TERMINAL CHAT -->
-        <div id="view-chat" class="space-y-4 hidden">
-            <div class="bg-slate-50 border border-slate-100 rounded-[28px] p-4">
-                <div id="chat-box" class="h-[58vh] overflow-y-auto bg-white border border-slate-100 rounded-2xl p-4 text-xs space-y-3 text-slate-700"></div>
-                <form id="chat-form" class="flex gap-2 mt-3">
-                    <input type="text" id="chat-msg" required placeholder="Inject pipeline packet logs..." class="flex-1 bg-white border border-slate-200 p-3.5 rounded-xl text-xs outline-none text-slate-900 focus:border-indigo-600 transition">
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-5 rounded-xl transition">PUSH</button>
+        <!-- VIEW 2: GLOBAL MESSAGING MATRIX -->
+        <div id="messaging-view" class="space-y-4 hidden">
+            <div class="bg-white border border-gray-100 rounded-[28px] p-4 shadow-xs">
+                <div id="chat-scroller" class="h-[55vh] overflow-y-auto rounded-2xl p-2 text-sm space-y-4 scroll-container"></div>
+                <form id="chat-send-form" class="flex gap-2 mt-3 pt-2 border-t border-gray-100">
+                    <input type="text" id="chat-message-input" required placeholder="Type a message..." class="flex-1 bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl text-xs outline-none text-black focus:border-black transition">
+                    <button type="submit" class="bg-black text-white text-xs font-bold px-5 rounded-xl premium-btn">Send</button>
                 </form>
             </div>
         </div>
 
-        <!-- COMPONENT 3: QUANTUM HARDWARE ALLOCATION PANEL -->
-        <div id="view-metrics" class="space-y-4 hidden">
-            <div class="bg-slate-50 border border-slate-100 rounded-[32px] p-6 text-center space-y-4">
-                <h3 class="font-display font-black text-sm tracking-wide text-slate-800 uppercase">Live Architectural Shard Metrics</h3>
+        <!-- VIEW 3: LIVE NODE METRICS OVERVIEW -->
+        <div id="metrics-view" class="space-y-4 hidden">
+            <div class="bg-white border border-gray-100 rounded-[32px] p-6 space-y-5 shadow-xs">
+                <h3 class="font-bold text-sm tracking-tight text-gray-800 uppercase text-center">Platform Core Metrics</h3>
                 
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
-                        <span id="stat-accounts" class="block text-2xl font-display font-black text-slate-900">0</span>
-                        <span class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Nodes Linked</span>
+                    <div class="bg-gray-50/60 p-4 rounded-2xl border border-gray-100 text-center">
+                        <span id="metric-nodes" class="block text-2xl font-bold text-black">0</span>
+                        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Total Users</span>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
-                        <span id="stat-posts" class="block text-2xl font-display font-black text-indigo-600">0</span>
-                        <span class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Global Casts</span>
+                    <div class="bg-gray-50/60 p-4 rounded-2xl border border-gray-100 text-center">
+                        <span id="metric-casts" class="block text-2xl font-bold text-black">0</span>
+                        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Total Posts</span>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
-                        <span id="stat-likes" class="block text-2xl font-display font-black text-emerald-500">0</span>
-                        <span class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Core Flux</span>
+                    <div class="bg-gray-50/60 p-4 rounded-2xl border border-gray-100 text-center">
+                        <span id="metric-flux" class="block text-2xl font-bold text-black">0</span>
+                        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Interactions</span>
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-100 rounded-xl p-4 text-left font-mono text-[10px] text-slate-500 space-y-1">
-                    <div class="text-indigo-600 font-bold">// HARDWARE REGISTER MAP:</div>
-                    <div>&gt; Array virtualization thread pipeline online.</div>
-                    <div>&gt; Sync cycle index: <span class="text-emerald-600 font-bold">STABLE REPLICATION ACTIVE</span></div>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 text-left font-mono text-[11px] text-gray-500 space-y-1">
+                    <div class="text-black font-bold mb-1">System Manifest Logs:</div>
+                    <div>&gt; Sync cycle executed with 0ms delay latency.</div>
+                    <div>&gt; Global state model optimized for infinite rows.</div>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- INJECTION CAPSULE SEAMLESS INTERFACE MODAL -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-100 rounded-[32px] w-full max-w-sm shadow-2xl overflow-hidden">
-            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-display font-black text-sm uppercase text-slate-900">Broadcast Transmission</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 text-sm font-bold">✕</button>
+    <!-- MINIMAL PUBLISH DIALOG MODAL -->
+    <div id="publish-modal" class="hidden fixed inset-0 z-50 bg-black/20 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white border border-gray-100 rounded-[32px] w-full max-w-sm shadow-xl overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h3 class="font-bold text-sm text-black">New Broadcast</h3>
+                <button onclick="closePublishModal()" class="text-gray-400 hover:text-black text-sm font-bold">✕</button>
             </div>
-            <form id="post-form" class="p-5 space-y-4">
-                <input type="text" id="post-mood" value="👑 OVERLORD MODE" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-indigo-600 outline-none">
-                <textarea id="post-caption" required rows="3" placeholder="Write localized neural data packet logs..." class="w-full bg-slate-50 rounded-xl border border-slate-100 p-3 text-xs outline-none text-slate-900 font-medium focus:border-indigo-600 transition"></textarea>
-                <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer relative bg-slate-50 hover:border-indigo-600 transition">
-                    <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                    <p class="text-[11px] font-bold text-slate-500">📸 Attach Spatial Media Shard</p>
-                    <p id="file-chosen-name" class="text-xs font-semibold text-indigo-600 truncate mt-1"></p>
+            <form id="publish-payload-form" class="p-6 space-y-4">
+                <input type="text" id="publish-mood-tag" value="✨ Fresh Energy" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-xs font-bold text-black outline-none">
+                <textarea id="publish-caption-text" required rows="3" placeholder="What are you thinking?" class="w-full bg-gray-50 rounded-xl border border-gray-100 p-4 text-xs outline-none text-black font-medium focus:border-black transition"></textarea>
+                
+                <div class="border border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer relative bg-gray-50 hover:border-black transition">
+                    <input type="file" id="publish-file-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                    <p class="text-[11px] font-bold text-gray-400">📸 Choose Photo Asset</p>
+                    <p id="selected-file-name" class="text-xs font-semibold text-black truncate mt-1"></p>
                 </div>
-                <button type="submit" class="w-full bg-slate-900 text-white font-bold py-3.5 rounded-xl text-xs tracking-wider shadow-md">INJECT PORT TRANSMISSION</button>
+                
+                <button type="submit" class="w-full bg-black text-white font-bold py-3.5 rounded-xl text-xs tracking-wide shadow-sm premium-btn">INJECT INTO CORE FEED</button>
             </form>
         </div>
     </div>
 
-    <!-- PREMIUM PHONE NATIVE HARDWARE NAVIGATION DOCK BAR -->
-    <div class="fixed bottom-4 left-4 right-4 z-40 bg-white/90 backdrop-blur-xl border border-slate-200/60 shadow-xl px-2 py-2 max-w-xs mx-auto rounded-[24px]">
+    <!-- PREMIUM BOTTOM DOCK SEGMENTED BAR -->
+    <div class="fixed bottom-5 left-5 right-5 z-40 bg-white/95 backdrop-blur-lg border border-gray-200/60 shadow-lg px-2 py-2 max-w-xs mx-auto rounded-2xl">
         <div class="flex justify-between items-center">
-            <button onclick="switchEngineTab('feed')" id="btn-feed" class="dock-active flex flex-col items-center justify-center flex-1 py-2.5 rounded-2xl text-slate-400 transition-all font-bold">
-                <span class="text-sm">⚡</span>
-                <span class="text-[8px] uppercase tracking-wider font-bold mt-0.5">Stream</span>
+            <button onclick="activateTabPanel('stream')" id="tab-btn-stream" class="tab-active flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-gray-400 transition-all premium-btn">
+                <span class="text-base">✨</span>
+                <span class="text-[9px] uppercase tracking-wider font-semibold mt-0.5">Stream</span>
             </button>
-            <button onclick="switchEngineTab('chat')" id="btn-chat" class="flex flex-col items-center justify-center flex-1 py-2.5 rounded-2xl text-slate-400 transition-all font-bold">
-                <span class="text-sm">💬</span>
-                <span class="text-[8px] uppercase tracking-wider font-bold mt-0.5">Terminal</span>
+            <button onclick="activateTabPanel('messaging')" id="tab-btn-messaging" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-gray-400 transition-all premium-btn">
+                <span class="text-base">💬</span>
+                <span class="text-[9px] uppercase tracking-wider font-semibold mt-0.5">Chat</span>
             </button>
-            <button onclick="switchEngineTab('metrics')" id="btn-metrics" class="flex flex-col items-center justify-center flex-1 py-2.5 rounded-2xl text-slate-400 transition-all font-bold">
-                <span class="text-sm">📊</span>
-                <span class="text-[8px] uppercase tracking-wider font-bold mt-0.5">Metrics</span>
+            <button onclick="activateTabPanel('metrics')" id="tab-btn-metrics" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-gray-400 transition-all premium-btn">
+                <span class="text-base">📊</span>
+                <span class="text-[9px] uppercase tracking-wider font-semibold mt-0.5">Data</span>
             </button>
         </div>
     </div>
 
-    <!-- REPLICATION CONTROLLER CORE SCRIPT ENGINE -->
+    <!-- ENGINE LOGIC ARCHITECTURE -->
     <script>
-        let db = { users: {}, posts: [], messages: [] };
-        let currentUser = null;
+        let stateDb = { users: {}, posts: [], messages: [] };
+        let activeUserSession = null;
 
         window.addEventListener('DOMContentLoaded', () => {
-            initDatabase();
-            setupSystemHooks();
+            loadCoreDatabase();
+            bindInterfaceHooks();
         });
 
-        function switchEngineTab(tabId) {
-            document.getElementById('view-feed').classList.add('hidden');
-            document.getElementById('view-chat').classList.add('hidden');
-            document.getElementById('view-metrics').classList.add('hidden');
+        // Tab Switching Engine
+        function activateTabPanel(targetId) {
+            document.getElementById('stream-view').classList.add('hidden');
+            document.getElementById('messaging-view').classList.add('hidden');
+            document.getElementById('metrics-view').classList.add('hidden');
             
-            document.getElementById('btn-feed').classList.remove('dock-active');
-            document.getElementById('btn-chat').classList.remove('dock-active');
-            document.getElementById('btn-metrics').classList.remove('dock-active');
+            document.getElementById('tab-btn-stream').classList.remove('tab-active');
+            document.getElementById('tab-btn-messaging').classList.remove('tab-active');
+            document.getElementById('tab-btn-metrics').classList.remove('tab-active');
 
-            if(tabId === 'feed') { document.getElementById('view-feed').classList.remove('hidden'); document.getElementById('btn-feed').classList.add('dock-active'); }
-            if(tabId === 'chat') { document.getElementById('view-chat').classList.remove('hidden'); document.getElementById('btn-chat').classList.add('dock-active'); }
-            if(tabId === 'metrics') { document.getElementById('view-metrics').classList.remove('hidden'); document.getElementById('btn-metrics').classList.add('dock-active'); }
+            if(targetId === 'stream') { document.getElementById('stream-view').classList.remove('hidden'); document.getElementById('tab-btn-stream').classList.add('tab-active'); }
+            if(targetId === 'messaging') { document.getElementById('messaging-view').classList.remove('hidden'); document.getElementById('tab-btn-messaging').classList.add('tab-active'); }
+            if(targetId === 'metrics') { document.getElementById('metrics-view').classList.remove('hidden'); document.getElementById('tab-btn-metrics').classList.add('tab-active'); }
         }
 
-        function initDatabase() {
-            const data = localStorage.getItem('anivarya_core_v7_data');
-            if (data) {
-                try { db = JSON.parse(data); } catch(e) { resetToSeed(); }
-            } else { resetToSeed(); }
-            currentUser = localStorage.getItem('anivarya_core_v7_session') || null;
-            evaluateAuthStateVisibility();
-            renderPlatform();
+        function loadCoreDatabase() {
+            const preservedData = localStorage.getItem('anivarya_clean_v1_data');
+            if (preservedData) {
+                try { stateDb = JSON.parse(preservedData); } catch(e) { populateDefaultSeedData(); }
+            } else { populateDefaultSeedData(); }
+            
+            activeUserSession = localStorage.getItem('anivarya_clean_v1_session') || null;
+            refreshAuthStateDisplay();
+            renderEntirePlatformView();
         }
 
-        function resetToSeed() {
-            db = {
-                users: { "anivarya": "godmode" },
+        function populateDefaultSeedData() {
+            stateDb = {
+                users: { "anivarya": "pass" },
                 posts: [{
-                    id: 'seed_7',
+                    id: 'seed_init',
                     author: 'Anivarya',
-                    mood: '👑 OVERLORD MODE',
-                    timestamp: 'Hyper-Latency Optimized',
-                    caption: 'Pure minimalist clear fluid-white pipeline architecture. Hold or hover over this card to watch the simulated neural hardware focus lock kick in. Absolutely impossible engineering.',
+                    mood: '👑 Founder Mode',
+                    timestamp: 'Just now',
+                    caption: 'Welcome to a clean, elite social layout built with absolute zero friction. No lag, no visual noise, just premium white minimalism working fluidly.',
                     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
-                    likedUsers: [],
-                    comments: []
+                    likesList: []
                 }],
-                messages: [{ sender: 'Core System', text: 'Linear high-fidelity framework active.' }]
+                messages: [{ user: 'System', text: 'Clean state pipeline connected flawlessly.' }]
             };
-            saveData();
+            syncDataToStorage();
         }
 
-        function saveData() { localStorage.setItem('anivarya_core_v7_data', JSON.stringify(db)); }
+        function syncDataToStorage() { localStorage.setItem('anivarya_clean_v1_data', JSON.stringify(stateDb)); }
 
-        function setupSystemHooks() {
-            document.getElementById('post-image').addEventListener('change', function() {
-                if(this.files && this.files[0]) document.getElementById('file-chosen-name').innerText = this.files[0].name;
+        function bindInterfaceHooks() {
+            document.getElementById('publish-file-input').addEventListener('change', function() {
+                if(this.files && this.files[0]) document.getElementById('selected-file-name').innerText = this.files[0].name;
             });
 
-            document.getElementById('auth-form').addEventListener('submit', function(e) {
+            document.getElementById('auth-system-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                const user = document.getElementById('auth-user').value.trim();
-                const pass = document.getElementById('auth-pass').value;
-                const isRegister = document.getElementById('auth-toggle-btn').innerText.includes('Login');
+                const u = document.getElementById('username-input').value.trim();
+                const p = document.getElementById('password-input').value;
+                const isReg = document.getElementById('auth-switch-btn').innerText.includes('Login');
 
-                if (isRegister) {
-                    if (db.users[user]) { alert("Handle tag collision."); return; }
-                    db.users[user] = pass;
+                if (isReg) {
+                    if (stateDb.users[u]) { alert("Username is already claimed."); return; }
+                    stateDb.users[u] = p;
                 } else {
-                    if (!db.users[user] || db.users[user] !== pass) { alert("Signature collision mismatch."); return; }
+                    if (!stateDb.users[u] || stateDb.users[u] !== p) { alert("Invalid access credentials."); return; }
                 }
-                currentUser = user;
-                localStorage.setItem('anivarya_core_v7_session', user);
-                document.getElementById('auth-form').reset();
-                evaluateAuthStateVisibility();
-                saveData();
-                renderPlatform();
+                activeUserSession = u;
+                localStorage.setItem('anivarya_clean_v1_session', u);
+                document.getElementById('auth-system-form').reset();
+                refreshAuthStateDisplay();
+                syncDataToStorage();
+                renderEntirePlatformView();
             });
 
-            document.getElementById('chat-form').addEventListener('submit', function(e) {
+            document.getElementById('chat-send-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (!currentUser) return;
-                const msgText = document.getElementById('chat-msg').value.trim();
-                db.messages.push({ sender: currentUser, text: msgText });
-                document.getElementById('chat-form').reset();
-                saveData();
-                renderChat();
+                if (!activeUserSession) return;
+                const text = document.getElementById('chat-message-input').value.trim();
+                stateDb.messages.push({ user: activeUserSession, text: text });
+                document.getElementById('chat-send-form').reset();
+                syncDataToStorage();
+                renderGlobalChatStream();
             });
 
-            document.getElementById('post-form').addEventListener('submit', function(e) {
+            document.getElementById('publish-payload-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (!currentUser) return;
-                const caption = document.getElementById('post-caption').value.trim();
-                const mood = document.getElementById('post-mood').value;
-                const file = document.getElementById('post-image').files[0];
+                if (!activeUserSession) return;
+                const caption = document.getElementById('publish-caption-text').value.trim();
+                const mood = document.getElementById('publish-mood-tag').value;
+                const file = document.getElementById('publish-file-input').files[0];
 
                 if (file) {
-                    const r = new FileReader();
-                    r.onload = function(evt) {
-                        const img = new Image();
-                        img.onload = function() {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const imgObj = new Image();
+                        imgObj.onload = function() {
                             const canvas = document.createElement('canvas');
-                            let w = img.width; if(w > 500) { canvas.height = img.height*(500/w); w = 500; } else { canvas.height = img.height; }
-                            canvas.width = w;
-                            canvas.getContext('2d').drawImage(img, 0, 0, w, canvas.height);
-                            injectPost(caption, mood, canvas.toDataURL('image/jpeg', 0.6));
+                            let maxW = imgObj.width; 
+                            if(maxW > 600) { canvas.height = imgObj.height*(600/maxW); maxW = 600; } else { canvas.height = imgObj.height; }
+                            canvas.width = maxW;
+                            canvas.getContext('2d').drawImage(imgObj, 0, 0, maxW, canvas.height);
+                            pushNewPostObject(caption, mood, canvas.toDataURL('image/jpeg', 0.7));
                         };
-                        img.src = evt.target.result;
+                        imgObj.src = event.target.result;
                     };
-                    r.readAsDataURL(file);
+                    reader.readAsDataURL(file);
                 } else {
-                    injectPost(caption, mood, null);
+                    pushNewPostObject(caption, mood, null);
                 }
             });
         }
 
-        function injectPost(caption, mood, imgStr) {
-            db.posts.unshift({
-                id: 'p_' + Date.now(),
-                author: currentUser,
+        function pushNewPostObject(cap, mood, base64Img) {
+            stateDb.posts.unshift({
+                id: 'post_' + Date.now(),
+                author: activeUserSession,
                 mood: mood,
-                timestamp: 'Synced Instantly',
-                caption: caption,
-                image: imgStr,
-                likedUsers: [],
-                comments: []
+                timestamp: 'Just now',
+                caption: cap,
+                image: base64Img,
+                likesList: []
             });
-            saveData();
-            closeModal();
-            renderPlatform();
+            syncDataToStorage();
+            closePublishModal();
+            renderEntirePlatformView();
         }
 
-        function evaluateAuthStateVisibility() {
-            const bar = document.getElementById('auth-status-bar');
-            const authBox = document.getElementById('auth-container');
-            if (currentUser) {
-                authBox.classList.add('hidden');
-                bar.innerHTML = `<span class="bg-slate-100 text-slate-800 px-3 py-1 rounded-xl text-[10px] font-bold">🛰️ LINKED: ${currentUser.toUpperCase()}</span>`;
+        function refreshAuthStateDisplay() {
+            const bar = document.getElementById('auth-status-container');
+            const box = document.getElementById('auth-box');
+            if (activeUserSession) {
+                box.classList.add('hidden');
+                bar.innerHTML = `<span class="bg-gray-100 text-black font-semibold px-3 py-1 rounded-xl">@${activeUserSession.toLowerCase()}</span>`;
             } else {
-                authBox.classList.remove('hidden');
-                bar.innerHTML = `<span class="text-amber-600 text-[9px] font-bold">🔒 AIR-GAP MODE</span>`;
+                box.classList.remove('hidden');
+                bar.innerHTML = `<span class="text-red-500 font-bold">Disconnected</span>`;
             }
         }
 
-        function toggleAuthMode() {
-            const btn = document.getElementById('auth-toggle-btn');
-            const title = document.getElementById('auth-title');
-            if (btn.innerText.includes('Register')) {
-                title.innerText = 'CREATE UNIQUE NODE IDENTITY';
-                btn.innerText = 'Switch to Login Gate';
+        function toggleAuthView() {
+            const btn = document.getElementById('auth-switch-btn');
+            const title = document.getElementById('auth-view-title');
+            if (btn.innerText.includes('Create')) {
+                title.innerText = 'Register Platform Node';
+                btn.innerText = 'Switch back to Login';
             } else {
-                title.innerText = 'NEURAL HANDSHAKE PROTOCOL';
-                btn.innerText = 'Register Account';
+                title.innerText = 'Identity Hook';
+                btn.innerText = 'Create Account';
             }
         }
 
-        function openModal() { if(!currentUser){alert("Handshake authorization required."); return;} document.getElementById('post-modal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('post-modal').classList.add('hidden'); document.getElementById('post-form').reset(); document.getElementById('file-chosen-name').innerText=''; }
+        function openPublishModal() { if(!activeUserSession){alert("Please connect your account handle first."); return;} document.getElementById('publish-modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('publish-modal').classList.add('hidden'); }
+        function closePublishModal() { document.getElementById('publish-modal').classList.add('hidden'); document.getElementById('publish-payload-form').reset(); document.getElementById('selected-file-name').innerText=''; }
 
-        function renderPlatform() {
-            renderStats();
-            renderChat();
-            renderFeed();
+        function renderEntirePlatformView() {
+            renderPlatformStats();
+            renderGlobalChatStream();
+            renderMainContentFeed();
         }
 
-        function renderStats() {
-            document.getElementById('stat-accounts').innerText = Object.keys(db.users).length;
-            document.getElementById('stat-posts').innerText = db.posts.length;
-            let count = 0; db.posts.forEach(p => count += p.likedUsers.length);
-            document.getElementById('stat-likes').innerText = count;
+        function renderPlatformStats() {
+            document.getElementById('metric-nodes').innerText = Object.keys(stateDb.users).length;
+            document.getElementById('metric-casts').innerText = stateDb.posts.length;
+            let likesCount = 0; stateDb.posts.forEach(p => likesCount += p.likesList.length);
+            document.getElementById('metric-flux').innerText = likesCount;
         }
 
-        function renderChat() {
-            const box = document.getElementById('chat-box');
-            box.innerHTML = db.messages.map(m => `<div><b class="text-indigo-600 text-[10px] uppercase">${m.sender}:</b> <span class="font-medium">${m.text}</span></div>`).join('');
+        function renderGlobalChatStream() {
+            const box = document.getElementById('chat-scroller');
+            box.innerHTML = stateDb.messages.map(m => {
+                const isMe = m.user === activeUserSession;
+                return `
+                    <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase mb-0.5 px-1">${m.user}</span>
+                        <div class="${isMe ? 'bg-black text-white' : 'bg-gray-100 text-black'} px-4 py-2.5 rounded-2xl max-w-[85%] font-medium inline-block">
+                            ${m.text}
+                        </div>
+                    </div>
+                `;
+            }).join('');
             box.scrollTop = box.scrollHeight;
         }
 
-        function renderFeed() {
-            const container = document.getElementById('feed-container');
-            container.innerHTML = '';
+        function renderMainContentFeed() {
+            const root = document.getElementById('dynamic-feed-root');
+            root.innerHTML = '';
             
-            db.posts.forEach((post, index) => {
-                const card = document.createElement('div');
-                // First card gets auto focus lock, rest load under kinetic blur sequence
-                card.className = `kinetic-view bg-white border border-slate-100 rounded-[32px] overflow-hidden ${index === 0 ? 'focused-node' : ''}`;
+            stateDb.posts.forEach(post => {
+                const item = document.createElement('div');
+                item.className = 'bg-white border border-gray-200/70 rounded-[28px] overflow-hidden shadow-xs';
                 
-                // Neural Interaction Simulator: Focus on long tap/hover
-                const activateFocus = () => {
-                    document.querySelectorAll('.kinetic-view').forEach(c => c.classList.remove('focused-node'));
-                    card.classList.add('focused-node');
-                };
-                card.addEventListener('mouseenter', activateFocus);
-                card.addEventListener('touchstart', activateFocus);
+                let renderImageChunk = post.image ? `<div class="bg-gray-50 border-b border-gray-100"><img src="${post.image}" class="w-full h-auto max-h-[380px] object-cover"></div>` : '';
+                const userHasLiked = activeUserSession && post.likesList.includes(activeUserSession);
 
-                let imgMark = post.image ? `<div class="bg-slate-50 border-b border-slate-100 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[360px] object-cover mx-auto"></div>` : '';
-                const liked = currentUser && post.likedUsers.includes(currentUser);
-
-                card.innerHTML = `
-                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-50">
+                item.innerHTML = `
+                    <div class="px-5 py-4 flex items-center justify-between border-b border-gray-50/50">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-xl bg-slate-900 text-white font-display font-black text-xs flex items-center justify-center uppercase">${post.author[0]}</div>
+                            <div class="w-8 h-8 rounded-xl bg-black text-white font-bold text-xs flex items-center justify-center uppercase">${post.author[0]}</div>
                             <div>
-                                <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider">${post.author}</h4>
-                                <span class="text-[8px] font-bold text-slate-400 block">${post.timestamp}</span>
+                                <h4 class="text-xs font-bold text-black uppercase tracking-wider">${post.author}</h4>
+                                <span class="text-[9px] font-medium text-gray-400 block">${post.timestamp}</span>
                             </div>
                         </div>
-                        <span class="bg-indigo-50 text-indigo-600 border border-indigo-100/40 text-[8px] font-black px-2.5 py-1 rounded-xl uppercase tracking-wider">${post.mood}</span>
+                        <span class="bg-gray-100 text-gray-800 text-[9px] font-bold px-2.5 py-0.5 rounded-lg">${post.mood}</span>
                     </div>
-                    ${imgMark}
-                    <div class="p-5 text-xs font-medium text-slate-700 leading-relaxed text-left">
-                        <span class="font-display font-black text-indigo-600 mr-1.5 uppercase">@${post.author} &gt;&gt;</span>${post.caption}
+                    ${renderImageChunk}
+                    <div class="p-5 text-sm font-medium text-gray-800 leading-relaxed text-left">
+                        <span class="font-bold text-black mr-1">@${post.author}</span> ${post.caption}
                     </div>
-                    <div class="px-5 py-3 border-t border-slate-50 bg-slate-50/50 flex items-center justify-between">
-                        <button class="like-node-btn flex items-center gap-2 text-[10px] font-bold tracking-wide ${liked ? 'text-indigo-600' : 'text-slate-400'}">
-                            <span>⚡ CORE SHARD LOGS (${post.likedUsers.length})</span>
+                    <div class="px-5 py-3 border-t border-gray-100 bg-gray-50/30 flex items-center justify-between">
+                        <button class="interaction-like-trigger flex items-center gap-2 text-xs font-semibold ${userHasLiked ? 'text-black' : 'text-gray-400'} premium-btn">
+                            <span>❤️ Like (${post.likesList.length})</span>
                         </button>
                     </div>
                 `;
 
-                card.querySelector('.like-node-btn').addEventListener('click', () => {
-                    if (!currentUser) return;
-                    const idx = post.likedUsers.indexOf(currentUser);
-                    if (idx === -1) post.likedUsers.push(currentUser); else post.likedUsers.splice(idx, 1);
-                    saveData();
-                    renderPlatform();
+                // Single clean click for standard execution
+                item.querySelector('.interaction-like-trigger').addEventListener('click', () => {
+                    if (!activeUserSession) return;
+                    const index = post.likesList.indexOf(activeUserSession);
+                    if (index === -1) post.likesList.push(activeUserSession); else post.likesList.splice(index, 1);
+                    syncDataToStorage();
+                    renderEntirePlatformView();
                 });
 
-                container.appendChild(card);
+                root.appendChild(item);
             });
         }
     </script>
