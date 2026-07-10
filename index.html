@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ SUPREME FEED SYSTEM</title>
+    <title>⚡ CORE SYSTEM MATRIX v1.0</title>
     
-    <!-- Premium Fonts & Tailwind -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <!-- Fonts & Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
@@ -24,228 +24,220 @@
     
     <style>
         body {
-            background-color: #fafafa;
-            color: #000000;
+            background-color: #fdfdfd;
+            color: #09090b;
         }
         .premium-blur {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
         .cool-shadow {
-            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
-        }
-        .custom-card {
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .custom-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.02);
         }
     </style>
 </head>
-<body class="font-sans antialiased pb-24">
+<body class="font-sans antialiased pb-28">
 
-    <!-- TOP GLOWING HEADER -->
+    <!-- TOP HEADER BAR -->
     <header class="sticky top-0 z-50 premium-blur border-b border-zinc-100 px-6 py-4">
-        <div class="max-w-xl mx-auto flex items-center justify-between">
+        <div class="max-w-2xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-red-500 animate-pulse"></span>
-                <h1 class="text-xl font-extrabold tracking-tighter font-mono">CORE.NETWORK //</h1>
+                <span class="h-2.5 w-2.5 rounded-full bg-black shadow-lg"></span>
+                <h1 class="text-xl font-black tracking-tighter font-mono">ANIVARYA_CORE //</h1>
             </div>
-            <div class="bg-black text-white text-[10px] font-mono px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
-                Data Safe Mode
+            <div class="bg-zinc-100 text-zinc-900 text-[10px] font-mono font-bold px-3 py-1 rounded-md tracking-wider uppercase">
+                ⚙️ DATABASE SYNC ACTIVE
             </div>
         </div>
     </header>
 
-    <!-- MAIN PLATFORM HUB -->
-    <main class="max-w-xl mx-auto px-4 mt-6 space-y-6">
+    <!-- MAIN INTERFACE VIEWPORT -->
+    <main class="max-w-xl mx-auto px-4 mt-8 space-y-6">
 
-        <!-- COOL POST CREATOR MATRIX -->
-        <div class="bg-white rounded-[28px] p-5 custom-card cool-shadow space-y-4">
-            <h3 class="text-xs font-mono font-bold text-zinc-400 uppercase tracking-widest">// Inject New Post</h3>
+        <!-- DYNAMIC INPUT INJECTION BOX (PEHLE VALA ACCENT SYSTEM) -->
+        <div class="bg-white border border-zinc-100 rounded-[32px] p-5 cool-shadow space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest">// Broadcast Core Feed Node</span>
+            </div>
             
             <div class="space-y-3">
-                <textarea id="post-caption" rows="2" placeholder="Kya chal raha hai dimag me? Kuch khatarnak likho..." class="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 text-sm font-medium outline-none focus:border-black focus:bg-white transition-all resize-none"></textarea>
+                <textarea id="main-caption" rows="2" placeholder="Kuch naya aur khatarnak upload karo..." class="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 text-sm font-medium outline-none focus:border-black focus:bg-white transition-all resize-none"></textarea>
                 
-                <!-- IMAGE UPLOAD CONTROLLER -->
-                <div class="flex items-center justify-between gap-2">
-                    <label class="flex-1 bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 border-dashed rounded-xl p-3 text-center cursor-pointer transition-all">
-                        <input type="file" id="post-image" accept="image/*" class="hidden">
-                        <span id="upload-status-text" class="text-xs font-semibold text-zinc-500">📸 Add Cool Image</span>
+                <!-- MODERN LIVE IMAGE CAPTURE INTERFACE -->
+                <div class="flex gap-2 items-center">
+                    <label class="flex-1 bg-zinc-50 border border-dashed border-zinc-200 hover:border-black rounded-xl p-3 text-center cursor-pointer transition-all">
+                        <input type="file" id="main-image-file" accept="image/*" class="hidden">
+                        <span id="file-label-display" class="text-xs font-semibold text-zinc-400">📸 Attach Visual Asset</span>
                     </label>
                     
-                    <button onclick="publishNewPost()" class="bg-black hover:bg-zinc-900 text-white font-extrabold text-xs px-6 py-4.5 rounded-xl transition-all transform active:scale-95 shadow-lg">
-                        Publish Post ⚡
+                    <button onclick="compileAndPublishNode()" class="bg-black hover:bg-zinc-900 text-white font-bold text-xs px-6 py-4 rounded-xl transition-all shadow-md">
+                        Inject Frame ⚡
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- DYNAMIC STREAM FEED TARGET -->
-        <div id="feed-container" class="space-y-6">
-            <!-- Posts automatically yahan load honge -->
+        <!-- STREAMS PIPELINE FEED -->
+        <div id="dynamic-pipeline-feed" class="space-y-6">
+            <!-- Posts render machine will insert layouts here -->
         </div>
 
     </main>
 
-    <!-- CORE REPLICATION LOGIC ENGINE -->
+    <!-- SYSTEMS FUNCTIONAL CODE CONTROLLER -->
     <script>
-        // System Base Schema Map
-        let systemDataStore = {
+        // Memory Block Configuration Schema Object
+        let applicationDatabaseStateMap = {
             posts: [
                 {
-                    id: 1,
+                    id: 1001,
                     author: "Anivarya",
-                    caption: "Yeh hai bilkul clean aur simple UI. Isme post upload bhi hoga aur page refresh karne par tumhaara data kabhi delete nahi hoga! Try karke dekho. 🔥",
+                    caption: "Pehla wala layout, features ke sath ready hai. Isme image upload bhi kaam karega aur data save mode bhi chalega refresh karne par.",
                     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-                    likes: 12
+                    likesCount: 5
                 }
             ]
         };
 
-        // Screen Boot Trigger
+        // Initialize Core System Storage
         document.addEventListener("DOMContentLoaded", () => {
-            // Check if data exists in LocalStorage
-            const localSavedData = localStorage.getItem("supreme_feed_data");
-            if (localSavedData) {
-                systemDataStore = JSON.parse(localSavedData);
+            const rawStoredPayload = localStorage.getItem("anivarya_core_storage_v1");
+            if (rawStoredPayload) {
+                applicationDatabaseStateMap = JSON.parse(rawStoredPayload);
             } else {
-                saveDataToLocalStorage();
+                writeStateToHardwareMemory();
             }
 
-            // Image file select listener to update UI text
-            document.getElementById("post-image").addEventListener("change", function() {
+            // Realtime file path input text state changer hook
+            document.getElementById("main-image-file").addEventListener("change", function() {
                 if (this.files && this.files[0]) {
-                    document.getElementById("upload-status-text").innerText = `✅ Attached: ${this.files[0].name.substring(0, 15)}...`;
+                    document.getElementById("file-label-display").innerText = `✅ Loaded: ${this.files[0].name.substring(0, 18)}...`;
+                    document.getElementById("file-label-display").className = "text-xs font-bold text-black";
                 }
             });
 
-            renderFeed();
+            executeFeedPipelineRender();
         });
 
-        // Save State into LocalStorage Block
-        function saveDataToLocalStorage() {
-            localStorage.setItem("supreme_feed_data", JSON.stringify(systemDataStore));
+        // Write State into Browser Memory Layer
+        function writeStateToHardwareMemory() {
+            localStorage.setItem("anivarya_core_storage_v1", JSON.stringify(applicationDatabaseStateMap));
         }
 
-        // Render Feed Elements
-        function renderFeed() {
-            const feedContainer = document.getElementById("feed-container");
-            feedContainer.innerHTML = "";
+        // Render Machine UI Flow Loop
+        function executeFeedPipelineRender() {
+            const containerRef = document.getElementById("dynamic-pipeline-feed");
+            containerRef.innerHTML = "";
 
-            if (systemDataStore.posts.length === 0) {
-                feedContainer.innerHTML = `
-                    <div class="text-center py-12 text-zinc-400 text-xs font-mono uppercase tracking-wider">
-                        No feeds found inside local data cache memory.
+            if (applicationDatabaseStateMap.posts.length === 0) {
+                containerRef.innerHTML = `
+                    <div class="border border-dashed border-zinc-200 rounded-[28px] py-12 text-center text-zinc-400 text-xs font-mono uppercase tracking-widest">
+                        Awaiting new computational pipeline logs stream...
                     </div>
                 `;
                 return;
             }
 
-            systemDataStore.posts.forEach((post, index) => {
-                const postCard = document.createElement("article");
-                postCard.className = "bg-white rounded-[32px] overflow-hidden custom-card cool-shadow";
+            applicationDatabaseStateMap.posts.forEach((postNode, nodeIndex) => {
+                const articleShell = document.createElement("article");
+                articleShell.className = "bg-white border border-zinc-100 rounded-[32px] overflow-hidden cool-shadow transition-transform duration-300";
 
-                let imageTag = post.image 
-                    ? `<div class="border-b border-zinc-100"><img src="${post.image}" class="w-full h-auto max-h-96 object-cover"></div>` 
+                let imageSegmentMarkup = postNode.image 
+                    ? `<div class="bg-zinc-50 border-b border-zinc-50 overflow-hidden"><img src="${postNode.image}" class="w-full h-auto max-h-96 object-cover"></div>` 
                     : '';
 
-                postCard.innerHTML = `
-                    <!-- Post Header -->
+                articleShell.innerHTML = `
+                    <!-- Post Header Slot Component -->
                     <div class="px-5 py-4 flex items-center justify-between border-b border-zinc-50">
                         <div class="flex items-center gap-3">
                             <div class="w-9 h-9 rounded-xl bg-black text-white font-mono font-bold text-xs flex items-center justify-center uppercase">
-                                ${post.author[0]}
+                                ${postNode.author[0]}
                             </div>
                             <div>
-                                <h4 class="text-xs font-bold text-black uppercase font-mono">@${post.author}</h4>
-                                <span class="text-[9px] font-mono text-zinc-400 block">System Core Verified</span>
+                                <h4 class="text-xs font-bold text-zinc-900 font-mono">@${postNode.author.toUpperCase()}</h4>
+                                <span class="text-[9px] font-mono text-zinc-400 block tracking-tight">Verified System Ledger</span>
                             </div>
                         </div>
-                        <button onclick="deletePostByIndex(${index})" class="text-zinc-300 hover:text-red-500 text-xs font-bold transition-all px-2 py-1">✕ Delete</button>
+                        <button onclick="purgeNodeByIndex(${nodeIndex})" class="text-zinc-300 hover:text-red-500 text-xs font-semibold px-2 py-1 transition-all">✕ Delete</button>
                     </div>
 
-                    <!-- Post Image Content -->
-                    ${imageTag}
+                    <!-- Post Core Media Graphic Content Layer -->
+                    ${imageSegmentMarkup}
 
-                    <!-- Post Caption Body -->
-                    <div class="p-6 text-sm font-medium text-zinc-800 leading-relaxed">
-                        ${post.caption}
+                    <!-- Post Typography Paragraph Segment Text Block -->
+                    <div class="p-6 text-sm font-medium text-zinc-800 leading-relaxed text-left">
+                        ${postNode.caption}
                     </div>
 
-                    <!-- Post Interaction Action Footer Row -->
-                    <div class="px-5 py-3.5 bg-zinc-50/50 flex items-center justify-between border-t border-zinc-100/40">
-                        <button onclick="likePostByIndex(${index})" class="flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-black transition-all">
+                    <!-- Post Actions Operations Interface Toolbar Control Node Footer -->
+                    <div class="px-5 py-3.5 bg-zinc-50/40 flex items-center justify-between border-t border-zinc-100/50">
+                        <button onclick="incrementNodeLikesCounter(${nodeIndex})" class="flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-black transition-all">
                             <span>⚡</span>
-                            <span class="font-mono text-black">Flux Like (${post.likes || 0})</span>
+                            <span class="font-mono text-black">Core Flux (${postNode.likesCount || 0})</span>
                         </button>
-                        <span class="text-[9px] font-mono font-bold text-zinc-400 tracking-wider">LOCAL DATA LOG</span>
+                        <span class="text-[9px] font-mono font-bold text-zinc-400 tracking-wider">HARDWARE REGISTERS SAFE</span>
                     </div>
                 `;
-                feedContainer.appendChild(postCard);
+                containerRef.appendChild(articleShell);
             });
         }
 
-        // Publish New Post System Logic
-        function publishNewPost() {
-            const captionInput = document.getElementById("post-caption");
-            const imageInput = document.getElementById("post-image");
-            
-            const captionText = captionInput.value.trim();
-            if (!captionText) {
-                alert("Bhai, caption me kuch toh solid likho pehle!");
+        // Action Trigger logic router processor interface controllers
+        function compileAndPublishNode() {
+            const textRef = document.getElementById("main-caption");
+            const fileRef = document.getElementById("main-image-file");
+
+            const capString = textRef.value.trim();
+            if (!capString) {
+                alert("Bhai, pehle text caption fill up karo data packets log me!");
                 return;
             }
 
-            const imageFile = imageInput.files[0];
+            const activeBinaryFile = fileRef.files[0];
 
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Injecting new object block with base64 encoded local image source link data parameters
-                    pushPostObjectData(captionText, e.target.result);
+            if (activeBinaryFile) {
+                const asyncReaderEngine = new FileReader();
+                asyncReaderEngine.onload = function(evt) {
+                    commitNewPostPayloadObject(capString, evt.target.result);
                 };
-                reader.readAsDataURL(imageFile);
+                asyncReaderEngine.readAsDataURL(activeBinaryFile);
             } else {
-                pushPostObjectData(captionText, null);
+                commitNewPostPayloadObject(capString, null);
             }
         }
 
-        function pushPostObjectData(caption, base64Image) {
-            const newPostObj = {
+        function commitNewPostPayloadObject(captionText, assetDataUriString) {
+            const constructedObjectNode = {
                 id: Date.now(),
                 author: "Anivarya",
-                caption: caption,
-                image: base64Image,
-                likes: 0
+                caption: captionText,
+                image: assetDataUriString,
+                likesCount: 0
             };
 
-            systemDataStore.posts.unshift(newPostObj);
-            saveDataToLocalStorage();
-            renderFeed();
+            applicationDatabaseStateMap.posts.unshift(constructedObjectNode);
+            writeStateToHardwareMemory();
+            executeFeedPipelineRender();
 
-            // Resetting Inputs Fields Form Controls Elements 
-            document.getElementById("post-caption").value = "";
-            document.getElementById("post-image").value = "";
-            document.getElementById("upload-status-text").innerText = "📸 Add Cool Image";
+            // Clear configuration controllers loops fields parameters layout variables
+            document.getElementById("main-caption").value = "";
+            document.getElementById("main-image-file").value = "";
+            document.getElementById("file-label-display").innerText = "📸 Attach Visual Asset";
+            document.getElementById("file-label-display").className = "text-xs font-semibold text-zinc-400";
         }
 
-        // Like Increment Trigger Engine Handler
-        function likePostByIndex(index) {
-            systemDataStore.posts[index].likes = (systemDataStore.posts[index].likes || 0) + 1;
-            saveDataToLocalStorage();
-            renderFeed();
+        function incrementNodeLikesCounter(index) {
+            applicationDatabaseStateMap.posts[index].likesCount = (applicationDatabaseStateMap.posts[index].likesCount || 0) + 1;
+            writeStateToHardwareMemory();
+            executeFeedPipelineRender();
         }
 
-        // Delete Element Handler Loop Map Matrix
-        function deletePostByIndex(index) {
-            if (confirm("Kya aap sach me is post ko system data logs se delete karna chahte hain?")) {
-                systemDataStore.posts.splice(index, 1);
-                saveDataToLocalStorage();
-                renderFeed();
+        function purgeNodeByIndex(index) {
+            if (confirm("System core warning: Are you sure you want to purge this post node from active browser cache variables map logs permanently?")) {
+                applicationDatabaseStateMap.posts.splice(index, 1);
+                writeStateToHardwareMemory();
+                executeFeedPipelineRender();
             }
         }
     </script>
