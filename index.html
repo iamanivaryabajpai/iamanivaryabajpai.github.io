@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Network v2 | Next-Gen Matrix</title>
+    <title>Piyush Core Matrix | Premium Web Node</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,160 +18,119 @@
         }
     </script>
     <style>
-        body { transition: background-color 0.3s, color 0.3s; }
+        body { transition: background-color 0.3s, color 0.3s; margin: 0; padding: 0; }
         .audio-active-card {
-            animation: audioPulse 2s infinite ease-in-out;
+            animation: audioPulse 1.8s infinite ease-in-out;
             border-width: 2px !important;
         }
         @keyframes audioPulse {
             0% { border-color: rgba(99, 102, 241, 0.2); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
-            50% { border-color: rgba(99, 102, 241, 0.8); box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { border-color: rgba(99, 102, 241, 0.9); box-shadow: 0 0 25px rgba(99, 102, 241, 0.4); }
             100% { border-color: rgba(99, 102, 241, 0.2); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
         }
-        .music-spinning { animation: spin 4s linear infinite; }
+        .music-spinning { animation: spin 3.5s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .ghost-blurred { filter: blur(25px) grayscale(30%); transition: filter 0.25s ease; }
+        
+        /* GHOST PEEK REAL INTERFACE FILTER BLURS */
+        .ghost-blurred { filter: blur(30px) grayscale(50%); transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1); will-change: filter; }
         .ghost-revealed { filter: blur(0px) grayscale(0%); }
-        .luxury-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
-            background: #6366f1; border: 2px solid #ffffff; cursor: pointer;
-        }
     </style>
 
-    <!-- FIREBASE DB -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen pb-24 antialiased">
 
-    <!-- IDENTITY MODAL -->
-    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4">
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-slate-100 dark:border-slate-800">
-            <h2 class="text-xl font-black tracking-tight mb-1">Enter Core Timeline</h2>
-            <p class="text-xs font-semibold text-slate-400 mb-6">Choose a unique handle identity to proceed.</p>
+            <h2 class="text-xl font-black tracking-tight mb-1 text-indigo-600 dark:text-indigo-400">Piyush Core Net</h2>
+            <p class="text-xs font-semibold text-slate-400 mb-6">Initialize custom identity token link.</p>
             <div class="space-y-3">
-                <input type="text" id="username-input" placeholder="Type user handle..." 
+                <input type="text" id="username-input" placeholder="Enter custom handle name..." 
                        class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 text-sm focus:outline-none font-bold transition">
                 <button onclick="processAuth()" class="w-full bg-indigo-600 text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-indigo-700 transition shadow-md">
-                    Connect Core
+                    Boot Network Terminal
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN HEADER -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-3.5">
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tighter text-indigo-600 dark:text-indigo-400 uppercase">Core v2</span>
+            <span class="font-black text-xl tracking-tighter text-indigo-600 dark:text-indigo-400 uppercase">PIYUSH CORE</span>
             <button onclick="openModal()" class="bg-indigo-600 text-white font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-indigo-700 transition shadow-sm">
-                + New Post
+                + Add Post
             </button>
         </div>
     </nav>
 
-    <!-- SECTION 1: TIMELINE FEED -->
-    <section id="section-feed" class="max-w-xl mx-auto px-3 py-4 space-y-4">
-        <!-- Live Leaderboard Ticker -->
-        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
+    <main id="section-feed" class="max-w-xl mx-auto px-3 py-4 space-y-4">
+        <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
             <div>
-                <span class="text-[9px] font-black tracking-widest uppercase bg-white/20 px-2 py-0.5 rounded">🏆 Top Hyped Track</span>
-                <h3 id="leaderboard-title" class="text-xs font-black mt-1 truncate max-w-[240px]">Scanning active signals...</h3>
+                <span class="text-[9px] font-black tracking-widest uppercase bg-white/20 px-2 py-0.5 rounded">🏆 Network Top Signal</span>
+                <h3 id="leaderboard-title" class="text-xs font-black mt-1 truncate max-w-[240px]">Analyzing audio nodes...</h3>
             </div>
             <div id="leaderboard-count" class="text-sm font-black">🔥 0</div>
         </div>
+        
         <div id="feed-container" class="space-y-6"></div>
-    </section>
+    </main>
 
-    <!-- SECTION 2: LIVE MESSAGES (CHAT) -->
-    <section id="section-messages" class="hidden max-w-xl mx-auto px-3 py-4">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl flex flex-col h-[70vh] overflow-hidden shadow-sm">
-            <div class="p-4 border-b dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h2 class="text-xs font-black uppercase tracking-wider text-slate-500">Global Matrix Room</h2>
-            </div>
-            <!-- Chat Box Messages -->
-            <div id="chat-messages-box" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs"></div>
-            <!-- Message Input Tray -->
-            <div class="p-3 border-t dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex gap-2">
-                <input type="text" id="chat-input-text" placeholder="Type an encrypted transmission..." 
-                       class="w-full text-xs rounded-xl border dark:border-slate-700 bg-white dark:bg-slate-800 p-3 focus:outline-none font-medium">
-                <button onclick="sendChatMessage()" class="bg-indigo-600 text-white font-black px-5 rounded-xl text-xs uppercase">Send</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 3: USER STUDIO PROFILE -->
     <section id="section-profile" class="hidden max-w-xl mx-auto px-4 py-8">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 text-center space-y-6 shadow-sm">
-            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg">
-                @
-            </div>
+            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg">@</div>
             <div>
                 <h2 id="profile-handle" class="text-lg font-black text-slate-900 dark:text-white">@username</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Core Creator Account</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Verified Network Operator</p>
             </div>
-            
             <hr class="dark:border-slate-800">
-            
-            <!-- Quick Aesthetics Dashboard -->
             <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border dark:border-slate-800">
                 <div class="text-left">
-                    <p class="text-xs font-black">🌓 Cyberpunk Dark Mode</p>
-                    <p class="text-[10px] text-slate-400 font-medium">Flip aesthetic matrix grid color palettes</p>
+                    <p class="text-xs font-black">🌓 Cyberpunk Matrix Theme</p>
+                    <p class="text-[10px] text-slate-400 font-medium">Switch between light grid and absolute dark void</p>
                 </div>
-                <button onclick="toggleAestheticTheme()" class="bg-slate-900 dark:bg-white dark:text-slate-900 text-white text-[10px] font-black uppercase px-4 py-2 rounded-xl">
-                    Toggle Vibe
-                </button>
+                <button onclick="toggleAestheticTheme()" class="bg-slate-900 dark:bg-white dark:text-slate-900 text-white text-[10px] font-black uppercase px-4 py-2 rounded-xl">Toggle Vibe</button>
             </div>
-
-            <button onclick="logoutSession()" class="w-full bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white font-black text-xs uppercase tracking-widest py-3 rounded-xl transition">
-                Disconnect Transmission Session
-            </button>
+            <button onclick="logoutSession()" class="w-full bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white font-black text-xs uppercase tracking-widest py-3 rounded-xl transition">Disconnect Terminal Session</button>
         </div>
     </section>
 
-    <!-- INSTAGRAM STYLE BOTTOM NAVIGATION BAR -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-6 py-3">
         <div class="max-w-xl mx-auto flex items-center justify-around">
             <button onclick="switchTab('feed')" id="nav-btn-feed" class="flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider transition">
-                <span>🏠</span><span>Feed</span>
-            </button>
-            <button onclick="switchTab('messages')" id="nav-btn-messages" class="flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider transition">
-                <span>💬</span><span>Messages</span>
+                <span>🏠</span><span>Network Feed</span>
             </button>
             <button onclick="switchTab('profile')" id="nav-btn-profile" class="flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider transition">
-                <span>👤</span><span>Profile</span>
+                <span>👤</span><span>Identity Profile</span>
             </button>
         </div>
     </div>
 
-    <!-- COMPOSER MODAL (UNIVERSAL POSTING MATRIX) -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
             <div class="px-6 py-4 border-b dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
-                <h3 class="font-black text-sm tracking-tight">Compose Matrix Post</h3>
+                <h3 class="font-black text-sm tracking-tight">Broadcast New Matrix Signal</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-xs uppercase">Cancel</button>
             </div>
             
             <form id="post-form" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Caption</label>
-                    <textarea id="post-caption" required rows="2" placeholder="Write something epic..." 
+                    <textarea id="post-caption" required rows="2" placeholder="Write something epic onto the blockchain timeline..." 
                               class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 p-3 text-sm focus:outline-none font-medium resize-none shadow-inner"></textarea>
                 </div>
                 
-                <!-- IMAGE HOOK UP WITH INSTANT PREVIEW & CROPPING SUITE -->
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo Asset (Leave empty for Audio Aura Canvas)</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Photo Asset attachment</label>
                     <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/30">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-400">📸 Tap to attach photo asset</p>
+                        <p class="text-xs font-bold text-slate-400">📸 Choose or click a high-res photo</p>
                         <p id="file-chosen-name" class="text-xs font-semibold text-indigo-500 truncate mt-1"></p>
                     </div>
                     
                     <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-3 border dark:border-slate-700">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-bold gap-2">
-                            <span>Select Crop Aspect Ratio:</span>
+                            <span>Select Crop Aspect Ratio Suite:</span>
                             <div class="flex gap-1" id="crop-ratio-selectors">
                                 <button type="button" onclick="setCropRatio('1/1')" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[10px]">1:1 Square</button>
                                 <button type="button" onclick="setCropRatio('4/5')" class="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]">4:5 Portrait</button>
@@ -186,31 +145,29 @@
                     </div>
                 </div>
 
-                <!-- SLIDER GAME & EXTRAS TRAY -->
                 <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl space-y-3 border dark:border-slate-700">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">⚡ Simple Features</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">⚡ Core System Game Toggles</label>
                     <div class="space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold">💰 Turn On Price Guess Game:</span>
+                            <span class="text-xs font-bold">💰 Blind Price Guess Match Game:</span>
                             <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-indigo-600">
                         </div>
-                        <input type="number" id="luxury-correct-price" placeholder="Enter correct price (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none">
+                        <input type="number" id="luxury-correct-price" placeholder="Enter target valuation (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none">
                     </div>
                     <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
                         <span class="text-xs font-bold">💥 Auto-Delete Post After 24 Hours:</span>
                         <input type="checkbox" id="toggle-glitch-destruct" class="w-4 h-4 accent-indigo-600">
                     </div>
                     <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
-                        <span class="text-xs font-bold">🕵️‍♂️ Tap & Hold To View Photo (Blur Mode):</span>
+                        <span class="text-xs font-bold">🕵️‍♂️ Tap & Hold Image Peek (Blur Mode):</span>
                         <input type="checkbox" id="toggle-ghost-blur" class="w-4 h-4 accent-indigo-600">
                     </div>
                 </div>
 
-                <!-- REAL HIT SONGS LIST WITH ORIGINAL SINGERS PRESETS -->
                 <div class="bg-slate-50 dark:bg-slate-800 p-4 border dark:border-slate-700 rounded-2xl space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">🎵 Background Music</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">🎵 Background Track Hub Selector</label>
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search real tracks / artists..." 
+                        <input type="text" id="music-search-input" placeholder="Search real tracks or artists (e.g. Arijit Mishra)..." 
                                class="w-full rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 p-2 text-xs focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-indigo-600 text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
@@ -218,30 +175,29 @@
                     
                     <div id="preview-control-zone" class="hidden p-2.5 bg-slate-200 dark:bg-slate-700 rounded-xl space-y-2 text-xs">
                         <div class="flex items-center justify-between font-bold">
-                            <span id="preview-track-title" class="truncate max-w-[180px]">Playing Preview...</span>
+                            <span id="preview-track-title" class="truncate max-w-[180px]">Buffering Stream...</span>
                             <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">⏸ Pause</button>
                         </div>
-                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-emerald-600 text-white font-black text-[10px] uppercase py-1.5 rounded-lg">✅ Lock Real Audio Track</button>
+                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-emerald-600 text-white font-black text-[10px] uppercase py-1.5 rounded-lg">✅ Confirm & Lock Audio Track</button>
                     </div>
 
                     <div id="selected-music-badge" class="hidden p-2 bg-slate-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
                         <div class="flex items-center gap-2 min-w-0">
-                            <img id="selected-music-track-img" src="" class="w-6 h-6 rounded-md">
-                            <span id="selected-music-text" class="truncate max-w-[180px]">Track Locked</span>
+                            <div id="badge-artwork-container" class="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center text-[10px]">🎵</div>
+                            <span id="selected-music-text" class="truncate max-w-[180px]">Track Attached</span>
                         </div>
                         <button type="button" onclick="removeSelectedMusic()" class="text-white font-bold text-xs px-1">✕</button>
                     </div>
                 </div>
 
                 <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-indigo-700 transition shadow-md">
-                    Publish Transmitted Post
+                    Launch Transmitted Post
                 </button>
             </form>
         </div>
     </div>
 
     <script>
-        // CORE FIREBASE INFRASTRUCTURE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyBr4am8q_Gv9gScRy7OWeqn9qBoYzVe7V0",
             authDomain: "anivarya-core.firebaseapp.com",
@@ -272,7 +228,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             evaluateUserSession();
 
-            // FEED LISTENER ENGINE
             database.ref('posts').on('value', (snapshot) => {
                 const data = snapshot.val();
                 posts = [];
@@ -280,6 +235,7 @@
                 if (data) {
                     Object.keys(data).forEach(key => {
                         let item = data[key];
+                        // 24 HOUR EXPIRY GLITCH DESTRUCT BACKEND LOGIC PIPELINE
                         if (item.isGlitchDestruct && item.serverTimestamp && (now - item.serverTimestamp > 86400000)) {
                             database.ref('posts/' + key).remove();
                         } else {
@@ -292,30 +248,6 @@
                 computeLiveLeaderboard();
             });
 
-            // INSTANT GLOBAL MESSAGES ENGINE LISTENER
-            database.ref('global_chat').limitToLast(40).on('value', (snapshot) => {
-                const box = document.getElementById('chat-messages-box');
-                box.innerHTML = '';
-                const data = snapshot.val();
-                if(data) {
-                    Object.keys(data).forEach(k => {
-                        const m = data[k];
-                        const isMe = m.user === activeUser;
-                        const msgRow = document.createElement('div');
-                        msgRow.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
-                        msgRow.innerHTML = `
-                            <span class="text-[9px] font-black text-slate-400 mb-0.5">@${m.user}</span>
-                            <div class="p-3 rounded-2xl max-w-[85%] font-medium ${isMe ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-none'}">
-                                ${m.text}
-                            </div>
-                        `;
-                        box.appendChild(msgRow);
-                    });
-                    box.scrollTop = box.scrollHeight;
-                }
-            });
-
-            // CROPPING FILE INPUT PIPELINE MANAGER
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
                     document.getElementById('file-chosen-name').innerText = `Target: ${this.files[0].name}`;
@@ -328,7 +260,6 @@
                 }
             });
 
-            // FORM FORMULATION HANDLER
             document.getElementById('post-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const caption = document.getElementById('post-caption').value.trim();
@@ -374,37 +305,15 @@
             }
         });
 
-        // DISPATCH REAL-TIME GLOBAL CHAT MESSAGES
-        function sendChatMessage() {
-            const el = document.getElementById('chat-input-text');
-            const txt = el.value.trim();
-            if(!txt) return;
-            database.ref('global_chat').push().set({
-                user: activeUser, text: txt, timestamp: Date.now()
-            });
-            el.value = '';
-        }
-
-        // NAVIGATION SWITCHER CONTROLLER GRID (INSTAGRAM MATRIX ROUTING)
         function switchTab(targetTab) {
             document.getElementById('section-feed').classList.add('hidden');
-            document.getElementById('section-messages').classList.add('hidden');
             document.getElementById('section-profile').classList.add('hidden');
-
             document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
-            document.getElementById('nav-btn-messages').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
             document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
 
             if(targetTab === 'feed') {
                 document.getElementById('section-feed').classList.remove('hidden');
                 document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
-            } else if (targetTab === 'messages') {
-                document.getElementById('section-messages').classList.remove('hidden');
-                document.getElementById('nav-btn-messages').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
-                setTimeout(() => {
-                    const box = document.getElementById('chat-messages-box');
-                    box.scrollTop = box.scrollHeight;
-                }, 50);
             } else if (targetTab === 'profile') {
                 document.getElementById('section-profile').classList.remove('hidden');
                 document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
@@ -441,7 +350,7 @@
 
         function processAuth() {
             const raw = document.getElementById('username-input').value.trim();
-            if(!raw) return alert("Enter valid username credentials handle!");
+            if(!raw) return alert("Please type a valid operator name handle!");
             const processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
             localStorage.setItem('core_user_id', processedHandle);
             activeUser = processedHandle;
@@ -453,15 +362,17 @@
             const resultsDiv = document.getElementById('music-results');
             resultsDiv.innerHTML = '';
             tracks.forEach(track => {
+                const imgTag = track.artworkUrl100 ? `<img src="${track.artworkUrl100}" class="w-7 h-7 rounded border dark:border-slate-700 object-cover">` : `<div class="w-7 h-7 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]">🎵</div>`;
+                
                 const row = document.createElement('div');
                 row.className = 'flex items-center justify-between p-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer rounded-lg transition text-slate-800 dark:text-slate-200';
                 row.onclick = () => launchLiveTrackPreview(track);
                 row.innerHTML = `
                     <div class="flex items-center gap-2 pointer-events-none min-w-0">
-                        <img src="${track.artworkUrl100}" class="w-7 h-7 rounded border dark:border-slate-700">
+                        <div class="relative w-7 h-7 flex-shrink-0">${imgTag}</div>
                         <p class="text-xs font-bold truncate max-w-[200px]">${track.trackName} - <span class="text-slate-400 font-medium">${track.artistName}</span></p>
                     </div>
-                    <span class="text-[9px] font-black text-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-1 rounded">🔊 Listen</span>
+                    <span class="text-[9px] font-black text-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-1 rounded">🔊 Stream</span>
                 `;
                 resultsDiv.appendChild(row);
             });
@@ -474,18 +385,29 @@
                 .then(res => res.json())
                 .then(data => {
                     populateInitialTrendingMusic(data.results.map(t => ({
-                        trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100, previewUrl: t.previewUrl
+                        trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100 || '', previewUrl: t.previewUrl
                     })));
                 });
         }
 
+        // HIGH EFFICIENCY DYNAMIC STREAM BUFFER INITIALIZER
         function launchLiveTrackPreview(track) {
-            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
+            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); tempPreviewAudioObj = null; }
             currentInspectedTrackData = track;
-            tempPreviewAudioObj = new Audio(track.previewUrl);
-            tempPreviewAudioObj.play();
-            document.getElementById('preview-track-title').innerText = `🔊 Playing: ${track.trackName}`;
-            document.getElementById('preview-play-btn').innerText = "⏸ Pause";
+            
+            tempPreviewAudioObj = new Audio();
+            tempPreviewAudioObj.src = track.previewUrl;
+            tempPreviewAudioObj.preload = "auto";
+            
+            let playPromise = tempPreviewAudioObj.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    document.getElementById('preview-track-title').innerText = `🔊 Streaming: ${track.trackName}`;
+                    document.getElementById('preview-play-btn').innerText = "⏸ Pause";
+                }).catch(error => {
+                    console.log("Audio play deferred setup triggered");
+                });
+            }
             document.getElementById('preview-control-zone').classList.remove('hidden');
         }
 
@@ -500,9 +422,16 @@
             if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
             chosenMusicTrack = {
                 title: currentInspectedTrackData.trackName, artist: currentInspectedTrackData.artistName,
-                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100
+                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100 || ''
             };
-            document.getElementById('selected-music-track-img').src = currentInspectedTrackData.artworkUrl100;
+            
+            const container = document.getElementById('badge-artwork-container');
+            if(chosenMusicTrack.coverUrl) {
+                container.innerHTML = `<img src="${chosenMusicTrack.coverUrl}" class="w-full h-full rounded object-cover">`;
+            } else {
+                container.innerHTML = '🎵';
+            }
+            
             document.getElementById('selected-music-text').innerText = currentInspectedTrackData.trackName;
             document.getElementById('selected-music-badge').classList.remove('hidden');
             document.getElementById('preview-control-zone').classList.add('hidden');
@@ -529,6 +458,7 @@
             }).then(() => { closeModal(); });
         }
 
+        // REAL-TIME AUDIO BUFFER ORCHESTRATION PIPELINE (FIXED)
         function triggerAudioToggle(postId, audioUrl) {
             const cardFrame = document.getElementById(`card-${postId}`);
             const diskEl = document.getElementById(`disk-${postId}`);
@@ -537,11 +467,12 @@
             
             if (globalAudioInstances[postId]) {
                 if (globalAudioInstances[postId].paused) {
-                    globalAudioInstances[postId].play();
-                    if(diskEl) diskEl.classList.add('music-spinning');
-                    cardFrame.classList.add('audio-active-card');
-                    stateBtn.innerHTML = "⏸ PAUSE";
-                    controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
+                    globalAudioInstances[postId].play().then(() => {
+                        if(diskEl) diskEl.classList.add('music-spinning');
+                        cardFrame.classList.add('audio-active-card');
+                        stateBtn.innerHTML = "⏸ PAUSE";
+                        controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title.toUpperCase()}`;
+                    });
                 } else {
                     globalAudioInstances[postId].pause();
                     if(diskEl) diskEl.classList.remove('music-spinning');
@@ -552,6 +483,7 @@
                 return;
             }
 
+            // Flush other running channels
             Object.keys(globalAudioInstances).forEach(k => {
                 globalAudioInstances[k].pause();
                 const cf = document.getElementById(`card-${k}`); const d = document.getElementById(`disk-${k}`);
@@ -560,20 +492,27 @@
                 if(s) s.innerHTML = "▶ STREAM AUDIO"; if(t) t.innerText = "AUDIO MUTED";
             });
 
-            const audioObj = new Audio(audioUrl); audioObj.loop = true;
-            globalAudioInstances[postId] = audioObj; audioObj.play();
-            if(diskEl) diskEl.classList.add('music-spinning');
-            cardFrame.classList.add('audio-active-card');
-            stateBtn.innerHTML = "⏸ PAUSE";
-            controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
+            const audioObj = new Audio();
+            audioObj.src = audioUrl;
+            audioObj.loop = true;
+            audioObj.preload = "auto";
+            globalAudioInstances[postId] = audioObj;
+            
+            audioObj.play().then(() => {
+                if(diskEl) diskEl.classList.add('music-spinning');
+                cardFrame.classList.add('audio-active-card');
+                stateBtn.innerHTML = "⏸ PAUSE";
+                controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title.toUpperCase()}`;
+            }).catch(e => {
+                alert("Audio interaction permission requested! Tap stream audio button once more.");
+            });
         }
 
-        // ONE-TIME UNIQUE HYPE TRACKER SYSTEM VERIFIER
         function registerBlindHype(postId) {
             const currentPost = posts.find(p => p.id === postId);
             if (!currentPost) return;
             if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) {
-                alert("You have already checked your hype privilege limit allotment on this track! Limit: 1");
+                alert("Hype limit hit on this timeline node!");
                 return;
             }
             const updatedCount = (currentPost.hypeCount || 0) + 1;
@@ -592,23 +531,38 @@
             }
         }
 
-        function checkLuxuryGuess(postId, val, correctVal) {
+        // QUANTUM SECURE MATCH VERIFIER LOGIC ENGINE
+        function verifyQuantumPriceInput(postId, correctVal) {
+            const val = document.getElementById(`luxury-input-${postId}`).value.trim();
             const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
-            feedbackEl.innerText = `Your Guess: ₹${val}`;
+            
+            if(!val) {
+                feedbackEl.innerText = "⚠️ Please enter a validation check parameter!";
+                return;
+            }
             if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 TARGET MATCH DETECTED! VALUE REVEALED! 💎`;
-                feedbackEl.className = "text-[11px] font-black text-emerald-500 mt-1 animate-pulse";
-            } else { feedbackEl.className = "text-[11px] font-bold text-slate-400 mt-1"; }
+                feedbackEl.innerText = `💎 ALIGNMENT CONFIRMED! TRUE VALUE MATCHED IS ₹${correctVal} 💎`;
+                feedbackEl.className = "text-[11px] font-black text-emerald-500 mt-2 animate-pulse";
+            } else {
+                feedbackEl.innerText = `❌ Mismatch. Node boundary alignment failed.`;
+                feedbackEl.className = "text-[11px] font-bold text-rose-500 mt-2";
+            }
         }
 
+        // GHOST BLUR INTERACTIVE TOUCH TRIGGER CONTROLLER
         function ghostPeekTrigger(imgId, reveal) {
             const img = document.getElementById(imgId); if(!img) return;
-            if(reveal) { img.classList.remove('ghost-blurred'); img.classList.add('ghost-revealed'); } 
-            else { img.classList.remove('ghost-revealed'); img.classList.add('ghost-blurred'); }
+            if(reveal) { 
+                img.classList.remove('ghost-blurred'); 
+                img.classList.add('ghost-revealed'); 
+            } else { 
+                img.classList.remove('ghost-revealed'); 
+                img.classList.add('ghost-blurred'); 
+            }
         }
 
         function deletePost(postId) {
-            if(confirm("Delete this matrix post?")) {
+            if(confirm("Purge this post from the grid?")) {
                 if(globalAudioInstances[postId]) globalAudioInstances[postId].pause();
                 database.ref('posts/' + postId).remove();
             }
@@ -619,7 +573,7 @@
         function renderFeed() {
             const container = document.getElementById('feed-container'); container.innerHTML = '';
             if(posts.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 text-slate-400 font-bold text-xs uppercase">Timeline Empty.</div>`;
+                container.innerHTML = `<div class="text-center py-16 text-slate-400 font-bold text-xs uppercase">Timeline Clean.</div>`;
                 return;
             }
 
@@ -641,29 +595,35 @@
 
                 let mediaHtml = '';
                 let ghostClasses = post.isGhostPeek ? 'ghost-blurred' : '';
+                // Dynamic mouse/touch triggers mapping direct to state pipeline
                 let ghostEventHandlers = post.isGhostPeek ? `onmousedown="ghostPeekTrigger('img-${post.id}', true)" onmouseup="ghostPeekTrigger('img-${post.id}', false)" ontouchstart="ghostPeekTrigger('img-${post.id}', true)" ontouchend="ghostPeekTrigger('img-${post.id}', false)"` : '';
 
                 if(post.image) {
                     mediaHtml = `
                         <div ${ghostEventHandlers} class="relative bg-slate-900 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer">
                             <img id="img-${post.id}" src="${post.image}" class="w-full h-auto object-cover ${ghostClasses}">
+                            ${post.isGhostPeek ? '<span class="absolute top-2 right-2 text-[9px] bg-black/60 text-white px-2 py-0.5 rounded font-black tracking-wider">🕵️‍♂️ HOLD TO PEEK</span>' : ''}
                         </div>
                     `;
                 } else if(post.music) {
-                    // GENERATE AUTOMATIC AUDIO AURA ART GRADIENT IF NO PHOTO UPLOADED
+                    let diskImg = post.music.coverUrl ? `<img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover">` : `<div id="disk-${post.id}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-black text-xs">VINYL</div>`;
+                    
                     mediaHtml = `
                         <div class="relative bg-gradient-to-tr from-slate-900 via-indigo-950 to-purple-950 border-y border-slate-800 p-8 flex flex-col items-center justify-center text-center min-h-[180px]">
-                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover">
-                            <span class="text-[9px] font-black text-indigo-400 tracking-widest mt-3 uppercase">🎨 Dynamic Audio Aura Generated</span>
+                            <div class="relative w-20 h-20 flex-shrink-0">${diskImg}</div>
+                            <span class="text-[9px] font-black text-indigo-400 tracking-widest mt-3 uppercase">🎨 Cyber Audio Vinyl Node Online</span>
                         </div>
                     `;
                 }
 
                 let luxurySliderHtml = post.isLuxurySlider ? `
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-b dark:border-slate-800">
-                        <p class="text-[10px] font-black text-slate-400 uppercase mb-1">💰 Price Guess Game</p>
-                        <input type="range" min="0" max="5000" value="0" step="50" oninput="checkLuxuryGuess('${post.id}', this.value, ${post.targetPrice})" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 appearance-none cursor-pointer luxury-slider">
-                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-400 mt-1">Drag layout thumb line matrix to solve price...</div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-b dark:border-slate-800 space-y-2">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">💰 Secure Input Price Game</p>
+                        <div class="flex gap-2">
+                            <input type="number" id="luxury-input-${post.id}" placeholder="Type guess valuation amount..." class="w-full text-xs p-2.5 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none font-bold">
+                            <button onclick="verifyQuantumPriceInput('${post.id}', ${post.targetPrice})" class="bg-indigo-600 text-white font-black text-[10px] uppercase px-4 rounded-xl">Verify</button>
+                        </div>
+                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-400 mt-1">Submit valuation data to test node verification parameters.</div>
                     </div>
                 ` : '';
 
@@ -689,6 +649,7 @@
                     </div>
                     <div class="px-4 py-3 text-xs font-medium leading-relaxed">
                         <span class="font-black mr-2 uppercase tracking-tight">@${post.userHandle}</span><span>${post.caption}</span>
+                        ${post.isGlitchDestruct ? '<div class="text-[9px] text-amber-500 font-black mt-1 uppercase tracking-wider">💥 AUTO-GLITCH DESTRUCT ACTIVE (24H)</div>' : ''}
                     </div>
                 `;
                 container.appendChild(card);
