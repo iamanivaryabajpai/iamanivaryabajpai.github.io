@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anivarya Bajpai | Official Profile</title>
-    <meta name="description" content="Official professional website of Anivarya Bajpai">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -23,34 +22,20 @@
             background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 100%);
             min-height: 100vh;
         }
-        .premium-blur {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 9999px;
-        }
     </style>
 </head>
 <body class="font-sans text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
 
-    <!-- CURRENT ACTIVE USER CONTROLLER BAR (Simulating Different Accounts) -->
+    <!-- USER ACCOUNT SWITCHER BAR -->
     <div class="w-full bg-slate-900 text-white text-xs py-2 px-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-2">
             <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="text-slate-400 font-medium">Active Account:</span>
-            <span id="current-user-display" class="font-bold text-white uppercase tracking-wider">@ANIVARYA</span>
+            <span class="text-slate-400">Active User:</span>
+            <span id="current-user-display" class="font-bold uppercase tracking-wider">@ANIVARYA</span>
         </div>
         <div class="flex items-center gap-2">
-            <label class="text-[10px] text-slate-400 uppercase font-bold">Switch Account Context:</label>
-            <select id="account-selector" onchange="switchUserContext(this.value)" class="bg-slate-800 text-white border border-slate-700 rounded px-2 py-0.5 font-bold outline-none cursor-pointer">
+            <label class="text-[10px] text-slate-400 uppercase font-bold">Switch Account:</label>
+            <select id="account-selector" onchange="switchUser(this.value)" class="bg-slate-800 text-white border border-slate-700 rounded px-2 py-0.5 font-bold outline-none cursor-pointer">
                 <option value="user_anivarya">Anivarya Bajpai</option>
                 <option value="user_rahul">Rahul Sharma</option>
                 <option value="user_priya">Priya Singh</option>
@@ -59,22 +44,26 @@
     </div>
 
     <header class="max-w-2xl mx-auto pt-8 px-4 text-center">
-        <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm mb-8 animate-fade-in">
+        <!-- PICKUP LINE -->
+        <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm mb-8">
             <span>😉✨</span>
             <span>Are you a stadium? Because my heart beats only when you're crowded with smiles!</span>
         </div>
 
-        <div class="relative w-32 h-32 mx-auto mb-6 group">
-            <div class="absolute inset-0 bg-gradient-to-tr from-slate-200 to-slate-400 rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity"></div>
+        <!-- PROFILE IMAGE (Tumhari Photo) -->
+        <div class="relative w-36 h-36 mx-auto mb-6 group">
+            <div class="absolute inset-0 bg-gradient-to-tr from-slate-200 to-slate-400 rounded-full blur-md opacity-40"></div>
+            <!-- NOTE: Apni photo ka naam yahan 'src' me dal sakte ho (e.g., src="my_photo.jpg") -->
             <img src="https://via.placeholder.com/150" alt="Anivarya Bajpai" id="profile-img"
-                 class="relative w-32 h-32 object-cover rounded-full border-4 border-white shadow-md ring-1 ring-slate-100 z-10">
+                 class="relative w-36 h-36 object-cover rounded-full border-4 border-white shadow-md z-10">
         </div>
 
         <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 uppercase mb-4">
             Anivarya Bajpai
         </h1>
 
-        <div class="bg-white/70 border border-slate-200/80 rounded-2xl p-6 premium-blur shadow-sm max-w-xl mx-auto mb-6 text-center">
+        <!-- BIO CARD -->
+        <div class="bg-white/80 border border-slate-200 rounded-2xl p-6 shadow-sm max-w-xl mx-auto mb-6 text-center backdrop-blur-md">
             <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Personal Profile</p>
             <div class="text-slate-700 text-base space-y-1 font-medium">
                 <p>14 years old <span class="text-slate-300">|</span> Living life my way</p>
@@ -83,10 +72,11 @@
             </div>
         </div>
 
+        <!-- CREATE POST BUTTON SECTION -->
         <div class="bg-slate-900 text-white rounded-2xl p-5 max-w-xl mx-auto shadow-xl text-left flex items-center justify-between">
             <div>
                 <h3 class="font-bold text-sm tracking-wide uppercase text-slate-400">Current Status</h3>
-                <p class="text-slate-200 text-sm mt-1">Welcome to my official premium corner! Always loading updates with style. 🚀</p>
+                <p class="text-slate-200 text-sm mt-1">Welcome to my official corner! Always loading updates with style. 🚀</p>
             </div>
             <button onclick="openModal()" class="shrink-0 ml-4 bg-white text-slate-900 font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-slate-100 transition shadow-sm">
                 + Create Post
@@ -94,8 +84,9 @@
         </div>
     </header>
 
-    <hr class="max-w-xl mx-auto my-10 border-slate-200/60">
+    <hr class="max-w-xl mx-auto my-10 border-slate-200">
 
+    <!-- MAIN FEED -->
     <main class="max-w-xl mx-auto px-4 pb-24">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-lg font-bold tracking-tight text-slate-800">My Dynamic Feed Updates</h2>
@@ -105,9 +96,9 @@
         <div id="feed-container" class="space-y-6"></div>
     </main>
 
-    <!-- POST CREATION MODAL CONTAINER -->
+    <!-- CREATE POST MODAL -->
     <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div class="bg-white rounded-2xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <h3 class="font-bold text-slate-900">Create New Post</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 font-medium text-sm">Cancel</button>
@@ -115,24 +106,24 @@
             
             <form id="post-form" onsubmit="handlePostSubmit(event)" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Post Description Text</label>
-                    <textarea id="post-caption" required rows="3" placeholder="What's happening? Share your thoughts, sports hype, or vibe..." 
-                              class="w-full rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent resize-none"></textarea>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Post Text</label>
+                    <textarea id="post-caption" required rows="3" placeholder="What's on your mind?" 
+                              class="w-full rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 resize-none"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Upload Photo (Image File)</label>
-                    <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:bg-slate-50 transition relative">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Upload Photo</label>
+                    <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:bg-slate-50 relative">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
                         <div class="space-y-1">
                             <svg class="mx-auto h-8 w-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class="text-xs font-semibold text-slate-600">Click to upload file from your device</p>
+                            <p class="text-xs font-semibold text-slate-600">Click to upload photo</p>
                             <p id="file-chosen-name" class="text-xs font-medium text-emerald-600 truncate"></p>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 text-white font-semibold text-sm py-3 rounded-xl hover:bg-slate-800 transition shadow-md">
+                <button type="submit" class="w-full bg-slate-900 text-white font-semibold text-sm py-3 rounded-xl hover:bg-slate-800 transition">
                     Publish to Feed
                 </button>
             </form>
@@ -140,37 +131,33 @@
     </div>
 
     <script>
-        // Array holding feed data states
         let posts = [];
-        
-        // Track unique account handles mimicking distinct users
         let currentActiveUser = "user_anivarya"; 
-        const userReadableMap = {
+        
+        const userNames = {
             "user_anivarya": "Anivarya Bajpai",
             "user_rahul": "Rahul Sharma",
             "user_priya": "Priya Singh"
         };
 
-        // App Init Lifecycle hook
         window.addEventListener('DOMContentLoaded', () => {
-            loadPostsFromStorage();
-            setupFileChangeListener();
+            loadPosts();
+            setupFileListener();
         });
 
-        // Switch active user profile mechanism
-        function switchUserContext(selectedUser) {
+        function switchUser(selectedUser) {
             currentActiveUser = selectedUser;
-            document.getElementById('current-user-display').innerText = `@${userReadableMap[selectedUser].split(' ')[0]}`;
-            renderFeedItems(); // Re-render feed to capture and update correct specific UI highlight/like configurations
+            document.getElementById('current-user-display').innerText = `@${userNames[selectedUser].split(' ')[0]}`;
+            renderFeed();
         }
 
-        // Open Modal Controller
         function openModal() {
             document.getElementById('post-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
-        // Close Modal Controller
+        document.getElementById('profile-img').src = "image_292a87.jpg";
+
         function closeModal() {
             document.getElementById('post-modal').classList.add('hidden');
             document.body.style.overflow = '';
@@ -178,8 +165,7 @@
             document.getElementById('file-chosen-name').innerText = '';
         }
 
-        // Helper showing UI upload validation file labels
-        function setupFileChangeListener() {
+        function setupFileListener() {
             const input = document.getElementById('post-image');
             input.addEventListener('change', function() {
                 if(this.files && this.files[0]) {
@@ -188,7 +174,6 @@
             });
         }
 
-        // Core data pipeline
         function handlePostSubmit(e) {
             e.preventDefault();
             const caption = document.getElementById('post-caption').value;
@@ -198,96 +183,89 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const base64Image = event.target.result;
-                    createNewPostObject(caption, base64Image);
+                    createPost(caption, event.target.result);
                 };
                 reader.readAsDataURL(file);
             } else {
-                createNewPostObject(caption, null);
+                createPost(caption, null);
             }
         }
 
-        // Object instance processing engine
-        function createNewPostObject(caption, imageSrc) {
+        function createPost(caption, imageSrc) {
             const newPost = {
                 id: 'post_' + Date.now(),
+                authorId: currentActiveUser, // Post kisne banayi uski ID save hogi
+                authorName: userNames[currentActiveUser],
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
                 image: imageSrc,
-                likedBy: [] // Keeps track of unique user tokens who liked this specific post node
+                likedBy: [] 
             };
 
             posts.unshift(newPost);
-            savePostsToStorage();
-            renderFeedItems();
+            savePosts();
+            renderFeed();
             closeModal();
         }
 
-        // Action mechanics: Smart Multi-Account Like toggler matrix logic 
         function likePost(id) {
-            const postIndex = posts.findIndex(p => p.id === id);
-            if (postIndex !== -1) {
-                // Initialize likedBy tracking array securely if absent in older log blocks
-                if (!posts[postIndex].likedBy) {
-                    posts[postIndex].likedBy = [];
-                }
-
-                const alreadyLikedIndex = posts[postIndex].likedBy.indexOf(currentActiveUser);
-                
-                if (alreadyLikedIndex === -1) {
-                    // User hasn't liked it yet -> Register Like item
-                    posts[postIndex].likedBy.push(currentActiveUser);
+            const post = posts.find(p => p.id === id);
+            if (post) {
+                if (!post.likedBy) post.likedBy = [];
+                const index = post.likedBy.indexOf(currentActiveUser);
+                if (index === -1) {
+                    post.likedBy.push(currentActiveUser);
                 } else {
-                    // User already liked it -> Unlike item (Remove from state map log)
-                    posts[postIndex].likedBy.splice(alreadyLikedIndex, 1);
+                    post.likedBy.splice(index, 1);
                 }
-
-                savePostsToStorage();
-                renderFeedItems();
+                savePosts();
+                renderFeed();
             }
         }
 
-        // Action mechanics: Remove post from tracking state
         function deletePost(id) {
-            if(confirm("Are you sure you want to delete this update?")) {
+            const post = posts.find(p => p.id === id);
+            
+            // SECURITY CHECK: Agar active user post ka author nahi hai, toh delete nahi hoga
+            if (post.authorId !== currentActiveUser) {
+                alert("You can only delete your own posts!");
+                return;
+            }
+
+            if(confirm("Are you sure you want to delete this post?")) {
                 posts = posts.filter(p => p.id !== id);
-                savePostsToStorage();
-                renderFeedItems();
+                savePosts();
+                renderFeed();
             }
         }
 
-        // Encapsulation Save Module
-        function savePostsToStorage() {
-            localStorage.setItem('anivarya_website_posts_v2', JSON.stringify(posts));
+        function savePosts() {
+            localStorage.setItem('anivarya_clean_posts', JSON.stringify(posts));
         }
 
-        // Engine parsing structural database loader
-        function loadPostsFromStorage() {
-            const savedData = localStorage.getItem('anivarya_website_posts_v2');
+        function loadPosts() {
+            const savedData = localStorage.getItem('anivarya_clean_posts');
             if (savedData) {
-                try {
-                    posts = JSON.parse(savedData);
-                } catch(e) {
-                    posts = [];
-                }
+                posts = JSON.parse(savedData);
             } else {
-                // Default initial dataset config block
+                // Initial Sample Post
                 posts = [
                     {
                         id: 'default_1',
+                        authorId: 'user_anivarya',
+                        authorName: 'Anivarya Bajpai',
                         timestamp: 'Just now',
-                        caption: 'Welcome to my sleek, ultra-clean web terminal environment setup. Try creating dynamic posts natively using files on your device directly up top!',
+                        caption: 'Welcome to my profile! Try creating a post and testing the multi-user like and delete system.',
                         image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
-                        likedBy: ["user_rahul"] // Pre-seed a mockup database state like entry
+                        likedBy: []
                     }
                 ];
-                savePostsToStorage();
+                savePosts();
             }
-            renderFeedItems();
+            renderFeed();
         }
 
-        // Virtualized DOM node paint render controller logic
-        function renderFeedItems() {
+        function renderFeed() {
             const container = document.getElementById('feed-container');
             const countBadge = document.getElementById('post-count');
             
@@ -295,63 +273,52 @@
             container.innerHTML = '';
 
             if (posts.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 border border-dashed border-slate-200 rounded-2xl bg-white/40">
-                        <p class="text-slate-400 font-medium text-sm">Your dynamic feed timeline is currently empty.</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="text-center py-12 border border-dashed border-slate-200 rounded-2xl bg-white/40"><p class="text-slate-400 text-sm">No posts yet.</p></div>`;
                 return;
             }
 
             posts.forEach(post => {
-                let imgMarkup = '';
-                if (post.image) {
-                    imgMarkup = `
-                        <div class="border-b border-slate-100 overflow-hidden bg-slate-50">
-                            <img src="${post.image}" class="w-full h-auto max-h-[400px] object-cover mx-auto" alt="Post Asset Media">
-                        </div>
-                    `;
+                let imgMarkup = post.image ? `<div class="border-b border-slate-100 bg-slate-50"><img src="${post.image}" class="w-full h-auto max-h-[400px] object-cover" alt="Media"></div>` : '';
+
+                // Sirf wahi user delete button dekh payega jisne post create ki hai
+                let deleteButtonMarkup = '';
+                if (post.authorId === currentActiveUser) {
+                    deleteButtonMarkup = `<button onclick="deletePost('${post.id}')" class="text-slate-300 hover:text-red-500 text-sm font-medium px-2 py-1 transition">Delete</button>`;
                 }
 
-                // Check safely if user liked it to highlight style natively
-                const hasActiveUserLiked = post.likedBy && post.likedBy.includes(currentActiveUser);
-                const totalLikesCount = post.likedBy ? post.likedBy.length : 0;
+                const hasLiked = post.likedBy && post.likedBy.includes(currentActiveUser);
+                const totalLikes = post.likedBy ? post.likedBy.length : 0;
 
-                const heartIconClass = hasActiveUserLiked 
-                    ? "w-4 h-4 text-red-500 fill-red-500 transition scale-110" 
-                    : "w-4 h-4 text-slate-400 group-hover:text-red-500 transition fill-none";
-                
-                const textLikeClass = hasActiveUserLiked 
-                    ? "text-red-600 font-bold transition" 
-                    : "text-slate-600 group-hover:text-red-500 transition";
+                const heartClass = hasLiked ? "w-4 h-4 text-red-500 fill-red-500 scale-110" : "w-4 h-4 text-slate-400 group-hover:text-red-500 fill-none";
+                const textLikeClass = hasLiked ? "text-red-600 font-bold" : "text-slate-600 group-hover:text-red-500";
 
                 const cardHtml = `
-                    <div class="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm transition hover:shadow-md">
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                         <div class="px-5 py-4 flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-xs">AB</div>
+                                <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white font-bold text-xs">
+                                    ${post.authorName.split(' ').map(n => n[0]).join('')}
+                                </div>
                                 <div>
-                                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800">Anivarya Bajpai</h4>
-                                    <span class="text-[10px] font-medium text-slate-400">${post.timestamp}</span>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800">${post.authorName}</h4>
+                                    <span class="text-[10px] text-slate-400">${post.timestamp}</span>
                                 </div>
                             </div>
-                            <button onclick="deletePost('${post.id}')" class="text-slate-300 hover:text-red-500 transition text-sm font-medium px-2 py-1">
-                                Delete
-                            </button>
+                            ${deleteButtonMarkup}
                         </div>
 
                         ${imgMarkup}
 
-                        <div class="p-5 text-sm leading-relaxed text-slate-700 font-medium text-left">
+                        <div class="p-5 text-sm text-slate-700 text-left font-medium">
                             ${post.caption}
                         </div>
 
                         <div class="px-5 py-3 border-t border-slate-50 bg-slate-50/50 flex items-center">
-                            <button onclick="likePost('${post.id}')" class="group flex items-center gap-2 text-xs font-bold transition">
-                                <svg class="${heartIconClass}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <button onclick="likePost('${post.id}')" class="group flex items-center gap-2 text-xs font-bold">
+                                <svg class="${heartClass} transition" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                 </svg>
-                                <span class="${textLikeClass}">Like (${totalLikesCount})</span>
+                                <span class="${textLikeClass}">Like (${totalLikes})</span>
                             </button>
                         </div>
                     </div>
