@@ -3,418 +3,729 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ANIVARYA // Elite Minimal Network</title>
-    <!-- Premium Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>ANIVARYA X // Enterprise Supreme Network v10.0</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                    fontFamily: { 
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
                 }
             }
         }
     </script>
+    
     <style>
+        /* Custom UI Mechanics for High-End Application Feel */
         body {
-            background-color: #fafafa;
-            color: #1c1c1e;
+            background-color: #f8fafc;
+            color: #0f172a;
+            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Smooth native-like elastic scrolling */
-        .scroll-container {
-            -webkit-overflow-scrolling: touch;
+        
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
         }
-        /* Active bottom tab premium treatment */
-        .tab-active {
-            color: #000000 !important;
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .ios-blur {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        /* Fluid Animation Core Shards */
+        @keyframes subtlePop {
+            0% { transform: scale(0.97); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: subtlePop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes heartBurst {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.3); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .liked-heart {
+            animation: heartBurst 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Segment Control Logic */
+        .feed-tab-active {
+            color: #0f172a;
+            border-bottom: 2px solid #0f172a;
             font-weight: 700;
         }
-        /* Micro-interactions for premium feel */
-        .premium-btn {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s;
-        }
-        .premium-btn:active {
-            transform: scale(0.95);
+
+        .nav-dock-active {
+            color: #4f46e5 !important;
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="font-sans antialiased pb-24">
+<body class="font-sans antialiased min-h-screen pb-32">
 
-    <!-- GLOBAL TOP PREMIUM NAVIGATION -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4">
-        <div class="max-w-md mx-auto flex items-center justify-between">
-            <span class="font-extrabold text-xl tracking-tight text-black">anivarya<span class="text-gray-400">.</span></span>
-            <div id="auth-status-container" class="text-xs font-medium text-gray-500"></div>
-        </div>
-    </nav>
-
-    <!-- MINIMAL INITIALIZATION BOX -->
-    <div id="auth-box" class="max-w-md mx-auto px-4 pt-4 hidden">
-        <div class="bg-white border border-gray-200/80 p-6 rounded-3xl shadow-sm">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="auth-view-title" class="text-xs font-bold uppercase tracking-wider text-gray-400">Identity Hook</h3>
-                <button onclick="toggleAuthView()" id="auth-switch-btn" class="text-xs text-gray-900 font-semibold underline">Create Account</button>
+    <header class="sticky top-0 z-50 ios-blur border-b border-slate-200/60 px-6 py-4">
+        <div class="max-w-xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-3 w-3 rounded-full bg-indigo-600 animate-pulse"></div>
+                <h1 class="text-2xl font-extrabold tracking-tighter text-slate-900">anivarya<span class="text-indigo-600">⚡</span></h1>
             </div>
-            <form id="auth-system-form" class="space-y-3">
-                <input type="text" id="username-input" required placeholder="Your Global Handle" class="w-full px-4 py-3 rounded-2xl border border-gray-200 bg-gray-50/50 text-sm text-black outline-none focus:border-black transition">
-                <input type="password" id="password-input" required placeholder="Secure Passcode" class="w-full px-4 py-3 rounded-2xl border border-gray-200 bg-gray-50/50 text-sm text-black outline-none focus:border-black transition">
-                <button type="submit" class="w-full bg-black hover:bg-gray-900 text-white font-semibold py-3 rounded-2xl text-xs tracking-wide transition shadow-sm premium-btn">CONNECT</button>
+            
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-100 border border-slate-200 rounded-full px-3 py-1 flex items-center gap-2">
+                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span class="text-[10px] font-mono font-bold text-slate-600 uppercase tracking-wider">Cluster_Node: Online</span>
+                </div>
+                <div id="header-avatar-node" onclick="switchMainDock('profile')" class="h-8 w-8 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center justify-center cursor-pointer shadow-sm">U</div>
+            </div>
+        </div>
+    </header>
+
+    <section id="auth-gate-wrapper" class="max-w-xl mx-auto px-4 mt-6 hidden">
+        <div class="bg-white border border-slate-200 rounded-[32px] p-6 shadow-xl shadow-slate-200/50">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 id="auth-title-text" class="text-xl font-extrabold tracking-tight text-slate-900">Core Network Authentication</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Please map your global entity identity parameter below.</p>
+                </div>
+                <button onclick="toggleAuthPipelineMode()" id="auth-pipeline-toggle" class="text-xs text-indigo-600 font-bold underline whitespace-nowrap">Create New Entity</button>
+            </div>
+            
+            <form id="auth-pipeline-form" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">User Token Key Handle</label>
+                    <input type="text" id="auth-field-user" required placeholder="e.g. anivarya_king" class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm outline-none focus:border-indigo-600 focus:bg-white transition">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">Cryptographic Safety Password</label>
+                    <input type="password" id="auth-field-pass" required placeholder="••••••••••••" class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm outline-none focus:border-indigo-600 focus:bg-white transition">
+                </div>
+                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl text-xs uppercase tracking-wider shadow-md transition transform active:scale-[0.98]">Authorize Cluster Port</button>
             </form>
         </div>
-    </div>
+    </section>
 
-    <!-- MAIN PLATFORM INTERFACE VIEWPORT -->
-    <main class="max-w-md mx-auto px-4 pt-4">
+    <main class="max-w-xl mx-auto px-4 mt-6">
 
-        <!-- VIEW 1: PREMIUM CONTENT STREAM -->
-        <div id="stream-view" class="space-y-6">
+        <div id="viewport-stream" class="space-y-6">
             
-            <!-- ELITE BIO PROFILE HEADER -->
-            <div class="bg-white border border-gray-100 rounded-[32px] p-6 shadow-xs flex items-center gap-5">
-                <div class="w-16 h-16 shrink-0 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200/50">
-                    <img src="https://i.imgur.com/W29FclD.png" alt="Anivarya" class="w-full h-full object-cover">
-                </div>
-                <div class="space-y-1">
-                    <div class="flex items-center gap-1.5">
-                        <h2 class="text-xl font-bold tracking-tight text-black">Anivarya Bajpai</h2>
-                        <span class="w-4 h-4 bg-black text-white text-[9px] font-bold flex items-center justify-center rounded-full">✓</span>
-                    </div>
-                    <p class="text-[10px] font-medium tracking-wide text-gray-400 uppercase">Platform Founder</p>
-                    <div class="flex gap-2 pt-1">
-                        <span class="bg-gray-100 text-[9px] font-bold px-2.5 py-0.5 rounded-lg text-gray-800">👑 Overlord</span>
-                        <span class="bg-gray-50 text-[9px] font-bold px-2.5 py-0.5 rounded-lg text-gray-500 border border-gray-100">Active</span>
-                    </div>
-                </div>
+            <div class="flex border-b border-slate-200 text-slate-400 font-semibold text-xs">
+                <button onclick="switchFeedAlgorithm('foryou')" id="feed-tab-foryou" class="feed-tab-active flex-1 text-center pb-3 uppercase tracking-wider transition">For You Matrix</button>
+                <button onclick="switchFeedAlgorithm('trending')" id="feed-tab-trending" class="flex-1 text-center pb-3 uppercase tracking-wider transition">Trending Shards</button>
+                <button onclick="switchFeedAlgorithm('verified')" id="feed-tab-verified" class="flex-1 text-center pb-3 uppercase tracking-wider transition">Verified Network</button>
             </div>
 
-            <!-- CAST ARTIFACT INPUT CONTROL -->
-            <div class="flex justify-between items-center bg-white p-2.5 rounded-2xl border border-gray-100 shadow-xs">
-                <span class="text-xs font-medium text-gray-400 pl-3">Share something epic...</span>
-                <button onclick="openPublishModal()" class="bg-black hover:bg-gray-900 text-white font-semibold text-xs px-4 py-2 rounded-xl transition premium-btn shadow-sm">+ Publish</button>
+            <div class="bg-white border border-slate-200 rounded-[28px] p-4 flex items-center justify-between shadow-xs">
+                <div class="flex items-center gap-3 flex-1 cursor-pointer" onclick="openBroadcastModal()">
+                    <div id="control-avatar-node" class="h-9 w-9 rounded-xl bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center">U</div>
+                    <span class="text-sm font-medium text-slate-400">Cast a new data package transaction stream...</span>
+                </div>
+                <button onclick="openBroadcastModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md shadow-indigo-600/10 transition transform active:scale-95">+ Broadcast</button>
             </div>
 
-            <!-- CORE CONSOLIDATED FEED STREAM -->
-            <div id="dynamic-feed-root" class="space-y-5"></div>
+            <div id="stream-pipeline-target" class="space-y-6"></div>
         </div>
 
-        <!-- VIEW 2: GLOBAL MESSAGING MATRIX -->
-        <div id="messaging-view" class="space-y-4 hidden">
-            <div class="bg-white border border-gray-100 rounded-[28px] p-4 shadow-xs">
-                <div id="chat-scroller" class="h-[55vh] overflow-y-auto rounded-2xl p-2 text-sm space-y-4 scroll-container"></div>
-                <form id="chat-send-form" class="flex gap-2 mt-3 pt-2 border-t border-gray-100">
-                    <input type="text" id="chat-message-input" required placeholder="Type a message..." class="flex-1 bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl text-xs outline-none text-black focus:border-black transition">
-                    <button type="submit" class="bg-black text-white text-xs font-bold px-5 rounded-xl premium-btn">Send</button>
+        <div id="viewport-chat" class="space-y-4 hidden">
+            <div class="bg-white border border-slate-200 rounded-[32px] p-4 shadow-sm">
+                <div class="px-3 py-2 border-b border-slate-100 flex items-center justify-between mb-3">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Global Cluster Sync Terminal</h3>
+                        <p class="text-[10px] text-slate-400 font-mono">Channel ID: #anivarya_global_shards</p>
+                    </div>
+                    <span class="bg-indigo-50 border border-indigo-100 text-indigo-600 text-[9px] font-mono px-2 py-0.5 rounded-md">Live Logs</span>
+                </div>
+                <div id="chat-engine-scroller" class="h-[52vh] overflow-y-auto px-2 space-y-4 font-sans"></div>
+                
+                <form id="chat-injection-form" class="flex gap-2 mt-4 pt-3 border-t border-slate-100">
+                    <input type="text" id="chat-field-message" required placeholder="Type cluster packet log message stream..." class="flex-1 bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl text-xs outline-none text-slate-900 focus:border-slate-900 focus:bg-white transition">
+                    <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-6 rounded-xl transition transform active:scale-95">Push Packet</button>
                 </form>
             </div>
         </div>
 
-        <!-- VIEW 3: LIVE NODE METRICS OVERVIEW -->
-        <div id="metrics-view" class="space-y-4 hidden">
-            <div class="bg-white border border-gray-100 rounded-[32px] p-6 space-y-5 shadow-xs">
-                <h3 class="font-bold text-sm tracking-tight text-gray-800 uppercase text-center">Platform Core Metrics</h3>
+        <div id="viewport-metrics" class="space-y-6 hidden">
+            <div class="bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm space-y-6">
+                <div>
+                    <h3 class="font-extrabold text-base tracking-tight text-slate-900">Virtual Machine Cluster Metrics</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Live visualization data mapped inside hardware virtual tables.</p>
+                </div>
                 
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-gray-50/60 p-4 rounded-2xl border border-gray-100 text-center">
-                        <span id="metric-nodes" class="block text-2xl font-bold text-black">0</span>
-                        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Total Users</span>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center">
+                        <span id="stat-virtual-nodes" class="block text-3xl font-extrabold tracking-tight text-slate-900">0</span>
+                        <span class="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-1">Entity Nodes</span>
                     </div>
-                    <div class="bg-gray-50/60 p-4 rounded-2xl border border-gray-100 text-center">
-                        <span id="metric-casts" class="block text-2xl font-bold text-black">0</span>
-                        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Total Posts</span>
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center">
+                        <span id="stat-virtual-capsules" class="block text-3xl font-extrabold tracking-tight text-indigo-600">0</span>
+                        <span class="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-1">Data Capsules</span>
                     </div>
-                    <div class="bg-gray-50/60 p-4 rounded-2xl border border-gray-100 text-center">
-                        <span id="metric-flux" class="block text-2xl font-bold text-black">0</span>
-                        <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Interactions</span>
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center">
+                        <span id="stat-virtual-flux" class="block text-3xl font-extrabold tracking-tight text-emerald-500">0</span>
+                        <span class="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-1">Flux Matrix</span>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 text-left font-mono text-[11px] text-gray-500 space-y-1">
-                    <div class="text-black font-bold mb-1">System Manifest Logs:</div>
-                    <div>&gt; Sync cycle executed with 0ms delay latency.</div>
-                    <div>&gt; Global state model optimized for infinite rows.</div>
+                <div class="space-y-2 border-t border-slate-100 pt-4">
+                    <div class="flex justify-between items-center text-xs font-mono">
+                        <span class="text-slate-400">Cluster RAM Allocation Layer:</span>
+                        <span class="text-indigo-600 font-bold" id="ram-usage-text">34.21 MB / 512 MB</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div id="ram-usage-progressbar" class="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 transition-all duration-500" style="width: 8%"></div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-4 font-mono text-[11px] text-slate-400 space-y-1.5 shadow-inner">
+                    <div class="text-indigo-400 font-bold tracking-wide">// REPLICATION LOG CHANNELS ENGINE ACTIVE:</div>
+                    <div class="flex items-center gap-2"><span class="text-emerald-500">[OK]</span> <span>Memory mapping architecture instantiated safely.</span></div>
+                    <div class="flex items-center gap-2"><span class="text-emerald-500">[OK]</span> <span>Dynamic allocation database sharding loop stable.</span></div>
+                    <div class="flex items-center gap-2"><span class="text-indigo-400">[INF]</span> <span id="dynamic-random-log-pipeline">Listening to multi-threaded data packets events...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="viewport-profile" class="space-y-6 hidden">
+            <div class="bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm space-y-6">
+                <div class="flex items-center gap-5 pb-5 border-b border-slate-100">
+                    <div id="profile-panel-avatar" class="w-20 h-20 rounded-[24px] bg-slate-900 text-white font-extrabold text-2xl flex items-center justify-center uppercase shadow-md">U</div>
+                    <div>
+                        <h3 id="profile-panel-username" class="text-xl font-extrabold text-slate-900">Guest Entity Node</h3>
+                        <p id="profile-panel-bio" class="text-xs text-slate-400 mt-1">No customized bio descriptions injected into identity layer records maps yet.</p>
+                        <div class="flex gap-2 mt-3">
+                            <span class="bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] font-bold px-3 py-1 rounded-xl">Entity Node Linked</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="profile-customizer-form" class="space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Configure Identity Meta Variables</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Display Alias Avatar Initial</label>
+                            <input type="text" id="profile-edit-initial" maxLength="1" placeholder="e.g. A" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs outline-none focus:border-slate-900 focus:bg-white transition">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Status Vibe Parameter Tag</label>
+                            <input type="text" id="profile-edit-tag" placeholder="e.g. 👑 OVERLORD Mode" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs outline-none focus:border-slate-900 focus:bg-white transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Identity Vector Account Biography String</label>
+                        <input type="text" id="profile-edit-bio" placeholder="Write something architectural..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs outline-none focus:border-slate-900 focus:bg-white transition">
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition">Infect Updated Identity Logs</button>
+                </form>
+
+                <div class="pt-2">
+                    <button onclick="terminateActiveSessionHandle()" class="w-full bg-red-50 border border-red-100 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition">Sever Connection (Logout)</button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- MINIMAL PUBLISH DIALOG MODAL -->
-    <div id="publish-modal" class="hidden fixed inset-0 z-50 bg-black/20 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-white border border-gray-100 rounded-[32px] w-full max-w-sm shadow-xl overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="font-bold text-sm text-black">New Broadcast</h3>
-                <button onclick="closePublishModal()" class="text-gray-400 hover:text-black text-sm font-bold">✕</button>
+    <div id="broadcast-modal-overlay" class="hidden fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-xl flex items-center justify-center p-4 animate-pop">
+        <div class="bg-white border border-slate-100 rounded-[32px] w-full max-w-md shadow-2xl overflow-hidden transform transition-all">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="font-extrabold text-base tracking-tight text-slate-900">Inject Broadcast Stream</h3>
+                <button onclick="closeBroadcastModal()" class="text-slate-400 hover:text-slate-900 text-sm font-bold h-7 w-7 rounded-full hover:bg-slate-50 flex items-center justify-center transition">✕</button>
             </div>
-            <form id="publish-payload-form" class="p-6 space-y-4">
-                <input type="text" id="publish-mood-tag" value="✨ Fresh Energy" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-xs font-bold text-black outline-none">
-                <textarea id="publish-caption-text" required rows="3" placeholder="What are you thinking?" class="w-full bg-gray-50 rounded-xl border border-gray-100 p-4 text-xs outline-none text-black font-medium focus:border-black transition"></textarea>
-                
-                <div class="border border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer relative bg-gray-50 hover:border-black transition">
-                    <input type="file" id="publish-file-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                    <p class="text-[11px] font-bold text-gray-400">📸 Choose Photo Asset</p>
-                    <p id="selected-file-name" class="text-xs font-semibold text-black truncate mt-1"></p>
+            
+            <form id="broadcast-submission-form" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Capsule Mood Aura Header</label>
+                    <input type="text" id="broadcast-field-mood" value="⚡ Hyper Drive Mode" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-indigo-600 outline-none focus:border-indigo-600 transition">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Data Stream Body Payload String</label>
+                    <textarea id="broadcast-field-caption" required rows="3" placeholder="Compose high fidelity text packet strings logs here..." class="w-full bg-slate-50 rounded-xl border border-slate-100 p-4 text-xs outline-none text-slate-900 font-medium focus:border-indigo-600 focus:bg-white transition"></textarea>
                 </div>
                 
-                <button type="submit" class="w-full bg-black text-white font-bold py-3.5 rounded-xl text-xs tracking-wide shadow-sm premium-btn">INJECT INTO CORE FEED</button>
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Visual Matrix Asset Artifact</label>
+                    <div class="border border-dashed border-slate-300 rounded-xl p-5 text-center cursor-pointer relative bg-slate-50/50 hover:border-indigo-600 transition group">
+                        <input type="file" id="broadcast-field-file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <p class="text-xs font-bold text-slate-500 group-hover:text-indigo-600 transition">📸 Select Local File Device Media Map</p>
+                        <p id="broadcast-file-status-label" class="text-xs font-mono text-indigo-500 font-bold truncate mt-1.5"></p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl text-xs uppercase tracking-wider shadow-md shadow-indigo-600/10 transition">Compile & Publish Capsule</button>
             </form>
         </div>
     </div>
 
-    <!-- PREMIUM BOTTOM DOCK SEGMENTED BAR -->
-    <div class="fixed bottom-5 left-5 right-5 z-40 bg-white/95 backdrop-blur-lg border border-gray-200/60 shadow-lg px-2 py-2 max-w-xs mx-auto rounded-2xl">
+    <div class="fixed bottom-6 left-6 right-6 z-40 bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-xl shadow-slate-200/50 px-3 py-2 max-w-sm mx-auto rounded-2xl">
         <div class="flex justify-between items-center">
-            <button onclick="activateTabPanel('stream')" id="tab-btn-stream" class="tab-active flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-gray-400 transition-all premium-btn">
-                <span class="text-base">✨</span>
-                <span class="text-[9px] uppercase tracking-wider font-semibold mt-0.5">Stream</span>
+            <button onclick="switchMainDock('stream')" id="dock-btn-stream" class="nav-dock-active flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
+                <span class="text-lg">⚡</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Stream</span>
             </button>
-            <button onclick="activateTabPanel('messaging')" id="tab-btn-messaging" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-gray-400 transition-all premium-btn">
-                <span class="text-base">💬</span>
-                <span class="text-[9px] uppercase tracking-wider font-semibold mt-0.5">Chat</span>
+            <button onclick="switchMainDock('chat')" id="dock-btn-chat" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
+                <span class="text-lg">💬</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Terminal</span>
             </button>
-            <button onclick="activateTabPanel('metrics')" id="tab-btn-metrics" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-gray-400 transition-all premium-btn">
-                <span class="text-base">📊</span>
-                <span class="text-[9px] uppercase tracking-wider font-semibold mt-0.5">Data</span>
+            <button onclick="switchMainDock('metrics')" id="dock-btn-metrics" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
+                <span class="text-lg">📊</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Metrics</span>
+            </button>
+            <button onclick="switchMainDock('profile')" id="dock-btn-profile" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
+                <span class="text-lg">👤</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Identity</span>
             </button>
         </div>
     </div>
 
-    <!-- ENGINE LOGIC ARCHITECTURE -->
     <script>
-        let stateDb = { users: {}, posts: [], messages: [] };
-        let activeUserSession = null;
+        // Memory Architecture Model Layer Local Database Storage Representation Shard Objects Maps
+        let appGlobalStateInstance = {
+            users: { 
+                "anivarya": { key: "overlord", tag: "👑 FOUNDER MODE", bio: "Chief Overlord Developer & Platform Core Architect.", avatar: "A" },
+                "elon": { key: "mars", tag: "🚀 Space Lord", bio: "Configuring interplanetary replication hooks.", avatar: "E" }
+            },
+            posts: [
+                {
+                    id: 'p_init_0',
+                    author: 'anivarya',
+                    mood: '👑 FOUNDER MODE',
+                    timestamp: 'Active Node Time',
+                    caption: 'Instagram aur Snapchat ke frameworks down ho chuke hain. 1,000+ lines ka enterprise structural white fluid architecture seamlessly load ho chuka hai tumhare machine panel par. Zero clutter layout model locked.',
+                    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+                    likedEntities: ['elon'],
+                    commentsArray: [
+                        { user: 'elon', text: 'Insane optimization speed master! This interface is completely impossible.' }
+                    ]
+                },
+                {
+                    id: 'p_init_1',
+                    author: 'elon',
+                    mood: '🚀 Space Lord',
+                    timestamp: '0.002s Node Delta',
+                    caption: 'Virtual thread matrices processing vectors securely inside this white dashboard module stream. Absolute design perfection, no fluff.',
+                    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
+                    likedEntities: ['anivarya'],
+                    commentsArray: []
+                }
+            ],
+            messages: [
+                { user: 'System Bot', text: 'Welcome to the core decentralized handshake room terminal pipeline cluster logs.' },
+                { user: 'anivarya', text: 'Insta/Snap behind the scenes millions lines of backend logic use karte hain, par ye frontend architecture unko design and usability me zameen chatayega!' }
+            ],
+            activeAlgorithmMode: 'foryou' // default feed filter state logic mapping variable tracker
+        };
+
+        let currentActiveUserHandle = null;
 
         window.addEventListener('DOMContentLoaded', () => {
-            loadCoreDatabase();
-            bindInterfaceHooks();
+            bootstrapApplicationMemoryEngine();
+            registerCoreHardwareHooks();
+            instantiateSubOsFailsafes();
         });
 
-        // Tab Switching Engine
-        function activateTabPanel(targetId) {
-            document.getElementById('stream-view').classList.add('hidden');
-            document.getElementById('messaging-view').classList.add('hidden');
-            document.getElementById('metrics-view').classList.add('hidden');
+        // 4-Tab Main Interface Navigation Engine Router Implementation Logic
+        function switchMainDock(panelId) {
+            document.getElementById('viewport-stream').classList.add('hidden');
+            document.getElementById('viewport-chat').classList.add('hidden');
+            document.getElementById('viewport-metrics').classList.add('hidden');
+            document.getElementById('viewport-profile').classList.add('hidden');
             
-            document.getElementById('tab-btn-stream').classList.remove('tab-active');
-            document.getElementById('tab-btn-messaging').classList.remove('tab-active');
-            document.getElementById('tab-btn-metrics').classList.remove('tab-active');
+            document.getElementById('dock-btn-stream').classList.remove('nav-dock-active');
+            document.getElementById('dock-btn-chat').classList.remove('nav-dock-active');
+            document.getElementById('dock-btn-metrics').classList.remove('nav-dock-active');
+            document.getElementById('dock-btn-profile').classList.remove('nav-dock-active');
 
-            if(targetId === 'stream') { document.getElementById('stream-view').classList.remove('hidden'); document.getElementById('tab-btn-stream').classList.add('tab-active'); }
-            if(targetId === 'messaging') { document.getElementById('messaging-view').classList.remove('hidden'); document.getElementById('tab-btn-messaging').classList.add('tab-active'); }
-            if(targetId === 'metrics') { document.getElementById('metrics-view').classList.remove('hidden'); document.getElementById('tab-btn-metrics').classList.add('tab-active'); }
-        }
-
-        function loadCoreDatabase() {
-            const preservedData = localStorage.getItem('anivarya_clean_v1_data');
-            if (preservedData) {
-                try { stateDb = JSON.parse(preservedData); } catch(e) { populateDefaultSeedData(); }
-            } else { populateDefaultSeedData(); }
+            const viewTarget = document.getElementById(`viewport-${panelId}`);
+            const dockTarget = document.getElementById(`dock-btn-${panelId}`);
             
-            activeUserSession = localStorage.getItem('anivarya_clean_v1_session') || null;
-            refreshAuthStateDisplay();
-            renderEntirePlatformView();
+            if(viewTarget && dockTarget) {
+                viewTarget.classList.remove('hidden');
+                dockTarget.classList.add('nav-dock-active');
+            }
         }
 
-        function populateDefaultSeedData() {
-            stateDb = {
-                users: { "anivarya": "pass" },
-                posts: [{
-                    id: 'seed_init',
-                    author: 'Anivarya',
-                    mood: '👑 Founder Mode',
-                    timestamp: 'Just now',
-                    caption: 'Welcome to a clean, elite social layout built with absolute zero friction. No lag, no visual noise, just premium white minimalism working fluidly.',
-                    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
-                    likesList: []
-                }],
-                messages: [{ user: 'System', text: 'Clean state pipeline connected flawlessly.' }]
-            };
-            syncDataToStorage();
+        // Sub-Feed Tab Filter Strategy Execution Functions Blocks
+        function switchFeedAlgorithm(algMode) {
+            appGlobalStateInstance.activeAlgorithmMode = algMode;
+            document.getElementById('feed-tab-foryou').classList.remove('feed-tab-active');
+            document.getElementById('feed-tab-trending').classList.remove('feed-tab-active');
+            document.getElementById('feed-tab-verified').classList.remove('feed-tab-active');
+
+            document.getElementById(`feed-tab-${algMode}`).classList.add('feed-tab-active');
+            renderContentPipelineFeed();
         }
 
-        function syncDataToStorage() { localStorage.setItem('anivarya_clean_v1_data', JSON.stringify(stateDb)); }
+        function bootstrapApplicationMemoryEngine() {
+            const compiledStoragePayload = localStorage.getItem('anivarya_supreme_v10_payload');
+            if (compiledStoragePayload) {
+                try { appGlobalStateInstance = JSON.parse(compiledStoragePayload); } catch(err) { rebuildCleanDatabaseState(); }
+            } else {
+                rebuildCleanDatabaseState();
+            }
+            
+            currentActiveUserHandle = localStorage.getItem('anivarya_supreme_v10_session_token') || null;
+            evaluateAuthenticationStateViewports();
+            executeReplicationViewRenders();
+        }
 
-        function bindInterfaceHooks() {
-            document.getElementById('publish-file-input').addEventListener('change', function() {
-                if(this.files && this.files[0]) document.getElementById('selected-file-name').innerText = this.files[0].name;
-            });
+        function rebuildCleanDatabaseState() {
+            localStorage.setItem('anivarya_supreme_v10_payload', JSON.stringify(appGlobalStateInstance));
+        }
 
-            document.getElementById('auth-system-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const u = document.getElementById('username-input').value.trim();
-                const p = document.getElementById('password-input').value;
-                const isReg = document.getElementById('auth-switch-btn').innerText.includes('Login');
+        function commitStateToDeviceStorage() {
+            localStorage.setItem('anivarya_supreme_v10_payload', JSON.stringify(appGlobalStateInstance));
+        }
 
-                if (isReg) {
-                    if (stateDb.users[u]) { alert("Username is already claimed."); return; }
-                    stateDb.users[u] = p;
-                } else {
-                    if (!stateDb.users[u] || stateDb.users[u] !== p) { alert("Invalid access credentials."); return; }
+        function registerCoreHardwareHooks() {
+            // Monitor File Selection Text Changes Updates Hooks
+            document.getElementById('broadcast-field-file').addEventListener('change', function() {
+                if(this.files && this.files[0]) {
+                    document.getElementById('broadcast-file-status-label').innerText = `Payload Loaded: ${this.files[0].name}`;
                 }
-                activeUserSession = u;
-                localStorage.setItem('anivarya_clean_v1_session', u);
-                document.getElementById('auth-system-form').reset();
-                refreshAuthStateDisplay();
-                syncDataToStorage();
-                renderEntirePlatformView();
             });
 
-            document.getElementById('chat-send-form').addEventListener('submit', function(e) {
+            // Handle Registration and Gateway Routing Handshakes Form
+            document.getElementById('auth-pipeline-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (!activeUserSession) return;
-                const text = document.getElementById('chat-message-input').value.trim();
-                stateDb.messages.push({ user: activeUserSession, text: text });
-                document.getElementById('chat-send-form').reset();
-                syncDataToStorage();
-                renderGlobalChatStream();
-            });
+                const userToken = document.getElementById('auth-field-user').value.trim().toLowerCase();
+                const passToken = document.getElementById('auth-field-pass').value;
+                const isRegistrationPipe = document.getElementById('auth-pipeline-toggle').innerText.includes('Login');
 
-            document.getElementById('publish-payload-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (!activeUserSession) return;
-                const caption = document.getElementById('publish-caption-text').value.trim();
-                const mood = document.getElementById('publish-mood-tag').value;
-                const file = document.getElementById('publish-file-input').files[0];
+                if (!userToken || !passToken) return;
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const imgObj = new Image();
-                        imgObj.onload = function() {
-                            const canvas = document.createElement('canvas');
-                            let maxW = imgObj.width; 
-                            if(maxW > 600) { canvas.height = imgObj.height*(600/maxW); maxW = 600; } else { canvas.height = imgObj.height; }
-                            canvas.width = maxW;
-                            canvas.getContext('2d').drawImage(imgObj, 0, 0, maxW, canvas.height);
-                            pushNewPostObject(caption, mood, canvas.toDataURL('image/jpeg', 0.7));
-                        };
-                        imgObj.src = event.target.result;
+                if (isRegistrationPipe) {
+                    if (appGlobalStateInstance.users[userToken]) {
+                        alert("Error: Cluster entity handle match found in registers. Choose another tag.");
+                        return;
+                    }
+                    appGlobalStateInstance.users[userToken] = {
+                        key: passToken,
+                        tag: "⚡ Node Explorer",
+                        bio: "This entity biography metadata array string field has not been customized yet.",
+                        avatar: userToken[0].toUpperCase()
                     };
-                    reader.readAsDataURL(file);
+                    alert("Success: Account token compiled into operational registers maps safely.");
                 } else {
-                    pushNewPostObject(caption, mood, null);
+                    if (!appGlobalStateInstance.users[userToken] || appGlobalStateInstance.users[userToken].key !== passToken) {
+                        alert("Security Exception: Cryptographic signature credential validation failure.");
+                        return;
+                    }
+                }
+
+                currentActiveUserHandle = userToken;
+                localStorage.setItem('anivarya_supreme_v10_session_token', userToken);
+                document.getElementById('auth-pipeline-form').reset();
+                evaluateAuthenticationStateViewports();
+                commitStateToDeviceStorage();
+                executeReplicationViewRenders();
+            });
+
+            // Global Realtime Chat Room Message Core Pipeline Form
+            document.getElementById('chat-injection-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!currentActiveUserHandle) { alert("Action Aborted: Please log inside your validation node."); return; }
+                
+                const chatInputRef = document.getElementById('chat-field-message');
+                const rawTxt = chatInputRef.value.trim();
+                if(!rawTxt) return;
+
+                // Process Chat Command Injection Hooks
+                if (rawTxt.startsWith('/')) {
+                    executeTerminalCommandRouting(rawTxt);
+                    chatInputRef.value = '';
+                    return;
+                }
+
+                appGlobalStateInstance.messages.push({ user: currentActiveUserHandle, text: rawTxt });
+                chatInputRef.value = '';
+                commitStateToDeviceStorage();
+                renderGlobalTerminalChatroom();
+                renderHardwareSystemDashboard();
+            });
+
+            // Master Broadcast Post Submissions Form Pipeline Controller Core
+            document.getElementById('broadcast-submission-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!currentActiveUserHandle) return;
+
+                const capVal = document.getElementById('broadcast-field-caption').value.trim();
+                const moodVal = document.getElementById('broadcast-field-mood').value.trim();
+                const fileRef = document.getElementById('broadcast-field-file').files[0];
+
+                if (fileRef) {
+                    const readerInstance = new FileReader();
+                    readerInstance.onload = function(eventObject) {
+                        const tempImageObj = new Image();
+                        tempImageObj.onload = function() {
+                            const processingCanvas = document.createElement('canvas');
+                            let targetWidth = tempImageObj.width;
+                            if(targetWidth > 650) {
+                                processingCanvas.height = tempImageObj.height * (650 / targetWidth);
+                                targetWidth = 650;
+                            } else {
+                                processingCanvas.height = tempImageObj.height;
+                            }
+                            processingCanvas.width = targetWidth;
+                            processingCanvas.getContext('2d').drawImage(tempImageObj, 0, 0, targetWidth, processingCanvas.height);
+                            dispatchCapsuleToPipeline(capVal, moodVal, processingCanvas.toDataURL('image/jpeg', 0.7));
+                        };
+                        tempImageObj.src = eventObject.target.result;
+                    };
+                    readerInstance.readAsDataURL(fileRef);
+                } else {
+                    dispatchCapsuleToPipeline(capVal, moodVal, null);
                 }
             });
-        }
 
-        function pushNewPostObject(cap, mood, base64Img) {
-            stateDb.posts.unshift({
-                id: 'post_' + Date.now(),
-                author: activeUserSession,
-                mood: mood,
-                timestamp: 'Just now',
-                caption: cap,
-                image: base64Img,
-                likesList: []
+            // Identity Form Updater Meta Changes Hook Submit
+            document.getElementById('profile-customizer-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if(!currentActiveUserHandle || !appGlobalStateInstance.users[currentActiveUserHandle]) return;
+
+                const editInit = document.getElementById('profile-edit-initial').value.trim().toUpperCase();
+                const editTag = document.getElementById('profile-edit-tag').value.trim();
+                const editBio = document.getElementById('profile-edit-bio').value.trim();
+
+                if(editInit) appGlobalStateInstance.users[currentActiveUserHandle].avatar = editInit;
+                if(editTag) appGlobalStateInstance.users[currentActiveUserHandle].tag = editTag;
+                if(editBio) appGlobalStateInstance.users[currentActiveUserHandle].bio = editBio;
+
+                commitStateToDeviceStorage();
+                bootstrapApplicationMemoryEngine();
+                alert("Success: Identity memory parameters overwritten.");
+                document.getElementById('profile-customizer-form').reset();
             });
-            syncDataToStorage();
-            closePublishModal();
-            renderEntirePlatformView();
         }
 
-        function refreshAuthStateDisplay() {
-            const bar = document.getElementById('auth-status-container');
-            const box = document.getElementById('auth-box');
-            if (activeUserSession) {
-                box.classList.add('hidden');
-                bar.innerHTML = `<span class="bg-gray-100 text-black font-semibold px-3 py-1 rounded-xl">@${activeUserSession.toLowerCase()}</span>`;
+        function executeTerminalCommandRouting(cmdStr) {
+            const brokenToken = cmdStr.toLowerCase().split(' ');
+            const primaryCommand = brokenToken[0];
+
+            if (primaryCommand === '/clear') {
+                appGlobalStateInstance.messages = [{ user: 'System Terminal', text: 'Chat buffer registers flushed cleanly.' }];
+            } else if (primaryCommand === '/stats') {
+                appGlobalStateInstance.messages.push({ 
+                    user: 'System Monitor', 
+                    text: `Current memory state summary logs: Users Count = ${Object.keys(appGlobalStateInstance.users).length} nodes, Total Posts array length = ${appGlobalStateInstance.posts.length} entries.` 
+                });
+            } else if (primaryCommand === '/system') {
+                appGlobalStateInstance.messages.push({ user: 'System Matrix', text: 'Sub-OS Kernel Core running on revision allocation engine v10.0 Supreme Operational.' });
             } else {
-                box.classList.remove('hidden');
-                bar.innerHTML = `<span class="text-red-500 font-bold">Disconnected</span>`;
+                appGlobalStateInstance.messages.push({ user: 'System Bot', text: `Command parameter mismatch definition error: ${primaryCommand} unknown.` });
+            }
+            commitStateToDeviceStorage();
+            renderGlobalTerminalChatroom();
+        }
+
+        function dispatchCapsuleToPipeline(caption, mood, b64ImageString) {
+            appGlobalStateInstance.posts.unshift({
+                id: 'p_dynamic_time_' + Date.now(),
+                author: currentActiveUserHandle,
+                mood: mood || '✨ Core Energy',
+                timestamp: 'Synced Instantly',
+                caption: caption,
+                image: b64ImageString,
+                likedEntities: [],
+                commentsArray: []
+            });
+            commitStateToDeviceStorage();
+            closeBroadcastModal();
+            executeReplicationViewRenders();
+        }
+
+        function evaluateAuthenticationStateViewports() {
+            const statusIndicatorContainer = document.getElementById('auth-status-bar');
+            const gatewayFormWrapper = document.getElementById('auth-gate-wrapper');
+            
+            const headerAvatar = document.getElementById('header-avatar-node');
+            const controlAvatar = document.getElementById('control-avatar-node');
+
+            if (currentActiveUserHandle && appGlobalStateInstance.users[currentActiveUserHandle]) {
+                gatewayFormWrapper.classList.add('hidden');
+                const userModel = appGlobalStateInstance.users[currentActiveUserHandle];
+                
+                headerAvatar.innerText = userModel.avatar || currentActiveUserHandle[0].toUpperCase();
+                controlAvatar.innerText = userModel.avatar || currentActiveUserHandle[0].toUpperCase();
+                
+                // Bind Dynamic View Data onto Profile Viewport Fields Models
+                document.getElementById('profile-panel-avatar').innerText = userModel.avatar || currentActiveUserHandle[0].toUpperCase();
+                document.getElementById('profile-panel-username').innerText = `@${currentActiveUserHandle.toUpperCase()}`;
+                document.getElementById('profile-panel-bio').innerText = userModel.bio || "No bio information found inside memory banks arrays.";
+            } else {
+                gatewayFormWrapper.classList.remove('hidden');
+                headerAvatar.innerText = '?';
+                controlAvatar.innerText = '?';
+                switchMainDock('stream');
             }
         }
 
-        function toggleAuthView() {
-            const btn = document.getElementById('auth-switch-btn');
-            const title = document.getElementById('auth-view-title');
-            if (btn.innerText.includes('Create')) {
-                title.innerText = 'Register Platform Node';
-                btn.innerText = 'Switch back to Login';
+        function toggleAuthPipelineMode() {
+            const toggleButtonRef = document.getElementById('auth-pipeline-toggle');
+            const formTitleRef = document.getElementById('auth-title-text');
+            
+            if (toggleButtonRef.innerText.includes('Create')) {
+                formTitleRef.innerText = 'Provision Global Identity Shard';
+                toggleButtonRef.innerText = 'Switch back to login gateway node';
             } else {
-                title.innerText = 'Identity Hook';
-                btn.innerText = 'Create Account';
+                formTitleRef.innerText = 'Core Network Authentication';
+                toggleButtonRef.innerText = 'Create New Entity';
             }
         }
 
-        function openPublishModal() { if(!activeUserSession){alert("Please connect your account handle first."); return;} document.getElementById('publish-modal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('publish-modal').classList.add('hidden'); }
-        function closePublishModal() { document.getElementById('publish-modal').classList.add('hidden'); document.getElementById('publish-payload-form').reset(); document.getElementById('selected-file-name').innerText=''; }
-
-        function renderEntirePlatformView() {
-            renderPlatformStats();
-            renderGlobalChatStream();
-            renderMainContentFeed();
+        function terminateActiveSessionHandle() {
+            localStorage.removeItem('anivarya_supreme_v10_session_token');
+            currentActiveUserHandle = null;
+            bootstrapApplicationMemoryEngine();
+            alert("Connection dissolved. Node set back to guest access states model.");
         }
 
-        function renderPlatformStats() {
-            document.getElementById('metric-nodes').innerText = Object.keys(stateDb.users).length;
-            document.getElementById('metric-casts').innerText = stateDb.posts.length;
-            let likesCount = 0; stateDb.posts.forEach(p => likesCount += p.likesList.length);
-            document.getElementById('metric-flux').innerText = likesCount;
+        function openBroadcastModal() {
+            if(!currentActiveUserHandle) { alert("Authorization Error: Please resolve identity parameters first."); return; }
+            document.getElementById('broadcast-modal-overlay').classList.remove('hidden');
         }
 
-        function renderGlobalChatStream() {
-            const box = document.getElementById('chat-scroller');
-            box.innerHTML = stateDb.messages.map(m => {
-                const isMe = m.user === activeUserSession;
+        function closeBroadcastModal() {
+            document.getElementById('broadcast-modal-overlay').classList.add('hidden');
+            document.getElementById('broadcast-submission-form').reset();
+            document.getElementById('broadcast-file-status-label').innerText = '';
+        }
+
+        function executeReplicationViewRenders() {
+            renderHardwareSystemDashboard();
+            renderGlobalTerminalChatroom();
+            renderContentPipelineFeed();
+        }
+
+        function renderHardwareSystemDashboard() {
+            document.getElementById('stat-virtual-nodes').innerText = Object.keys(appGlobalStateInstance.users).length;
+            document.getElementById('stat-virtual-capsules').innerText = appGlobalStateInstance.posts.length;
+            
+            let incrementalLikesCounter = 0;
+            appGlobalStateInstance.posts.forEach(postItem => {
+                if(postItem.likedEntities) incrementalLikesCounter += postItem.likedEntities.length;
+                if(postItem.commentsArray) incrementalLikesCounter += postItem.commentsArray.length;
+            });
+            document.getElementById('stat-virtual-flux').innerText = incrementalLikesCounter;
+
+            // Compute and mutate dynamic load metrics progress blocks bars simulations
+            const computedPostMetricFactor = Math.min(92, 8 + (appGlobalStateInstance.posts.length * 4.5));
+            document.getElementById('ram-usage-text').innerText = `${(32 + (appGlobalStateInstance.messages.length * 0.85)).toFixed(2)} MB / 512 MB`;
+            document.getElementById('ram-usage-progressbar').style.width = `${computedPostMetricFactor}%`;
+        }
+
+        function renderGlobalTerminalChatroom() {
+            const chatBoxViewportScroller = document.getElementById('chat-engine-scroller');
+            if(!chatBoxViewportScroller) return;
+
+            chatBoxViewportScroller.innerHTML = appGlobalStateInstance.messages.map(messageItem => {
+                const messageSenderSessionMatch = messageItem.user === currentActiveUserHandle;
+                const senderDetailsObj = appGlobalStateInstance.users[messageItem.user] || { avatar: '?' };
+                
                 return `
-                    <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
-                        <span class="text-[10px] text-gray-400 font-bold uppercase mb-0.5 px-1">${m.user}</span>
-                        <div class="${isMe ? 'bg-black text-white' : 'bg-gray-100 text-black'} px-4 py-2.5 rounded-2xl max-w-[85%] font-medium inline-block">
-                            ${m.text}
+                    <div class="flex items-start gap-3 ${messageSenderSessionMatch ? 'flex-row-reverse' : ''} animate-pop">
+                        <div class="h-7 w-7 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-[10px] font-bold flex items-center justify-center uppercase shrink-0">
+                            ${senderDetailsObj.avatar || messageItem.user[0]}
+                        </div>
+                        <div class="space-y-0.5 max-w-[78%]">
+                            <div class="flex items-center gap-1.5 px-1 ${messageSenderSessionMatch ? 'justify-end' : ''}">
+                                <span class="text-[10px] font-bold text-slate-800 uppercase tracking-tight">@${messageItem.user}</span>
+                            </div>
+                            <div class="${messageSenderSessionMatch ? 'bg-slate-900 text-white rounded-2xl rounded-tr-none' : 'bg-slate-100 text-slate-900 rounded-2xl rounded-tl-none'} px-4 py-2.5 text-xs font-medium leading-relaxed shadow-xs">
+                                ${messageItem.text}
+                            </div>
                         </div>
                     </div>
                 `;
             }).join('');
-            box.scrollTop = box.scrollHeight;
+            
+            chatBoxViewportScroller.scrollTop = chatBoxViewportScroller.scrollHeight;
         }
 
-        function renderMainContentFeed() {
-            const root = document.getElementById('dynamic-feed-root');
-            root.innerHTML = '';
-            
-            stateDb.posts.forEach(post => {
-                const item = document.createElement('div');
-                item.className = 'bg-white border border-gray-200/70 rounded-[28px] overflow-hidden shadow-xs';
-                
-                let renderImageChunk = post.image ? `<div class="bg-gray-50 border-b border-gray-100"><img src="${post.image}" class="w-full h-auto max-h-[380px] object-cover"></div>` : '';
-                const userHasLiked = activeUserSession && post.likesList.includes(activeUserSession);
+        function renderContentPipelineFeed() {
+            const feedContainerPipelineTarget = document.getElementById('stream-pipeline-target');
+            if(!feedContainerPipelineTarget) return;
+            feedContainerPipelineTarget.innerHTML = '';
 
-                item.innerHTML = `
-                    <div class="px-5 py-4 flex items-center justify-between border-b border-gray-50/50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-xl bg-black text-white font-bold text-xs flex items-center justify-center uppercase">${post.author[0]}</div>
-                            <div>
-                                <h4 class="text-xs font-bold text-black uppercase tracking-wider">${post.author}</h4>
-                                <span class="text-[9px] font-medium text-gray-400 block">${post.timestamp}</span>
-                            </div>
-                        </div>
-                        <span class="bg-gray-100 text-gray-800 text-[9px] font-bold px-2.5 py-0.5 rounded-lg">${post.mood}</span>
-                    </div>
-                    ${renderImageChunk}
-                    <div class="p-5 text-sm font-medium text-gray-800 leading-relaxed text-left">
-                        <span class="font-bold text-black mr-1">@${post.author}</span> ${post.caption}
-                    </div>
-                    <div class="px-5 py-3 border-t border-gray-100 bg-gray-50/30 flex items-center justify-between">
-                        <button class="interaction-like-trigger flex items-center gap-2 text-xs font-semibold ${userHasLiked ? 'text-black' : 'text-gray-400'} premium-btn">
-                            <span>❤️ Like (${post.likesList.length})</span>
-                        </button>
+            // Apply Algorithmic Strategy Filtering Sorting Layout Mapping Models
+            let filteredPostsMemoryMap = [...appGlobalStateInstance.posts];
+            
+            if (appGlobalStateInstance.activeAlgorithmMode === 'trending') {
+                filteredPostsMemoryMap.sort((alpha, beta) => (beta.likedEntities.length + (beta.commentsArray?.length || 0)) - (alpha.likedEntities.length + (alpha.commentsArray?.length || 0)));
+            } else if (appGlobalStateInstance.activeAlgorithmMode === 'verified') {
+                filteredPostsMemoryMap = filteredPostsMemoryMap.filter(item => item.author === 'anivarya' || item.author === 'elon');
+            }
+
+            if(filteredPostsMemoryMap.length === 0) {
+                feedContainerPipelineTarget.innerHTML = `
+                    <div class="bg-white border border-slate-200 rounded-[28px] p-8 text-center text-slate-400 font-medium text-xs">
+                        No active structural data pipeline streams detected inside this filter partition matrix mapping channel.
                     </div>
                 `;
+                return;
+            }
 
-                // Single clean click for standard execution
-                item.querySelector('.interaction-like-trigger').addEventListener('click', () => {
-                    if (!activeUserSession) return;
-                    const index = post.likesList.indexOf(activeUserSession);
-                    if (index === -1) post.likesList.push(activeUserSession); else post.likesList.splice(index, 1);
-                    syncDataToStorage();
-                    renderEntirePlatformView();
-                });
+            filteredPostsMemoryMap.forEach(postNode => {
+                const authorMetaMap = appGlobalStateInstance.users[postNode.author] || { tag: '⚡ Standard Node', avatar: postNode.author[0] };
+                const appCardLayoutComponentNode = document.createElement('article');
+                appCardLayoutComponentNode.className = 'bg-white border border-slate-200 rounded-[32px] overflow-hidden shadow-sm shadow-slate-100 transition-all duration-300 animate-pop';
+                
+                let mediaPayloadRenderChunk = postNode.image 
+                    ? `<div class="bg-slate-50 border-b border-slate-100 overflow-hidden relative group">
+                        <img src="${postNode.image}" class="w-full h-auto max-h-[400px] object-cover mx-auto transition-transform duration-500 group-hover:scale-[1.01]" loading="lazy">
+                       </div>` 
+                    : '';
 
-                root.appendChild(item);
-            });
-        }
-    </script>
-</body>
-</html>
+                const activeUserHasLikedFlag = currentActiveUserHandle && postNode.likedEntities.includes(currentActiveUserHandle);
+                const isEliteAuthorBadge = postNode.author === 'anivarya' || postNode.author === 'elon';
+
+                appCardLayoutComponentNode.innerHTML = `
+                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100/60">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-slate-900 text-white font-extrabold text-xs flex items-center justify-center uppercase shadow-sm">${authorMetaMap.avatar || postNode.author[0]}</div>
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">${postNode.author}</h4>
+                                    ${isEliteAuthorBadge ? `<span class="h-3 w-3 rounded-full bg-indigo-600 text-white text-[7px] flex items-center justify-center font-bold">✓</span>` : ''}
+                                </div>
+                                <span class="text-[9px] font-mono font-bold text-slate-400 block">${postNode.timestamp}</span>
+                            </div>
+                        </div>
+                        <span class="bg-slate-100 text-slate-800 text-[9px] font-bold px-3 py-1 rounded-xl uppercase tracking-wider">${authorMetaMap.tag || postNode.mood}</span>
+                    </div>
+
+                    ${mediaPayloadRenderChunk}
+
+                    <div class="p-5 text-sm font-medium text-slate-700 leading-relaxed text-left border-b border-slate-100/50">
+                        <span class="font-bold text-slate-900 mr-1">@${postNode.author}</span> ${postNode.caption}
+                    </div>
+
+                    <div class="px-5 py-3.5 bg-slate-50/40 flex items-center justify-between border-b border-slate-100/50">
+                        <button class="action-like-trigger flex items-center gap-2 text-xs font-bold ${activeUserHasLikedFlag ? 'text-indigo-600' : 'text-slate-400'} transition transform active:scale-95">
+                            <span class="${activeUserHasLikedFlag ? 'liked-heart' : ''}">❤️</span>
+                            <span>Reactions Vector (${postNode.likedEntities.length})</span>
+                        </button>
+                        <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">Secure Shared Node Log</span>
+                    </div>
+
+                    <div class="px-5 py-4 bg-slate-50/20 space-y-3">
+                        <div class="comments-pipeline-box text-xs space-y-2 max-h-24 overflow-y-auto font-sans text-slate-600">
+                            ${postNode.commentsArray && postNode.commentsArray.length > 0 
+                                ? postNode.commentsArray.map(cmt => `
+                                    <div class="
