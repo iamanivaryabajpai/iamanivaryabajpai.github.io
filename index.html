@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Network | Elite Media Matrix</title>
+    <title>Core Network v2 | Next-Gen Matrix</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
@@ -17,187 +18,215 @@
         }
     </script>
     <style>
-        body { 
-            background: #f8fafc;
-            min-height: 100vh; 
-        }
-        @keyframes audioPulse {
-            0% { border-color: rgba(15, 23, 42, 0.1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
-            50% { border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
-            100% { border-color: rgba(15, 23, 42, 0.1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
-        }
+        body { transition: background-color 0.3s, color 0.3s; }
         .audio-active-card {
             animation: audioPulse 2s infinite ease-in-out;
-            border-width: 1px !important;
+            border-width: 2px !important;
         }
-        .music-spinning {
-            animation: spin 4s linear infinite;
+        @keyframes audioPulse {
+            0% { border-color: rgba(99, 102, 241, 0.2); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+            50% { border-color: rgba(99, 102, 241, 0.8); box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            100% { border-color: rgba(99, 102, 241, 0.2); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
         }
+        .music-spinning { animation: spin 4s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        .ghost-blurred {
-            filter: blur(25px) grayscale(30%);
-            transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .ghost-revealed {
-            filter: blur(0px) grayscale(0%);
-        }
-        
+        .ghost-blurred { filter: blur(25px) grayscale(30%); transition: filter 0.25s ease; }
+        .ghost-revealed { filter: blur(0px) grayscale(0%); }
         .luxury-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #0f172a;
-            border: 2px solid #ffffff;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+            background: #6366f1; border: 2px solid #ffffff; cursor: pointer;
         }
     </style>
 
-    <!-- FIREBASE MODULES -->
+    <!-- FIREBASE DB -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
-<body class="font-sans text-slate-900 antialiased">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen pb-24 antialiased">
 
     <!-- IDENTITY MODAL -->
-    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-slate-100">
-            <h2 class="text-xl font-black tracking-tight text-slate-900 mb-1">Enter Core Timeline</h2>
-            <p class="text-xs font-semibold text-slate-400 mb-6">Choose an identity handle to log into the feed network.</p>
-            
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-slate-100 dark:border-slate-800">
+            <h2 class="text-xl font-black tracking-tight mb-1">Enter Core Timeline</h2>
+            <p class="text-xs font-semibold text-slate-400 mb-6">Choose a unique handle identity to proceed.</p>
             <div class="space-y-3">
                 <input type="text" id="username-input" placeholder="Type user handle..." 
-                       class="w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-slate-400 font-bold transition">
-                <button onclick="processAuth()" class="w-full bg-slate-900 text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-black transition shadow-md">
+                       class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 text-sm focus:outline-none font-bold transition">
+                <button onclick="processAuth()" class="w-full bg-indigo-600 text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-indigo-700 transition shadow-md">
                     Connect Core
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MINIMALIST APP HEADER -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-4 py-3.5">
+    <!-- MAIN HEADER -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-3.5">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tighter text-slate-900 uppercase">Core Feed</span>
-            <div class="flex items-center gap-3">
-                <span id="nav-user-badge" class="text-[10px] font-black tracking-wide bg-slate-100 px-3 py-1.5 rounded-full text-slate-600 uppercase">...</span>
-                <button onclick="openModal()" class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-black transition shadow-sm">
-                    + New Post
-                </button>
-            </div>
+            <span class="font-black text-xl tracking-tighter text-indigo-600 dark:text-indigo-400 uppercase">Core v2</span>
+            <button onclick="openModal()" class="bg-indigo-600 text-white font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-indigo-700 transition shadow-sm">
+                + New Post
+            </button>
         </div>
     </nav>
 
-    <!-- MAIN FEED -->
-    <main class="max-w-xl mx-auto px-2 sm:px-4 py-6 pb-24">
+    <!-- SECTION 1: TIMELINE FEED -->
+    <section id="section-feed" class="max-w-xl mx-auto px-3 py-4 space-y-4">
+        <!-- Live Leaderboard Ticker -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
+            <div>
+                <span class="text-[9px] font-black tracking-widest uppercase bg-white/20 px-2 py-0.5 rounded">🏆 Top Hyped Track</span>
+                <h3 id="leaderboard-title" class="text-xs font-black mt-1 truncate max-w-[240px]">Scanning active signals...</h3>
+            </div>
+            <div id="leaderboard-count" class="text-sm font-black">🔥 0</div>
+        </div>
         <div id="feed-container" class="space-y-6"></div>
-    </main>
+    </section>
+
+    <!-- SECTION 2: LIVE MESSAGES (CHAT) -->
+    <section id="section-messages" class="hidden max-w-xl mx-auto px-3 py-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl flex flex-col h-[70vh] overflow-hidden shadow-sm">
+            <div class="p-4 border-b dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h2 class="text-xs font-black uppercase tracking-wider text-slate-500">Global Matrix Room</h2>
+            </div>
+            <div id="chat-messages-box" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs"></div>
+            <div class="p-3 border-t dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex gap-2">
+                <input type="text" id="chat-input-text" placeholder="Type an encrypted transmission..." 
+                       class="w-full text-xs rounded-xl border dark:border-slate-700 bg-white dark:bg-slate-800 p-3 focus:outline-none font-medium">
+                <button onclick="sendChatMessage()" class="bg-indigo-600 text-white font-black px-5 rounded-xl text-xs uppercase">Send</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: USER STUDIO PROFILE -->
+    <section id="section-profile" class="hidden max-w-xl mx-auto px-4 py-8">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 text-center space-y-6 shadow-sm">
+            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg">
+                @
+            </div>
+            <div>
+                <h2 id="profile-handle" class="text-lg font-black text-slate-900 dark:text-white">@username</h2>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Core Creator Account</p>
+            </div>
+            <hr class="dark:border-slate-800">
+            <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border dark:border-slate-800">
+                <div class="text-left">
+                    <p class="text-xs font-black">🌓 Cyberpunk Dark Mode</p>
+                    <p class="text-[10px] text-slate-400 font-medium">Flip aesthetic matrix grid color palettes</p>
+                </div>
+                <button onclick="toggleAestheticTheme()" class="bg-slate-900 dark:bg-white dark:text-slate-900 text-white text-[10px] font-black uppercase px-4 py-2 rounded-xl">
+                    Toggle Vibe
+                </button>
+            </div>
+            <button onclick="logoutSession()" class="w-full bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white font-black text-xs uppercase tracking-widest py-3 rounded-xl transition">
+                Disconnect Transmission Session
+            </button>
+        </div>
+    </section>
+
+    <!-- INSTAGRAM NAVIGATION BAR -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-6 py-3">
+        <div class="max-w-xl mx-auto flex items-center justify-around">
+            <button onclick="switchTab('feed')" id="nav-btn-feed" class="flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider transition">
+                <span>🏠</span><span>Feed</span>
+            </button>
+            <button onclick="switchTab('messages')" id="nav-btn-messages" class="flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider transition">
+                <span>💬</span><span>Messages</span>
+            </button>
+            <button onclick="switchTab('profile')" id="nav-btn-profile" class="flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider transition">
+                <span>👤</span><span>Profile</span>
+            </button>
+        </div>
+    </div>
 
     <!-- COMPOSER MODAL -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden my-auto border border-slate-100">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 class="font-black text-slate-800 text-sm tracking-tight">Compose Matrix Post</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 font-bold text-xs uppercase">Cancel</button>
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
+            <div class="px-6 py-4 border-b dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
+                <h3 class="font-black text-sm tracking-tight">Compose Matrix Post</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-xs uppercase">Cancel</button>
             </div>
             
-            <form id="post-form" class="p-6 space-y-4">
+            <form id="post-form" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Caption</label>
                     <textarea id="post-caption" required rows="2" placeholder="Write something epic..." 
-                              class="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 text-sm text-slate-800 focus:outline-none focus:border-slate-300 font-medium resize-none shadow-inner"></textarea>
+                              class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 p-3 text-sm focus:outline-none font-medium resize-none shadow-inner"></textarea>
                 </div>
                 
-                <!-- IMAGE ASSET SUITE WITH ASPECT CROP PRESET -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo Asset</label>
-                    <div class="border-2 border-dashed border-slate-200 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/50">
+                    <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/30">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-500">📸 Tap to attach photo asset</p>
-                        <p id="file-chosen-name" class="text-xs font-semibold text-slate-900 truncate mt-1"></p>
+                        <p class="text-xs font-bold text-slate-400">📸 Tap to attach photo asset</p>
+                        <p id="file-chosen-name" class="text-xs font-semibold text-indigo-500 truncate mt-1"></p>
                     </div>
                     
-                    <!-- ADVANCED IMAGE PRESET CROP CONTROLLER -->
-                    <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
-                        <div class="flex items-center justify-between text-[11px] font-bold text-slate-600">
+                    <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-3 border dark:border-slate-700">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-bold gap-2">
                             <span>Select Crop Aspect Ratio:</span>
-                            <div class="flex gap-1.5" id="crop-ratio-selectors">
-                                <button type="button" onclick="setCropRatio('1/1')" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">1:1 Square</button>
-                                <button type="button" onclick="setCropRatio('4/5')" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]">4:5 Portrait</button>
-                                <button type="button" onclick="setCropRatio('16/9')" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]">16:9 Landscape</button>
+                            <div class="flex gap-1" id="crop-ratio-selectors">
+                                <button type="button" onclick="setCropRatio('1/1')" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[10px]">1:1 Square</button>
+                                <button type="button" onclick="setCropRatio('4/5')" class="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]">4:5 Portrait</button>
+                                <button type="button" onclick="setCropRatio('16/9')" class="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]">16:9 Landscape</button>
                             </div>
                         </div>
-                        <div class="overflow-hidden rounded-lg bg-black flex items-center justify-center border border-slate-200">
-                            <div id="crop-preview-frame" class="w-full transition-all duration-200 overflow-hidden flex items-center justify-center bg-slate-900" style="aspect-ratio: 1/1;">
+                        <div class="overflow-hidden rounded-lg bg-black flex items-center justify-center">
+                            <div id="crop-preview-frame" class="w-full transition-all duration-200 overflow-hidden flex items-center justify-center" style="aspect-ratio: 1/1;">
                                 <img id="modal-preview-img" src="" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- CRAZY SIMPLE FEATURES TRAY -->
-                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500">⚡ Simple Features</label>
-                    
-                    <!-- Price Guess Setup -->
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl space-y-3 border dark:border-slate-700">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">⚡ Secure Game Modules</label>
                     <div class="space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-700">💰 Turn On Price Guess Game:</span>
-                            <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-slate-900">
+                            <span class="text-xs font-bold">💰 Blind Price Guess Match Game:</span>
+                            <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-indigo-600">
                         </div>
-                        <input type="number" id="luxury-correct-price" placeholder="Enter correct price (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white border border-slate-200 focus:outline-none">
+                        <input type="number" id="luxury-correct-price" placeholder="Enter true valuation (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none">
                     </div>
-
-                    <!-- Auto Delete Setup -->
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
-                        <span class="text-xs font-bold text-slate-700">💥 Auto-Delete Post After 24 Hours:</span>
-                        <input type="checkbox" id="toggle-glitch-destruct" class="w-4 h-4 accent-slate-900">
+                    <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
+                        <span class="text-xs font-bold">💥 Auto-Delete Post After 24 Hours:</span>
+                        <input type="checkbox" id="toggle-glitch-destruct" class="w-4 h-4 accent-indigo-600">
                     </div>
-
-                    <!-- Tap To Blur Setup -->
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
-                        <span class="text-xs font-bold text-slate-700">🕵️‍♂️ Tap & Hold To View Photo (Blur Mode):</span>
-                        <input type="checkbox" id="toggle-ghost-blur" class="w-4 h-4 accent-slate-900">
+                    <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
+                        <span class="text-xs font-bold">🕵️‍♂️ Tap & Hold To View Photo (Blur Mode):</span>
+                        <input type="checkbox" id="toggle-ghost-blur" class="w-4 h-4 accent-indigo-600">
                     </div>
                 </div>
 
-                <!-- AUDIO ATTACHMENT SUITE ENGINE -->
-                <div class="bg-slate-50 p-4 border border-slate-200 rounded-2xl space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500">🎵 Background Music</label>
+                <!-- SONG SELECTION OVERHAUL -->
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 border dark:border-slate-700 rounded-2xl space-y-3">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">🎵 Background Track Matrix</label>
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search track titles..." 
-                               class="w-full rounded-xl bg-white border border-slate-200 p-2 text-xs text-slate-800 focus:outline-none">
-                        <button type="button" onclick="searchSongs()" class="bg-slate-900 text-white font-bold text-xs px-4 rounded-xl">Search</button>
+                        <input type="text" id="music-search-input" placeholder="Search real tracks or original singers..." 
+                               class="w-full rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 p-2 text-xs focus:outline-none">
+                        <button type="button" onclick="searchSongs()" class="bg-indigo-600 text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
+                    <div id="music-results" class="space-y-1 max-h-32 overflow-y-auto bg-white dark:bg-slate-900 border dark:border-slate-700 p-1 rounded-xl"></div>
                     
-                    <div>
-                        <div id="music-results" class="space-y-1 max-h-36 overflow-y-auto bg-white border rounded-xl p-1"></div>
-                    </div>
-                    
-                    <!-- Interactive Locking Module after hearing preview -->
-                    <div id="preview-control-zone" class="hidden p-2.5 bg-slate-100 rounded-xl space-y-2 text-xs">
+                    <div id="preview-control-zone" class="hidden p-2.5 bg-slate-200 dark:bg-slate-700 rounded-xl space-y-2 text-xs">
                         <div class="flex items-center justify-between font-bold">
-                            <span id="preview-track-title" class="text-slate-700 truncate max-w-[200px]">Playing Preview...</span>
+                            <span id="preview-track-title" class="truncate max-w-[180px]">Playing Preview...</span>
                             <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">⏸ Pause</button>
                         </div>
-                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-emerald-600 text-white font-black text-[10px] uppercase py-1.5 rounded-lg">
-                            ✅ Lock This Audio Track
-                        </button>
+                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-emerald-600 text-white font-black text-[10px] uppercase py-1.5 rounded-lg">✅ Lock Real Audio Track</button>
                     </div>
 
                     <div id="selected-music-badge" class="hidden p-2 bg-slate-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
                         <div class="flex items-center gap-2 min-w-0">
-                            <img id="selected-music-track-img" src="" class="w-6 h-6 rounded-md">
-                            <span id="selected-music-text" class="truncate max-w-[180px]">Song Attached Successfully</span>
+                            <div id="badge-artwork-container" class="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center text-[10px]">🎵</div>
+                            <span id="selected-music-text" class="truncate max-w-[180px]">Track Locked</span>
                         </div>
                         <button type="button" onclick="removeSelectedMusic()" class="text-white font-bold text-xs px-1">✕</button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-black transition shadow-md">
-                    Publish Post
+                <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-indigo-700 transition shadow-md">
+                    Publish Transmitted Post
                 </button>
             </form>
         </div>
@@ -217,17 +246,14 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        const MASTER_ADMIN_KEY = "ANIVARYA_OWNER_XYZ";
         let activeUser = localStorage.getItem('core_user_id') || "";
         let posts = [];
-        
         let chosenMusicTrack = null; 
         let tempPreviewAudioObj = null; 
         let currentInspectedTrackData = null; 
         let globalAudioInstances = {}; 
         let selectedCropAspect = '1/1';
 
-        // REAL HIT COMMERCIAL SOUND TRACKS WITH ORIGINAL SINGERS
         const prebuiltTrendingSeeds = [
             {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
             {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"},
@@ -253,11 +279,34 @@
                     posts.reverse(); 
                 }
                 renderFeed();
+                computeLiveLeaderboard();
             });
-            
+
+            database.ref('global_chat').limitToLast(40).on('value', (snapshot) => {
+                const box = document.getElementById('chat-messages-box');
+                box.innerHTML = '';
+                const data = snapshot.val();
+                if(data) {
+                    Object.keys(data).forEach(k => {
+                        const m = data[k];
+                        const isMe = m.user === activeUser;
+                        const msgRow = document.createElement('div');
+                        msgRow.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
+                        msgRow.innerHTML = `
+                            <span class="text-[9px] font-black text-slate-400 mb-0.5">@${m.user}</span>
+                            <div class="p-3 rounded-2xl max-w-[85%] font-medium ${isMe ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-none'}">
+                                ${m.text}
+                            </div>
+                        `;
+                        box.appendChild(msgRow);
+                    });
+                    box.scrollTop = box.scrollHeight;
+                }
+            });
+
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Selected: ${this.files[0].name}`;
+                    document.getElementById('file-chosen-name').innerText = `Target: ${this.files[0].name}`;
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         document.getElementById('modal-preview-img').src = e.target.result;
@@ -271,7 +320,6 @@
                 e.preventDefault();
                 const caption = document.getElementById('post-caption').value.trim();
                 const file = document.getElementById('post-image').files[0];
-
                 const isSlider = document.getElementById('toggle-luxury-slider').checked;
                 const correctPrice = document.getElementById('luxury-correct-price').value || 0;
                 const isGlitch = document.getElementById('toggle-glitch-destruct').checked;
@@ -283,28 +331,18 @@
                         const img = new Image();
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
-                            let targetWidth = 600;
-                            let targetHeight = 600;
-
+                            let targetWidth = 600; let targetHeight = 600;
                             if (selectedCropAspect === '4/5') { targetHeight = 750; }
                             else if (selectedCropAspect === '16/9') { targetHeight = 337; }
 
-                            canvas.width = targetWidth;
-                            canvas.height = targetHeight;
-                            
+                            canvas.width = targetWidth; canvas.height = targetHeight;
                             const ctx = canvas.getContext('2d');
-                            // Proportional object cover canvas mapping engine
                             let imgRatio = img.width / img.height;
                             let targetRatio = targetWidth / targetHeight;
                             let sx = 0, sy = 0, sw = img.width, sh = img.height;
 
-                            if (imgRatio > targetRatio) {
-                                sw = img.height * targetRatio;
-                                sx = (img.width - sw) / 2;
-                            } else {
-                                sh = img.width / targetRatio;
-                                sy = (img.height - sh) / 2;
-                            }
+                            if (imgRatio > targetRatio) { sw = img.height * targetRatio; sx = (img.width - sw) / 2; }
+                            else { sh = img.width / targetRatio; sy = (img.height - sh) / 2; }
 
                             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
                             saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.8), isSlider, correctPrice, isGlitch, isGhost);
@@ -318,18 +356,63 @@
             });
 
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
+            if(localStorage.getItem('theme-matrix') === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
         });
+
+        function sendChatMessage() {
+            const el = document.getElementById('chat-input-text');
+            const txt = el.value.trim();
+            if(!txt) return;
+            database.ref('global_chat').push().set({
+                user: activeUser, text: txt, timestamp: Date.now()
+            });
+            el.value = '';
+        }
+
+        function switchTab(targetTab) {
+            document.getElementById('section-feed').classList.add('hidden');
+            document.getElementById('section-messages').classList.add('hidden');
+            document.getElementById('section-profile').classList.add('hidden');
+
+            document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
+            document.getElementById('nav-btn-messages').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
+            document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
+
+            if(targetTab === 'feed') {
+                document.getElementById('section-feed').classList.remove('hidden');
+                document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
+            } else if (targetTab === 'messages') {
+                document.getElementById('section-messages').classList.remove('hidden');
+                document.getElementById('nav-btn-messages').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
+                setTimeout(() => {
+                    const box = document.getElementById('chat-messages-box');
+                    box.scrollTop = box.scrollHeight;
+                }, 50);
+            } else if (targetTab === 'profile') {
+                document.getElementById('section-profile').classList.remove('hidden');
+                document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
+            }
+        }
 
         function setCropRatio(ratioStr) {
             selectedCropAspect = ratioStr;
-            const frame = document.getElementById('crop-preview-frame');
-            frame.style.aspectRatio = ratioStr;
-            
-            const btns = document.querySelectorAll('#crop-ratio-selectors button');
-            btns.forEach(b => {
-                b.className = "bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]";
+            document.getElementById('crop-preview-frame').style.aspectRatio = ratioStr;
+            document.querySelectorAll('#crop-ratio-selectors button').forEach(b => {
+                b.className = "bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]";
             });
-            event.target.className = "bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]";
+            event.target.className = "bg-indigo-600 text-white px-2 py-0.5 rounded text-[10px]";
+        }
+
+        function toggleAestheticTheme() {
+            if(document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme-matrix', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme-matrix', 'dark');
+            }
         }
 
         function evaluateUserSession() {
@@ -337,34 +420,39 @@
                 document.getElementById('auth-overlay').classList.remove('hidden');
             } else {
                 document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY ? "⚙ Owner Master" : `@${activeUser}`;
+                document.getElementById('profile-handle').innerText = `@${activeUser}`;
             }
         }
 
         function processAuth() {
             const raw = document.getElementById('username-input').value.trim();
-            if(!raw) return alert("Enter valid credentials handle!");
-            let processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
-            if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') { processedHandle = MASTER_ADMIN_KEY; }
+            if(!raw) return alert("Enter valid username credentials handle!");
+            const processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
             localStorage.setItem('core_user_id', processedHandle);
             activeUser = processedHandle;
             evaluateUserSession();
-            renderFeed();
+            switchTab('feed');
         }
 
         function populateInitialTrendingMusic(tracks) {
             const resultsDiv = document.getElementById('music-results');
             resultsDiv.innerHTML = '';
             tracks.forEach(track => {
+                const imgTag = track.artworkUrl100 ? `<img src="${track.artworkUrl100}" class="w-7 h-7 rounded border dark:border-slate-700 object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
+                const fallbackImgTag = `<div class="w-7 h-7 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]" style="display:none;">🎵</div>`;
+                
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between p-2 hover:bg-slate-100 cursor-pointer rounded-lg transition';
+                row.className = 'flex items-center justify-between p-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer rounded-lg transition text-slate-800 dark:text-slate-200';
                 row.onclick = () => launchLiveTrackPreview(track);
                 row.innerHTML = `
                     <div class="flex items-center gap-2 pointer-events-none min-w-0">
-                        <img src="${track.artworkUrl100}" class="w-7 h-7 rounded border">
-                        <p class="text-xs font-bold text-slate-800 truncate max-w-[220px]">${track.trackName} - <span class="text-slate-400 font-medium">${track.artistName}</span></p>
+                        <div class="relative w-7 h-7 flex-shrink-0">
+                            ${imgTag}
+                            ${fallbackImgTag}
+                        </div>
+                        <p class="text-xs font-bold truncate max-w-[200px]">${track.trackName} - <span class="text-slate-400 font-medium">${track.artistName}</span></p>
                     </div>
-                    <span class="text-[9px] font-black text-slate-500 bg-slate-200/60 px-2 py-1 rounded">🔊 Listen</span>
+                    <span class="text-[9px] font-black text-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-1 rounded">🔊 Listen</span>
                 `;
                 resultsDiv.appendChild(row);
             });
@@ -377,7 +465,7 @@
                 .then(res => res.json())
                 .then(data => {
                     populateInitialTrendingMusic(data.results.map(t => ({
-                        trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100, previewUrl: t.previewUrl
+                        trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100 || '', previewUrl: t.previewUrl
                     })));
                 });
         }
@@ -385,10 +473,8 @@
         function launchLiveTrackPreview(track) {
             if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
             currentInspectedTrackData = track;
-            
             tempPreviewAudioObj = new Audio(track.previewUrl);
             tempPreviewAudioObj.play();
-            
             document.getElementById('preview-track-title').innerText = `🔊 Playing: ${track.trackName}`;
             document.getElementById('preview-play-btn').innerText = "⏸ Pause";
             document.getElementById('preview-control-zone').classList.remove('hidden');
@@ -396,63 +482,51 @@
 
         function togglePreviewPlayback() {
             if(!tempPreviewAudioObj) return;
-            if(tempPreviewAudioObj.paused) {
-                tempPreviewAudioObj.play();
-                document.getElementById('preview-play-btn').innerText = "⏸ Pause";
-            } else {
-                tempPreviewAudioObj.pause();
-                document.getElementById('preview-play-btn').innerText = "▶ Play";
-            }
+            if(tempPreviewAudioObj.paused) { tempPreviewAudioObj.play(); document.getElementById('preview-play-btn').innerText = "⏸ Pause"; }
+            else { tempPreviewAudioObj.pause(); document.getElementById('preview-play-btn').innerText = "▶ Play"; }
         }
 
         function lockPreviewedTrack() {
             if(!currentInspectedTrackData) return;
             if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
-            
             chosenMusicTrack = {
                 title: currentInspectedTrackData.trackName, artist: currentInspectedTrackData.artistName,
-                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100
+                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100 || ''
             };
             
-            document.getElementById('selected-music-track-img').src = currentInspectedTrackData.artworkUrl100;
+            const container = document.getElementById('badge-artwork-container');
+            if(chosenMusicTrack.coverUrl) {
+                container.innerHTML = `<img src="${chosenMusicTrack.coverUrl}" class="w-full h-full rounded object-cover" onerror="this.outerHTML='🎵'">`;
+            } else {
+                container.innerHTML = '🎵';
+            }
+            
             document.getElementById('selected-music-text').innerText = currentInspectedTrackData.trackName;
             document.getElementById('selected-music-badge').classList.remove('hidden');
             document.getElementById('preview-control-zone').classList.add('hidden');
         }
 
-        function removeSelectedMusic() {
-            chosenMusicTrack = null;
-            document.getElementById('selected-music-badge').classList.add('hidden');
-        }
-
+        function removeSelectedMusic() { chosenMusicTrack = null; document.getElementById('selected-music-badge').classList.add('hidden'); }
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
         function closeModal() {
             if(tempPreviewAudioObj) tempPreviewAudioObj.pause();
             document.getElementById('post-modal').classList.add('hidden');
             document.getElementById('post-form').reset();
             document.getElementById('crop-suite-box').classList.add('hidden');
-            document.getElementById('preview-control-zone').classList.add('hidden');
             removeSelectedMusic();
         }
 
         function saveNewPost(caption, imgData, isSlider, correctPrice, isGlitch, isGhost) {
             database.ref('posts').push().set({
-                userHandle: activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser,
-                creatorOwnerTokenId: activeUser, 
+                userHandle: activeUser, creatorOwnerTokenId: activeUser, 
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
-                serverTimestamp: Date.now(),
-                caption: caption, image: imgData,
-                music: chosenMusicTrack || null, 
-                hypeCount: 0,
-                isLuxurySlider: isSlider,
-                targetPrice: parseInt(correctPrice) || 0,
-                isGlitchDestruct: isGlitch,
-                isGhostPeek: isGhost,
+                serverTimestamp: Date.now(), caption: caption, image: imgData,
+                music: chosenMusicTrack || null, hypeCount: 0, isLuxurySlider: isSlider,
+                targetPrice: parseInt(correctPrice) || 0, isGlitchDestruct: isGlitch, isGhostPeek: isGhost,
                 hypedByUsers: {}
             }).then(() => { closeModal(); });
         }
 
-        // PREMIUM INTEGRATED AUDIO CONTROL BAR MANAGEMENT
         function triggerAudioToggle(postId, audioUrl) {
             const cardFrame = document.getElementById(`card-${postId}`);
             const diskEl = document.getElementById(`disk-${postId}`);
@@ -476,187 +550,160 @@
                 return;
             }
 
-            // Kill external streams
             Object.keys(globalAudioInstances).forEach(k => {
                 globalAudioInstances[k].pause();
-                const cf = document.getElementById(`card-${k}`);
-                const d = document.getElementById(`disk-${k}`);
-                const s = document.getElementById(`audio-state-btn-${k}`);
-                const t = document.getElementById(`audio-bar-text-${k}`);
-                if(cf) cf.classList.remove('audio-active-card');
-                if(d) d.classList.remove('music-spinning');
-                if(s) s.innerHTML = "▶ STREAM AUDIO";
-                if(t) t.innerText = "AUDIO MUTED";
+                const cf = document.getElementById(`card-${k}`); const d = document.getElementById(`disk-${k}`);
+                const s = document.getElementById(`audio-state-btn-${k}`); const t = document.getElementById(`audio-bar-text-${k}`);
+                if(cf) cf.classList.remove('audio-active-card'); if(d) d.classList.remove('music-spinning');
+                if(s) s.innerHTML = "▶ STREAM AUDIO"; if(t) t.innerText = "AUDIO MUTED";
             });
 
-            const audioObj = new Audio(audioUrl);
-            audioObj.loop = true;
-            globalAudioInstances[postId] = audioObj;
-            audioObj.play();
-            
+            const audioObj = new Audio(audioUrl); audioObj.loop = true;
+            globalAudioInstances[postId] = audioObj; audioObj.play();
             if(diskEl) diskEl.classList.add('music-spinning');
             cardFrame.classList.add('audio-active-card');
             stateBtn.innerHTML = "⏸ PAUSE";
             controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
         }
 
-        // REALISTIC UNIQUE INDIVIDUAL HYPE SYSTEM
         function registerBlindHype(postId) {
             const currentPost = posts.find(p => p.id === postId);
             if (!currentPost) return;
-
             if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) {
-                alert("You have already verified your hype allotment on this track asset! Limit: 1");
+                alert("You have already checked your hype privilege limit allotment on this track! Limit: 1");
                 return;
             }
-
             const updatedCount = (currentPost.hypeCount || 0) + 1;
-            
             database.ref(`posts/${postId}/hypedByUsers/${activeUser}`).set(true);
             database.ref(`posts/${postId}`).update({ hypeCount: updatedCount });
-            
-            const particles = ['⚡', '🚀', '🔥', '💎'];
-            const rand = particles[Math.floor(Math.random() * particles.length)];
-            const blast = document.createElement('div');
-            blast.className = 'fixed text-3xl pointer-events-none z-50 animate-ping';
-            blast.style.left = (window.innerWidth / 2) + 'px';
-            blast.style.top = (window.innerHeight / 2) + 'px';
-            blast.innerText = rand;
-            document.body.appendChild(blast);
-            setTimeout(() => blast.remove(), 1000);
         }
 
-        function checkLuxuryGuess(postId, val, correctVal) {
+        function computeLiveLeaderboard() {
+            if(posts.length === 0) return;
+            let copy = [...posts];
+            copy.sort((a,b) => (b.hypeCount || 0) - (a.hypeCount || 0));
+            const top = copy[0];
+            if(top && top.music) {
+                document.getElementById('leaderboard-title').innerText = `🔥 ${top.music.title} - ${top.music.artist}`;
+                document.getElementById('leaderboard-count').innerText = `🔥 ${top.hypeCount || 0}`;
+            }
+        }
+
+        // QUANTUM BLIND ENCRYPTED INPUT BUFFER VALIDATOR
+        function verifyQuantumPriceInput(postId, correctVal) {
+            const val = document.getElementById(`luxury-input-${postId}`).value.trim();
             const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
-            feedbackEl.innerText = `Your Guess: ₹${val}`;
+            
+            if(!val) {
+                feedbackEl.innerText = "⚠️ Please enter a valuation amount!";
+                return;
+            }
             if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 MATCH DETECTED! VERIFIED COST TARGET CORRESPONDENCE! 💎`;
-                feedbackEl.className = "text-[11px] font-black text-emerald-600 mt-1 animate-pulse";
+                feedbackEl.innerText = `💎 CORRECT GUESS MATCHED! TRUE VALUE IS ₹${correctVal} 💎`;
+                feedbackEl.className = "text-[11px] font-black text-emerald-500 mt-2 animate-pulse";
             } else {
-                feedbackEl.className = "text-[11px] font-bold text-slate-500 mt-1";
+                feedbackEl.innerText = `❌ Valuation mismatch. Try a different range.`;
+                feedbackEl.className = "text-[11px] font-bold text-rose-500 mt-2";
             }
         }
 
         function ghostPeekTrigger(imgId, reveal) {
-            const img = document.getElementById(imgId);
-            if(!img) return;
-            if(reveal) {
-                img.classList.remove('ghost-blurred');
-                img.classList.add('ghost-revealed');
-            } else {
-                img.classList.remove('ghost-revealed');
-                img.classList.add('ghost-blurred');
-            }
+            const img = document.getElementById(imgId); if(!img) return;
+            if(reveal) { img.classList.remove('ghost-blurred'); img.classList.add('ghost-revealed'); } 
+            else { img.classList.remove('ghost-revealed'); img.classList.add('ghost-blurred'); }
         }
 
         function deletePost(postId) {
-            if(confirm("Delete this post permanently?")) {
+            if(confirm("Delete this matrix post?")) {
                 if(globalAudioInstances[postId]) globalAudioInstances[postId].pause();
                 database.ref('posts/' + postId).remove();
             }
         }
 
-        function renderFeed() {
-            const container = document.getElementById('feed-container');
-            container.innerHTML = '';
+        function logoutSession() { localStorage.removeItem('core_user_id'); location.reload(); }
 
+        function renderFeed() {
+            const container = document.getElementById('feed-container'); container.innerHTML = '';
             if(posts.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 bg-white border border-slate-200 rounded-3xl text-slate-400 font-bold text-xs uppercase tracking-widest">Feed Offline.</div>`;
+                container.innerHTML = `<div class="text-center py-16 text-slate-400 font-bold text-xs uppercase">Timeline Empty.</div>`;
                 return;
             }
 
             posts.forEach(post => {
-                const card = document.createElement('div');
-                card.id = `card-${post.id}`;
-                card.className = 'bg-white rounded-3xl border border-slate-200 overflow-hidden text-left relative transition-all duration-300 shadow-sm hover:shadow-md';
+                const card = document.createElement('div'); card.id = `card-${post.id}`;
+                card.className = 'bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden text-left relative transition-all shadow-sm';
                 
                 let audioBadgeHeader = post.music ? `
-                    <div class="flex items-center gap-1 bg-slate-100 text-slate-700 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[160px] truncate">
+                    <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[140px] truncate">
                         <span>🎵</span><span class="truncate">${post.music.artist}</span>
                     </div>` : '';
 
-                // PREMIUM RE-ENGINEERED AUDIO CONTROLLER BAR INTERFACE
                 let premiumAudioBarHtml = post.music ? `
-                    <div class="px-4 py-2.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-950 select-none">
-                        <div class="flex items-center gap-2.5 min-w-0">
-                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                            <p id="audio-bar-text-${post.id}" class="text-[10px] font-black tracking-wider uppercase truncate max-w-[240px]">AUDIO MUTED</p>
-                        </div>
-                        <button onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" 
-                                id="audio-state-btn-${post.id}" 
-                                class="bg-white/10 hover:bg-white/20 active:scale-95 transition text-[9px] font-black tracking-widest px-3 py-1 rounded-md border border-white/10">
-                            ▶ STREAM AUDIO
-                        </button>
+                    <div class="px-4 py-2.5 bg-slate-950 text-white flex items-center justify-between border-b border-slate-900 select-none">
+                        <p id="audio-bar-text-${post.id}" class="text-[9px] font-black tracking-wider uppercase truncate max-w-[220px]">AUDIO MUTED</p>
+                        <button onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" id="audio-state-btn-${post.id}" class="bg-white/10 text-[9px] font-black px-3 py-1 rounded-md border border-white/10 hover:bg-white/20 transition">▶ STREAM AUDIO</button>
                     </div>
                 ` : '';
 
                 let mediaHtml = '';
                 let ghostClasses = post.isGhostPeek ? 'ghost-blurred' : '';
-                let ghostEventHandlers = post.isGhostPeek ? 
-                    `onmousedown="ghostPeekTrigger('img-${post.id}', true)" onmouseup="ghostPeekTrigger('img-${post.id}', false)" ontouchstart="ghostPeekTrigger('img-${post.id}', true)" ontouchend="ghostPeekTrigger('img-${post.id}', false)"` : '';
+                let ghostEventHandlers = post.isGhostPeek ? `onmousedown="ghostPeekTrigger('img-${post.id}', true)" onmouseup="ghostPeekTrigger('img-${post.id}', false)" ontouchstart="ghostPeekTrigger('img-${post.id}', true)" ontouchend="ghostPeekTrigger('img-${post.id}', false)"` : '';
 
                 if(post.image) {
                     mediaHtml = `
-                        <div ${ghostEventHandlers} class="relative bg-slate-900 border-y border-slate-100 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer">
+                        <div ${ghostEventHandlers} class="relative bg-slate-900 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer">
                             <img id="img-${post.id}" src="${post.image}" class="w-full h-auto object-cover ${ghostClasses}">
-                            ${post.isGhostPeek ? '<div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-sm text-[9px] font-black tracking-widest text-white px-2.5 py-1 rounded-md uppercase pointer-events-none">🕵️‍♂️ Tap & Hold to View Image</div>' : ''}
                         </div>
                     `;
                 } else if(post.music) {
+                    let diskImg = post.music.coverUrl ? `<img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
+                    let fallbackDisk = `<div id="disk-fallback-${post.id}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 music-spinning text-white flex items-center justify-center font-black text-xs">VINYL</div>`;
+                    
                     mediaHtml = `
-                        <div class="relative bg-gradient-to-b from-slate-50 to-slate-100 border-y border-slate-200 p-8 flex flex-col items-center justify-center text-center min-h-[160px]">
-                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-white shadow-xl object-cover">
+                        <div class="relative bg-gradient-to-tr from-slate-900 via-indigo-950 to-purple-950 border-y border-slate-800 p-8 flex flex-col items-center justify-center text-center min-h-[180px]">
+                            <div class="relative w-20 h-20 flex-shrink-0">
+                                ${diskImg}
+                                ${fallbackDisk}
+                            </div>
+                            <span class="text-[9px] font-black text-indigo-400 tracking-widest mt-3 uppercase">🎨 Dynamic Audio Aura Generated</span>
                         </div>
                     `;
                 }
 
+                // SECURE PRICE GAME MODULE INTERFACE BUILDER
                 let luxurySliderHtml = post.isLuxurySlider ? `
-                    <div class="p-4 bg-slate-50 border-b border-slate-100">
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">💰 Price Guess Game</p>
-                        <input type="range" min="0" max="5000" value="0" step="50" 
-                               oninput="checkLuxuryGuess('${post.id}', this.value, ${post.targetPrice})" 
-                               class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer luxury-slider">
-                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-500 mt-1">Drag the slider to guess the cost...</div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-b dark:border-slate-800 space-y-2">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">💰 Security Encrypted Price Game</p>
+                        <div class="flex gap-2">
+                            <input type="number" id="luxury-input-${post.id}" placeholder="Guess Valuation amount..." class="w-full text-xs p-2.5 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none font-bold">
+                            <button onclick="verifyQuantumPriceInput('${post.id}', ${post.targetPrice})" class="bg-indigo-600 text-white font-black text-[10px] uppercase px-4 rounded-xl">Verify</button>
+                        </div>
+                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-400 mt-1">Submit your value evaluation to check alignment...</div>
                     </div>
                 ` : '';
 
-                let hypeCounterDisplay = (post.hypeCount >= 50) ? 
-                    `<span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">🔥 ${post.hypeCount} Hypes</span>` : 
-                    `<span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2.5 py-0.5 rounded-full">🤫 Active Feed</span>`;
-
-                let deleteButtonHtml = (post.creatorOwnerTokenId === activeUser || activeUser === MASTER_ADMIN_KEY) ? 
-                    `<button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-rose-500 transition px-2">Delete</button>` : '';
+                let deleteButtonHtml = (post.creatorOwnerTokenId === activeUser) ? `<button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-rose-500 transition px-2">Delete</button>` : '';
 
                 card.innerHTML = `
-                    <div class="px-4 py-3 flex items-center justify-between border-b border-slate-100 bg-white">
+                    <div class="px-4 py-3 flex items-center justify-between border-b dark:border-slate-800 bg-white dark:bg-slate-900">
                         <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center font-black text-xs text-white">@</div>
-                            <div class="truncate text-left flex flex-col sm:flex-row sm:items-center gap-1.5">
-                                <h4 class="text-xs font-black text-slate-900 truncate">@${post.userHandle || 'user'}</h4>
+                            <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center font-black text-xs text-white">@</div>
+                            <div class="truncate text-left flex items-center gap-1.5">
+                                <h4 class="text-xs font-black truncate">@${post.userHandle}</h4>
                                 ${audioBadgeHeader}
                             </div>
                         </div>
                         ${deleteButtonHtml}
                     </div>
-                    
                     ${premiumAudioBarHtml}
                     ${mediaHtml}
                     ${luxurySliderHtml}
-                    
-                    <div class="px-4 py-3 flex items-center justify-between border-b border-slate-50 bg-slate-50/20">
-                        <button onclick="registerBlindHype('${post.id}')" class="bg-slate-900 hover:bg-black text-white font-black text-[10px] uppercase px-4 py-2 rounded-xl active:scale-95 transition shadow-sm">
-                            🚀 Hype This
-                        </button>
-                        <div class="flex items-center gap-2">
-                            ${post.isGlitchDestruct ? '<span class="text-[9px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">💥 24H Auto-Delete</span>' : ''}
-                            ${hypeCounterDisplay}
-                        </div>
+                    <div class="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
+                        <button onclick="registerBlindHype('${post.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] uppercase px-4 py-2 rounded-xl active:scale-95 transition shadow-sm">🚀 Hype</button>
+                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full">🔥 ${post.hypeCount || 0} Hypes</span>
                     </div>
-
-                    <div class="px-4 py-4 text-xs font-medium text-slate-700 leading-relaxed">
-                        <span class="font-black text-slate-900 mr-2 uppercase tracking-tight">@${post.userHandle || 'user'}</span>
-                        <span id="caption-txt-${post.id}">${post.caption}</span>
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-2">${post.timestamp}</p>
+                    <div class="px-4 py-3 text-xs font-medium leading-relaxed">
+                        <span class="font-black mr-2 uppercase tracking-tight">@${post.userHandle}</span><span>${post.caption}</span>
                     </div>
                 `;
                 container.appendChild(card);
