@@ -47,6 +47,13 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+        @keyframes rotateMusic {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .music-spinning {
+            animation: rotateMusic 4s linear infinite;
+        }
     </style>
 
     <!-- FIREBASE LIBRARIES -->
@@ -110,31 +117,57 @@
         <div id="feed-container" class="space-y-6"></div>
     </main>
 
-    <!-- INTERACTION COMPONENT -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden transition-all duration-300">
+    <!-- INTERACTION COMPONENT MODAL -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden my-auto">
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-800 text-xs tracking-wider uppercase">New Update Instance</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 font-bold text-xs uppercase tracking-wider">Close</button>
             </div>
             
-            <form id="post-form" class="p-6 space-y-5">
+            <form id="post-form" class="p-6 space-y-4">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Caption Details</label>
-                    <textarea id="post-caption" required rows="3" placeholder="What's happening? Add your status update..." 
+                    <textarea id="post-caption" required rows="2" placeholder="What's happening?..." 
                               class="w-full rounded-2xl border border-slate-200/80 p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-950/10 focus:border-slate-400 resize-none font-medium text-slate-800 bg-slate-50/30"></textarea>
                 </div>
                 
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Attach Image Asset</label>
-                    <div class="border-2 border-dashed border-slate-200 hover:border-slate-400 rounded-2xl p-5 text-center cursor-pointer hover:bg-slate-50/80 transition relative group">
+                    <div class="border-2 border-dashed border-slate-200 hover:border-slate-400 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-50/80 transition relative group">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-500 group-hover:text-slate-800 transition">📸 Click to Choose Image File</p>
-                        <p id="file-chosen-name" class="text-xs font-semibold text-pink-600 truncate mt-1.5"></p>
+                        <p class="text-xs font-bold text-slate-500 group-hover:text-slate-800 transition">📸 Choose Image File</p>
+                        <p id="file-chosen-name" class="text-xs font-semibold text-pink-600 truncate mt-1"></p>
+                    </div>
+                    <!-- Live Crop/Display Preview Box Inside Modal -->
+                    <div id="image-preview-container" class="hidden mt-3 border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 max-h-48 flex items-center justify-center">
+                        <img id="modal-preview-img" src="" class="max-w-full max-h-48 object-contain">
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest py-4 rounded-2xl hover:bg-slate-800 transition active:scale-[0.99] shadow-md shadow-slate-900/10">
+                <!-- INSTAGRAM MUSIC FEATURE SEARCH BOX -->
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">🎵 Add Instagram Background Music</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="music-search-input" placeholder="Search Song (e.g. Pehle Bhi Main)..." 
+                               class="w-full rounded-xl border border-slate-200 p-2.5 text-xs font-medium bg-slate-50/30 focus:outline-none focus:border-slate-400">
+                        <button type="button" onclick="searchSongs()" class="bg-slate-800 text-white font-bold text-xs px-4 rounded-xl hover:bg-slate-700">Search</button>
+                    </div>
+                    
+                    <!-- Search Results Area -->
+                    <div id="music-results" class="max-h-40 overflow-y-auto mt-2 space-y-1 divide-y divide-slate-100 hidden border border-slate-100 rounded-xl p-1 bg-white"></div>
+                    
+                    <!-- Selected Music Badge -->
+                    <div id="selected-music-badge" class="hidden mt-2 p-2 bg-pink-50 border border-pink-100 rounded-xl flex items-center justify-between text-xs font-bold text-pink-700">
+                        <div class="flex items-center gap-2">
+                            <img id="selected-music-track-img" src="" class="w-6 h-6 rounded-md">
+                            <span id="selected-music-text">Song Selected</span>
+                        </div>
+                        <button type="button" onclick="removeSelectedMusic()" class="text-slate-400 hover:text-red-500 font-bold">✕</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-2xl hover:bg-slate-800 transition active:scale-[0.99]">
                     Publish to Feed
                 </button>
             </form>
@@ -143,7 +176,6 @@
 
     <!-- CORE REAL-TIME CONTROLLER MECHANICS -->
     <script>
-        // Automatic configuration connection mapping (LATEST CONFIG APPLIED)
         const firebaseConfig = {
             apiKey: "AIzaSyBr4am8q_Gv9gScRy7OWeqn9qBoYzVe7V0",
             authDomain: "anivarya-core.firebaseapp.com",
@@ -154,11 +186,13 @@
             appId: "1:372148589646:web:30e66d4b6eeea0dfd89f1f"
         };
         
-        // Initialize Firebase Live Runtime
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         let posts = [];
+        let chosenMusicTrack = null;
+        let currentPlayingAudio = null;
+        let currentPlayingBtnId = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             database.ref('posts').on('value', (snapshot) => {
@@ -175,7 +209,16 @@
             
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Selected: ${this.files[0].name}`;
+                    const file = this.files[0];
+                    document.getElementById('file-chosen-name').innerText = `Selected: ${file.name}`;
+                    
+                    // Show live crop/aspect preview instantly
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('modal-preview-img').src = e.target.result;
+                        document.getElementById('image-preview-container').classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(file);
                 }
             });
 
@@ -193,11 +236,13 @@
                             const canvas = document.createElement('canvas');
                             let width = img.width;
                             let height = img.height;
-                            if (width > 500) { height *= 500 / width; width = 500; }
+                            
+                            // High resolution scale boundary protection (Preventing face cutting distortion)
+                            if (width > 800) { height *= 800 / width; width = 800; }
                             canvas.width = width;
                             canvas.height = height;
                             canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.5));
+                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.8));
                         };
                         img.src = event.target.result;
                     };
@@ -208,11 +253,71 @@
             });
         });
 
+        function searchSongs() {
+            const query = document.getElementById('music-search-input').value.trim();
+            if(!query) return;
+            const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=5`;
+            
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('music-results');
+                    resultsDiv.innerHTML = '';
+                    resultsDiv.classList.remove('hidden');
+
+                    if(data.results.length === 0) {
+                        resultsDiv.innerHTML = '<p class="p-2 text-xs text-slate-400 font-bold">No tracks found.</p>';
+                        return;
+                    }
+
+                    data.results.forEach(track => {
+                        const row = document.createElement('div');
+                        row.className = 'flex items-center justify-between p-2 hover:bg-slate-50 cursor-pointer transition';
+                        row.onclick = () => selectMusicTrack(track);
+                        row.innerHTML = `
+                            <div class="flex items-center gap-2 pointer-events-none">
+                                <img src="${track.artworkUrl100}" class="w-8 h-8 rounded-md">
+                                <div class="text-left">
+                                    <p class="text-xs font-bold text-slate-800 truncate max-w-[180px]">${track.trackName}</p>
+                                    <p class="text-[10px] text-slate-400 font-medium truncate max-w-[180px]">${track.artistName}</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">Select</span>
+                        `;
+                        resultsDiv.appendChild(row);
+                    });
+                })
+                .catch(() => alert("Music Search Failed. Please check network."));
+        }
+
+        function selectMusicTrack(track) {
+            chosenMusicTrack = {
+                title: track.trackName,
+                artist: track.artistName,
+                audioUrl: track.previewUrl,
+                coverUrl: track.artworkUrl100
+            };
+            document.getElementById('selected-music-track-img').src = track.artworkUrl100;
+            document.getElementById('selected-music-text').innerText = `${track.trackName} - ${track.artistName}`;
+            document.getElementById('selected-music-badge').classList.remove('hidden');
+            document.getElementById('music-results').classList.add('hidden');
+            document.getElementById('music-search-input').value = '';
+        }
+
+        function removeSelectedMusic() {
+            chosenMusicTrack = null;
+            document.getElementById('selected-music-badge').classList.add('hidden');
+        }
+
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
         function closeModal() {
             document.getElementById('post-modal').classList.add('hidden');
             document.getElementById('post-form').reset();
             document.getElementById('file-chosen-name').innerText = '';
+            document.getElementById('image-preview-container').classList.add('hidden');
+            document.getElementById('modal-preview-img').src = '';
+            removeSelectedMusic();
+            document.getElementById('music-results').classList.add('hidden');
         }
 
         function saveNewPost(caption, imgData) {
@@ -221,10 +326,44 @@
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
                 image: imgData,
+                music: chosenMusicTrack ? chosenMusicTrack : null,
                 likes: 0
             }).then(() => {
                 closeModal();
             }).catch(err => alert("Error uploading: " + err.message));
+        }
+
+        function playFeedAudio(audioUrl, btnId, imgId) {
+            if (currentPlayingAudio && currentPlayingBtnId === btnId) {
+                currentPlayingAudio.pause();
+                currentPlayingAudio = null;
+                currentPlayingBtnId = null;
+                document.getElementById(btnId).innerText = "▶ Play";
+                document.getElementById(imgId).classList.remove('music-spinning');
+                return;
+            }
+
+            if (currentPlayingAudio) {
+                currentPlayingAudio.pause();
+                if(document.getElementById(currentPlayingBtnId)) {
+                    document.getElementById(currentPlayingBtnId).innerText = "▶ Play";
+                }
+                const activeSpins = document.querySelectorAll('.music-spinning');
+                activeSpins.forEach(el => el.classList.remove('music-spinning'));
+            }
+
+            currentPlayingAudio = new Audio(audioUrl);
+            currentPlayingBtnId = btnId;
+            currentPlayingAudio.play();
+            document.getElementById(btnId).innerText = "⏸ Pause";
+            document.getElementById(imgId).classList.add('music-spinning');
+
+            currentPlayingAudio.onended = () => {
+                document.getElementById(btnId).innerText = "▶ Play";
+                document.getElementById(imgId).classList.remove('music-spinning');
+                currentPlayingAudio = null;
+                currentPlayingBtnId = null;
+            };
         }
 
         function toggleLike(postId, currentLikes) {
@@ -239,12 +378,12 @@
                 newLikes = Math.max(0, newLikes - 1);
                 localStorage.removeItem(likedKey);
             }
-
             database.ref('posts/' + postId).update({ likes: newLikes });
         }
 
         function deletePost(postId) {
-            if(confirm("Permanently delete this update post from all devices?")) {
+            if(confirm("Permanently delete this update post?")) {
+                if(currentPlayingAudio) currentPlayingAudio.pause();
                 database.ref('posts/' + postId).remove();
             }
         }
@@ -266,8 +405,30 @@
                 const card = document.createElement('div');
                 card.className = 'bg-white border border-slate-200/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300';
                 
-                let mediaHtml = post.image ? `<div class="bg-slate-50 border-b border-slate-100 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[480px] object-cover mx-auto select-none"></div>` : '';
+                // FIXED: Changed object-cover to object-contain and modified sizing to display full portrait faces
+                let mediaHtml = post.image ? `<div class="bg-slate-50 border-b border-slate-100 flex items-center justify-center p-1"><img src="${post.image}" class="w-full h-auto object-contain max-h-[600px] rounded-2xl select-none"></div>` : '';
                 
+                let musicHtml = '';
+                if(post.music) {
+                    const btnId = `btn-${post.id}`;
+                    const imgId = `img-${post.id}`;
+                    musicHtml = `
+                        <div class="mx-5 mt-4 p-2.5 bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-100/50 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <img id="${imgId}" src="${post.music.coverUrl}" class="w-9 h-9 rounded-xl border border-pink-200 object-cover shadow-sm shrink-0">
+                                <div class="truncate text-left">
+                                    <p class="text-xs font-black text-pink-950 truncate">${post.music.title}</p>
+                                    <p class="text-[10px] font-bold text-pink-600/80 truncate">${post.music.artist}</p>
+                                </div>
+                            </div>
+                            <button id="${btnId}" onclick="playFeedAudio('${post.music.audioUrl}', '${btnId}', '${imgId}')" 
+                                    class="bg-white/80 backdrop-blur border border-pink-200 text-pink-700 font-extrabold text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-xl hover:bg-white active:scale-95 transition">
+                                ▶ Play
+                            </button>
+                        </div>
+                    `;
+                }
+
                 const hasLiked = localStorage.getItem('liked_' + post.id);
                 const heartClass = hasLiked ? 'text-red-500 fill-red-500 heart-active' : 'text-slate-400 fill-none';
 
@@ -287,6 +448,7 @@
                         <button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
                     </div>
                     
+                    ${musicHtml}
                     ${mediaHtml}
                     
                     <div class="p-5 text-sm font-medium text-slate-700 text-left leading-relaxed">
