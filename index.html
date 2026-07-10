@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivarya Bajpai | Core</title>
+    <title>Anivarya Bajpai | Core Live</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,7 +20,6 @@
             background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%); 
             min-height: 100vh; 
         }
-        /* Animated Premium Lighting Name Effect */
         @keyframes textGlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -33,7 +32,6 @@
             -webkit-text-fill-color: transparent;
             animation: textGlow 6s linear infinite;
         }
-        /* Heart pop dynamic scaling keyframe animation */
         @keyframes heartPop {
             0% { transform: scale(1); }
             30% { transform: scale(1.4); }
@@ -49,6 +47,10 @@
             -webkit-backdrop-filter: blur(12px);
         }
     </style>
+
+    <!-- FIREBASE LIBRARIES -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body class="font-sans text-slate-900 antialiased bg-slate-50">
 
@@ -64,24 +66,22 @@
 
     <!-- HEADER PROFILE PRESET -->
     <header class="max-w-xl mx-auto pt-8 px-4">
-        <!-- Aesthetic Pitch Line Banner -->
         <div class="bg-gradient-to-r from-amber-500/5 via-pink-500/5 to-red-500/5 border border-pink-500/10 text-slate-700 text-xs md:text-sm font-medium p-4 rounded-2xl mb-8 text-center shadow-sm">
             😉 Are you a stadium? Because my heart beats only when you're crowded with smiles! ✨
         </div>
 
         <div class="flex items-center gap-6 mb-6">
-            <!-- Neon Ring Identity Avatar Wrapper (TUMHARI PHOTO YAHAN SET HAI) -->
             <div class="relative w-24 h-24 shrink-0">
-                <div class="absolute inset-0 bg-gradient-to-tr from-amber-400 via-pink-500 to-red-600 rounded-full p-[3px] shadow-md">
-                    <div class="w-full h-full bg-white rounded-full p-[2px] overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/1O9_f3lS5rK0RzB1_3D8p8P_N-kO5A0hN" alt="Anivarya Profile" class="w-full h-full object-cover rounded-full object-top">
+                <div class="absolute inset-0 bg-slate-200 rounded-full p-[3px] shadow-sm">
+                    <div class="w-full h-full bg-slate-100 rounded-full flex items-center justify-center overflow-hidden">
+                        <svg class="w-12 h-12 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
                     </div>
                 </div>
-                <div class="absolute -bottom-1 -right-1 bg-emerald-500 w-5 h-5 rounded-full border-4 border-white flex items-center justify-center shadow-sm" title="Verified Presence"></div>
             </div>
             
             <div class="space-y-1">
-                <!-- Lighting Glowing Master Title Name -->
                 <h1 class="text-3xl font-black tracking-tight uppercase leading-none lighting-name">
                     Anivarya Bajpai
                 </h1>
@@ -92,7 +92,6 @@
             </div>
         </div>
 
-        <!-- Sleek Modern Aesthetic Bio Block -->
         <div class="glass-card border border-slate-200/50 rounded-2xl p-5 shadow-sm text-sm">
             <div class="text-slate-600 space-y-1.5 font-medium">
                 <p class="flex items-center gap-2"><span class="text-base">🎂</span> 14 years old • Living life my way.</p>
@@ -110,7 +109,7 @@
         <div id="feed-container" class="space-y-6"></div>
     </main>
 
-    <!-- INTERACTION COMPONENT: FULL WINDOW CREATION DIALOG LAYER -->
+    <!-- INTERACTION COMPONENT -->
     <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden transition-all duration-300">
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
@@ -141,12 +140,39 @@
         </div>
     </div>
 
-    <!-- CORE RE-ENGINEERED STORAGE EVENT CONTROLLER MECHANICS -->
+    <!-- CORE REAL-TIME CONTROLLER MECHANICS -->
     <script>
+        // ⚠️ APNA REAL CONFIG YAHAN PASTE KARO ⚠️
+        // Jo block Firebase Console se mila hai, use is 'const firebaseConfig' ki jagah replace kar do
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         let posts = [];
 
         window.addEventListener('DOMContentLoaded', () => {
-            loadPosts();
+            // Live Database Listener
+            database.ref('posts').on('value', (snapshot) => {
+                const data = snapshot.val();
+                posts = [];
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        posts.push({ id: key, ...data[key] });
+                    });
+                    posts.reverse(); 
+                }
+                renderFeed();
+            });
             
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
@@ -168,11 +194,11 @@
                             const canvas = document.createElement('canvas');
                             let width = img.width;
                             let height = img.height;
-                            if (width > 600) { height *= 600 / width; width = 600; }
+                            if (width > 500) { height *= 500 / width; width = 500; }
                             canvas.width = width;
                             canvas.height = height;
                             canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.6));
+                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.5));
                         };
                         img.src = event.target.result;
                     };
@@ -191,36 +217,37 @@
         }
 
         function saveNewPost(caption, imgData) {
-            const newPost = {
-                id: 'post_' + Date.now(),
+            const newPostRef = database.ref('posts').push();
+            newPostRef.set({
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
                 image: imgData,
-                likes: 0,
-                isLikedByUser: false
-            };
-            posts.unshift(newPost);
-            localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
-            renderFeed();
-            closeModal();
+                likes: 0
+            }).then(() => {
+                closeModal();
+            }).catch(err => alert("Error uploading: " + err.message));
         }
 
-        function loadPosts() {
-            const data = localStorage.getItem('anivarya_premium_db');
-            if (data) {
-                try { posts = JSON.parse(data); } catch(e) { posts = []; }
+        function toggleLike(postId, currentLikes) {
+            const likedKey = 'liked_' + postId;
+            const hasLiked = localStorage.getItem(likedKey);
+
+            let newLikes = currentLikes || 0;
+            if (!hasLiked) {
+                newLikes += 1;
+                localStorage.setItem(likedKey, 'true');
             } else {
-                posts = [{
-                    id: 'welcome_init',
-                    timestamp: 'Just now',
-                    caption: 'Welcome to the premium interface upgrade. Create customized status updates and photos flawlessly without data drops.',
-                    image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
-                    likes: 12,
-                    isLikedByUser: false
-                }];
-                localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
+                newLikes = Math.max(0, newLikes - 1);
+                localStorage.removeItem(likedKey);
             }
-            renderFeed();
+
+            database.ref('posts/' + postId).update({ likes: newLikes });
+        }
+
+        function deletePost(postId) {
+            if(confirm("Permanently delete this update post from all devices?")) {
+                database.ref('posts/' + postId).remove();
+            }
         }
 
         function renderFeed() {
@@ -241,20 +268,24 @@
                 card.className = 'bg-white border border-slate-200/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300';
                 
                 let mediaHtml = post.image ? `<div class="bg-slate-50 border-b border-slate-100 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[480px] object-cover mx-auto select-none"></div>` : '';
-                const heartClass = post.isLikedByUser ? 'text-red-500 fill-red-500 heart-active' : 'text-slate-400 fill-none';
+                
+                const hasLiked = localStorage.getItem('liked_' + post.id);
+                const heartClass = hasLiked ? 'text-red-500 fill-red-500 heart-active' : 'text-slate-400 fill-none';
 
                 card.innerHTML = `
                     <div class="px-5 py-4 flex items-center justify-between border-b border-slate-50">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full overflow-hidden border border-slate-200">
-                                <img src="https://lh3.googleusercontent.com/d/1O9_f3lS5rK0RzB1_3D8p8P_N-kO5A0hN" class="w-full h-full object-cover object-top">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+                                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
                             </div>
                             <div>
                                 <h4 class="text-xs font-black text-slate-800 tracking-tight">anivaryabajpai</h4>
                                 <span class="text-[9px] font-semibold text-slate-400 block">${post.timestamp}</span>
                             </div>
                         </div>
-                        <button class="delete-btn text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
+                        <button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
                     </div>
                     
                     ${mediaHtml}
@@ -264,7 +295,7 @@
                     </div>
                     
                     <div class="px-5 py-3.5 border-t border-slate-50 bg-slate-50/50 flex items-center">
-                        <button class="like-btn flex items-center gap-2 text-xs font-bold transition text-slate-600 hover:text-slate-900 group">
+                        <button onclick="toggleLike('${post.id}', ${post.likes || 0})" class="flex items-center gap-2 text-xs font-bold transition text-slate-600 hover:text-slate-900 group">
                             <svg class="w-4 h-4 transition-transform duration-200 group-active:scale-125 ${heartClass}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
@@ -272,35 +303,6 @@
                         </button>
                     </div>
                 `;
-
-                // LIKE SYSTEM
-                const likeBtn = card.querySelector('.like-btn');
-                likeBtn.addEventListener('click', () => {
-                    const svg = likeBtn.querySelector('svg');
-                    if (!post.isLikedByUser) {
-                        post.likes = (post.likes || 0) + 1;
-                        post.isLikedByUser = true;
-                        svg.classList.add('text-red-500', 'fill-red-500', 'heart-active');
-                        svg.classList.remove('text-slate-400', 'fill-none');
-                    } else {
-                        post.likes = Math.max(0, (post.likes || 0) - 1);
-                        post.isLikedByUser = false;
-                        svg.classList.remove('text-red-500', 'fill-red-500', 'heart-active');
-                        svg.classList.add('text-slate-400', 'fill-none');
-                    }
-                    localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
-                    likeBtn.querySelector('span').innerText = `Likes (${post.likes})`;
-                });
-
-                // DELETE SYSTEM
-                card.querySelector('.delete-btn').addEventListener('click', () => {
-                    if(confirm("Permanently delete this update post?")) {
-                        posts = posts.filter(p => p.id !== post.id);
-                        localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
-                        renderFeed();
-                    }
-                });
-
                 container.appendChild(card);
             });
         }
