@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivarya Bajpai | Core Live</title>
+    <title>Anivarya Core | Next-Gen Multi-User Engine</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,8 +18,21 @@
     </script>
     <style>
         body { 
-            background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%); 
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(20, 184, 166, 0.05) 0px, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.007) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.007) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
             min-height: 100vh; 
+        }
+        .cyber-glass {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         @keyframes textGlow {
             0% { background-position: 0% 50%; }
@@ -33,148 +46,141 @@
             -webkit-text-fill-color: transparent;
             animation: textGlow 6s linear infinite;
         }
-        @keyframes heartPop {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.4); }
-            60% { transform: scale(0.9); }
-            100% { transform: scale(1); }
-        }
-        .heart-active {
-            animation: heartPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        @keyframes rotateMusic {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
         .music-spinning {
-            animation: rotateMusic 4s linear infinite;
+            animation: spin 6s linear infinite;
         }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 
     <!-- FIREBASE LIBRARIES -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
-<body class="font-sans text-slate-900 antialiased bg-slate-50">
+<body class="font-sans text-slate-200 antialiased selection:bg-rose-500/30">
 
-    <!-- INSTA-PREMIUM STICKY NAVIGATION BAR -->
-    <nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-100 px-4 py-4">
+    <!-- AUTH SCREEN DIALOGUE OVERLAY -->
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="cyber-glass p-8 rounded-3xl w-full max-w-sm text-center border border-white/10 shadow-2xl">
+            <div class="w-16 h-16 mx-auto bg-gradient-to-tr from-rose-500 to-indigo-500 rounded-2xl flex items-center justify-center font-black text-xl tracking-tighter text-white shadow-lg mb-4">
+                AC
+            </div>
+            <h2 class="text-xl font-black tracking-tight text-white uppercase mb-1">Create Core Identity</h2>
+            <p class="text-xs font-medium text-slate-400 mb-6">Enter a unique handle username to access timelines.</p>
+            
+            <div class="space-y-3">
+                <input type="text" id="username-input" placeholder="Desired handle (e.g. virat_fan_18)" 
+                       class="w-full rounded-xl bg-slate-900/80 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-rose-500 font-bold transition">
+                <button onclick="processAuth()" class="w-full bg-white text-slate-950 font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-slate-200 transition">
+                    Access Core Network
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT INTERFACE -->
+    <nav class="sticky top-0 z-50 bg-slate-950/50 backdrop-blur-md border-b border-white/5 px-4 py-4">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tighter bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent">ANIVARYA CORE</span>
-            <button onclick="openModal()" class="bg-slate-900 text-white font-bold text-xs uppercase tracking-widest px-5 py-2.5 rounded-full hover:bg-slate-800 transition-all active:scale-95 shadow-sm shadow-slate-900/10">
-                + Create Post
-            </button>
+            <span class="font-black text-lg tracking-tighter text-white">ANIVARYA CORE</span>
+            <div class="flex items-center gap-3">
+                <span id="nav-user-badge" class="text-[10px] font-black tracking-wide bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-slate-300 uppercase">...</span>
+                <button onclick="openModal()" class="bg-gradient-to-r from-rose-500 to-orange-500 text-white font-extrabold text-xs uppercase tracking-widest px-4 py-2 rounded-full hover:opacity-90 transition active:scale-95">
+                    + Post
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- HEADER PROFILE PRESET -->
+    <!-- HEADER BLOCK -->
     <header class="max-w-xl mx-auto pt-8 px-4">
-        <div class="bg-gradient-to-r from-amber-500/5 via-pink-500/5 to-red-500/5 border border-pink-500/10 text-slate-700 text-xs md:text-sm font-medium p-4 rounded-2xl mb-8 text-center shadow-sm">
+        <div class="bg-gradient-to-r from-rose-500/10 via-indigo-500/5 to-cyan-500/10 border border-white/5 text-slate-300 text-xs font-semibold p-4 rounded-2xl mb-8 text-center shadow-md">
             😉 Are you a stadium? Because my heart beats only when you're crowded with smiles! ✨
         </div>
 
-        <div class="flex items-center gap-6 mb-6">
-            <div class="relative w-24 h-24 shrink-0">
-                <div class="absolute inset-0 bg-slate-200 rounded-full p-[3px] shadow-sm">
-                    <div class="w-full h-full bg-slate-100 rounded-full flex items-center justify-center overflow-hidden">
-                        <svg class="w-12 h-12 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                    </div>
-                </div>
+        <div class="flex items-center gap-5 mb-6">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-500 to-indigo-600 p-[2px] shadow-lg shrink-0">
+                <div class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center font-black text-white text-lg tracking-wider">⚡</div>
             </div>
-            
-            <div class="space-y-1">
-                <h1 class="text-3xl font-black tracking-tight uppercase leading-none lighting-name">
-                    Anivarya Bajpai
-                </h1>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 pt-1">
-                    <div><span class="text-slate-800 font-extrabold" id="header-post-count">0</span> updates</div>
-                    <div class="text-red-500 bg-red-50 px-2 py-0.5 rounded-full text-[10px] tracking-wide uppercase font-black border border-red-100">RCB Fan For Life ❤️</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-card border border-slate-200/50 rounded-2xl p-5 shadow-sm text-sm">
-            <div class="text-slate-600 space-y-1.5 font-medium">
-                <p class="flex items-center gap-2"><span class="text-base">🎂</span> 14 years old • Living life my way.</p>
-                <p class="flex items-center gap-2"><span class="text-base">🏏</span> Cricket is my rhythm, Virat Kohli is the vibe.</p>
+            <div>
+                <h1 class="text-2xl font-black tracking-tight uppercase leading-none lighting-name">Global Core Timeline</h1>
+                <p class="text-xs font-bold text-slate-500 mt-1"><span class="text-slate-300 font-extrabold" id="header-post-count">0</span> instance reports synchronized</p>
             </div>
         </div>
     </header>
 
-    <div class="max-w-xl mx-auto px-4 my-8">
-        <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-    </div>
-
-    <!-- MAIN GRID FEED POSTS TIMELINE -->
+    <!-- REAL-TIME CONSOLE FEED TIMELINE -->
     <main class="max-w-xl mx-auto px-4 pb-24">
         <div id="feed-container" class="space-y-6"></div>
     </main>
 
-    <!-- INTERACTION COMPONENT MODAL -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden my-auto">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 class="font-extrabold text-slate-800 text-xs tracking-wider uppercase">New Update Instance</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 font-bold text-xs uppercase tracking-wider">Close</button>
+    <!-- CREATION SUITE ENGINE MODAL -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="cyber-glass rounded-3xl w-full max-w-md border border-white/10 shadow-2xl overflow-hidden my-auto">
+            <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/5">
+                <h3 class="font-extrabold text-white text-xs tracking-wider uppercase">Publish Transmission Data</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white font-bold text-xs uppercase tracking-wider">Close</button>
             </div>
             
             <form id="post-form" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Caption Details</label>
-                    <textarea id="post-caption" required rows="2" placeholder="What's happening?..." 
-                              class="w-full rounded-2xl border border-slate-200/80 p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-950/10 focus:border-slate-400 resize-none font-medium text-slate-800 bg-slate-50/30"></textarea>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Caption Terminal</label>
+                    <textarea id="post-caption" required rows="2" placeholder="Write log metrics..." 
+                              class="w-full rounded-2xl bg-slate-900/60 border border-white/10 p-3.5 text-sm text-white focus:outline-none focus:border-rose-500 font-medium resize-none"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Attach Image Asset</label>
-                    <div class="border-2 border-dashed border-slate-200 hover:border-slate-400 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-50/80 transition relative group">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Image Asset Vector</label>
+                    <div class="border-2 border-dashed border-white/10 hover:border-white/20 rounded-2xl p-4 text-center cursor-pointer transition relative group bg-slate-900/20">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-500 group-hover:text-slate-800 transition">📸 Choose Image File</p>
-                        <p id="file-chosen-name" class="text-xs font-semibold text-pink-600 truncate mt-1"></p>
+                        <p class="text-xs font-bold text-slate-400 group-hover:text-slate-200">📸 Attach Image File Matrix</p>
+                        <p id="file-chosen-name" class="text-xs font-semibold text-rose-400 truncate mt-1"></p>
                     </div>
-                    <!-- Live Crop/Display Preview Box Inside Modal -->
-                    <div id="image-preview-container" class="hidden mt-3 border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 max-h-48 flex items-center justify-center">
-                        <img id="modal-preview-img" src="" class="max-w-full max-h-48 object-contain">
+                    <div id="image-preview-container" class="hidden mt-3 border border-white/5 rounded-2xl overflow-hidden bg-black/40 max-h-40 flex items-center justify-center">
+                        <img id="modal-preview-img" src="" class="max-w-full max-h-40 object-contain">
                     </div>
                 </div>
 
-                <!-- INSTAGRAM MUSIC FEATURE SEARCH BOX -->
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">🎵 Add Instagram Background Music</label>
+                <!-- INSTAGRAM MUSIC MATRIX SYNC -->
+                <div class="bg-slate-900/50 p-4 border border-white/5 rounded-2xl space-y-3">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-rose-400">🎵 Instagram Music Sync Controller</label>
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search Song (e.g. Pehle Bhi Main)..." 
-                               class="w-full rounded-xl border border-slate-200 p-2.5 text-xs font-medium bg-slate-50/30 focus:outline-none focus:border-slate-400">
+                        <input type="text" id="music-search-input" placeholder="Search track index manually..." 
+                               class="w-full rounded-xl bg-slate-950 border border-white/10 p-2.5 text-xs text-white focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-slate-800 text-white font-bold text-xs px-4 rounded-xl hover:bg-slate-700">Search</button>
                     </div>
                     
-                    <!-- Search Results Area -->
-                    <div id="music-results" class="max-h-40 overflow-y-auto mt-2 space-y-1 divide-y divide-slate-100 hidden border border-slate-100 rounded-xl p-1 bg-white"></div>
+                    <!-- Smart Recommendations / Instant Trending Tracks Display area -->
+                    <div id="trending-music-section">
+                        <p class="text-[9px] font-black uppercase tracking-wider text-slate-500 mb-1">🔥 Realtime Trending Recommendations</p>
+                        <div id="music-results" class="space-y-1 max-h-44 overflow-y-auto divide-y divide-white/5"></div>
+                    </div>
+
+                    <!-- Lyrics Configuration Matrix Container Extension -->
+                    <div id="lyrics-selector-box" class="hidden bg-black/40 border border-white/5 rounded-xl p-3 space-y-2">
+                        <p class="text-[9px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1">✨ Instagram Lyrics Selector Segment</p>
+                        <select id="lyrics-time-slice" class="w-full bg-slate-900 border border-white/10 p-1.5 text-xs text-slate-300 rounded-lg focus:outline-none">
+                            <option value="[0:00 - 0:15] Verse 1 Hook Lyric Segment">[0:00 - 0:15] Verse 1 Hook Lyric Segment</option>
+                            <option value="[0:15 - 0:30] Main Chorus Drop Line Segment" selected>[0:15 - 0:30] Main Chorus Drop Line Segment</option>
+                            <option value="[0:30 - 0:45] High Pitch Beats Transition Code">[0:30 - 0:45] High Pitch Beats Transition Code</option>
+                        </select>
+                        <input type="text" id="custom-lyrics-line" placeholder="Customize dynamic subtitle lyrics string text..." class="w-full bg-slate-950 border border-white/10 p-2 text-xs text-slate-200 rounded-lg">
+                    </div>
                     
-                    <!-- Selected Music Badge -->
-                    <div id="selected-music-badge" class="hidden mt-2 p-2 bg-pink-50 border border-pink-100 rounded-xl flex items-center justify-between text-xs font-bold text-pink-700">
+                    <div id="selected-music-badge" class="hidden p-2 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-between text-xs font-bold text-rose-400">
                         <div class="flex items-center gap-2">
                             <img id="selected-music-track-img" src="" class="w-6 h-6 rounded-md">
-                            <span id="selected-music-text">Song Selected</span>
+                            <span id="selected-music-text" class="truncate max-w-[200px]">Song Selected</span>
                         </div>
-                        <button type="button" onclick="removeSelectedMusic()" class="text-slate-400 hover:text-red-500 font-bold">✕</button>
+                        <button type="button" onclick="removeSelectedMusic()" class="text-slate-400 hover:text-white font-bold">✕</button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-2xl hover:bg-slate-800 transition active:scale-[0.99]">
-                    Publish to Feed
+                <button type="submit" class="w-full bg-gradient-to-r from-rose-500 to-indigo-600 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-2xl shadow-lg">
+                    Publish Signal Instance
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- CORE REAL-TIME CONTROLLER MECHANICS -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBr4am8q_Gv9gScRy7OWeqn9qBoYzVe7V0",
@@ -189,12 +195,25 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        const MASTER_ADMIN_KEY = "ANIVARYA_OWNER_XYZ";
+        let activeUser = localStorage.getItem('core_user_id') || "";
         let posts = [];
         let chosenMusicTrack = null;
         let currentPlayingAudio = null;
         let currentPlayingBtnId = null;
 
+        // Static Premium Core Backup Track Data array for instant listing initialization
+        const prebuiltTrendingSeeds = [
+            {trackName: "Pehle Bhi Main", artistName: "Raj Shekhar & Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
+            {trackName: "Mi Amor", artistName: "Nova & Sharn", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/95/92/7d/95927d6d-2d4e-fbbf-0840-7e181966a3d1/artwork.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/da/90/a6/da90a604-03c0-44be-629f-a89e09d17bd5/mzaf_6560467554988085273.plus.aac.p.m4a"},
+            {trackName: "Softly", artistName: "Karan Aujla & Ikky", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/f0/54/98/f054986c-0fc8-c30d-2708-620ee8c9df43/192641662999_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/71/ec/91/71ec912d-96cf-ec9c-cc81-b5eb0ea57797/mzaf_16422792601951566415.plus.aac.p.m4a"},
+            {trackName: "Starboy", artistName: "The Weeknd & Daft Punk", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e0/75/1b/e0751b3d-cb7f-a6cb-bf17-d57b32815147/16UMGIM60456.rgb.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bf/25/67/bf25672c-be96-b0ff-90a6-562772594248/mzaf_8407425126831006509.plus.aac.p.m4a"},
+            {trackName: "Elevated", artistName: "Shubh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/4b/f5/8a/4bf58a0a-be7d-fb49-a2a4-f5d1376df173/artwork.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/cb/20/64/cb2064df-6b83-a7bb-1c4a-fe3ff38b819a/mzaf_12411516041162464731.plus.aac.p.m4a"}
+        ];
+
         window.addEventListener('DOMContentLoaded', () => {
+            evaluateUserSession();
+
             database.ref('posts').on('value', (snapshot) => {
                 const data = snapshot.val();
                 posts = [];
@@ -207,16 +226,16 @@
                 renderFeed();
             });
             
+            // Image input element selection preview execution binding
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
                     const file = this.files[0];
                     document.getElementById('file-chosen-name').innerText = `Selected: ${file.name}`;
-                    
-                    // Show live crop/aspect preview instantly
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         document.getElementById('modal-preview-img').src = e.target.result;
                         document.getElementById('image-preview-container').classList.remove('hidden');
+                        generateMusicRecommendationOnPhoto(); // Dynamic recommendation engine kickstart trigger
                     }
                     reader.readAsDataURL(file);
                 }
@@ -236,8 +255,6 @@
                             const canvas = document.createElement('canvas');
                             let width = img.width;
                             let height = img.height;
-                            
-                            // High resolution scale boundary protection (Preventing face cutting distortion)
                             if (width > 800) { height *= 800 / width; width = 800; }
                             canvas.width = width;
                             canvas.height = height;
@@ -251,62 +268,126 @@
                     saveNewPost(caption, null);
                 }
             });
+
+            populateInitialTrendingMusic(prebuiltTrendingSeeds);
         });
+
+        function evaluateUserSession() {
+            if(!activeUser) {
+                document.getElementById('auth-overlay').classList.remove('hidden');
+            } else {
+                document.getElementById('auth-overlay').classList.add('hidden');
+                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY ? "Owner Node" : `@${activeUser}`;
+            }
+        }
+
+        function processAuth() {
+            const raw = document.getElementById('username-input').value.trim();
+            if(!raw) return alert("Write valid identity configuration handles!");
+            
+            // Convert to clean standard naming logic mapping
+            let processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
+            if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') {
+                processedHandle = MASTER_ADMIN_KEY; 
+            }
+
+            localStorage.setItem('core_user_id', processedHandle);
+            activeUser = processedHandle;
+            evaluateUserSession();
+            renderFeed();
+        }
+
+        function populateInitialTrendingMusic(tracks) {
+            const resultsDiv = document.getElementById('music-results');
+            resultsDiv.innerHTML = '';
+            resultsDiv.classList.remove('hidden');
+            tracks.forEach(track => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2 hover:bg-white/5 cursor-pointer rounded-xl transition border border-transparent hover:border-white/5';
+                row.onclick = () => selectMusicTrack(track);
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 pointer-events-none min-w-0">
+                        <img src="${track.artworkUrl100}" class="w-8 h-8 rounded-lg">
+                        <div class="text-left truncate">
+                            <p class="text-xs font-bold text-slate-200 truncate max-w-[170px]">${track.trackName}</p>
+                            <p class="text-[10px] text-slate-500 font-medium truncate max-w-[170px]">${track.artistName}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black text-rose-400 bg-rose-500/10 px-2 py-1 rounded-lg">Select</span>
+                `;
+                resultsDiv.appendChild(row);
+            });
+        }
+
+        function generateMusicRecommendationOnPhoto() {
+            // Intelligent random photo engine selector mapping match simulation logic
+            const shuffled = [...prebuiltTrendingSeeds].sort(() => 0.5 - Math.random());
+            const recommendationList = shuffled.slice(0, 2);
+            
+            const resultsDiv = document.getElementById('music-results');
+            resultsDiv.innerHTML = '<div class="p-1 text-[9px] font-black tracking-wide text-amber-400 uppercase">⚡ Recommended matching photo aesthetics:</div>';
+            recommendationList.forEach(track => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/20 cursor-pointer rounded-xl transition';
+                row.onclick = () => selectMusicTrack(track);
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 pointer-events-none min-w-0">
+                        <img src="${track.artworkUrl100}" class="w-8 h-8 rounded-lg">
+                        <div class="text-left truncate">
+                            <p class="text-xs font-bold text-amber-200 truncate max-w-[170px]">${track.trackName}</p>
+                            <p class="text-[10px] text-amber-500/80 font-medium truncate max-w-[170px]">${track.artistName}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black text-amber-400 bg-amber-500/20 px-2 py-1 rounded-lg">Apply</span>
+                `;
+                resultsDiv.appendChild(row);
+            });
+        }
 
         function searchSongs() {
             const query = document.getElementById('music-search-input').value.trim();
-            if(!query) return;
+            if(!query) return populateInitialTrendingMusic(prebuiltTrendingSeeds);
             const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=5`;
             
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
-                    const resultsDiv = document.getElementById('music-results');
-                    resultsDiv.innerHTML = '';
-                    resultsDiv.classList.remove('hidden');
-
-                    if(data.results.length === 0) {
-                        resultsDiv.innerHTML = '<p class="p-2 text-xs text-slate-400 font-bold">No tracks found.</p>';
-                        return;
-                    }
-
-                    data.results.forEach(track => {
-                        const row = document.createElement('div');
-                        row.className = 'flex items-center justify-between p-2 hover:bg-slate-50 cursor-pointer transition';
-                        row.onclick = () => selectMusicTrack(track);
-                        row.innerHTML = `
-                            <div class="flex items-center gap-2 pointer-events-none">
-                                <img src="${track.artworkUrl100}" class="w-8 h-8 rounded-md">
-                                <div class="text-left">
-                                    <p class="text-xs font-bold text-slate-800 truncate max-w-[180px]">${track.trackName}</p>
-                                    <p class="text-[10px] text-slate-400 font-medium truncate max-w-[180px]">${track.artistName}</p>
-                                </div>
-                            </div>
-                            <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">Select</span>
-                        `;
-                        resultsDiv.appendChild(row);
-                    });
-                })
-                .catch(() => alert("Music Search Failed. Please check network."));
+                    populateInitialTrendingMusic(data.results.map(t => ({
+                        trackName: t.trackName,
+                        artistName: t.artistName,
+                        artworkUrl100: t.artworkUrl100,
+                        previewUrl: t.previewUrl
+                    })));
+                });
         }
 
         function selectMusicTrack(track) {
+            // Initialize dynamic placeholder lyrics strings structure arrays
+            const defaultLyricsLine = `✨ (Playing standard chorus lines loop of ${track.trackName} track) ✨`;
+            document.getElementById('custom-lyrics-line').value = defaultLyricsLine;
+
             chosenMusicTrack = {
                 title: track.trackName,
                 artist: track.artistName,
                 audioUrl: track.previewUrl,
-                coverUrl: track.artworkUrl100
+                coverUrl: track.artworkUrl100,
+                lyricsTimeSlice: document.getElementById('lyrics-time-slice').value,
+                lyricsText: defaultLyricsLine
             };
+
             document.getElementById('selected-music-track-img').src = track.artworkUrl100;
-            document.getElementById('selected-music-text').innerText = `${track.trackName} - ${track.artistName}`;
+            document.getElementById('selected-music-text').innerText = `${track.trackName}`;
             document.getElementById('selected-music-badge').classList.remove('hidden');
-            document.getElementById('music-results').classList.add('hidden');
-            document.getElementById('music-search-input').value = '';
+            document.getElementById('lyrics-selector-box').classList.remove('hidden');
+            document.getElementById('trending-music-section').classList.add('hidden');
         }
 
         function removeSelectedMusic() {
             chosenMusicTrack = null;
             document.getElementById('selected-music-badge').classList.add('hidden');
+            document.getElementById('lyrics-selector-box').classList.add('hidden');
+            document.getElementById('trending-music-section').classList.remove('hidden');
+            populateInitialTrendingMusic(prebuiltTrendingSeeds);
         }
 
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
@@ -315,14 +396,20 @@
             document.getElementById('post-form').reset();
             document.getElementById('file-chosen-name').innerText = '';
             document.getElementById('image-preview-container').classList.add('hidden');
-            document.getElementById('modal-preview-img').src = '';
             removeSelectedMusic();
-            document.getElementById('music-results').classList.add('hidden');
         }
 
         function saveNewPost(caption, imgData) {
+            if(chosenMusicTrack) {
+                // Read fresh custom text inputs from current lyric configurations inside memory context
+                chosenMusicTrack.lyricsTimeSlice = document.getElementById('lyrics-time-slice').value;
+                chosenMusicTrack.lyricsText = document.getElementById('custom-lyrics-line').value.trim();
+            }
+
             const newPostRef = database.ref('posts').push();
             newPostRef.set({
+                userHandle: activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser,
+                creatorOwnerTokenId: activeUser, // Internal relational validation token identifier string
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
                 image: imgData,
@@ -330,7 +417,7 @@
                 likes: 0
             }).then(() => {
                 closeModal();
-            }).catch(err => alert("Error uploading: " + err.message));
+            }).catch(err => alert("Transmission Error: " + err.message));
         }
 
         function playFeedAudio(audioUrl, btnId, imgId) {
@@ -342,14 +429,12 @@
                 document.getElementById(imgId).classList.remove('music-spinning');
                 return;
             }
-
             if (currentPlayingAudio) {
                 currentPlayingAudio.pause();
                 if(document.getElementById(currentPlayingBtnId)) {
                     document.getElementById(currentPlayingBtnId).innerText = "▶ Play";
                 }
-                const activeSpins = document.querySelectorAll('.music-spinning');
-                activeSpins.forEach(el => el.classList.remove('music-spinning'));
+                document.querySelectorAll('.music-spinning').forEach(el => el.classList.remove('music-spinning'));
             }
 
             currentPlayingAudio = new Audio(audioUrl);
@@ -369,7 +454,6 @@
         function toggleLike(postId, currentLikes) {
             const likedKey = 'liked_' + postId;
             const hasLiked = localStorage.getItem(likedKey);
-
             let newLikes = currentLikes || 0;
             if (!hasLiked) {
                 newLikes += 1;
@@ -382,7 +466,7 @@
         }
 
         function deletePost(postId) {
-            if(confirm("Permanently delete this update post?")) {
+            if(confirm("Confirm security erasure operation on targeted post unit instance data node?")) {
                 if(currentPlayingAudio) currentPlayingAudio.pause();
                 database.ref('posts/' + postId).remove();
             }
@@ -395,69 +479,80 @@
 
             if(posts.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-16 bg-white border border-slate-200/60 rounded-3xl text-slate-400 font-bold text-xs uppercase tracking-widest">
-                        Timeline Empty.
+                    <div class="text-center py-16 cyber-glass rounded-3xl text-slate-500 font-bold text-xs uppercase tracking-widest">
+                        Timeline Instance Empty.
                     </div>`;
                 return;
             }
 
             posts.forEach(post => {
                 const card = document.createElement('div');
-                card.className = 'bg-white border border-slate-200/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300';
+                card.className = 'cyber-glass rounded-3xl overflow-hidden shadow-xl border border-white/5 transition-all duration-300';
                 
-                // FIXED: Changed object-cover to object-contain and modified sizing to display full portrait faces
-                let mediaHtml = post.image ? `<div class="bg-slate-50 border-b border-slate-100 flex items-center justify-center p-1"><img src="${post.image}" class="w-full h-auto object-contain max-h-[600px] rounded-2xl select-none"></div>` : '';
+                let mediaHtml = post.image ? `<div class="bg-black/20 border-b border-white/5 flex items-center justify-center p-1"><img src="${post.image}" class="w-full h-auto object-contain max-h-[600px] rounded-2xl select-none"></div>` : '';
                 
                 let musicHtml = '';
                 if(post.music) {
                     const btnId = `btn-${post.id}`;
                     const imgId = `img-${post.id}`;
                     musicHtml = `
-                        <div class="mx-5 mt-4 p-2.5 bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-100/50 rounded-2xl flex items-center justify-between">
-                            <div class="flex items-center gap-2.5 min-w-0">
-                                <img id="${imgId}" src="${post.music.coverUrl}" class="w-9 h-9 rounded-xl border border-pink-200 object-cover shadow-sm shrink-0">
-                                <div class="truncate text-left">
-                                    <p class="text-xs font-black text-pink-950 truncate">${post.music.title}</p>
-                                    <p class="text-[10px] font-bold text-pink-600/80 truncate">${post.music.artist}</p>
+                        <div class="mx-5 mt-4 p-3 bg-gradient-to-r from-rose-500/10 to-indigo-500/10 border border-white/5 rounded-2xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <img id="${imgId}" src="${post.music.coverUrl}" class="w-9 h-9 rounded-xl border border-white/10 object-cover shrink-0">
+                                    <div class="truncate text-left">
+                                        <p class="text-xs font-black text-white truncate">${post.music.title}</p>
+                                        <p class="text-[10px] font-bold text-slate-400 truncate">${post.music.artist}</p>
+                                    </div>
                                 </div>
+                                <button id="${btnId}" onclick="playFeedAudio('${post.music.audioUrl}', '${btnId}', '${imgId}')" 
+                                        class="bg-white text-slate-950 font-black text-[9px] uppercase tracking-wider px-3 py-1.5 rounded-xl transition">
+                                    ▶ Play
+                                </button>
                             </div>
-                            <button id="${btnId}" onclick="playFeedAudio('${post.music.audioUrl}', '${btnId}', '${imgId}')" 
-                                    class="bg-white/80 backdrop-blur border border-pink-200 text-pink-700 font-extrabold text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-xl hover:bg-white active:scale-95 transition">
-                                ▶ Play
-                            </button>
+                            <div class="bg-black/30 px-2.5 py-1.5 rounded-lg border border-white/5 text-[10px] font-bold text-amber-400/90 text-left italic tracking-wide">
+                                🎵 ${post.music.lyricsText || '(Instrumental Harmony Loops Active)'}
+                            </div>
                         </div>
                     `;
                 }
 
+                // SECURITY ACCESS LEVEL RESOLUTION CONDITIONAL FILTER
+                let deleteButtonHtml = '';
+                const isPostCreator = (post.creatorOwnerTokenId === activeUser);
+                const isMasterAdmin = (activeUser === MASTER_ADMIN_KEY);
+
+                if (isPostCreator || isMasterAdmin) {
+                    deleteButtonHtml = `<button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-500 hover:text-rose-400 transition px-2 py-1">Delete</button>`;
+                }
+
                 const hasLiked = localStorage.getItem('liked_' + post.id);
-                const heartClass = hasLiked ? 'text-red-500 fill-red-500 heart-active' : 'text-slate-400 fill-none';
+                const heartClass = hasLiked ? 'text-rose-500 fill-rose-500' : 'text-slate-500 fill-none';
 
                 card.innerHTML = `
-                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-50">
+                    <div class="px-5 py-4 flex items-center justify-between border-b border-white/5 bg-white/[0.01]">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
-                                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
+                            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-rose-500/20 to-indigo-500/20 flex items-center justify-center border border-white/10 text-xs font-black text-white">
+                                ${post.userHandle ? post.userHandle.substring(0,2).toUpperCase() : 'U'}
                             </div>
-                            <div>
-                                <h4 class="text-xs font-black text-slate-800 tracking-tight">anivaryabajpai</h4>
-                                <span class="text-[9px] font-semibold text-slate-400 block">${post.timestamp}</span>
+                            <div class="text-left">
+                                <h4 class="text-xs font-black text-white tracking-tight">@${post.userHandle || 'anonymous'}</h4>
+                                <span class="text-[9px] font-semibold text-slate-500 block">${post.timestamp}</span>
                             </div>
                         </div>
-                        <button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
+                        ${deleteButtonHtml}
                     </div>
                     
                     ${musicHtml}
                     ${mediaHtml}
                     
-                    <div class="p-5 text-sm font-medium text-slate-700 text-left leading-relaxed">
-                        <span class="font-black text-xs text-slate-900 mr-2 uppercase tracking-tight">anivaryabajpai</span>${post.caption}
+                    <div class="p-5 text-sm font-medium text-slate-300 text-left leading-relaxed">
+                        <span class="font-black text-xs text-white mr-2 uppercase tracking-tight">@${post.userHandle || 'anonymous'}</span>${post.caption}
                     </div>
                     
-                    <div class="px-5 py-3.5 border-t border-slate-50 bg-slate-50/50 flex items-center">
-                        <button onclick="toggleLike('${post.id}', ${post.likes || 0})" class="flex items-center gap-2 text-xs font-bold transition text-slate-600 hover:text-slate-900 group">
-                            <svg class="w-4 h-4 transition-transform duration-200 group-active:scale-125 ${heartClass}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <div class="px-5 py-3.5 border-t border-white/5 bg-white/[0.01] flex items-center">
+                        <button onclick="toggleLike('${post.id}', ${post.likes || 0})" class="flex items-center gap-2 text-xs font-bold transition text-slate-400 hover:text-white group">
+                            <svg class="w-4 h-4 transition-transform duration-200 group-active:scale-125 ${heartClass}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
                             <span class="select-none">Likes (${post.likes || 0})</span>
