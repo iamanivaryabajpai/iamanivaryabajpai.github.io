@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Piyush Core Matrix | Premium Web Node</title>
+    <title>Anivarya Matrix | Premium Cyber Hub</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,122 +19,133 @@
     </script>
     <style>
         body { transition: background-color 0.3s, color 0.3s; margin: 0; padding: 0; }
+        
+        /* PREMIUM GLASSMORPHISM & NEON GLOW EFFECTS */
+        .cyber-card-glow {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
         .audio-active-card {
-            animation: audioPulse 1.8s infinite ease-in-out;
-            border-width: 2px !important;
+            animation: cyberPulse 2s infinite ease-in-out;
+            border: 1px solid rgba(139, 92, 246, 0.6) !important;
         }
-        @keyframes audioPulse {
-            0% { border-color: rgba(99, 102, 241, 0.2); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
-            50% { border-color: rgba(99, 102, 241, 0.9); box-shadow: 0 0 25px rgba(99, 102, 241, 0.4); }
-            100% { border-color: rgba(99, 102, 241, 0.2); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+        @keyframes cyberPulse {
+            0% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.5); }
+            100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
         }
-        .music-spinning { animation: spin 3.5s linear infinite; }
+        .music-spinning { animation: spin 4s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* GHOST PEEK REAL INTERFACE FILTER BLURS */
-        .ghost-blurred { filter: blur(30px) grayscale(50%); transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1); will-change: filter; }
+        /* INTERACTIVE BLUR & TEXT EFFECTS */
+        .ghost-blurred { filter: blur(35px) grayscale(40%); transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
         .ghost-revealed { filter: blur(0px) grayscale(0%); }
+        
+        /* INSTA LYRICS ANIMATED BOX */
+        .lyrics-glow-text {
+            text-shadow: 0 0 12px rgba(167, 139, 250, 0.8);
+            animation: neonPulse 1.5s infinite alternate;
+        }
+        @keyframes neonPulse {
+            from { text-shadow: 0 0 8px rgba(167, 139, 250, 0.6); }
+            to { text-shadow: 0 0 18px rgba(167, 139, 250, 0.9); }
+        }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen pb-24 antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-24 antialiased selection:bg-indigo-500/30">
 
-    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-slate-100 dark:border-slate-800">
-            <h2 class="text-xl font-black tracking-tight mb-1 text-indigo-600 dark:text-indigo-400">Piyush Core Net</h2>
-            <p class="text-xs font-semibold text-slate-400 mb-6">Initialize custom identity token link.</p>
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/98 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-indigo-500/30 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
+            <h2 class="text-2xl font-black tracking-tighter mb-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">ANIVARYA CORE</h2>
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Initialize Operator Credentials</p>
             <div class="space-y-3">
                 <input type="text" id="username-input" placeholder="Enter custom handle name..." 
-                       class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 text-sm focus:outline-none font-bold transition">
-                <button onclick="processAuth()" class="w-full bg-indigo-600 text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-indigo-700 transition shadow-md">
-                    Boot Network Terminal
+                       class="w-full rounded-xl bg-slate-950 border border-slate-800 px-4 py-3 text-sm text-white focus:border-indigo-500 focus:outline-none font-bold transition">
+                <button onclick="processAuth()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition shadow-lg shadow-indigo-500/20">
+                    Boot Network Mainframe
                 </button>
             </div>
         </div>
     </div>
 
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800 px-4 py-4">
+    <nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-indigo-950/60 px-4 py-4">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tighter text-indigo-600 dark:text-indigo-400 uppercase">PIYUSH CORE</span>
-            <button onclick="openModal()" class="bg-indigo-600 text-white font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-indigo-700 transition shadow-sm">
-                + Add Post
+            <span class="font-black text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 uppercase">ANIVARYA</span>
+            <button onclick="openModal()" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-black text-xs uppercase tracking-wider px-6 py-2.5 rounded-full hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
+                + Broadcast Post
             </button>
         </div>
     </nav>
 
-    <main id="section-feed" class="max-w-xl mx-auto px-3 py-4 space-y-4">
-        <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
+    <main id="section-feed" class="max-w-xl mx-auto px-3 py-6 space-y-6">
+        <div class="bg-gradient-to-r from-indigo-950 via-purple-950 to-slate-950 rounded-2xl p-4 border border-indigo-500/20 shadow-xl flex items-center justify-between">
             <div>
-                <span class="text-[9px] font-black tracking-widest uppercase bg-white/20 px-2 py-0.5 rounded">🏆 Network Top Signal</span>
-                <h3 id="leaderboard-title" class="text-xs font-black mt-1 truncate max-w-[240px]">Analyzing audio nodes...</h3>
+                <span class="text-[9px] font-black tracking-widest uppercase bg-indigo-500/20 text-indigo-300 px-2.5 py-0.5 rounded-full">🏆 Top System Sync</span>
+                <h3 id="leaderboard-title" class="text-xs font-black mt-1.5 text-white truncate max-w-[220px]">Awaiting active track streams...</h3>
             </div>
-            <div id="leaderboard-count" class="text-sm font-black">🔥 0</div>
+            <div id="leaderboard-count" class="text-sm font-black text-purple-400 bg-purple-500/10 px-3 py-1 rounded-xl border border-purple-500/20">🔥 0</div>
         </div>
         
         <div id="feed-container" class="space-y-6"></div>
     </main>
 
     <section id="section-profile" class="hidden max-w-xl mx-auto px-4 py-8">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 text-center space-y-6 shadow-sm">
-            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg">@</div>
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 text-center space-y-6 shadow-xl">
+            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-full mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg">⚡</div>
             <div>
-                <h2 id="profile-handle" class="text-lg font-black text-slate-900 dark:text-white">@username</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Verified Network Operator</p>
+                <h2 id="profile-handle" class="text-xl font-black text-white">@username</h2>
+                <p class="text-xs font-bold text-indigo-400 uppercase tracking-widest mt-0.5">Verified Core Administrator</p>
             </div>
-            <hr class="dark:border-slate-800">
-            <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border dark:border-slate-800">
-                <div class="text-left">
-                    <p class="text-xs font-black">🌓 Cyberpunk Matrix Theme</p>
-                    <p class="text-[10px] text-slate-400 font-medium">Switch between light grid and absolute dark void</p>
-                </div>
-                <button onclick="toggleAestheticTheme()" class="bg-slate-900 dark:bg-white dark:text-slate-900 text-white text-[10px] font-black uppercase px-4 py-2 rounded-xl">Toggle Vibe</button>
-            </div>
-            <button onclick="logoutSession()" class="w-full bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white font-black text-xs uppercase tracking-widest py-3 rounded-xl transition">Disconnect Terminal Session</button>
+            <hr class="border-slate-800">
+            <button onclick="logoutSession()" class="w-full bg-rose-500/10 hover:bg-rose-600/20 border border-rose-500/20 text-rose-400 font-black text-xs uppercase tracking-widest py-3.5 rounded-xl transition-all">
+                Disconnect Transmission Link
+            </button>
         </div>
     </section>
 
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-6 py-3">
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-t border-indigo-950/80 px-6 py-4">
         <div class="max-w-xl mx-auto flex items-center justify-around">
-            <button onclick="switchTab('feed')" id="nav-btn-feed" class="flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider transition">
-                <span>🏠</span><span>Network Feed</span>
+            <button onclick="switchTab('feed')" id="nav-btn-feed" class="flex flex-col items-center gap-1 text-indigo-400 font-black text-[10px] uppercase tracking-widest transition-all">
+                <span class="text-base">💎</span><span>Grid Feed</span>
             </button>
-            <button onclick="switchTab('profile')" id="nav-btn-profile" class="flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider transition">
-                <span>👤</span><span>Identity Profile</span>
+            <button onclick="switchTab('profile')" id="nav-btn-profile" class="flex flex-col items-center gap-1 text-slate-500 font-bold text-[10px] uppercase tracking-widest transition-all">
+                <span class="text-base">👤</span><span>Admin Identity</span>
             </button>
         </div>
     </div>
 
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
-            <div class="px-6 py-4 border-b dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
-                <h3 class="font-black text-sm tracking-tight">Broadcast New Matrix Signal</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold text-xs uppercase">Cancel</button>
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-indigo-500/20 animate-in fade-in zoom-in-95 duration-200">
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/50">
+                <h3 class="font-black text-sm tracking-tight text-white uppercase tracking-wider">Deploy Matrix Broadcast</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white font-black text-xs uppercase">✕ Close</button>
             </div>
             
-            <form id="post-form" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+            <form id="post-form" class="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Caption</label>
-                    <textarea id="post-caption" required rows="2" placeholder="Write something epic onto the blockchain timeline..." 
-                              class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 p-3 text-sm focus:outline-none font-medium resize-none shadow-inner"></textarea>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-1.5">Caption Interface</label>
+                    <textarea id="post-caption" required rows="2" placeholder="Write something stellar onto the main blockchain core feed..." 
+                              class="w-full rounded-xl bg-slate-950 border border-slate-800 p-3 text-sm text-white focus:border-indigo-500 focus:outline-none font-medium resize-none shadow-inner"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Photo Asset attachment</label>
-                    <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/30">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-1.5">Asset Attachment Matrix</label>
+                    <div class="border-2 border-dashed border-slate-800 hover:border-indigo-500/40 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-950/40">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-400">📸 Choose or click a high-res photo</p>
-                        <p id="file-chosen-name" class="text-xs font-semibold text-indigo-500 truncate mt-1"></p>
+                        <p class="text-xs font-bold text-slate-400">📸 Drag/Drop or Tap to select imagery</p>
+                        <p id="file-chosen-name" class="text-xs font-semibold text-purple-400 truncate mt-1"></p>
                     </div>
                     
-                    <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-3 border dark:border-slate-700">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-bold gap-2">
-                            <span>Select Crop Aspect Ratio Suite:</span>
+                    <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-950 rounded-xl space-y-3 border border-slate-800">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[10px] font-black uppercase text-slate-400 gap-2">
+                            <span>Aspect Suite:</span>
                             <div class="flex gap-1" id="crop-ratio-selectors">
-                                <button type="button" onclick="setCropRatio('1/1')" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[10px]">1:1 Square</button>
-                                <button type="button" onclick="setCropRatio('4/5')" class="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]">4:5 Portrait</button>
-                                <button type="button" onclick="setCropRatio('16/9')" class="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]">16:9 Landscape</button>
+                                <button type="button" onclick="setCropRatio('1/1')" class="bg-indigo-600 text-white px-2.5 py-1 rounded text-[9px] uppercase font-black">1:1 Square</button>
+                                <button type="button" onclick="setCropRatio('4/5')" class="bg-slate-800 px-2.5 py-1 rounded text-[9px] uppercase font-black">4:5 Portrait</button>
+                                <button type="button" onclick="setCropRatio('16/9')" class="bg-slate-800 px-2.5 py-1 rounded text-[9px] uppercase font-black">16:9 Wide</button>
                             </div>
                         </div>
                         <div class="overflow-hidden rounded-lg bg-black flex items-center justify-center">
@@ -145,53 +156,69 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl space-y-3 border dark:border-slate-700">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">⚡ Core System Game Toggles</label>
-                    <div class="space-y-1.5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold">💰 Blind Price Guess Match Game:</span>
-                            <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-indigo-600">
-                        </div>
-                        <input type="number" id="luxury-correct-price" placeholder="Enter target valuation (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none">
-                    </div>
-                    <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
-                        <span class="text-xs font-bold">💥 Auto-Delete Post After 24 Hours:</span>
-                        <input type="checkbox" id="toggle-glitch-destruct" class="w-4 h-4 accent-indigo-600">
-                    </div>
-                    <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
-                        <span class="text-xs font-bold">🕵️‍♂️ Tap & Hold Image Peek (Blur Mode):</span>
-                        <input type="checkbox" id="toggle-ghost-blur" class="w-4 h-4 accent-indigo-600">
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 dark:bg-slate-800 p-4 border dark:border-slate-700 rounded-2xl space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">🎵 Background Track Hub Selector</label>
+                <div class="bg-slate-950 p-4 border border-slate-800 rounded-2xl space-y-3">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-indigo-400">🎵 Music Search & Real-Time Lyric Config</label>
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search real tracks or artists (e.g. Arijit Mishra)..." 
-                               class="w-full rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 p-2 text-xs focus:outline-none">
-                        <button type="button" onclick="searchSongs()" class="bg-indigo-600 text-white font-bold text-xs px-4 rounded-xl">Search</button>
+                        <input type="text" id="music-search-input" placeholder="Search tracks, artists, or audio clips..." 
+                               class="w-full rounded-xl bg-slate-900 border border-slate-800 p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-none">
+                        <button type="button" onclick="searchSongs()" class="bg-indigo-600 text-white font-black text-xs px-4 rounded-xl hover:bg-indigo-700">Search</button>
                     </div>
-                    <div id="music-results" class="space-y-1 max-h-32 overflow-y-auto bg-white dark:bg-slate-900 border dark:border-slate-700 p-1 rounded-xl"></div>
+                    <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto bg-slate-900 border border-slate-800 p-1 rounded-xl"></div>
                     
-                    <div id="preview-control-zone" class="hidden p-2.5 bg-slate-200 dark:bg-slate-700 rounded-xl space-y-2 text-xs">
-                        <div class="flex items-center justify-between font-bold">
-                            <span id="preview-track-title" class="truncate max-w-[180px]">Buffering Stream...</span>
-                            <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">⏸ Pause</button>
+                    <div id="preview-control-zone" class="hidden p-3 bg-slate-900 border border-purple-500/30 rounded-xl space-y-3 text-xs">
+                        <div class="flex items-center justify-between font-black text-purple-400">
+                            <span id="preview-track-title" class="truncate max-w-[180px]">Loading stream...</span>
+                            <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-black text-white px-2 py-0.5 rounded text-[10px]">⏸ Pause</button>
                         </div>
-                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-emerald-600 text-white font-black text-[10px] uppercase py-1.5 rounded-lg">✅ Confirm & Lock Audio Track</button>
+                        
+                        <div class="space-y-1.5 border-t border-slate-800 pt-2">
+                            <label class="block text-[9px] font-black uppercase tracking-wider text-slate-400">📝 Select Display Lyric Frame:</label>
+                            <select id="lyrics-selector-node" class="w-full text-xs p-2 rounded-lg bg-black border border-slate-800 text-slate-200 focus:outline-none">
+                                <option value="Dil ki purani raahon pe, tum mile toh hum ruk gaye...">✨ "Dil ki purani raahon pe, tum mile..."</option>
+                                <option value="Khoya rasta mil gaya, sath tera jo paa liya tera hoke...">✨ "Khoya rasta mil gaya, sath tera jo..."</option>
+                                <option value="Pehle bhi main tumse mila hoon, pehli dafa hi milke laga...">✨ "Pehle bhi main tumse mila hoon..."</option>
+                                <option value="Saari duniya jala denge, tera sath na chhodenge hum...">✨ "Saari duniya jala denge, tera sath na..."</option>
+                            </select>
+                        </div>
+
+                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-[10px] uppercase py-2 rounded-lg tracking-widest shadow-md">
+                            ✅ Lock Track & Chosen Lyrics
+                        </button>
                     </div>
 
-                    <div id="selected-music-badge" class="hidden p-2 bg-slate-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
+                    <div id="selected-music-badge" class="hidden p-2.5 bg-gradient-to-r from-indigo-950 to-purple-950 border border-indigo-500/30 text-white rounded-xl flex items-center justify-between text-xs font-bold">
                         <div class="flex items-center gap-2 min-w-0">
                             <div id="badge-artwork-container" class="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center text-[10px]">🎵</div>
-                            <span id="selected-music-text" class="truncate max-w-[180px]">Track Attached</span>
+                            <div class="truncate">
+                                <p id="selected-music-text" class="truncate max-w-[160px] text-white text-[11px] font-black"></p>
+                                <p id="selected-lyrics-preview" class="truncate max-w-[160px] text-purple-400 text-[9px] font-medium italic"></p>
+                            </div>
                         </div>
-                        <button type="button" onclick="removeSelectedMusic()" class="text-white font-bold text-xs px-1">✕</button>
+                        <button type="button" onclick="removeSelectedMusic()" class="text-slate-400 hover:text-white font-bold text-xs px-1">✕</button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-indigo-700 transition shadow-md">
-                    Launch Transmitted Post
+                <div class="bg-slate-950 p-4 rounded-2xl space-y-3 border border-slate-800">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-indigo-400">⚡ Advanced Core Directives</label>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-300">💰 Secure Valuation Guess Match Game:</span>
+                            <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-indigo-500">
+                        </div>
+                        <input type="number" id="luxury-correct-price" placeholder="Target valuation match price (e.g. 800)" class="w-full text-xs p-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:outline-none text-white">
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+                        <span class="text-xs font-bold text-slate-300">💥 Quantum Destruct (24H Burn):</span>
+                        <input type="checkbox" id="toggle-glitch-destruct" class="w-4 h-4 accent-indigo-500">
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+                        <span class="text-xs font-bold text-slate-300">🕵️‍♂️ Tap & Hold View Mode (Ghost Blur):</span>
+                        <input type="checkbox" id="toggle-ghost-blur" class="w-4 h-4 accent-indigo-500">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl hover:opacity-90 transition-all shadow-xl shadow-purple-500/10">
+                    Deploy Broadcast Block
                 </button>
             </form>
         </div>
@@ -221,8 +248,7 @@
 
         const prebuiltTrendingSeeds = [
             {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
-            {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"},
-            {trackName: "Case", artistName: "Diljit Dosanjh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/91/9f/61/919f61b0-466d-3171-cb86-2a66e409d949/859777596001_cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/e5/22/a9/e522a969-9524-cc33-d731-bf3f8e5610e2/mzaf_2441315579899120610.plus.aac.p.m4a"}
+            {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"}
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -235,7 +261,6 @@
                 if (data) {
                     Object.keys(data).forEach(key => {
                         let item = data[key];
-                        // 24 HOUR EXPIRY GLITCH DESTRUCT BACKEND LOGIC PIPELINE
                         if (item.isGlitchDestruct && item.serverTimestamp && (now - item.serverTimestamp > 86400000)) {
                             database.ref('posts/' + key).remove();
                         } else {
@@ -250,7 +275,7 @@
 
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Target: ${this.files[0].name}`;
+                    document.getElementById('file-chosen-name').innerText = `${this.files[0].name}`;
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         document.getElementById('modal-preview-img').src = e.target.result;
@@ -300,57 +325,38 @@
             });
 
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
-            if(localStorage.getItem('theme-matrix') === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
         });
 
         function switchTab(targetTab) {
             document.getElementById('section-feed').classList.add('hidden');
             document.getElementById('section-profile').classList.add('hidden');
-            document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
-            document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-0.5 text-slate-400 font-bold text-[11px] uppercase tracking-wider";
+            document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-1 text-slate-500 font-bold text-[10px] uppercase tracking-widest";
+            document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-1 text-slate-500 font-bold text-[10px] uppercase tracking-widest";
 
             if(targetTab === 'feed') {
                 document.getElementById('section-feed').classList.remove('hidden');
-                document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
+                document.getElementById('nav-btn-feed').className = "flex flex-col items-center gap-1 text-indigo-400 font-black text-[10px] uppercase tracking-widest";
             } else if (targetTab === 'profile') {
                 document.getElementById('section-profile').classList.remove('hidden');
-                document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider";
+                document.getElementById('nav-btn-profile').className = "flex flex-col items-center gap-1 text-indigo-400 font-black text-[10px] uppercase tracking-widest";
             }
         }
 
         function setCropRatio(ratioStr) {
             selectedCropAspect = ratioStr;
             document.getElementById('crop-preview-frame').style.aspectRatio = ratioStr;
-            document.querySelectorAll('#crop-ratio-selectors button').forEach(b => {
-                b.className = "bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]";
-            });
-            event.target.className = "bg-indigo-600 text-white px-2 py-0.5 rounded text-[10px]";
-        }
-
-        function toggleAestheticTheme() {
-            if(document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme-matrix', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme-matrix', 'dark');
-            }
+            document.querySelectorAll('#crop-ratio-selectors button').forEach(b => { b.className = "bg-slate-800 px-2.5 py-1 rounded text-[9px] uppercase font-black"; });
+            event.target.className = "bg-indigo-600 text-white px-2.5 py-1 rounded text-[9px] uppercase font-black";
         }
 
         function evaluateUserSession() {
-            if(!activeUser) {
-                document.getElementById('auth-overlay').classList.remove('hidden');
-            } else {
-                document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('profile-handle').innerText = `@${activeUser}`;
-            }
+            if(!activeUser) { document.getElementById('auth-overlay').classList.remove('hidden'); } 
+            else { document.getElementById('auth-overlay').classList.add('hidden'); document.getElementById('profile-handle').innerText = `@${activeUser}`; }
         }
 
         function processAuth() {
             const raw = document.getElementById('username-input').value.trim();
-            if(!raw) return alert("Please type a valid operator name handle!");
+            if(!raw) return alert("Type operator designation handle!");
             const processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
             localStorage.setItem('core_user_id', processedHandle);
             activeUser = processedHandle;
@@ -359,20 +365,18 @@
         }
 
         function populateInitialTrendingMusic(tracks) {
-            const resultsDiv = document.getElementById('music-results');
-            resultsDiv.innerHTML = '';
+            const resultsDiv = document.getElementById('music-results'); resultsDiv.innerHTML = '';
             tracks.forEach(track => {
-                const imgTag = track.artworkUrl100 ? `<img src="${track.artworkUrl100}" class="w-7 h-7 rounded border dark:border-slate-700 object-cover">` : `<div class="w-7 h-7 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]">🎵</div>`;
-                
+                const imgTag = track.artworkUrl100 ? `<img src="${track.artworkUrl100}" class="w-7 h-7 rounded object-cover">` : `<div class="w-7 h-7 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]">🎵</div>`;
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between p-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer rounded-lg transition text-slate-800 dark:text-slate-200';
+                row.className = 'flex items-center justify-between p-2 hover:bg-slate-800 cursor-pointer rounded-lg text-slate-200 transition-all';
                 row.onclick = () => launchLiveTrackPreview(track);
                 row.innerHTML = `
                     <div class="flex items-center gap-2 pointer-events-none min-w-0">
-                        <div class="relative w-7 h-7 flex-shrink-0">${imgTag}</div>
-                        <p class="text-xs font-bold truncate max-w-[200px]">${track.trackName} - <span class="text-slate-400 font-medium">${track.artistName}</span></p>
+                        <div class="w-7 h-7 flex-shrink-0">${imgTag}</div>
+                        <p class="text-xs font-bold truncate max-w-[180px]">${track.trackName} <span class="text-slate-500 font-medium">${track.artistName}</span></p>
                     </div>
-                    <span class="text-[9px] font-black text-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-1 rounded">🔊 Stream</span>
+                    <span class="text-[9px] font-black text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded">🔊 Select</span>
                 `;
                 resultsDiv.appendChild(row);
             });
@@ -381,7 +385,7 @@
         function searchSongs() {
             const query = document.getElementById('music-search-input').value.trim();
             if(!query) return populateInitialTrendingMusic(prebuiltTrendingSeeds);
-            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=4`)
+            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=3`)
                 .then(res => res.json())
                 .then(data => {
                     populateInitialTrendingMusic(data.results.map(t => ({
@@ -390,24 +394,13 @@
                 });
         }
 
-        // HIGH EFFICIENCY DYNAMIC STREAM BUFFER INITIALIZER
         function launchLiveTrackPreview(track) {
-            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); tempPreviewAudioObj = null; }
+            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
             currentInspectedTrackData = track;
-            
-            tempPreviewAudioObj = new Audio();
-            tempPreviewAudioObj.src = track.previewUrl;
-            tempPreviewAudioObj.preload = "auto";
-            
-            let playPromise = tempPreviewAudioObj.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    document.getElementById('preview-track-title').innerText = `🔊 Streaming: ${track.trackName}`;
-                    document.getElementById('preview-play-btn').innerText = "⏸ Pause";
-                }).catch(error => {
-                    console.log("Audio play deferred setup triggered");
-                });
-            }
+            tempPreviewAudioObj = new Audio(track.previewUrl);
+            tempPreviewAudioObj.play();
+            document.getElementById('preview-track-title').innerText = `🎵 Stream: ${track.trackName}`;
+            document.getElementById('preview-play-btn').innerText = "⏸ Pause";
             document.getElementById('preview-control-zone').classList.remove('hidden');
         }
 
@@ -420,19 +413,19 @@
         function lockPreviewedTrack() {
             if(!currentInspectedTrackData) return;
             if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
+            const lyricSelection = document.getElementById('lyrics-selector-node').value;
+            
             chosenMusicTrack = {
                 title: currentInspectedTrackData.trackName, artist: currentInspectedTrackData.artistName,
-                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100 || ''
+                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100 || '',
+                selectedLyrics: lyricSelection
             };
             
             const container = document.getElementById('badge-artwork-container');
-            if(chosenMusicTrack.coverUrl) {
-                container.innerHTML = `<img src="${chosenMusicTrack.coverUrl}" class="w-full h-full rounded object-cover">`;
-            } else {
-                container.innerHTML = '🎵';
-            }
+            container.innerHTML = chosenMusicTrack.coverUrl ? `<img src="${chosenMusicTrack.coverUrl}" class="w-full h-full rounded object-cover">` : '🎵';
             
-            document.getElementById('selected-music-text').innerText = currentInspectedTrackData.trackName;
+            document.getElementById('selected-music-text').innerText = chosenMusicTrack.title;
+            document.getElementById('selected-lyrics-preview').innerText = `Lyrics: "${lyricSelection}"`;
             document.getElementById('selected-music-badge').classList.remove('hidden');
             document.getElementById('preview-control-zone').classList.add('hidden');
         }
@@ -458,17 +451,18 @@
             }).then(() => { closeModal(); });
         }
 
-        // REAL-TIME AUDIO BUFFER ORCHESTRATION PIPELINE (FIXED)
         function triggerAudioToggle(postId, audioUrl) {
             const cardFrame = document.getElementById(`card-${postId}`);
             const diskEl = document.getElementById(`disk-${postId}`);
             const controlBarText = document.getElementById(`audio-bar-text-${postId}`);
             const stateBtn = document.getElementById(`audio-state-btn-${postId}`);
+            const lyricsBox = document.getElementById(`lyrics-box-${postId}`);
             
             if (globalAudioInstances[postId]) {
                 if (globalAudioInstances[postId].paused) {
                     globalAudioInstances[postId].play().then(() => {
                         if(diskEl) diskEl.classList.add('music-spinning');
+                        if(lyricsBox) lyricsBox.classList.remove('hidden');
                         cardFrame.classList.add('audio-active-card');
                         stateBtn.innerHTML = "⏸ PAUSE";
                         controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title.toUpperCase()}`;
@@ -476,6 +470,7 @@
                 } else {
                     globalAudioInstances[postId].pause();
                     if(diskEl) diskEl.classList.remove('music-spinning');
+                    if(lyricsBox) lyricsBox.classList.add('hidden');
                     cardFrame.classList.remove('audio-active-card');
                     stateBtn.innerHTML = "▶ STREAM AUDIO";
                     controlBarText.innerText = "AUDIO MUTED";
@@ -483,38 +478,31 @@
                 return;
             }
 
-            // Flush other running channels
             Object.keys(globalAudioInstances).forEach(k => {
                 globalAudioInstances[k].pause();
                 const cf = document.getElementById(`card-${k}`); const d = document.getElementById(`disk-${k}`);
                 const s = document.getElementById(`audio-state-btn-${k}`); const t = document.getElementById(`audio-bar-text-${k}`);
+                const lb = document.getElementById(`lyrics-box-${k}`);
                 if(cf) cf.classList.remove('audio-active-card'); if(d) d.classList.remove('music-spinning');
-                if(s) s.innerHTML = "▶ STREAM AUDIO"; if(t) t.innerText = "AUDIO MUTED";
+                if(lb) lb.classList.add('hidden'); if(s) s.innerHTML = "▶ STREAM AUDIO"; if(t) t.innerText = "AUDIO MUTED";
             });
 
-            const audioObj = new Audio();
-            audioObj.src = audioUrl;
-            audioObj.loop = true;
-            audioObj.preload = "auto";
+            const audioObj = new Audio(audioUrl); audioObj.loop = true;
             globalAudioInstances[postId] = audioObj;
             
             audioObj.play().then(() => {
                 if(diskEl) diskEl.classList.add('music-spinning');
+                if(lyricsBox) lyricsBox.classList.remove('hidden');
                 cardFrame.classList.add('audio-active-card');
                 stateBtn.innerHTML = "⏸ PAUSE";
                 controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title.toUpperCase()}`;
-            }).catch(e => {
-                alert("Audio interaction permission requested! Tap stream audio button once more.");
             });
         }
 
         function registerBlindHype(postId) {
             const currentPost = posts.find(p => p.id === postId);
             if (!currentPost) return;
-            if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) {
-                alert("Hype limit hit on this timeline node!");
-                return;
-            }
+            if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) { return alert("Hype channel allotment complete!"); }
             const updatedCount = (currentPost.hypeCount || 0) + 1;
             database.ref(`posts/${postId}/hypedByUsers/${activeUser}`).set(true);
             database.ref(`posts/${postId}`).update({ hypeCount: updatedCount });
@@ -522,47 +510,33 @@
 
         function computeLiveLeaderboard() {
             if(posts.length === 0) return;
-            let copy = [...posts];
-            copy.sort((a,b) => (b.hypeCount || 0) - (a.hypeCount || 0));
-            const top = copy[0];
-            if(top && top.music) {
-                document.getElementById('leaderboard-title').innerText = `🔥 ${top.music.title} - ${top.music.artist}`;
-                document.getElementById('leaderboard-count').innerText = `🔥 ${top.hypeCount || 0}`;
+            let copy = [...posts]; copy.sort((a,b) => (b.hypeCount || 0) - (a.hypeCount || 0));
+            if(copy[0] && copy[0].music) {
+                document.getElementById('leaderboard-title').innerText = `🔥 ${copy[0].music.title} - ${copy[0].music.artist}`;
+                document.getElementById('leaderboard-count').innerText = `🔥 ${copy[0].hypeCount || 0}`;
             }
         }
 
-        // QUANTUM SECURE MATCH VERIFIER LOGIC ENGINE
         function verifyQuantumPriceInput(postId, correctVal) {
             const val = document.getElementById(`luxury-input-${postId}`).value.trim();
             const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
-            
-            if(!val) {
-                feedbackEl.innerText = "⚠️ Please enter a validation check parameter!";
-                return;
-            }
             if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 ALIGNMENT CONFIRMED! TRUE VALUE MATCHED IS ₹${correctVal} 💎`;
-                feedbackEl.className = "text-[11px] font-black text-emerald-500 mt-2 animate-pulse";
+                feedbackEl.innerText = `💎 ALIGNMENT MATCHED! TRUE VALUE IS ₹${correctVal} 💎`;
+                feedbackEl.className = "text-[11px] font-black text-emerald-400 mt-2 animate-pulse";
             } else {
-                feedbackEl.innerText = `❌ Mismatch. Node boundary alignment failed.`;
-                feedbackEl.className = "text-[11px] font-bold text-rose-500 mt-2";
+                feedbackEl.innerText = `❌ Boundary verification rejected.`;
+                feedbackEl.className = "text-[11px] font-bold text-rose-400 mt-2";
             }
         }
 
-        // GHOST BLUR INTERACTIVE TOUCH TRIGGER CONTROLLER
         function ghostPeekTrigger(imgId, reveal) {
             const img = document.getElementById(imgId); if(!img) return;
-            if(reveal) { 
-                img.classList.remove('ghost-blurred'); 
-                img.classList.add('ghost-revealed'); 
-            } else { 
-                img.classList.remove('ghost-revealed'); 
-                img.classList.add('ghost-blurred'); 
-            }
+            if(reveal) { img.classList.remove('ghost-blurred'); img.classList.add('ghost-revealed'); } 
+            else { img.classList.remove('ghost-revealed'); img.classList.add('ghost-blurred'); }
         }
 
         function deletePost(postId) {
-            if(confirm("Purge this post from the grid?")) {
+            if(confirm("Purge post node?")) {
                 if(globalAudioInstances[postId]) globalAudioInstances[postId].pause();
                 database.ref('posts/' + postId).remove();
             }
@@ -573,68 +547,74 @@
         function renderFeed() {
             const container = document.getElementById('feed-container'); container.innerHTML = '';
             if(posts.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 text-slate-400 font-bold text-xs uppercase">Timeline Clean.</div>`;
+                container.innerHTML = `<div class="text-center py-20 text-slate-500 font-bold text-xs uppercase tracking-widest">Core Timeline Clear.</div>`;
                 return;
             }
 
             posts.forEach(post => {
                 const card = document.createElement('div'); card.id = `card-${post.id}`;
-                card.className = 'bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden text-left relative transition-all shadow-sm';
+                card.className = 'bg-slate-900 rounded-3xl border border-slate-800/80 overflow-hidden text-left relative transition-all shadow-xl cyber-card-glow';
                 
                 let audioBadgeHeader = post.music ? `
-                    <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[140px] truncate">
+                    <div class="flex items-center gap-1 bg-purple-500/10 text-purple-300 border border-purple-500/20 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[140px] truncate">
                         <span>🎵</span><span class="truncate">${post.music.artist}</span>
                     </div>` : '';
 
                 let premiumAudioBarHtml = post.music ? `
                     <div class="px-4 py-2.5 bg-slate-950 text-white flex items-center justify-between border-b border-slate-900 select-none">
-                        <p id="audio-bar-text-${post.id}" class="text-[9px] font-black tracking-wider uppercase truncate max-w-[220px]">AUDIO MUTED</p>
-                        <button onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" id="audio-state-btn-${post.id}" class="bg-white/10 text-[9px] font-black px-3 py-1 rounded-md border border-white/10 hover:bg-white/20 transition">▶ STREAM AUDIO</button>
+                        <p id="audio-bar-text-${post.id}" class="text-[9px] font-black tracking-widest text-slate-400 uppercase truncate max-w-[220px]">AUDIO MUTED</p>
+                        <button onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" id="audio-state-btn-${post.id}" class="bg-indigo-600 text-[9px] font-black px-3 py-1 rounded-md hover:bg-indigo-700 transition">▶ STREAM AUDIO</button>
                     </div>
                 ` : '';
 
                 let mediaHtml = '';
                 let ghostClasses = post.isGhostPeek ? 'ghost-blurred' : '';
-                // Dynamic mouse/touch triggers mapping direct to state pipeline
                 let ghostEventHandlers = post.isGhostPeek ? `onmousedown="ghostPeekTrigger('img-${post.id}', true)" onmouseup="ghostPeekTrigger('img-${post.id}', false)" ontouchstart="ghostPeekTrigger('img-${post.id}', true)" ontouchend="ghostPeekTrigger('img-${post.id}', false)"` : '';
 
                 if(post.image) {
                     mediaHtml = `
-                        <div ${ghostEventHandlers} class="relative bg-slate-900 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer">
+                        <div ${ghostEventHandlers} class="relative bg-slate-950 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer border-b border-slate-800">
                             <img id="img-${post.id}" src="${post.image}" class="w-full h-auto object-cover ${ghostClasses}">
-                            ${post.isGhostPeek ? '<span class="absolute top-2 right-2 text-[9px] bg-black/60 text-white px-2 py-0.5 rounded font-black tracking-wider">🕵️‍♂️ HOLD TO PEEK</span>' : ''}
+                            ${post.isGhostPeek ? '<span class="absolute top-2 right-2 text-[9px] bg-black/70 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded font-black">🕵️‍♂️ HOLD TO VIEW</span>' : ''}
                         </div>
                     `;
                 } else if(post.music) {
-                    let diskImg = post.music.coverUrl ? `<img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover">` : `<div id="disk-${post.id}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-black text-xs">VINYL</div>`;
-                    
+                    let diskImg = post.music.coverUrl ? `<img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover">` : `<div id="disk-${post.id}" class="w-20 h-20 rounded-full border-4 border-slate-950 bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-black text-xs">VINYL</div>`;
                     mediaHtml = `
-                        <div class="relative bg-gradient-to-tr from-slate-900 via-indigo-950 to-purple-950 border-y border-slate-800 p-8 flex flex-col items-center justify-center text-center min-h-[180px]">
+                        <div class="relative bg-gradient-to-b from-slate-950 to-slate-900 border-b border-slate-800 p-8 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <div class="relative w-20 h-20 flex-shrink-0">${diskImg}</div>
-                            <span class="text-[9px] font-black text-indigo-400 tracking-widest mt-3 uppercase">🎨 Cyber Audio Vinyl Node Online</span>
                         </div>
                     `;
                 }
 
-                let luxurySliderHtml = post.isLuxurySlider ? `
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-b dark:border-slate-800 space-y-2">
-                        <p class="text-[10px] font-black text-slate-400 uppercase">💰 Secure Input Price Game</p>
-                        <div class="flex gap-2">
-                            <input type="number" id="luxury-input-${post.id}" placeholder="Type guess valuation amount..." class="w-full text-xs p-2.5 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none font-bold">
-                            <button onclick="verifyQuantumPriceInput('${post.id}', ${post.targetPrice})" class="bg-indigo-600 text-white font-black text-[10px] uppercase px-4 rounded-xl">Verify</button>
-                        </div>
-                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-400 mt-1">Submit valuation data to test node verification parameters.</div>
+                // DYNAMIC INSTAGRAM GLOWING LYRIC LAYER COMPONENT
+                let dynamicLyricsBoxHtml = (post.music && post.music.selectedLyrics) ? `
+                    <div id="lyrics-box-${post.id}" class="hidden p-4 bg-gradient-to-r from-purple-950/40 to-indigo-950/40 border-b border-slate-800/60 text-center animate-in slide-in-from-top-2 duration-300">
+                        <p class="text-xs font-extrabold text-purple-300 italic tracking-wide lyrics-glow-text">
+                            " ${post.music.selectedLyrics} "
+                        </p>
                     </div>
                 ` : '';
 
-                let deleteButtonHtml = (post.creatorOwnerTokenId === activeUser) ? `<button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-rose-500 transition px-2">Delete</button>` : '';
+                let luxurySliderHtml = post.isLuxurySlider ? `
+                    <div class="p-4 bg-slate-950/40 border-b border-slate-800/80 space-y-2">
+                        <p class="text-[10px] font-black text-indigo-400 uppercase tracking-wider">💰 Security Price Game Node</p>
+                        <div class="flex gap-2">
+                            <input type="number" id="luxury-input-${post.id}" placeholder="Type valuation guess parameter..." class="w-full text-xs p-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:outline-none text-white font-bold">
+                            <button onclick="verifyQuantumPriceInput('${post.id}', ${post.targetPrice})" class="bg-indigo-600 text-white font-black text-[10px] uppercase px-4 rounded-xl">Verify</button>
+                        </div>
+                        <div id="luxury-feed-${post.id}" class="text-[10px] font-bold text-slate-500 mt-1">Submit check values for cryptographic parameter check.</div>
+                    </div>
+                ` : '';
+
+                let deleteButtonHtml = (post.creatorOwnerTokenId === activeUser) ? `<button onclick="deletePost('${post.id}')" class="text-[11px] font-black text-slate-500 hover:text-rose-400 transition-all uppercase">✕ Delete</button>` : '';
 
                 card.innerHTML = `
-                    <div class="px-4 py-3 flex items-center justify-between border-b dark:border-slate-800 bg-white dark:bg-slate-900">
+                    <div class="px-4 py-3 flex items-center justify-between border-b border-slate-800/60 bg-slate-900">
                         <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center font-black text-xs text-white">@</div>
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-black text-xs text-white">@</div>
                             <div class="truncate text-left flex items-center gap-1.5">
-                                <h4 class="text-xs font-black truncate">@${post.userHandle}</h4>
+                                <h4 class="text-xs font-black text-white truncate">@${post.userHandle}</h4>
                                 ${audioBadgeHeader}
                             </div>
                         </div>
@@ -642,14 +622,15 @@
                     </div>
                     ${premiumAudioBarHtml}
                     ${mediaHtml}
+                    ${dynamicLyricsBoxHtml}
                     ${luxurySliderHtml}
-                    <div class="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
-                        <button onclick="registerBlindHype('${post.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] uppercase px-4 py-2 rounded-xl active:scale-95 transition shadow-sm">🚀 Hype</button>
-                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full">🔥 ${post.hypeCount || 0} Hypes</span>
+                    <div class="px-4 py-3 flex items-center justify-between bg-slate-950/40">
+                        <button onclick="registerBlindHype('${post.id}')" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black text-[10px] uppercase px-5 py-2 rounded-xl transition shadow-md">🚀 Hype</button>
+                        <span class="bg-slate-800 text-purple-400 text-[10px] font-black px-3 py-0.5 rounded-full border border-purple-500/10">🔥 ${post.hypeCount || 0} Hypes</span>
                     </div>
-                    <div class="px-4 py-3 text-xs font-medium leading-relaxed">
-                        <span class="font-black mr-2 uppercase tracking-tight">@${post.userHandle}</span><span>${post.caption}</span>
-                        ${post.isGlitchDestruct ? '<div class="text-[9px] text-amber-500 font-black mt-1 uppercase tracking-wider">💥 AUTO-GLITCH DESTRUCT ACTIVE (24H)</div>' : ''}
+                    <div class="px-4 py-3 text-xs font-medium leading-relaxed border-t border-slate-800/40">
+                        <span class="font-black mr-2 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 uppercase tracking-tight">@${post.userHandle}</span><span class="text-slate-300">${post.caption}</span>
+                        ${post.isGlitchDestruct ? '<div class="text-[9px] text-amber-500 font-black mt-1.5 uppercase tracking-wider">💥 AUTO-DESTRUCT ACTIVE (24H GRID WIPE)</div>' : ''}
                     </div>
                 `;
                 container.appendChild(card);
