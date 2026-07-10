@@ -18,27 +18,26 @@
     </script>
     <style>
         body { 
-            background: #fafafa;
+            background: #f8fafc;
             min-height: 100vh; 
         }
-        /* 🎵 Audio Synced Reactive RGB Border Canvas */
         @keyframes audioPulse {
-            0% { border-color: rgba(31, 41, 55, 0.3); box-shadow: 0 0 5px rgba(31, 41, 55, 0.1); }
-            50% { border-color: rgba(99, 102, 241, 0.8); box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
-            100% { border-color: rgba(31, 41, 55, 0.3); box-shadow: 0 0 5px rgba(31, 41, 55, 0.1); }
+            0% { border-color: rgba(15, 23, 42, 0.1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+            50% { border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
+            100% { border-color: rgba(15, 23, 42, 0.1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
         }
         .audio-active-card {
-            animation: audioPulse 1.8s infinite ease-in-out;
-            border-width: 2px !important;
+            animation: audioPulse 2s infinite ease-in-out;
+            border-width: 1px !important;
         }
         .music-spinning {
-            animation: spin 3.5s linear infinite;
+            animation: spin 4s linear infinite;
         }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .ghost-blurred {
-            filter: blur(30px) grayscale(50%);
-            transition: filter 0.2s ease;
+            filter: blur(25px) grayscale(30%);
+            transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .ghost-revealed {
             filter: blur(0px) grayscale(0%);
@@ -46,13 +45,13 @@
         
         .luxury-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            background: #111827;
+            background: #0f172a;
             border: 2px solid #ffffff;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
     </style>
 
@@ -63,8 +62,8 @@
 <body class="font-sans text-slate-900 antialiased">
 
     <!-- IDENTITY MODAL -->
-    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-slate-100">
             <h2 class="text-xl font-black tracking-tight text-slate-900 mb-1">Enter Core Timeline</h2>
             <p class="text-xs font-semibold text-slate-400 mb-6">Choose an identity handle to log into the feed network.</p>
             
@@ -79,7 +78,7 @@
     </div>
 
     <!-- MINIMALIST APP HEADER -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 py-3">
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-4 py-3.5">
         <div class="max-w-xl mx-auto flex items-center justify-between">
             <span class="font-black text-xl tracking-tighter text-slate-900 uppercase">Core Feed</span>
             <div class="flex items-center gap-3">
@@ -97,7 +96,7 @@
     </main>
 
     <!-- COMPOSER MODAL -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden my-auto border border-slate-100">
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                 <h3 class="font-black text-slate-800 text-sm tracking-tight">Compose Matrix Post</h3>
@@ -111,15 +110,30 @@
                               class="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 text-sm text-slate-800 focus:outline-none focus:border-slate-300 font-medium resize-none shadow-inner"></textarea>
                 </div>
                 
+                <!-- IMAGE ASSET SUITE WITH ASPECT CROP PRESET -->
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo Asset</label>
                     <div class="border-2 border-dashed border-slate-200 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/50">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
                         <p class="text-xs font-bold text-slate-500">📸 Tap to attach photo asset</p>
                         <p id="file-chosen-name" class="text-xs font-semibold text-slate-900 truncate mt-1"></p>
                     </div>
-                    <div id="image-preview-container" class="hidden mt-3 border border-slate-100 rounded-xl overflow-hidden bg-slate-50 max-h-40 flex items-center justify-center">
-                        <img id="modal-preview-img" src="" class="max-w-full max-h-40 object-contain">
+                    
+                    <!-- ADVANCED IMAGE PRESET CROP CONTROLLER -->
+                    <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between text-[11px] font-bold text-slate-600">
+                            <span>Select Crop Aspect Ratio:</span>
+                            <div class="flex gap-1.5" id="crop-ratio-selectors">
+                                <button type="button" onclick="setCropRatio('1/1')" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">1:1 Square</button>
+                                <button type="button" onclick="setCropRatio('4/5')" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]">4:5 Portrait</button>
+                                <button type="button" onclick="setCropRatio('16/9')" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]">16:9 Landscape</button>
+                            </div>
+                        </div>
+                        <div class="overflow-hidden rounded-lg bg-black flex items-center justify-center border border-slate-200">
+                            <div id="crop-preview-frame" class="w-full transition-all duration-200 overflow-hidden flex items-center justify-center bg-slate-900" style="aspect-ratio: 1/1;">
+                                <img id="modal-preview-img" src="" class="w-full h-full object-cover">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -211,10 +225,13 @@
         let tempPreviewAudioObj = null; 
         let currentInspectedTrackData = null; 
         let globalAudioInstances = {}; 
+        let selectedCropAspect = '1/1';
 
+        // REAL HIT COMMERCIAL SOUND TRACKS WITH ORIGINAL SINGERS
         const prebuiltTrendingSeeds = [
             {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
-            {trackName: "Mi Amor", artistName: "Nova & Sharn", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/95/92/7d/95927d6d-2d4e-fbbf-0840-7e181966a3d1/artwork.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/da/90/a6/da90a604-03c0-44be-629f-a89e09d17bd5/mzaf_6560467554988085273.plus.aac.p.m4a"}
+            {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"},
+            {trackName: "Case", artistName: "Diljit Dosanjh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/91/9f/61/919f61b0-466d-3171-cb86-2a66e409d949/859777596001_cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/e5/22/a9/e522a969-9524-cc33-d731-bf3f8e5610e2/mzaf_2441315579899120610.plus.aac.p.m4a"}
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -244,7 +261,7 @@
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         document.getElementById('modal-preview-img').src = e.target.result;
-                        document.getElementById('image-preview-container').classList.remove('hidden');
+                        document.getElementById('crop-suite-box').classList.remove('hidden');
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
@@ -266,10 +283,30 @@
                         const img = new Image();
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
-                            let width = img.width; let height = img.height;
-                            if (width > 700) { height *= 700 / width; width = 700; }
-                            canvas.width = width; canvas.height = height;
-                            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                            let targetWidth = 600;
+                            let targetHeight = 600;
+
+                            if (selectedCropAspect === '4/5') { targetHeight = 750; }
+                            else if (selectedCropAspect === '16/9') { targetHeight = 337; }
+
+                            canvas.width = targetWidth;
+                            canvas.height = targetHeight;
+                            
+                            const ctx = canvas.getContext('2d');
+                            // Proportional object cover canvas mapping engine
+                            let imgRatio = img.width / img.height;
+                            let targetRatio = targetWidth / targetHeight;
+                            let sx = 0, sy = 0, sw = img.width, sh = img.height;
+
+                            if (imgRatio > targetRatio) {
+                                sw = img.height * targetRatio;
+                                sx = (img.width - sw) / 2;
+                            } else {
+                                sh = img.width / targetRatio;
+                                sy = (img.height - sh) / 2;
+                            }
+
+                            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
                             saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.8), isSlider, correctPrice, isGlitch, isGhost);
                         };
                         img.src = event.target.result;
@@ -282,6 +319,18 @@
 
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
         });
+
+        function setCropRatio(ratioStr) {
+            selectedCropAspect = ratioStr;
+            const frame = document.getElementById('crop-preview-frame');
+            frame.style.aspectRatio = ratioStr;
+            
+            const btns = document.querySelectorAll('#crop-ratio-selectors button');
+            btns.forEach(b => {
+                b.className = "bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]";
+            });
+            event.target.className = "bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]";
+        }
 
         function evaluateUserSession() {
             if(!activeUser) {
@@ -324,7 +373,7 @@
         function searchSongs() {
             const query = document.getElementById('music-search-input').value.trim();
             if(!query) return populateInitialTrendingMusic(prebuiltTrendingSeeds);
-            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=3`)
+            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=4`)
                 .then(res => res.json())
                 .then(data => {
                     populateInitialTrendingMusic(data.results.map(t => ({
@@ -333,11 +382,8 @@
                 });
         }
 
-        // PLAY PREVIEW ON CLICK TO TEST AUDIO BEFORE LOCKING IT
         function launchLiveTrackPreview(track) {
-            if(tempPreviewAudioObj) {
-                tempPreviewAudioObj.pause();
-            }
+            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
             currentInspectedTrackData = track;
             
             tempPreviewAudioObj = new Audio(track.previewUrl);
@@ -361,9 +407,7 @@
 
         function lockPreviewedTrack() {
             if(!currentInspectedTrackData) return;
-            if(tempPreviewAudioObj) {
-                tempPreviewAudioObj.pause();
-            }
+            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
             
             chosenMusicTrack = {
                 title: currentInspectedTrackData.trackName, artist: currentInspectedTrackData.artistName,
@@ -386,7 +430,7 @@
             if(tempPreviewAudioObj) tempPreviewAudioObj.pause();
             document.getElementById('post-modal').classList.add('hidden');
             document.getElementById('post-form').reset();
-            document.getElementById('image-preview-container').classList.add('hidden');
+            document.getElementById('crop-suite-box').classList.add('hidden');
             document.getElementById('preview-control-zone').classList.add('hidden');
             removeSelectedMusic();
         }
@@ -403,38 +447,46 @@
                 isLuxurySlider: isSlider,
                 targetPrice: parseInt(correctPrice) || 0,
                 isGlitchDestruct: isGlitch,
-                isGhostPeek: isGhost
+                isGhostPeek: isGhost,
+                hypedByUsers: {}
             }).then(() => { closeModal(); });
         }
 
+        // PREMIUM INTEGRATED AUDIO CONTROL BAR MANAGEMENT
         function triggerAudioToggle(postId, audioUrl) {
             const cardFrame = document.getElementById(`card-${postId}`);
             const diskEl = document.getElementById(`disk-${postId}`);
-            const iconState = document.getElementById(`state-icon-${postId}`);
+            const controlBarText = document.getElementById(`audio-bar-text-${postId}`);
+            const stateBtn = document.getElementById(`audio-state-btn-${postId}`);
             
             if (globalAudioInstances[postId]) {
                 if (globalAudioInstances[postId].paused) {
                     globalAudioInstances[postId].play();
                     if(diskEl) diskEl.classList.add('music-spinning');
                     cardFrame.classList.add('audio-active-card');
-                    iconState.innerHTML = `🔊`;
+                    stateBtn.innerHTML = "⏸ PAUSE";
+                    controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
                 } else {
                     globalAudioInstances[postId].pause();
                     if(diskEl) diskEl.classList.remove('music-spinning');
                     cardFrame.classList.remove('audio-active-card');
-                    iconState.innerHTML = `🔇`;
+                    stateBtn.innerHTML = "▶ STREAM AUDIO";
+                    controlBarText.innerText = "AUDIO MUTED";
                 }
                 return;
             }
 
+            // Kill external streams
             Object.keys(globalAudioInstances).forEach(k => {
                 globalAudioInstances[k].pause();
                 const cf = document.getElementById(`card-${k}`);
                 const d = document.getElementById(`disk-${k}`);
-                const s = document.getElementById(`state-icon-${k}`);
+                const s = document.getElementById(`audio-state-btn-${k}`);
+                const t = document.getElementById(`audio-bar-text-${k}`);
                 if(cf) cf.classList.remove('audio-active-card');
                 if(d) d.classList.remove('music-spinning');
-                if(s) s.innerHTML = `🔇`;
+                if(s) s.innerHTML = "▶ STREAM AUDIO";
+                if(t) t.innerText = "AUDIO MUTED";
             });
 
             const audioObj = new Audio(audioUrl);
@@ -444,38 +496,47 @@
             
             if(diskEl) diskEl.classList.add('music-spinning');
             cardFrame.classList.add('audio-active-card');
-            iconState.innerHTML = `🔊`;
+            stateBtn.innerHTML = "⏸ PAUSE";
+            controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
         }
 
-        // FEATURE 1: HYPE BUTTON
-        function registerBlindHype(postId, currentHype) {
-            const updated = (currentHype || 0) + 1;
-            database.ref('posts/' + postId).update({ hypeCount: updated });
+        // REALISTIC UNIQUE INDIVIDUAL HYPE SYSTEM
+        function registerBlindHype(postId) {
+            const currentPost = posts.find(p => p.id === postId);
+            if (!currentPost) return;
+
+            if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) {
+                alert("You have already verified your hype allotment on this track asset! Limit: 1");
+                return;
+            }
+
+            const updatedCount = (currentPost.hypeCount || 0) + 1;
             
-            const particles = ['🔥', '⚡', '🚀', '💥'];
+            database.ref(`posts/${postId}/hypedByUsers/${activeUser}`).set(true);
+            database.ref(`posts/${postId}`).update({ hypeCount: updatedCount });
+            
+            const particles = ['⚡', '🚀', '🔥', '💎'];
             const rand = particles[Math.floor(Math.random() * particles.length)];
             const blast = document.createElement('div');
-            blast.className = 'fixed text-2xl pointer-events-none z-50 animate-bounce';
-            blast.style.left = (window.innerWidth / 2) + (Math.random() * 60 - 30) + 'px';
-            blast.style.top = (window.innerHeight / 2) + (Math.random() * 60 - 30) + 'px';
+            blast.className = 'fixed text-3xl pointer-events-none z-50 animate-ping';
+            blast.style.left = (window.innerWidth / 2) + 'px';
+            blast.style.top = (window.innerHeight / 2) + 'px';
             blast.innerText = rand;
             document.body.appendChild(blast);
-            setTimeout(() => blast.remove(), 800);
+            setTimeout(() => blast.remove(), 1000);
         }
 
-        // FEATURE 2: PRICE GUESS
         function checkLuxuryGuess(postId, val, correctVal) {
             const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
             feedbackEl.innerText = `Your Guess: ₹${val}`;
             if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 CORRECT GUESS! 💎`;
-                feedbackEl.className = "text-xs font-black text-emerald-600 mt-1 animate-pulse";
+                feedbackEl.innerText = `💎 MATCH DETECTED! VERIFIED COST TARGET CORRESPONDENCE! 💎`;
+                feedbackEl.className = "text-[11px] font-black text-emerald-600 mt-1 animate-pulse";
             } else {
                 feedbackEl.className = "text-[11px] font-bold text-slate-500 mt-1";
             }
         }
 
-        // FEATURE 4: TAP TO BLUR REVEALER
         function ghostPeekTrigger(imgId, reveal) {
             const img = document.getElementById(imgId);
             if(!img) return;
@@ -489,7 +550,7 @@
         }
 
         function deletePost(postId) {
-            if(confirm("Delete this post?")) {
+            if(confirm("Delete this post permanently?")) {
                 if(globalAudioInstances[postId]) globalAudioInstances[postId].pause();
                 database.ref('posts/' + postId).remove();
             }
@@ -507,20 +568,27 @@
             posts.forEach(post => {
                 const card = document.createElement('div');
                 card.id = `card-${post.id}`;
-                card.className = 'bg-white rounded-3xl border border-slate-200 overflow-hidden text-left relative transition-all duration-300';
+                card.className = 'bg-white rounded-3xl border border-slate-200 overflow-hidden text-left relative transition-all duration-300 shadow-sm hover:shadow-md';
                 
                 let audioBadgeHeader = post.music ? `
-                    <div class="flex items-center gap-1.5 bg-slate-100 text-slate-700 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[200px] truncate">
-                        <span>🎵</span><span class="truncate">${post.music.title}</span>
+                    <div class="flex items-center gap-1 bg-slate-100 text-slate-700 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[160px] truncate">
+                        <span>🎵</span><span class="truncate">${post.music.artist}</span>
                     </div>` : '';
 
-                let cornerAudioTriggerHtml = post.music ? `
-                    <div class="absolute bottom-3 right-3 z-10">
+                // PREMIUM RE-ENGINEERED AUDIO CONTROLLER BAR INTERFACE
+                let premiumAudioBarHtml = post.music ? `
+                    <div class="px-4 py-2.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-950 select-none">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            <p id="audio-bar-text-${post.id}" class="text-[10px] font-black tracking-wider uppercase truncate max-w-[240px]">AUDIO MUTED</p>
+                        </div>
                         <button onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" 
-                                class="w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center text-xs backdrop-blur-sm shadow-md">
-                            <span id="state-icon-${post.id}">🔇</span>
+                                id="audio-state-btn-${post.id}" 
+                                class="bg-white/10 hover:bg-white/20 active:scale-95 transition text-[9px] font-black tracking-widest px-3 py-1 rounded-md border border-white/10">
+                            ▶ STREAM AUDIO
                         </button>
-                    </div>` : '';
+                    </div>
+                ` : '';
 
                 let mediaHtml = '';
                 let ghostClasses = post.isGhostPeek ? 'ghost-blurred' : '';
@@ -529,23 +597,21 @@
 
                 if(post.image) {
                     mediaHtml = `
-                        <div ${ghostEventHandlers} class="relative bg-slate-50 border-y border-slate-100 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer">
-                            <img id="img-${post.id}" src="${post.image}" class="w-full h-auto object-cover max-h-[500px] ${ghostClasses}">
-                            ${post.isGhostPeek ? '<div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-[9px] font-black tracking-widest text-white px-2.5 py-1 rounded-md uppercase pointer-events-none">🕵️‍♂️ Tap & Hold to View</div>' : ''}
-                            ${cornerAudioTriggerHtml}
+                        <div ${ghostEventHandlers} class="relative bg-slate-900 border-y border-slate-100 flex items-center justify-center w-full overflow-hidden select-none cursor-pointer">
+                            <img id="img-${post.id}" src="${post.image}" class="w-full h-auto object-cover ${ghostClasses}">
+                            ${post.isGhostPeek ? '<div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-sm text-[9px] font-black tracking-widest text-white px-2.5 py-1 rounded-md uppercase pointer-events-none">🕵️‍♂️ Tap & Hold to View Image</div>' : ''}
                         </div>
                     `;
                 } else if(post.music) {
                     mediaHtml = `
-                        <div class="relative bg-gradient-to-b from-slate-50 to-slate-100 border-y border-slate-200 p-8 flex flex-col items-center justify-center text-center min-h-[180px]">
-                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-2 border-white shadow-xl object-cover">
-                            ${cornerAudioTriggerHtml}
+                        <div class="relative bg-gradient-to-b from-slate-50 to-slate-100 border-y border-slate-200 p-8 flex flex-col items-center justify-center text-center min-h-[160px]">
+                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-white shadow-xl object-cover">
                         </div>
                     `;
                 }
 
                 let luxurySliderHtml = post.isLuxurySlider ? `
-                    <div class="p-4 bg-slate-50/80 border-b border-slate-100">
+                    <div class="p-4 bg-slate-50 border-b border-slate-100">
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">💰 Price Guess Game</p>
                         <input type="range" min="0" max="5000" value="0" step="50" 
                                oninput="checkLuxuryGuess('${post.id}', this.value, ${post.targetPrice})" 
@@ -555,11 +621,11 @@
                 ` : '';
 
                 let hypeCounterDisplay = (post.hypeCount >= 50) ? 
-                    `<span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2 py-0.5 rounded-full">🔥 ${post.hypeCount} Hype</span>` : 
-                    `<span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded-full">🤫 Active</span>`;
+                    `<span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">🔥 ${post.hypeCount} Hypes</span>` : 
+                    `<span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2.5 py-0.5 rounded-full">🤫 Active Feed</span>`;
 
                 let deleteButtonHtml = (post.creatorOwnerTokenId === activeUser || activeUser === MASTER_ADMIN_KEY) ? 
-                    `<button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-red-500 transition px-2">Delete</button>` : '';
+                    `<button onclick="deletePost('${post.id}')" class="text-xs font-bold text-slate-300 hover:text-rose-500 transition px-2">Delete</button>` : '';
 
                 card.innerHTML = `
                     <div class="px-4 py-3 flex items-center justify-between border-b border-slate-100 bg-white">
@@ -573,11 +639,12 @@
                         ${deleteButtonHtml}
                     </div>
                     
+                    ${premiumAudioBarHtml}
                     ${mediaHtml}
                     ${luxurySliderHtml}
                     
                     <div class="px-4 py-3 flex items-center justify-between border-b border-slate-50 bg-slate-50/20">
-                        <button onclick="registerBlindHype('${post.id}', ${post.hypeCount || 0})" class="bg-slate-900 text-white font-black text-[10px] uppercase px-4 py-2 rounded-xl hover:opacity-90 transition shadow-sm">
+                        <button onclick="registerBlindHype('${post.id}')" class="bg-slate-900 hover:bg-black text-white font-black text-[10px] uppercase px-4 py-2 rounded-xl active:scale-95 transition shadow-sm">
                             🚀 Hype This
                         </button>
                         <div class="flex items-center gap-2">
