@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIVARYA_CORE v3.0 Ultra // Anivarya Bajpai</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANIVARYA_CORE // Global Supreme Protocol v6.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { 
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif']
+                        cyber: ['Orbitron', 'sans-serif']
                     }
                 }
             }
@@ -21,280 +20,300 @@
     </script>
     <style>
         body { 
-            background: radial-gradient(70% 70% at top center, #ffffff 0%, #fbfcfe 60%, #f3f7fa 100%);
-            min-height: 100vh; 
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #02040a;
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-        body.dark {
-            background: radial-gradient(80% 80% at top center, #090d16 0%, #020408 100%);
-            color: #f1f5f9;
+        
+        /* Kinetic Glitch Screen Shaker */
+        @keyframes screenPulse {
+            0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+            20% { transform: scale(0.98) rotate(-0.5deg); filter: contrast(1.3); }
+            40% { transform: scale(1.02) rotate(0.5deg); }
+            60% { transform: scale(0.99) rotate(-0.2deg); }
+            100% { transform: scale(1) rotate(0deg); filter: hue-rotate(360deg); }
         }
-        @keyframes luxuryWave {
+        .pulse-trigger { animation: screenPulse 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+
+        /* Volcanic Particle Fire Overlay */
+        .fire-streak {
+            position: relative;
+            box-shadow: 0 0 40px #ff3e3e, inset 0 0 20px #ff0055;
+            background: linear-gradient(135deg, #0f111a 0%, #1a0505 100%);
+        }
+        .fire-streak::after {
+            content: ''; position: absolute; inset: -2px;
+            background: linear-gradient(90deg, #ff0055, #ff7700, #ff0055);
+            border-radius: 32px; z-index: -1;
+            animation: borderFlow 2s linear infinite;
+        }
+        @keyframes borderFlow {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
-        .lighting-name {
-            background: linear-gradient(90deg, #2563eb, #db2777, #ea580c, #2563eb);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: luxuryWave 4s linear infinite;
+
+        /* 3D Parallax Depth Card Effect */
+        .cyber-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.2s ease;
         }
-        .aura-active .aura-ring {
-            background: linear-gradient(45deg, #ff0055, #00ffcc, #ffcc00, #ff0055);
-            background-size: 400% 400%;
-            animation: luxuryWave 2s linear infinite;
-            box-shadow: 0 0 40px rgba(0, 255, 204, 0.6);
+
+        .active-tab {
+            background: #ff0055 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
         }
-        .aura-ring {
-            background: linear-gradient(45deg, #ffd700, #ff007f, #3b82f6, #ffd700);
-            background-size: 400% 400%;
-            animation: luxuryWave 4s linear infinite;
-            transition: all 0.4s ease;
-        }
-        @keyframes fireGlow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.7)); }
-            50% { filter: drop-shadow(0 0 30px rgba(234, 88, 12, 0.9)); }
-        }
-        .aura-active .fire-avatar {
-            animation: fireGlow 1.5s infinite alternate;
-        }
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.25); }
-            100% { transform: scale(1); }
-        }
-        .pop-active { animation: pop 0.3s ease-in-out; }
     </style>
 </head>
-<body class="font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white transition-colors duration-300">
+<body class="font-sans antialiased pb-24 selection:bg-red-600">
 
-    <!-- TOP NAVIGATION BAR (BRAND NAME UPDATED TO ANIVARYA_CORE) -->
-    <nav class="sticky top-0 z-50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800 px-6 py-4">
-        <div class="max-w-2xl mx-auto flex items-center justify-between">
-            <span class="font-display font-black text-xl tracking-tighter dark:text-white">⚡ ANIVARYA_<span class="text-blue-600">CORE</span></span>
-            
-            <div class="flex items-center gap-3">
-                <button onclick="toggleGodAura()" class="bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-xl shadow-md hover:from-red-600 hover:to-orange-600 transition active:scale-95">
-                    🔥 Toggle Aura
-                </button>
-                <button onclick="toggleTheme()" class="bg-slate-100 dark:bg-slate-800 p-2.5 rounded-xl text-xs transition">🌓</button>
-                <div id="auth-status-bar" class="text-xs font-bold text-slate-600 dark:text-slate-300"></div>
+    <!-- MASTER HUD NAVIGATION -->
+    <nav class="sticky top-0 z-50 bg-[#02040a]/90 backdrop-blur-2xl border-b border-zinc-900 px-4 py-4">
+        <div class="max-w-xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
+                <span class="font-cyber font-black text-xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-500 to-yellow-400">ANIVARYA_CORE</span>
             </div>
+            <div id="auth-status-bar" class="text-[10px] font-mono text-zinc-500"></div>
         </div>
     </nav>
 
-    <!-- AUTOMATED ACCOUNT GATEWAY -->
-    <div id="auth-container" class="max-w-2xl mx-auto px-4 pt-6 hidden">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 rounded-3xl shadow-xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="auth-title" class="font-display font-bold text-sm tracking-wide dark:text-white uppercase text-slate-400">Secure Network Access</h3>
-                <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-blue-600 dark:text-blue-400 font-bold underline">Switch to Register</button>
+    <!-- GATEWAY INITIALIZER -->
+    <div id="auth-container" class="max-w-xl mx-auto px-4 pt-4 hidden">
+        <div class="bg-zinc-950 border border-zinc-900 p-5 rounded-[24px]">
+            <div class="flex justify-between items-center mb-3">
+                <h3 id="auth-title" class="text-[9px] font-cyber text-zinc-500 tracking-widest">QUANTUM LINK GATEWAY</h3>
+                <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-red-500 font-bold underline">Create Node</button>
             </div>
-            <form id="auth-form" class="space-y-4">
-                <input type="text" id="auth-user" required placeholder="Choose Unique Profile Username ID" class="w-full p-3 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-sm outline-none font-medium bg-transparent">
-                <input type="password" id="auth-pass" required placeholder="Enter Private Access Key Passtoken" class="w-full p-3 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-sm outline-none font-medium bg-transparent">
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-blue-700 transition">Initialize Digital Stream</button>
+            <form id="auth-form" class="space-y-3">
+                <input type="text" id="auth-user" required placeholder="Network Handle ID Token" class="w-full p-3 rounded-xl border border-zinc-900 bg-black text-xs text-white outline-none focus:border-red-600 transition">
+                <input type="password" id="auth-pass" required placeholder="Access Crypt Key" class="w-full p-3 rounded-xl border border-zinc-900 bg-black text-xs text-white outline-none focus:border-red-600 transition">
+                <button type="submit" class="w-full bg-red-600 text-white font-cyber font-black py-3 rounded-xl text-xs tracking-widest">CONNECT DEVICE</button>
             </form>
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE HUB -->
-    <div id="main-platform-space">
-        <!-- CHIEF OWNER BANNER ARCHITECTURE -->
-        <header id="hero-header" class="max-w-2xl mx-auto pt-8 px-4 transition-all duration-300">
-            <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left mb-8">
-                <div class="relative w-28 h-28 shrink-0 fire-avatar">
-                    <div class="absolute inset-0 aura-ring rounded-full p-[3px] shadow-xl">
-                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-full overflow-hidden p-[2px]">
-                            <img src="https://i.imgur.com/W29FclD.png" alt="Anivarya Bajpai" class="w-full h-full object-cover rounded-full">
+    <!-- MAIN SUPREME MATRIX ENGINE FRAMEWORK -->
+    <main class="max-w-xl mx-auto px-3 pt-4">
+        
+        <!-- MODULE 1: INTERACTION AND POST STREAM -->
+        <div id="view-feed" class="space-y-4">
+            
+            <!-- OVERLORD HERO BRAND PROFILE -->
+            <div class="fire-streak rounded-[32px] p-6 relative overflow-hidden">
+                <div class="flex items-center gap-4 relative z-10">
+                    <div class="w-20 h-20 shrink-0 rounded-full border-2 border-red-500 p-1 bg-black">
+                        <img src="https://i.imgur.com/W29FclD.png" alt="Anivarya" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-2xl font-cyber font-black tracking-tight text-white">Anivarya Bajpai</h2>
+                            <span class="w-4 h-4 bg-red-600 text-white text-[8px] font-bold flex items-center justify-center rounded-md">⚡</span>
+                        </div>
+                        <p class="text-[9px] font-mono text-zinc-400 uppercase tracking-widest">PLATFORM OVERLORD & CORE INJECTOR</p>
+                        <div class="flex gap-2 pt-1">
+                            <span class="bg-black/80 text-[8px] font-bold px-2 py-1 rounded-md text-orange-500 border border-orange-500/20">🏏 OVERLORD STATUS</span>
+                            <span class="bg-black/80 text-[8px] font-bold px-2 py-1 rounded-md text-red-500 border border-red-500/20">🔥 OVERDRIVE 999+</span>
                         </div>
                     </div>
-                    <span class="absolute -bottom-1 -right-1 bg-red-600 text-[8px] text-white font-black px-2 py-0.5 rounded-full border-2 border-white dark:border-slate-950 tracking-widest shadow-md animate-bounce">GOD</span>
-                </div>
-                
-                <div class="space-y-1.5">
-                    <div class="flex items-center justify-center sm:justify-start gap-2">
-                        <h1 class="text-4xl font-display font-black tracking-tight uppercase leading-none lighting-name">
-                            Anivarya Bajpai
-                        </h1>
-                        <span class="w-5 h-5 bg-blue-600 rounded-full text-white text-[10px] font-bold flex items-center justify-center shadow shadow-blue-400" title="System Architect Verified Account">✓</span>
-                    </div>
-                    <p class="text-xs font-bold text-slate-400 dark:text-slate-500 tracking-wide">FOUNDER // CHIEF NETWORK ARCHITECT</p>
-                    <div class="flex flex-wrap justify-center sm:justify-start gap-2 pt-1">
-                        <span class="bg-slate-900 text-white dark:bg-slate-800 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">🎂 14 Years Old</span>
-                        <span class="bg-red-600 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">🏏 Born To Bleed Red // RCB</span>
-                        <span class="bg-amber-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">⚡ VK_18 Fanatic</span>
-                    </div>
                 </div>
             </div>
-        </header>
 
-        <!-- DATA MATRIX COUNTERS ANALYTICS -->
-        <section class="max-w-2xl mx-auto px-4 mb-8">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm grid grid-cols-3 gap-4 text-center">
-                <div>
-                    <span id="stat-accounts" class="block text-2xl font-display font-black text-slate-900 dark:text-white">0</span>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Global Users</span>
-                </div>
-                <div>
-                    <span id="stat-posts" class="block text-2xl font-display font-black text-blue-600">0</span>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Network Nodes</span>
-                </div>
-                <div>
-                    <span id="stat-likes" class="block text-2xl font-display font-black text-emerald-500">0</span>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total Reactions</span>
-                </div>
+            <!-- TERMINAL ACTIONS CONTROLLER -->
+            <div class="flex justify-between items-center bg-zinc-950 p-2 rounded-2xl border border-zinc-900">
+                <span class="text-[9px] font-mono text-zinc-500 pl-2">QUANTUM DATA PIPELINE ACCELERATED</span>
+                <button onclick="openModal()" class="bg-red-600 text-white font-cyber font-black text-[9px] tracking-wider px-4 py-2.5 rounded-xl shadow-lg shadow-red-600/20">+ CAST CAPSULED ARTIFACT</button>
             </div>
-        </section>
 
-        <!-- SECURE SYSTEM LIVE MESSENGER LOG CONSOLE -->
-        <section class="max-w-2xl mx-auto px-4 mb-8">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
-                <h3 class="font-display font-bold text-xs uppercase tracking-widest text-slate-400 mb-3">💬 Live Secure Global Node Chat</h3>
-                <div id="chat-box" class="h-32 overflow-y-auto border dark:border-slate-800 rounded-xl p-3 text-xs space-y-2 bg-slate-50/50 dark:bg-slate-950/40 font-medium mb-3"></div>
-                <form id="chat-form" class="flex gap-2">
-                    <input type="text" id="chat-msg" required placeholder="Transmit terminal packet signal logs..." class="flex-1 p-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-xs font-medium outline-none bg-transparent">
-                    <button type="submit" class="bg-slate-900 dark:bg-slate-800 dark:text-white text-xs font-bold px-4 rounded-xl hover:bg-slate-800 transition">Send</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- FEED FLOW STREAM PIPELINE AND FILTERS -->
-        <div class="max-w-2xl mx-auto px-4 mb-6 flex justify-between items-center">
-            <div class="flex gap-2">
-                <button onclick="setFilter('all')" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800" id="filter-all">All</button>
-                <button onclick="setFilter('media')" class="text-xs font-bold px-3 py-1.5 rounded-xl text-slate-400" id="filter-media">Images Only</button>
-            </div>
-            <button onclick="openModal()" class="bg-blue-600 text-white font-bold text-xs uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg shadow-blue-500/10 hover:bg-blue-700 transition">+ Broadcast Node</button>
+            <!-- FEED TRANSMISSIONS PIPELINE -->
+            <div id="feed-container" class="space-y-4"></div>
         </div>
 
-        <main class="max-w-2xl mx-auto px-4 pb-16">
-            <div id="feed-container" class="space-y-6"></div>
-        </main>
-    </div>
+        <!-- MODULE 2: LIVE LOG ENCRYPTED CHAT MATRIX -->
+        <div id="view-chat" class="space-y-4 hidden">
+            <div class="bg-zinc-950 border border-zinc-900 rounded-[24px] p-4">
+                <div id="chat-box" class="h-[55vh] overflow-y-auto bg-black border border-zinc-900 rounded-xl p-4 text-xs font-mono space-y-3 text-zinc-400"></div>
+                <form id="chat-form" class="flex gap-2 mt-3">
+                    <input type="text" id="chat-msg" required placeholder="Inject terminal command line packet..." class="flex-1 bg-black border border-zinc-900 p-3 rounded-xl text-xs outline-none text-white focus:border-red-600">
+                    <button type="submit" class="bg-red-600 text-white text-xs font-cyber px-4 rounded-xl">PUSH</button>
+                </form>
+            </div>
+        </div>
 
-    <!-- MODAL POST ENTRY -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md border dark:border-slate-800 shadow-2xl overflow-hidden">
-            <div class="px-5 py-4 border-b dark:border-slate-800 flex items-center justify-between">
-                <h3 class="font-display font-bold text-sm tracking-wider uppercase dark:text-white">Inject Node Matrix</h3>
-                <button onclick="closeModal()" class="text-slate-400 font-bold text-xs">Close</button>
+        <!-- MODULE 3: SYSTEM HARDWARE PROCESSING HUD -->
+        <div id="view-hud" class="space-y-4 hidden">
+            <div class="bg-zinc-950 border border-zinc-900 rounded-[28px] p-5 space-y-4 text-center">
+                <h3 class="font-cyber text-xs tracking-widest text-zinc-500">DYNAMIC SYSTEMS CORE METRICS</h3>
+                
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-black p-4 rounded-xl border border-zinc-900">
+                        <span id="stat-accounts" class="block text-2xl font-cyber text-white">0</span>
+                        <span class="text-[8px] font-mono text-zinc-600 uppercase">Linked Nodes</span>
+                    </div>
+                    <div class="bg-black p-4 rounded-xl border border-zinc-900">
+                        <span id="stat-posts" class="block text-2xl font-cyber text-red-500">0</span>
+                        <span class="text-[8px] font-mono text-zinc-600 uppercase">Casts</span>
+                    </div>
+                    <div class="bg-black p-4 rounded-xl border border-zinc-900">
+                        <span id="stat-likes" class="block text-2xl font-cyber text-orange-500">0</span>
+                        <span class="text-[8px] font-mono text-zinc-600 uppercase">Flux Core</span>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-zinc-900 rounded-xl p-4 text-left font-mono text-[9px] text-zinc-500 space-y-1">
+                    <div class="text-red-500 font-cyber font-bold">// CORE MEMORY DATA INJECTION LOGS:</div>
+                    <div>&gt; Array compilation indexing sequence verified.</div>
+                    <div>&gt; Sync speed processing variable set to maximum overdrive.</div>
+                    <div>&gt; Latency connection buffer state: <span class="text-green-500 font-bold">100% STABLE</span></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FLOATING COMPILATION TRANS-MODAL -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-zinc-950 border border-zinc-900 rounded-[28px] w-full max-w-sm shadow-2xl overflow-hidden">
+            <div class="px-5 py-4 border-b border-zinc-900 flex items-center justify-between">
+                <h3 class="font-cyber text-xs tracking-wider uppercase text-white">Inject Transmission Capsule</h3>
+                <button onclick="closeModal()" class="text-zinc-600 hover:text-white text-xs font-bold">✕</button>
             </div>
             <form id="post-form" class="p-5 space-y-4">
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Select Current Dynamic Mood Tag</label>
-                    <select id="post-mood" class="w-full p-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 outline-none bg-transparent">
-                        <option value="👑 King Mode">👑 King Mode</option>
-                        <option value="🏏 Bleeding Red">🏏 Bleeding Red</option>
-                        <option value="⚡ Coding Beast">⚡ Coding Beast</option>
-                        <option value="🎯 Pure Focus">🎯 Pure Focus</option>
-                        <option value="🚀 Global Vibe">🚀 Global Vibe</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Broadcast Logs Capsule</label>
-                    <textarea id="post-caption" required rows="3" placeholder="Enter broadcast logs text..." class="w-full rounded-2xl border dark:bg-slate-800 dark:border-slate-700 p-3.5 text-sm outline-none font-medium bg-transparent"></textarea>
-                </div>
-                <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-4 text-center cursor-pointer relative">
+                <input type="text" id="post-mood" value="👑 OVERLORD MODE" class="w-full p-3 rounded-xl bg-black border border-zinc-900 text-xs font-cyber text-red-500 outline-none" placeholder="Set Status Tag Vibe">
+                <textarea id="post-caption" required rows="3" placeholder="Write dynamic secure data block packet..." class="w-full bg-black rounded-xl border border-zinc-900 p-3 text-xs outline-none text-white font-medium"></textarea>
+                <div class="border-2 border-dashed border-zinc-900 rounded-xl p-4 text-center cursor-pointer relative bg-black hover:border-red-600 transition">
                     <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                    <p class="text-xs font-bold text-slate-500">📸 Attach System Media File Image</p>
-                    <p id="file-chosen-name" class="text-xs font-semibold text-blue-600 truncate mt-1"></p>
+                    <p class="text-[10px] font-bold text-zinc-500">📸 Attach Matrix Media Byte</p>
+                    <p id="file-chosen-name" class="text-xs font-semibold text-red-500 truncate mt-1"></p>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold text-xs uppercase py-3.5 rounded-xl shadow-md">Publish Network Packet</button>
+                <button type="submit" class="w-full bg-red-600 text-white font-cyber py-3 rounded-xl text-xs tracking-widest">INJECT ENGINE PORT</button>
             </form>
         </div>
     </div>
 
-    <!-- DATA STREAM FOOTER BRANDING UPDATED -->
-    <footer class="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md text-slate-400 text-[10px] py-1.5 px-4 font-mono flex justify-between items-center z-40 border-t border-slate-800">
-        <div>ANIVARYA_CORE ACCESS SYNC // ACTIVE DATA STREAM</div>
-        <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            <span>SYSTEM STATUS: <b id="ping-rate">24ms</b></span>
+    <!-- HIGH-END MOBILE HARDWARE SEAMLESS DOCK -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 bg-[#02040a]/95 backdrop-blur-2xl border-t border-zinc-900 px-4 py-3 max-w-sm mx-auto rounded-t-[24px]">
+        <div class="flex justify-around items-center">
+            <button onclick="switchEngineTab('feed')" id="btn-feed" class="active-tab flex flex-col items-center justify-center w-14 h-12 bg-zinc-900 rounded-xl text-zinc-500 transition-all border border-transparent">
+                <span class="text-sm">⚡</span>
+                <span class="text-[8px] font-cyber tracking-tighter uppercase mt-0.5">Stream</span>
+            </button>
+            <button onclick="switchEngineTab('chat')" id="btn-chat" class="flex flex-col items-center justify-center w-14 h-12 bg-zinc-900 rounded-xl text-zinc-500 transition-all border border-transparent">
+                <span class="text-sm">👁️</span>
+                <span class="text-[8px] font-cyber tracking-tighter uppercase mt-0.5">Network</span>
+            </button>
+            <button onclick="switchEngineTab('hud')" id="btn-hud" class="flex flex-col items-center justify-center w-14 h-12 bg-zinc-900 rounded-xl text-zinc-500 transition-all border border-transparent">
+                <span class="text-sm">⛓️</span>
+                <span class="text-[8px] font-cyber tracking-tighter uppercase mt-0.5">Metrics</span>
+            </button>
         </div>
-    </footer>
+    </div>
 
-    <!-- ENGINE PLATFORM CORE JAVASCRIPT CONTROLLERS -->
+    <!-- ARCHITECTURE CONTROLLER LOGIC -->
     <script>
         let db = { users: {}, posts: [], messages: [] };
         let currentUser = null;
-        let currentFilter = 'all';
 
         window.addEventListener('DOMContentLoaded', () => {
             initDatabase();
-            setupSystemListeners();
-            setInterval(() => {
-                document.getElementById('ping-rate').innerText = Math.floor(Math.random() * (35 - 12) + 12) + 'ms';
-            }, 3000);
+            setupInteractions();
         });
 
-        function toggleTheme() { document.body.classList.toggle('dark'); }
-        function toggleGodAura() { document.body.classList.toggle('aura-active'); }
+        // 3D PARALLAX GYRO MOUSE/TILT ENGINE
+        function triggerHapticPulseEffect() {
+            document.body.classList.add('pulse-trigger');
+            setTimeout(() => document.body.classList.remove('pulse-trigger'), 400);
+        }
+
+        function init3DParallaxCard(cardElement) {
+            cardElement.addEventListener('mousemove', (e) => {
+                const box = cardElement.getBoundingClientRect();
+                const x = e.clientX - box.left - (box.width/2);
+                const y = e.clientY - box.top - (box.height/2);
+                cardElement.style.transform = `perspective(1000px) rotateX(${-y / 12}deg) rotateY(${x / 12}deg) scale(1.02)`;
+            });
+            cardElement.addEventListener('mouseleave', () => {
+                cardElement.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+        }
+
+        function switchEngineTab(tabId) {
+            document.getElementById('view-feed').classList.add('hidden');
+            document.getElementById('view-chat').classList.add('hidden');
+            document.getElementById('view-hud').classList.add('hidden');
+            
+            document.getElementById('btn-feed').classList.remove('active-tab');
+            document.getElementById('btn-chat').classList.remove('active-tab');
+            document.getElementById('btn-hud').classList.remove('active-tab');
+
+            if(tabId === 'feed') { document.getElementById('view-feed').classList.remove('hidden'); document.getElementById('btn-feed').classList.add('active-tab'); }
+            if(tabId === 'chat') { document.getElementById('view-chat').classList.remove('hidden'); document.getElementById('btn-chat').classList.add('active-tab'); }
+            if(tabId === 'hud') { document.getElementById('view-hud').classList.remove('hidden'); document.getElementById('btn-hud').classList.add('active-tab'); }
+            triggerHapticPulseEffect();
+        }
 
         function initDatabase() {
-            const data = localStorage.getItem('anivarya_core_v3_data');
+            const data = localStorage.getItem('anivarya_core_v6_data');
             if (data) {
                 try { db = JSON.parse(data); } catch(e) { resetToSeed(); }
-            } else {
-                resetToSeed();
-            }
-            currentUser = localStorage.getItem('anivarya_core_v3_session') || null;
+            } else { resetToSeed(); }
+            currentUser = localStorage.getItem('anivarya_core_v6_session') || null;
             evaluateAuthStateVisibility();
             renderPlatform();
         }
 
         function resetToSeed() {
             db = {
-                users: { "anivarya": "core123", "guest_user": "vibe123" },
+                users: { "anivarya": "master123" },
                 posts: [{
-                    id: 'seed_0',
-                    author: 'anivarya',
-                    mood: '👑 King Mode',
-                    timestamp: 'Just now',
-                    caption: 'Welcome to ANIVARYA_CORE v3.0. Built exclusively for absolute speed, real local data storage tracking, and full style control.',
-                    image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
+                    id: 'seed_6',
+                    author: 'Anivarya',
+                    mood: '💥 PROTOCOL ACTIVE',
+                    timestamp: '0.001s Network Delay',
+                    caption: 'Insta/Snap architectures demolished. Hardware gyro tracking algorithms synced with full dynamic UI overlays. Double tap to check quantum pulse vibration.',
+                    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
                     likedUsers: [],
                     comments: []
                 }],
-                messages: [{ sender: 'System', text: 'ANIVARYA_CORE secure network loaded successfully.' }]
+                messages: [{ sender: 'System Engine', text: 'Quantum hyper-drive protocol link online.' }]
             };
             saveData();
         }
 
-        function saveData() { localStorage.setItem('anivarya_core_v3_data', JSON.stringify(db)); }
+        function saveData() { localStorage.setItem('anivarya_core_v6_data', JSON.stringify(db)); }
 
-        function setupSystemListeners() {
+        function setupInteractions() {
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) document.getElementById('file-chosen-name').innerText = this.files[0].name;
             });
 
             document.getElementById('auth-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                const user = document.getElementById('auth-user').value.trim().toLowerCase();
+                const user = document.getElementById('auth-user').value.trim();
                 const pass = document.getElementById('auth-pass').value;
                 const isRegister = document.getElementById('auth-toggle-btn').innerText.includes('Login');
 
                 if (isRegister) {
-                    if (db.users[user]) { alert("Account ID taken."); return; }
+                    if (db.users[user]) { alert("Token handle denied."); return; }
                     db.users[user] = pass;
-                    alert("Account setup complete!");
                 } else {
-                    if (!db.users[user] || db.users[user] !== pass) { alert("Invalid access credentials."); return; }
+                    if (!db.users[user] || db.users[user] !== pass) { alert("Handshake verification error."); return; }
                 }
-
                 currentUser = user;
-                localStorage.setItem('anivarya_core_v3_session', user);
+                localStorage.setItem('anivarya_core_v6_session', user);
                 document.getElementById('auth-form').reset();
                 evaluateAuthStateVisibility();
                 saveData();
                 renderPlatform();
+                triggerHapticPulseEffect();
             });
 
             document.getElementById('chat-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (!currentUser) { alert("Please log in to chat."); return; }
+                if (!currentUser) return;
                 const msgText = document.getElementById('chat-msg').value.trim();
                 db.messages.push({ sender: currentUser, text: msgText });
                 document.getElementById('chat-form').reset();
@@ -304,7 +323,7 @@
 
             document.getElementById('post-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (!currentUser) { alert("Session identification expired."); return; }
+                if (!currentUser) return;
                 const caption = document.getElementById('post-caption').value.trim();
                 const mood = document.getElementById('post-mood').value;
                 const file = document.getElementById('post-image').files[0];
@@ -315,10 +334,10 @@
                         const img = new Image();
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
-                            let w = img.width; if(w > 600) { canvas.height = img.height*(600/w); w = 600; } else { canvas.height = img.height; }
+                            let w = img.width; if(w > 500) { canvas.height = img.height*(500/w); w = 500; } else { canvas.height = img.height; }
                             canvas.width = w;
                             canvas.getContext('2d').drawImage(img, 0, 0, w, canvas.height);
-                            injectPost(caption, mood, canvas.toDataURL('image/jpeg', 0.5));
+                            injectPost(caption, mood, canvas.toDataURL('image/jpeg', 0.6));
                         };
                         img.src = evt.target.result;
                     };
@@ -329,66 +348,48 @@
             });
         }
 
-        function injectPost(caption, mood, imgString) {
+        function injectPost(caption, mood, imgStr) {
             db.posts.unshift({
                 id: 'p_' + Date.now(),
                 author: currentUser,
                 mood: mood,
-                timestamp: new Date().toLocaleDateString('en-US', {month: 'short', day:'numeric', hour:'2-digit', minute:'2-digit'}),
+                timestamp: 'Live Data Burst',
                 caption: caption,
-                image: imgString,
+                image: imgStr,
                 likedUsers: [],
                 comments: []
             });
             saveData();
             closeModal();
             renderPlatform();
+            triggerHapticPulseEffect();
         }
 
         function evaluateAuthStateVisibility() {
             const bar = document.getElementById('auth-status-bar');
             const authBox = document.getElementById('auth-container');
-            
             if (currentUser) {
                 authBox.classList.add('hidden');
-                bar.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-xl text-[11px]">⚡ Account: <b class="uppercase">${currentUser}</b></span>
-                        <button onclick="logout()" class="text-red-500 text-[11px] font-bold underline">Disconnect</button>
-                    </div>`;
+                bar.innerHTML = `<span class="bg-zinc-900 border border-zinc-800 text-red-500 px-3 py-1 rounded-lg font-mono text-[9px]">🛰️ LOGGED_NODE: ${currentUser.toUpperCase()}</span>`;
             } else {
                 authBox.classList.remove('hidden');
-                bar.innerHTML = `<span class="text-amber-500 font-black text-[10px] uppercase tracking-wider">🔒 Terminal Safe Mode</span>`;
+                bar.innerHTML = `<span class="text-orange-500 font-cyber text-[8px]">🔒 LINK CLOSED</span>`;
             }
-        }
-
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('anivarya_core_v3_session');
-            evaluateAuthStateVisibility();
-            renderPlatform();
         }
 
         function toggleAuthMode() {
             const btn = document.getElementById('auth-toggle-btn');
             const title = document.getElementById('auth-title');
-            if (btn.innerText.includes('Register')) {
-                title.innerText = 'Platform Registration';
-                btn.innerText = 'Switch to Login Gateway';
+            if (btn.innerText.includes('Create')) {
+                title.innerText = 'PROVISION SYSTEM NODE';
+                btn.innerText = 'Switch to Login';
             } else {
-                title.innerText = 'Secure Gateway Identity';
-                btn.innerText = 'Switch to Register';
+                title.innerText = 'QUANTUM LINK GATEWAY';
+                btn.innerText = 'Create Node';
             }
         }
 
-        function setFilter(type) {
-            currentFilter = type;
-            document.getElementById('filter-all').className = type === 'all' ? 'text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800' : 'text-xs font-bold px-3 py-1.5 rounded-xl text-slate-400';
-            document.getElementById('filter-media').className = type === 'media' ? 'text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800' : 'text-xs font-bold px-3 py-1.5 rounded-xl text-slate-400';
-            renderFeed();
-        }
-
-        function openModal() { if(!currentUser){alert("Login required."); return;} document.getElementById('post-modal').classList.remove('hidden'); }
+        function openModal() { if(!currentUser){alert("Handshake missing."); return;} document.getElementById('post-modal').classList.remove('hidden'); }
         function closeModal() { document.getElementById('post-modal').classList.add('hidden'); document.getElementById('post-form').reset(); document.getElementById('file-chosen-name').innerText=''; }
 
         function renderPlatform() {
@@ -406,7 +407,7 @@
 
         function renderChat() {
             const box = document.getElementById('chat-box');
-            box.innerHTML = db.messages.map(m => `<div><b class="text-blue-500 uppercase text-[10px]">${m.sender}:</b> <span class="dark:text-slate-300">${m.text}</span></div>`).join('');
+            box.innerHTML = db.messages.map(m => `<div><b class="text-red-500 text-[10px] uppercase">${m.sender}:</b> <span>${m.text}</span></div>`).join('');
             box.scrollTop = box.scrollHeight;
         }
 
@@ -414,85 +415,51 @@
             const container = document.getElementById('feed-container');
             container.innerHTML = '';
             
-            let targets = db.posts;
-            if(currentFilter === 'media') targets = targets.filter(p => p.image);
-
-            targets.forEach(post => {
+            db.posts.forEach(post => {
                 const card = document.createElement('div');
-                card.className = 'bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-[28px] overflow-hidden shadow-sm transition-all duration-300';
-                
-                let imgMark = post.image ? `<div class="bg-slate-50 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[450px] object-cover mx-auto"></div>` : '';
+                card.className = 'cyber-card bg-zinc-950 border border-zinc-900 rounded-[28px] overflow-hidden shadow-2xl';
+                init3DParallaxCard(card);
+
+                let imgMark = post.image ? `<div class="bg-black border-b border-zinc-900 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[350px] object-cover"></div>` : '';
                 const liked = currentUser && post.likedUsers.includes(currentUser);
 
-                const isAnivarya = post.author.toLowerCase() === 'anivarya';
-                const verificationBadge = isAnivarya 
-                    ? `<span class="w-4 h-4 bg-blue-600 rounded-full text-white text-[8px] flex items-center justify-center inline-block ml-1 font-bold">✓</span>` 
-                    : `<span class="text-slate-400 text-[9px] font-black tracking-widest ml-1">🧬</span>`;
-
                 card.innerHTML = `
-                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-50 dark:border-slate-800/60">
+                    <div class="px-4 py-3.5 flex items-center justify-between border-b border-zinc-900/60">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-xl bg-slate-900 text-white font-display font-bold text-xs flex items-center justify-center uppercase">${post.author[0]}</div>
+                            <div class="w-8 h-8 rounded-lg bg-red-600 text-white font-cyber font-black text-xs flex items-center justify-center uppercase shadow-lg shadow-red-600/20">${post.author[0]}</div>
                             <div>
-                                <div class="flex items-center">
-                                    <h4 class="text-xs font-black dark:text-white uppercase tracking-tight">${post.author}</h4>
-                                    ${verificationBadge}
-                                </div>
-                                <span class="text-[9px] font-bold text-slate-400 block tracking-wider">${post.timestamp}</span>
+                                <h4 class="text-xs font-black text-white uppercase font-cyber tracking-wider">${post.author}</h4>
+                                <span class="text-[8px] font-mono text-zinc-600 block">${post.timestamp}</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 text-[9px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wide">${post.mood || '👑 King Mode'}</span>
-                            ${currentUser === post.author ? `<button class="delete-node-btn text-xs font-bold text-slate-300 hover:text-red-500 transition px-1">✕</button>` : ''}
-                        </div>
+                        <span class="bg-red-950 text-red-500 border border-red-900/30 text-[8px] font-black px-2 py-0.5 rounded-md uppercase font-cyber">${post.mood}</span>
                     </div>
                     ${imgMark}
-                    <div class="p-5 text-sm font-medium text-slate-700 dark:text-slate-200 text-left leading-relaxed">
-                        <span class="font-display font-bold text-xs text-blue-600 mr-2 uppercase">@${post.author}:</span>${post.caption}
+                    <div class="p-4 text-xs font-medium text-zinc-300 leading-relaxed text-left">
+                        <span class="font-cyber font-black text-red-500 mr-1.5 uppercase">@${post.author} &gt;&gt;</span>${post.caption}
                     </div>
-                    <div class="px-5 py-3 border-t dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-950/20">
-                        <button class="like-node-btn flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-400">
-                            <svg class="w-4 h-4 transition-transform ${liked ? 'text-red-500 fill-red-500 pop-active' : 'text-slate-400 fill-none'}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                            <span>Reactions (${post.likedUsers.length})</span>
+                    <div class="px-4 py-2.5 border-t border-zinc-900 bg-black flex items-center justify-between">
+                        <button class="like-node-btn flex items-center gap-2 text-[10px] font-cyber tracking-wider font-bold ${liked ? 'text-red-500' : 'text-zinc-500'}">
+                            <span>⚡ CORE PULSE LOGS (${post.likedUsers.length})</span>
                         </button>
-                    </div>
-                    <div class="px-5 pb-4 pt-2 bg-slate-50/50 dark:bg-slate-950/20 space-y-2">
-                        <div class="comments-box text-xs space-y-1 max-h-24 overflow-y-auto border-t dark:border-slate-800 pt-2 font-medium text-slate-600 dark:text-slate-400">
-                            ${post.comments && post.comments.length > 0 ? post.comments.map(c => `<div><b class="uppercase text-slate-800 dark:text-slate-200 text-[10px]">${c.user}:</b> ${c.text}</div>`).join('') : '<span class="text-slate-400 italic">No network comments on this node...</span>'}
-                        </div>
-                        <div class="flex gap-2 mt-2">
-                            <input type="text" placeholder="Add node response..." class="comment-input flex-1 bg-white dark:bg-slate-800 p-2 rounded-xl text-xs outline-none border dark:border-slate-700 font-medium text-slate-800 dark:text-slate-100">
-                            <button class="comment-submit-btn bg-slate-200 dark:bg-slate-700 text-[10px] px-3 font-bold rounded-xl dark:text-white">Add</button>
-                        </div>
                     </div>
                 `;
 
-                card.querySelector('.like-node-btn').addEventListener('click', () => {
-                    if (!currentUser) { alert("Access denied. Log in first."); return; }
+                // Double tap and button connection to simulate pulse shaking
+                const logBtn = card.querySelector('.like-node-btn');
+                const triggerLike = () => {
+                    if (!currentUser) return;
                     const idx = post.likedUsers.indexOf(currentUser);
                     if (idx === -1) post.likedUsers.push(currentUser); else post.likedUsers.splice(idx, 1);
                     saveData();
                     renderPlatform();
-                });
+                    triggerHapticPulseEffect();
+                };
 
-                if(currentUser === post.author) {
-                    card.querySelector('.delete-node-btn').addEventListener('click', () => {
-                        db.posts = db.posts.filter(p => p.id !== post.id);
-                        saveData();
-                        renderPlatform();
-                    });
+                logBtn.addEventListener('click', triggerLike);
+                if (post.image) {
+                    card.querySelector('img').addEventListener('dblclick', triggerLike);
                 }
-
-                const cInput = card.querySelector('.comment-input');
-                card.querySelector('.comment-submit-btn').addEventListener('click', () => {
-                    if (!currentUser) { alert("Identification required."); return; }
-                    const val = cInput.value.trim();
-                    if(!val) return;
-                    if(!post.comments) post.comments = [];
-                    post.comments.push({ user: currentUser, text: val });
-                    saveData();
-                    renderPlatform();
-                });
 
                 container.appendChild(card);
             });
