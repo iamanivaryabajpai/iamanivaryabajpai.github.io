@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anivarya Bajpai | Core Live</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -142,26 +143,24 @@
 
     <!-- CORE REAL-TIME CONTROLLER MECHANICS -->
     <script>
-        // ⚠️ APNA REAL CONFIG YAHAN PASTE KARO ⚠️
-        // Jo block Firebase Console se mila hai, use is 'const firebaseConfig' ki jagah replace kar do
+        // Automatic configuration connection mapping (LATEST CONFIG APPLIED)
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBr4am8q_Gv9gScRy7OWeqn9qBoYzVe7V0",
+            authDomain: "anivarya-core.firebaseapp.com",
+            databaseURL: "https://anivarya-core-default-rtdb.firebaseio.com",
+            projectId: "anivarya-core",
+            storageBucket: "anivarya-core.firebasestorage.app",
+            messagingSenderId: "372148589646",
+            appId: "1:372148589646:web:30e66d4b6eeea0dfd89f1f"
         };
         
-        // Initialize Firebase
+        // Initialize Firebase Live Runtime
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         let posts = [];
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Live Database Listener
             database.ref('posts').on('value', (snapshot) => {
                 const data = snapshot.val();
                 posts = [];
