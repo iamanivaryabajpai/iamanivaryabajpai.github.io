@@ -50,12 +50,11 @@
             <span>Are you a stadium? Because my heart beats only when you're crowded with smiles!</span>
         </div>
 
-        <!-- PROFILE IMAGE (Tumhari Photo) -->
+        <!-- PROFILE IMAGE (Tumhari embedded photo) -->
         <div class="relative w-36 h-36 mx-auto mb-6 group">
             <div class="absolute inset-0 bg-gradient-to-tr from-slate-200 to-slate-400 rounded-full blur-md opacity-40"></div>
-            <!-- NOTE: Apni photo ka naam yahan 'src' me dal sakte ho (e.g., src="my_photo.jpg") -->
-            <img src="https://via.placeholder.com/150" alt="Anivarya Bajpai" id="profile-img"
-                 class="relative w-36 h-36 object-cover rounded-full border-4 border-white shadow-md z-10">
+            <img src="" alt="Anivarya Bajpai" id="profile-img"
+                 class="relative w-36 h-36 object-cover rounded-full border-4 border-white shadow-md z-10 object-top">
         </div>
 
         <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 uppercase mb-4">
@@ -131,6 +130,9 @@
     </div>
 
     <script>
+        // Tumhari photo ka automatic system code block
+        document.getElementById('profile-img').src = "https://lh3.googleusercontent.com/d/1O9_f3lS5rK0RzB1_3D8p8P_N-kO5A0hN"; 
+
         let posts = [];
         let currentActiveUser = "user_anivarya"; 
         
@@ -155,8 +157,6 @@
             document.getElementById('post-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
-
-        document.getElementById('profile-img').src = "image_292a87.jpg";
 
         function closeModal() {
             document.getElementById('post-modal').classList.add('hidden');
@@ -194,7 +194,7 @@
         function createPost(caption, imageSrc) {
             const newPost = {
                 id: 'post_' + Date.now(),
-                authorId: currentActiveUser, // Post kisne banayi uski ID save hogi
+                authorId: currentActiveUser, 
                 authorName: userNames[currentActiveUser],
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
                 caption: caption,
@@ -226,7 +226,7 @@
         function deletePost(id) {
             const post = posts.find(p => p.id === id);
             
-            // SECURITY CHECK: Agar active user post ka author nahi hai, toh delete nahi hoga
+            // Delete check: Sirf khud ka post delete ho sakta hai
             if (post.authorId !== currentActiveUser) {
                 alert("You can only delete your own posts!");
                 return;
@@ -240,22 +240,22 @@
         }
 
         function savePosts() {
-            localStorage.setItem('anivarya_clean_posts', JSON.stringify(posts));
+            localStorage.setItem('anivarya_clean_posts_v3', JSON.stringify(posts));
         }
 
         function loadPosts() {
-            const savedData = localStorage.getItem('anivarya_clean_posts');
+            const savedData = localStorage.getItem('anivarya_clean_posts_v3');
             if (savedData) {
                 posts = JSON.parse(savedData);
             } else {
-                // Initial Sample Post
+                // Yeh static default post hai jo har phone me hamesha dikhegi jab tak user apni post na dale
                 posts = [
                     {
                         id: 'default_1',
                         authorId: 'user_anivarya',
                         authorName: 'Anivarya Bajpai',
                         timestamp: 'Just now',
-                        caption: 'Welcome to my profile! Try creating a post and testing the multi-user like and delete system.',
+                        caption: 'Welcome to my official profile website terminal context! Post validation checks are fully live.',
                         image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
                         likedBy: []
                     }
@@ -280,7 +280,7 @@
             posts.forEach(post => {
                 let imgMarkup = post.image ? `<div class="border-b border-slate-100 bg-slate-50"><img src="${post.image}" class="w-full h-auto max-h-[400px] object-cover" alt="Media"></div>` : '';
 
-                // Sirf wahi user delete button dekh payega jisne post create ki hai
+                // DELETE BUTTON LOGIC: Sirf tabhi dikhega jab active account aur post author matching ho
                 let deleteButtonMarkup = '';
                 if (post.authorId === currentActiveUser) {
                     deleteButtonMarkup = `<button onclick="deletePost('${post.id}')" class="text-slate-300 hover:text-red-500 text-sm font-medium px-2 py-1 transition">Delete</button>`;
