@@ -3,307 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anivarya Bajpai | Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>ANIVARYA_CORE v3.0 Ultra // Anivarya Bajpai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                    fontFamily: { 
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
                 }
             }
         }
     </script>
     <style>
         body { 
-            background: radial-gradient(circle at top, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%); 
+            background: radial-gradient(70% 70% at top center, #ffffff 0%, #fbfcfe 60%, #f3f7fa 100%);
             min-height: 100vh; 
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* Animated Premium Lighting Name Effect */
-        @keyframes textGlow {
+        body.dark {
+            background: radial-gradient(80% 80% at top center, #090d16 0%, #020408 100%);
+            color: #f1f5f9;
+        }
+        @keyframes luxuryWave {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
         .lighting-name {
-            background: linear-gradient(90deg, #ff2a5f, #ff7e40, #ffca28, #ff2a5f);
+            background: linear-gradient(90deg, #2563eb, #db2777, #ea580c, #2563eb);
             background-size: 300% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: textGlow 6s linear infinite;
+            animation: luxuryWave 4s linear infinite;
         }
-        /* Heart pop dynamic scaling keyframe animation */
-        @keyframes heartPop {
+        .aura-active .aura-ring {
+            background: linear-gradient(45deg, #ff0055, #00ffcc, #ffcc00, #ff0055);
+            background-size: 400% 400%;
+            animation: luxuryWave 2s linear infinite;
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.6);
+        }
+        .aura-ring {
+            background: linear-gradient(45deg, #ffd700, #ff007f, #3b82f6, #ffd700);
+            background-size: 400% 400%;
+            animation: luxuryWave 4s linear infinite;
+            transition: all 0.4s ease;
+        }
+        @keyframes fireGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.7)); }
+            50% { filter: drop-shadow(0 0 30px rgba(234, 88, 12, 0.9)); }
+        }
+        .aura-active .fire-avatar {
+            animation: fireGlow 1.5s infinite alternate;
+        }
+        @keyframes pop {
             0% { transform: scale(1); }
-            30% { transform: scale(1.4); }
-            60% { transform: scale(0.9); }
+            50% { transform: scale(1.25); }
             100% { transform: scale(1); }
         }
-        .heart-active {
-            animation: heartPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
+        .pop-active { animation: pop 0.3s ease-in-out; }
     </style>
 </head>
-<body class="font-sans text-slate-900 antialiased bg-slate-50">
+<body class="font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white transition-colors duration-300">
 
-    <!-- INSTA-PREMIUM STICKY NAVIGATION BAR -->
-    <nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-100 px-4 py-4">
-        <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tighter bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent">ANIVARYA CORE</span>
-            <button onclick="openModal()" class="bg-slate-900 text-white font-bold text-xs uppercase tracking-widest px-5 py-2.5 rounded-full hover:bg-slate-800 transition-all active:scale-95 shadow-sm shadow-slate-900/10">
-                + Create Post
-            </button>
+    <!-- TOP NAVIGATION BAR (BRAND NAME UPDATED TO ANIVARYA_CORE) -->
+    <nav class="sticky top-0 z-50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800 px-6 py-4">
+        <div class="max-w-2xl mx-auto flex items-center justify-between">
+            <span class="font-display font-black text-xl tracking-tighter dark:text-white">⚡ ANIVARYA_<span class="text-blue-600">CORE</span></span>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleGodAura()" class="bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-xl shadow-md hover:from-red-600 hover:to-orange-600 transition active:scale-95">
+                    🔥 Toggle Aura
+                </button>
+                <button onclick="toggleTheme()" class="bg-slate-100 dark:bg-slate-800 p-2.5 rounded-xl text-xs transition">🌓</button>
+                <div id="auth-status-bar" class="text-xs font-bold text-slate-600 dark:text-slate-300"></div>
+            </div>
         </div>
     </nav>
 
-    <!-- HEADER PROFILE PRESET -->
-    <header class="max-w-xl mx-auto pt-8 px-4">
-        <!-- Aesthetic Pitch Line Banner -->
-        <div class="bg-gradient-to-r from-amber-500/5 via-pink-500/5 to-red-500/5 border border-pink-500/10 text-slate-700 text-xs md:text-sm font-medium p-4 rounded-2xl mb-8 text-center shadow-sm">
-            😉 Are you a stadium? Because my heart beats only when you're crowded with smiles! ✨
-        </div>
-
-        <div class="flex items-center gap-6 mb-6">
-            <!-- Neon Ring Identity Avatar Wrapper -->
-            <div class="relative w-24 h-24 shrink-0">
-                <div class="absolute inset-0 bg-gradient-to-tr from-amber-400 via-pink-500 to-red-600 rounded-full p-[3px] shadow-md">
-                    <div class="w-full h-full bg-white rounded-full p-[2px]">
-                        <img src="https://via.placeholder.com/150" alt="Anivarya Profile" class="w-full h-full object-cover rounded-full">
-                    </div>
-                </div>
-                <div class="absolute -bottom-1 -right-1 bg-emerald-500 w-5 h-5 rounded-full border-4 border-white flex items-center justify-center shadow-sm" title="Verified Presence"></div>
+    <!-- AUTOMATED ACCOUNT GATEWAY -->
+    <div id="auth-container" class="max-w-2xl mx-auto px-4 pt-6 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 rounded-3xl shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="auth-title" class="font-display font-bold text-sm tracking-wide dark:text-white uppercase text-slate-400">Secure Network Access</h3>
+                <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-blue-600 dark:text-blue-400 font-bold underline">Switch to Register</button>
             </div>
-            
-            <div class="space-y-1">
-                <!-- Lighting Glowing Master Title Name -->
-                <h1 class="text-3xl font-black tracking-tight uppercase leading-none lighting-name">
-                    Anivarya Bajpai
-                </h1>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 pt-1">
-                    <div><span class="text-slate-800 font-extrabold" id="header-post-count">0</span> updates</div>
-                    <div class="text-red-500 bg-red-50 px-2 py-0.5 rounded-full text-[10px] tracking-wide uppercase font-black border border-red-100">RCB Fan For Life ❤️</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sleek Modern Aesthetic Bio Block -->
-        <div class="glass-card border border-slate-200/50 rounded-2xl p-5 shadow-sm text-sm">
-            <div class="text-slate-600 space-y-1.5 font-medium">
-                <p class="flex items-center gap-2"><span class="text-base">🎂</span> 14 years old • Living life my way.</p>
-                <p class="flex items-center gap-2"><span class="text-base">🏏</span> Cricket is my rhythm, Virat Kohli is the vibe.</p>
-            </div>
-        </div>
-    </header>
-
-    <div class="max-w-xl mx-auto px-4 my-8">
-        <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-    </div>
-
-    <!-- MAIN GRID FEED POSTS TIMELINE -->
-    <main class="max-w-xl mx-auto px-4 pb-24">
-        <div id="feed-container" class="space-y-6"></div>
-    </main>
-
-    <!-- INTERACTION COMPONENT: FULL WINDOW CREATION DIALOG LAYER -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl w-full max-w-md border border-slate-100 shadow-2xl overflow-hidden transition-all duration-300">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 class="font-extrabold text-slate-800 text-xs tracking-wider uppercase">New Update Instance</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 font-bold text-xs uppercase tracking-wider">Close</button>
-            </div>
-            
-            <form id="post-form" class="p-6 space-y-5">
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Caption Details</label>
-                    <textarea id="post-caption" required rows="3" placeholder="What's happening? Add your status update..." 
-                              class="w-full rounded-2xl border border-slate-200/80 p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-950/10 focus:border-slate-400 resize-none font-medium text-slate-800 bg-slate-50/30"></textarea>
-                </div>
-                
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Attach Image Asset</label>
-                    <div class="border-2 border-dashed border-slate-200 hover:border-slate-400 rounded-2xl p-5 text-center cursor-pointer hover:bg-slate-50/80 transition relative group">
-                        <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-500 group-hover:text-slate-800 transition">📸 Click to Choose Image File</p>
-                        <p id="file-chosen-name" class="text-xs font-semibold text-pink-600 truncate mt-1.5"></p>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest py-4 rounded-2xl hover:bg-slate-800 transition active:scale-[0.99] shadow-md shadow-slate-900/10">
-                    Publish to Feed
-                </button>
+            <form id="auth-form" class="space-y-4">
+                <input type="text" id="auth-user" required placeholder="Choose Unique Profile Username ID" class="w-full p-3 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-sm outline-none font-medium bg-transparent">
+                <input type="password" id="auth-pass" required placeholder="Enter Private Access Key Passtoken" class="w-full p-3 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-sm outline-none font-medium bg-transparent">
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-blue-700 transition">Initialize Digital Stream</button>
             </form>
         </div>
     </div>
 
-    <!-- CORE RE-ENGINEERED STORAGE EVENT CONTROLLER MECHANICS -->
+    <!-- MAIN INTERACTIVE HUB -->
+    <div id="main-platform-space">
+        <!-- CHIEF OWNER BANNER ARCHITECTURE -->
+        <header id="hero-header" class="max-w-2xl mx-auto pt-8 px-4 transition-all duration-300">
+            <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left mb-8">
+                <div class="relative w-28 h-28 shrink-0 fire-avatar">
+                    <div class="absolute inset-0 aura-ring rounded-full p-[3px] shadow-xl">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-full overflow-hidden p-[2px]">
+                            <img src="https://i.imgur.com/W29FclD.png" alt="Anivarya Bajpai" class="w-full h-full object-cover rounded-full">
+                        </div>
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 bg-red-600 text-[8px] text-white font-black px-2 py-0.5 rounded-full border-2 border-white dark:border-slate-950 tracking-widest shadow-md animate-bounce">GOD</span>
+                </div>
+                
+                <div class="space-y-1.5">
+                    <div class="flex items-center justify-center sm:justify-start gap-2">
+                        <h1 class="text-4xl font-display font-black tracking-tight uppercase leading-none lighting-name">
+                            Anivarya Bajpai
+                        </h1>
+                        <span class="w-5 h-5 bg-blue-600 rounded-full text-white text-[10px] font-bold flex items-center justify-center shadow shadow-blue-400" title="System Architect Verified Account">✓</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-400 dark:text-slate-500 tracking-wide">FOUNDER // CHIEF NETWORK ARCHITECT</p>
+                    <div class="flex flex-wrap justify-center sm:justify-start gap-2 pt-1">
+                        <span class="bg-slate-900 text-white dark:bg-slate-800 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">🎂 14 Years Old</span>
+                        <span class="bg-red-600 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">🏏 Born To Bleed Red // RCB</span>
+                        <span class="bg-amber-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">⚡ VK_18 Fanatic</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- DATA MATRIX COUNTERS ANALYTICS -->
+        <section class="max-w-2xl mx-auto px-4 mb-8">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <span id="stat-accounts" class="block text-2xl font-display font-black text-slate-900 dark:text-white">0</span>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Global Users</span>
+                </div>
+                <div>
+                    <span id="stat-posts" class="block text-2xl font-display font-black text-blue-600">0</span>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Network Nodes</span>
+                </div>
+                <div>
+                    <span id="stat-likes" class="block text-2xl font-display font-black text-emerald-500">0</span>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total Reactions</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECURE SYSTEM LIVE MESSENGER LOG CONSOLE -->
+        <section class="max-w-2xl mx-auto px-4 mb-8">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
+                <h3 class="font-display font-bold text-xs uppercase tracking-widest text-slate-400 mb-3">💬 Live Secure Global Node Chat</h3>
+                <div id="chat-box" class="h-32 overflow-y-auto border dark:border-slate-800 rounded-xl p-3 text-xs space-y-2 bg-slate-50/50 dark:bg-slate-950/40 font-medium mb-3"></div>
+                <form id="chat-form" class="flex gap-2">
+                    <input type="text" id="chat-msg" required placeholder="Transmit terminal packet signal logs..." class="flex-1 p-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-xs font-medium outline-none bg-transparent">
+                    <button type="submit" class="bg-slate-900 dark:bg-slate-800 dark:text-white text-xs font-bold px-4 rounded-xl hover:bg-slate-800 transition">Send</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FEED FLOW STREAM PIPELINE AND FILTERS -->
+        <div class="max-w-2xl mx-auto px-4 mb-6 flex justify-between items-center">
+            <div class="flex gap-2">
+                <button onclick="setFilter('all')" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800" id="filter-all">All</button>
+                <button onclick="setFilter('media')" class="text-xs font-bold px-3 py-1.5 rounded-xl text-slate-400" id="filter-media">Images Only</button>
+            </div>
+            <button onclick="openModal()" class="bg-blue-600 text-white font-bold text-xs uppercase tracking-widest px-4 py-2 rounded-xl shadow-lg shadow-blue-500/10 hover:bg-blue-700 transition">+ Broadcast Node</button>
+        </div>
+
+        <main class="max-w-2xl mx-auto px-4 pb-16">
+            <div id="feed-container" class="space-y-6"></div>
+        </main>
+    </div>
+
+    <!-- MODAL POST ENTRY -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md border dark:border-slate-800 shadow-2xl overflow-hidden">
+            <div class="px-5 py-4 border-b dark:border-slate-800 flex items-center justify-between">
+                <h3 class="font-display font-bold text-sm tracking-wider uppercase dark:text-white">Inject Node Matrix</h3>
+                <button onclick="closeModal()" class="text-slate-400 font-bold text-xs">Close</button>
+            </div>
+            <form id="post-form" class="p-5 space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Select Current Dynamic Mood Tag</label>
+                    <select id="post-mood" class="w-full p-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 outline-none bg-transparent">
+                        <option value="👑 King Mode">👑 King Mode</option>
+                        <option value="🏏 Bleeding Red">🏏 Bleeding Red</option>
+                        <option value="⚡ Coding Beast">⚡ Coding Beast</option>
+                        <option value="🎯 Pure Focus">🎯 Pure Focus</option>
+                        <option value="🚀 Global Vibe">🚀 Global Vibe</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Broadcast Logs Capsule</label>
+                    <textarea id="post-caption" required rows="3" placeholder="Enter broadcast logs text..." class="w-full rounded-2xl border dark:bg-slate-800 dark:border-slate-700 p-3.5 text-sm outline-none font-medium bg-transparent"></textarea>
+                </div>
+                <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-4 text-center cursor-pointer relative">
+                    <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                    <p class="text-xs font-bold text-slate-500">📸 Attach System Media File Image</p>
+                    <p id="file-chosen-name" class="text-xs font-semibold text-blue-600 truncate mt-1"></p>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold text-xs uppercase py-3.5 rounded-xl shadow-md">Publish Network Packet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DATA STREAM FOOTER BRANDING UPDATED -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md text-slate-400 text-[10px] py-1.5 px-4 font-mono flex justify-between items-center z-40 border-t border-slate-800">
+        <div>ANIVARYA_CORE ACCESS SYNC // ACTIVE DATA STREAM</div>
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span>SYSTEM STATUS: <b id="ping-rate">24ms</b></span>
+        </div>
+    </footer>
+
+    <!-- ENGINE PLATFORM CORE JAVASCRIPT CONTROLLERS -->
     <script>
-        let posts = [];
+        let db = { users: {}, posts: [], messages: [] };
+        let currentUser = null;
+        let currentFilter = 'all';
 
         window.addEventListener('DOMContentLoaded', () => {
-            loadPosts();
-            
+            initDatabase();
+            setupSystemListeners();
+            setInterval(() => {
+                document.getElementById('ping-rate').innerText = Math.floor(Math.random() * (35 - 12) + 12) + 'ms';
+            }, 3000);
+        });
+
+        function toggleTheme() { document.body.classList.toggle('dark'); }
+        function toggleGodAura() { document.body.classList.toggle('aura-active'); }
+
+        function initDatabase() {
+            const data = localStorage.getItem('anivarya_core_v3_data');
+            if (data) {
+                try { db = JSON.parse(data); } catch(e) { resetToSeed(); }
+            } else {
+                resetToSeed();
+            }
+            currentUser = localStorage.getItem('anivarya_core_v3_session') || null;
+            evaluateAuthStateVisibility();
+            renderPlatform();
+        }
+
+        function resetToSeed() {
+            db = {
+                users: { "anivarya": "core123", "guest_user": "vibe123" },
+                posts: [{
+                    id: 'seed_0',
+                    author: 'anivarya',
+                    mood: '👑 King Mode',
+                    timestamp: 'Just now',
+                    caption: 'Welcome to ANIVARYA_CORE v3.0. Built exclusively for absolute speed, real local data storage tracking, and full style control.',
+                    image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
+                    likedUsers: [],
+                    comments: []
+                }],
+                messages: [{ sender: 'System', text: 'ANIVARYA_CORE secure network loaded successfully.' }]
+            };
+            saveData();
+        }
+
+        function saveData() { localStorage.setItem('anivarya_core_v3_data', JSON.stringify(db)); }
+
+        function setupSystemListeners() {
             document.getElementById('post-image').addEventListener('change', function() {
-                if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Selected: ${this.files[0].name}`;
+                if(this.files && this.files[0]) document.getElementById('file-chosen-name').innerText = this.files[0].name;
+            });
+
+            document.getElementById('auth-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const user = document.getElementById('auth-user').value.trim().toLowerCase();
+                const pass = document.getElementById('auth-pass').value;
+                const isRegister = document.getElementById('auth-toggle-btn').innerText.includes('Login');
+
+                if (isRegister) {
+                    if (db.users[user]) { alert("Account ID taken."); return; }
+                    db.users[user] = pass;
+                    alert("Account setup complete!");
+                } else {
+                    if (!db.users[user] || db.users[user] !== pass) { alert("Invalid access credentials."); return; }
                 }
+
+                currentUser = user;
+                localStorage.setItem('anivarya_core_v3_session', user);
+                document.getElementById('auth-form').reset();
+                evaluateAuthStateVisibility();
+                saveData();
+                renderPlatform();
+            });
+
+            document.getElementById('chat-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!currentUser) { alert("Please log in to chat."); return; }
+                const msgText = document.getElementById('chat-msg').value.trim();
+                db.messages.push({ sender: currentUser, text: msgText });
+                document.getElementById('chat-form').reset();
+                saveData();
+                renderChat();
             });
 
             document.getElementById('post-form').addEventListener('submit', function(e) {
                 e.preventDefault();
+                if (!currentUser) { alert("Session identification expired."); return; }
                 const caption = document.getElementById('post-caption').value.trim();
-                const fileInput = document.getElementById('post-image');
-                const file = fileInput.files[0];
+                const mood = document.getElementById('post-mood').value;
+                const file = document.getElementById('post-image').files[0];
 
                 if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
+                    const r = new FileReader();
+                    r.onload = function(evt) {
                         const img = new Image();
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
-                            let width = img.width;
-                            let height = img.height;
-                            if (width > 600) { height *= 600 / width; width = 600; }
-                            canvas.width = width;
-                            canvas.height = height;
-                            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.6));
+                            let w = img.width; if(w > 600) { canvas.height = img.height*(600/w); w = 600; } else { canvas.height = img.height; }
+                            canvas.width = w;
+                            canvas.getContext('2d').drawImage(img, 0, 0, w, canvas.height);
+                            injectPost(caption, mood, canvas.toDataURL('image/jpeg', 0.5));
                         };
-                        img.src = event.target.result;
+                        img.src = evt.target.result;
                     };
-                    reader.readAsDataURL(file);
+                    r.readAsDataURL(file);
                 } else {
-                    saveNewPost(caption, null);
+                    injectPost(caption, mood, null);
                 }
             });
-        });
-
-        function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
-        function closeModal() {
-            document.getElementById('post-modal').classList.add('hidden');
-            document.getElementById('post-form').reset();
-            document.getElementById('file-chosen-name').innerText = '';
         }
 
-        function saveNewPost(caption, imgData) {
-            const newPost = {
-                id: 'post_' + Date.now(),
-                timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
+        function injectPost(caption, mood, imgString) {
+            db.posts.unshift({
+                id: 'p_' + Date.now(),
+                author: currentUser,
+                mood: mood,
+                timestamp: new Date().toLocaleDateString('en-US', {month: 'short', day:'numeric', hour:'2-digit', minute:'2-digit'}),
                 caption: caption,
-                image: imgData,
-                likes: 0,
-                isLikedByUser: false // Anti-spam variable state tracker
-            };
-            posts.unshift(newPost);
-            localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
-            renderFeed();
+                image: imgString,
+                likedUsers: [],
+                comments: []
+            });
+            saveData();
             closeModal();
+            renderPlatform();
         }
 
-        function loadPosts() {
-            const data = localStorage.getItem('anivarya_premium_db');
-            if (data) {
-                try { posts = JSON.parse(data); } catch(e) { posts = []; }
+        function evaluateAuthStateVisibility() {
+            const bar = document.getElementById('auth-status-bar');
+            const authBox = document.getElementById('auth-container');
+            
+            if (currentUser) {
+                authBox.classList.add('hidden');
+                bar.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-xl text-[11px]">⚡ Account: <b class="uppercase">${currentUser}</b></span>
+                        <button onclick="logout()" class="text-red-500 text-[11px] font-bold underline">Disconnect</button>
+                    </div>`;
             } else {
-                posts = [{
-                    id: 'welcome_init',
-                    timestamp: 'Just now',
-                    caption: 'Welcome to the premium interface upgrade. Create customized status updates and photos flawlessly without data drops.',
-                    image: 'https://images.unsplash.com/photo-1540747737956-37872a7e94be?auto=format&fit=crop&w=800&q=80',
-                    likes: 12,
-                    isLikedByUser: false
-                }];
-                localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
+                authBox.classList.remove('hidden');
+                bar.innerHTML = `<span class="text-amber-500 font-black text-[10px] uppercase tracking-wider">🔒 Terminal Safe Mode</span>`;
             }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('anivarya_core_v3_session');
+            evaluateAuthStateVisibility();
+            renderPlatform();
+        }
+
+        function toggleAuthMode() {
+            const btn = document.getElementById('auth-toggle-btn');
+            const title = document.getElementById('auth-title');
+            if (btn.innerText.includes('Register')) {
+                title.innerText = 'Platform Registration';
+                btn.innerText = 'Switch to Login Gateway';
+            } else {
+                title.innerText = 'Secure Gateway Identity';
+                btn.innerText = 'Switch to Register';
+            }
+        }
+
+        function setFilter(type) {
+            currentFilter = type;
+            document.getElementById('filter-all').className = type === 'all' ? 'text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800' : 'text-xs font-bold px-3 py-1.5 rounded-xl text-slate-400';
+            document.getElementById('filter-media').className = type === 'media' ? 'text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800' : 'text-xs font-bold px-3 py-1.5 rounded-xl text-slate-400';
             renderFeed();
+        }
+
+        function openModal() { if(!currentUser){alert("Login required."); return;} document.getElementById('post-modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('post-modal').classList.add('hidden'); document.getElementById('post-form').reset(); document.getElementById('file-chosen-name').innerText=''; }
+
+        function renderPlatform() {
+            renderStats();
+            renderChat();
+            renderFeed();
+        }
+
+        function renderStats() {
+            document.getElementById('stat-accounts').innerText = Object.keys(db.users).length;
+            document.getElementById('stat-posts').innerText = db.posts.length;
+            let count = 0; db.posts.forEach(p => count += p.likedUsers.length);
+            document.getElementById('stat-likes').innerText = count;
+        }
+
+        function renderChat() {
+            const box = document.getElementById('chat-box');
+            box.innerHTML = db.messages.map(m => `<div><b class="text-blue-500 uppercase text-[10px]">${m.sender}:</b> <span class="dark:text-slate-300">${m.text}</span></div>`).join('');
+            box.scrollTop = box.scrollHeight;
         }
 
         function renderFeed() {
             const container = document.getElementById('feed-container');
-            document.getElementById('header-post-count').innerText = posts.length;
             container.innerHTML = '';
+            
+            let targets = db.posts;
+            if(currentFilter === 'media') targets = targets.filter(p => p.image);
 
-            if(posts.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-16 bg-white border border-slate-200/60 rounded-3xl text-slate-400 font-bold text-xs uppercase tracking-widest">
-                        Timeline Empty.
-                    </div>`;
-                return;
-            }
-
-            posts.forEach(post => {
+            targets.forEach(post => {
                 const card = document.createElement('div');
-                card.className = 'bg-white border border-slate-200/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300';
+                card.className = 'bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-[28px] overflow-hidden shadow-sm transition-all duration-300';
                 
-                let mediaHtml = post.image ? `<div class="bg-slate-50 border-b border-slate-100 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[480px] object-cover mx-auto select-none"></div>` : '';
+                let imgMark = post.image ? `<div class="bg-slate-50 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 overflow-hidden"><img src="${post.image}" class="w-full h-auto max-h-[450px] object-cover mx-auto"></div>` : '';
+                const liked = currentUser && post.likedUsers.includes(currentUser);
 
-                // Highlights heart layout fill configuration conditionally based on verification data state
-                const heartClass = post.isLikedByUser ? 'text-red-500 fill-red-500 heart-active' : 'text-slate-400 fill-none';
+                const isAnivarya = post.author.toLowerCase() === 'anivarya';
+                const verificationBadge = isAnivarya 
+                    ? `<span class="w-4 h-4 bg-blue-600 rounded-full text-white text-[8px] flex items-center justify-center inline-block ml-1 font-bold">✓</span>` 
+                    : `<span class="text-slate-400 text-[9px] font-black tracking-widest ml-1">🧬</span>`;
 
                 card.innerHTML = `
-                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-50">
+                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-50 dark:border-slate-800/60">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-[10px] flex items-center justify-center tracking-tighter">AB</div>
+                            <div class="w-8 h-8 rounded-xl bg-slate-900 text-white font-display font-bold text-xs flex items-center justify-center uppercase">${post.author[0]}</div>
                             <div>
-                                <h4 class="text-xs font-black text-slate-800 tracking-tight">anivaryabajpai</h4>
-                                <span class="text-[9px] font-semibold text-slate-400 block">${post.timestamp}</span>
+                                <div class="flex items-center">
+                                    <h4 class="text-xs font-black dark:text-white uppercase tracking-tight">${post.author}</h4>
+                                    ${verificationBadge}
+                                </div>
+                                <span class="text-[9px] font-bold text-slate-400 block tracking-wider">${post.timestamp}</span>
                             </div>
                         </div>
-                        <button class="delete-btn text-xs font-bold text-slate-300 hover:text-red-500 transition px-2 py-1">Delete</button>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 text-[9px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wide">${post.mood || '👑 King Mode'}</span>
+                            ${currentUser === post.author ? `<button class="delete-node-btn text-xs font-bold text-slate-300 hover:text-red-500 transition px-1">✕</button>` : ''}
+                        </div>
                     </div>
-                    
-                    ${mediaHtml}
-                    
-                    <div class="p-5 text-sm font-medium text-slate-700 text-left leading-relaxed">
-                        <span class="font-black text-xs text-slate-900 mr-2 uppercase tracking-tight">anivaryabajpai</span>${post.caption}
+                    ${imgMark}
+                    <div class="p-5 text-sm font-medium text-slate-700 dark:text-slate-200 text-left leading-relaxed">
+                        <span class="font-display font-bold text-xs text-blue-600 mr-2 uppercase">@${post.author}:</span>${post.caption}
                     </div>
-                    
-                    <div class="px-5 py-3.5 border-t border-slate-50 bg-slate-50/50 flex items-center">
-                        <button class="like-btn flex items-center gap-2 text-xs font-bold transition text-slate-600 hover:text-slate-900 group">
-                            <svg class="w-4 h-4 transition-transform duration-200 group-active:scale-125 ${heartClass}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                            </svg>
-                            <span class="select-none">Likes (${post.likes || 0})</span>
+                    <div class="px-5 py-3 border-t dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-950/20">
+                        <button class="like-node-btn flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-400">
+                            <svg class="w-4 h-4 transition-transform ${liked ? 'text-red-500 fill-red-500 pop-active' : 'text-slate-400 fill-none'}" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            <span>Reactions (${post.likedUsers.length})</span>
                         </button>
+                    </div>
+                    <div class="px-5 pb-4 pt-2 bg-slate-50/50 dark:bg-slate-950/20 space-y-2">
+                        <div class="comments-box text-xs space-y-1 max-h-24 overflow-y-auto border-t dark:border-slate-800 pt-2 font-medium text-slate-600 dark:text-slate-400">
+                            ${post.comments && post.comments.length > 0 ? post.comments.map(c => `<div><b class="uppercase text-slate-800 dark:text-slate-200 text-[10px]">${c.user}:</b> ${c.text}</div>`).join('') : '<span class="text-slate-400 italic">No network comments on this node...</span>'}
+                        </div>
+                        <div class="flex gap-2 mt-2">
+                            <input type="text" placeholder="Add node response..." class="comment-input flex-1 bg-white dark:bg-slate-800 p-2 rounded-xl text-xs outline-none border dark:border-slate-700 font-medium text-slate-800 dark:text-slate-100">
+                            <button class="comment-submit-btn bg-slate-200 dark:bg-slate-700 text-[10px] px-3 font-bold rounded-xl dark:text-white">Add</button>
+                        </div>
                     </div>
                 `;
 
-                // SECURE DYNAMIC LIKE TOGGLE CONTROLLER
-                const likeBtn = card.querySelector('.like-btn');
-                likeBtn.addEventListener('click', () => {
-                    const svg = likeBtn.querySelector('svg');
-                    
-                    if (!post.isLikedByUser) {
-                        // Like added
-                        post.likes = (post.likes || 0) + 1;
-                        post.isLikedByUser = true;
-                        svg.classList.add('text-red-500', 'fill-red-500', 'heart-active');
-                        svg.classList.remove('text-slate-400', 'fill-none');
-                    } else {
-                        // Unlike toggle executed
-                        post.likes = Math.max(0, (post.likes || 0) - 1);
-                        post.isLikedByUser = false;
-                        svg.classList.remove('text-red-500', 'fill-red-500', 'heart-active');
-                        svg.classList.add('text-slate-400', 'fill-none');
-                    }
-                    
-                    localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
-                    // Smoothly updates just the label counts text without resetting page scroll heights
-                    likeBtn.querySelector('span').innerText = `Likes (${post.likes})`;
+                card.querySelector('.like-node-btn').addEventListener('click', () => {
+                    if (!currentUser) { alert("Access denied. Log in first."); return; }
+                    const idx = post.likedUsers.indexOf(currentUser);
+                    if (idx === -1) post.likedUsers.push(currentUser); else post.likedUsers.splice(idx, 1);
+                    saveData();
+                    renderPlatform();
                 });
 
-                // SECURE DELETE ROW ENGINE
-                card.querySelector('.delete-btn').addEventListener('click', () => {
-                    if(confirm("Permanently delete this update post?")) {
-                        posts = posts.filter(p => p.id !== post.id);
-                        localStorage.setItem('anivarya_premium_db', JSON.stringify(posts));
-                        renderFeed();
-                    }
+                if(currentUser === post.author) {
+                    card.querySelector('.delete-node-btn').addEventListener('click', () => {
+                        db.posts = db.posts.filter(p => p.id !== post.id);
+                        saveData();
+                        renderPlatform();
+                    });
+                }
+
+                const cInput = card.querySelector('.comment-input');
+                card.querySelector('.comment-submit-btn').addEventListener('click', () => {
+                    if (!currentUser) { alert("Identification required."); return; }
+                    const val = cInput.value.trim();
+                    if(!val) return;
+                    if(!post.comments) post.comments = [];
+                    post.comments.push({ user: currentUser, text: val });
+                    saveData();
+                    renderPlatform();
                 });
 
                 container.appendChild(card);
