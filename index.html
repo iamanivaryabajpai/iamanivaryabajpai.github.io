@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ANIVARYA X // Enterprise Supreme Network v10.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ SUPREME FEED SYSTEM</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <!-- Premium Fonts & Tailwind -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -22,710 +23,231 @@
     </script>
     
     <style>
-        /* Custom UI Mechanics for High-End Application Feel */
         body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            background-color: #fafafa;
+            color: #000000;
         }
-        
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+        .premium-blur {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
-        ::-webkit-scrollbar-track {
-            background: transparent;
+        .cool-shadow {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
+        .custom-card {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .ios-blur {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-        }
-
-        /* Fluid Animation Core Shards */
-        @keyframes subtlePop {
-            0% { transform: scale(0.97); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .animate-pop {
-            animation: subtlePop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes heartBurst {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.3); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .liked-heart {
-            animation: heartBurst 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        /* Segment Control Logic */
-        .feed-tab-active {
-            color: #0f172a;
-            border-bottom: 2px solid #0f172a;
-            font-weight: 700;
-        }
-
-        .nav-dock-active {
-            color: #4f46e5 !important;
+        .custom-card:hover {
             transform: translateY(-2px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
         }
     </style>
 </head>
-<body class="font-sans antialiased min-h-screen pb-32">
+<body class="font-sans antialiased pb-24">
 
-    <header class="sticky top-0 z-50 ios-blur border-b border-slate-200/60 px-6 py-4">
+    <!-- TOP GLOWING HEADER -->
+    <header class="sticky top-0 z-50 premium-blur border-b border-zinc-100 px-6 py-4">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="h-3 w-3 rounded-full bg-indigo-600 animate-pulse"></div>
-                <h1 class="text-2xl font-extrabold tracking-tighter text-slate-900">anivarya<span class="text-indigo-600">⚡</span></h1>
+            <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full bg-red-500 animate-pulse"></span>
+                <h1 class="text-xl font-extrabold tracking-tighter font-mono">CORE.NETWORK //</h1>
             </div>
-            
-            <div class="flex items-center gap-3">
-                <div class="bg-slate-100 border border-slate-200 rounded-full px-3 py-1 flex items-center gap-2">
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    <span class="text-[10px] font-mono font-bold text-slate-600 uppercase tracking-wider">Cluster_Node: Online</span>
-                </div>
-                <div id="header-avatar-node" onclick="switchMainDock('profile')" class="h-8 w-8 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center justify-center cursor-pointer shadow-sm">U</div>
+            <div class="bg-black text-white text-[10px] font-mono px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                Data Safe Mode
             </div>
         </div>
     </header>
 
-    <section id="auth-gate-wrapper" class="max-w-xl mx-auto px-4 mt-6 hidden">
-        <div class="bg-white border border-slate-200 rounded-[32px] p-6 shadow-xl shadow-slate-200/50">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h2 id="auth-title-text" class="text-xl font-extrabold tracking-tight text-slate-900">Core Network Authentication</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Please map your global entity identity parameter below.</p>
-                </div>
-                <button onclick="toggleAuthPipelineMode()" id="auth-pipeline-toggle" class="text-xs text-indigo-600 font-bold underline whitespace-nowrap">Create New Entity</button>
-            </div>
+    <!-- MAIN PLATFORM HUB -->
+    <main class="max-w-xl mx-auto px-4 mt-6 space-y-6">
+
+        <!-- COOL POST CREATOR MATRIX -->
+        <div class="bg-white rounded-[28px] p-5 custom-card cool-shadow space-y-4">
+            <h3 class="text-xs font-mono font-bold text-zinc-400 uppercase tracking-widest">// Inject New Post</h3>
             
-            <form id="auth-pipeline-form" class="space-y-4">
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">User Token Key Handle</label>
-                    <input type="text" id="auth-field-user" required placeholder="e.g. anivarya_king" class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm outline-none focus:border-indigo-600 focus:bg-white transition">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">Cryptographic Safety Password</label>
-                    <input type="password" id="auth-field-pass" required placeholder="••••••••••••" class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm outline-none focus:border-indigo-600 focus:bg-white transition">
-                </div>
-                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl text-xs uppercase tracking-wider shadow-md transition transform active:scale-[0.98]">Authorize Cluster Port</button>
-            </form>
-        </div>
-    </section>
-
-    <main class="max-w-xl mx-auto px-4 mt-6">
-
-        <div id="viewport-stream" class="space-y-6">
-            
-            <div class="flex border-b border-slate-200 text-slate-400 font-semibold text-xs">
-                <button onclick="switchFeedAlgorithm('foryou')" id="feed-tab-foryou" class="feed-tab-active flex-1 text-center pb-3 uppercase tracking-wider transition">For You Matrix</button>
-                <button onclick="switchFeedAlgorithm('trending')" id="feed-tab-trending" class="flex-1 text-center pb-3 uppercase tracking-wider transition">Trending Shards</button>
-                <button onclick="switchFeedAlgorithm('verified')" id="feed-tab-verified" class="flex-1 text-center pb-3 uppercase tracking-wider transition">Verified Network</button>
-            </div>
-
-            <div class="bg-white border border-slate-200 rounded-[28px] p-4 flex items-center justify-between shadow-xs">
-                <div class="flex items-center gap-3 flex-1 cursor-pointer" onclick="openBroadcastModal()">
-                    <div id="control-avatar-node" class="h-9 w-9 rounded-xl bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center">U</div>
-                    <span class="text-sm font-medium text-slate-400">Cast a new data package transaction stream...</span>
-                </div>
-                <button onclick="openBroadcastModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md shadow-indigo-600/10 transition transform active:scale-95">+ Broadcast</button>
-            </div>
-
-            <div id="stream-pipeline-target" class="space-y-6"></div>
-        </div>
-
-        <div id="viewport-chat" class="space-y-4 hidden">
-            <div class="bg-white border border-slate-200 rounded-[32px] p-4 shadow-sm">
-                <div class="px-3 py-2 border-b border-slate-100 flex items-center justify-between mb-3">
-                    <div>
-                        <h3 class="text-sm font-bold text-slate-900">Global Cluster Sync Terminal</h3>
-                        <p class="text-[10px] text-slate-400 font-mono">Channel ID: #anivarya_global_shards</p>
-                    </div>
-                    <span class="bg-indigo-50 border border-indigo-100 text-indigo-600 text-[9px] font-mono px-2 py-0.5 rounded-md">Live Logs</span>
-                </div>
-                <div id="chat-engine-scroller" class="h-[52vh] overflow-y-auto px-2 space-y-4 font-sans"></div>
+            <div class="space-y-3">
+                <textarea id="post-caption" rows="2" placeholder="Kya chal raha hai dimag me? Kuch khatarnak likho..." class="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 text-sm font-medium outline-none focus:border-black focus:bg-white transition-all resize-none"></textarea>
                 
-                <form id="chat-injection-form" class="flex gap-2 mt-4 pt-3 border-t border-slate-100">
-                    <input type="text" id="chat-field-message" required placeholder="Type cluster packet log message stream..." class="flex-1 bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl text-xs outline-none text-slate-900 focus:border-slate-900 focus:bg-white transition">
-                    <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-6 rounded-xl transition transform active:scale-95">Push Packet</button>
-                </form>
-            </div>
-        </div>
-
-        <div id="viewport-metrics" class="space-y-6 hidden">
-            <div class="bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm space-y-6">
-                <div>
-                    <h3 class="font-extrabold text-base tracking-tight text-slate-900">Virtual Machine Cluster Metrics</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Live visualization data mapped inside hardware virtual tables.</p>
-                </div>
-                
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center">
-                        <span id="stat-virtual-nodes" class="block text-3xl font-extrabold tracking-tight text-slate-900">0</span>
-                        <span class="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-1">Entity Nodes</span>
-                    </div>
-                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center">
-                        <span id="stat-virtual-capsules" class="block text-3xl font-extrabold tracking-tight text-indigo-600">0</span>
-                        <span class="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-1">Data Capsules</span>
-                    </div>
-                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center">
-                        <span id="stat-virtual-flux" class="block text-3xl font-extrabold tracking-tight text-emerald-500">0</span>
-                        <span class="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-1">Flux Matrix</span>
-                    </div>
-                </div>
-
-                <div class="space-y-2 border-t border-slate-100 pt-4">
-                    <div class="flex justify-between items-center text-xs font-mono">
-                        <span class="text-slate-400">Cluster RAM Allocation Layer:</span>
-                        <span class="text-indigo-600 font-bold" id="ram-usage-text">34.21 MB / 512 MB</span>
-                    </div>
-                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                        <div id="ram-usage-progressbar" class="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 transition-all duration-500" style="width: 8%"></div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 rounded-2xl p-4 font-mono text-[11px] text-slate-400 space-y-1.5 shadow-inner">
-                    <div class="text-indigo-400 font-bold tracking-wide">// REPLICATION LOG CHANNELS ENGINE ACTIVE:</div>
-                    <div class="flex items-center gap-2"><span class="text-emerald-500">[OK]</span> <span>Memory mapping architecture instantiated safely.</span></div>
-                    <div class="flex items-center gap-2"><span class="text-emerald-500">[OK]</span> <span>Dynamic allocation database sharding loop stable.</span></div>
-                    <div class="flex items-center gap-2"><span class="text-indigo-400">[INF]</span> <span id="dynamic-random-log-pipeline">Listening to multi-threaded data packets events...</span></div>
+                <!-- IMAGE UPLOAD CONTROLLER -->
+                <div class="flex items-center justify-between gap-2">
+                    <label class="flex-1 bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 border-dashed rounded-xl p-3 text-center cursor-pointer transition-all">
+                        <input type="file" id="post-image" accept="image/*" class="hidden">
+                        <span id="upload-status-text" class="text-xs font-semibold text-zinc-500">📸 Add Cool Image</span>
+                    </label>
+                    
+                    <button onclick="publishNewPost()" class="bg-black hover:bg-zinc-900 text-white font-extrabold text-xs px-6 py-4.5 rounded-xl transition-all transform active:scale-95 shadow-lg">
+                        Publish Post ⚡
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div id="viewport-profile" class="space-y-6 hidden">
-            <div class="bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm space-y-6">
-                <div class="flex items-center gap-5 pb-5 border-b border-slate-100">
-                    <div id="profile-panel-avatar" class="w-20 h-20 rounded-[24px] bg-slate-900 text-white font-extrabold text-2xl flex items-center justify-center uppercase shadow-md">U</div>
-                    <div>
-                        <h3 id="profile-panel-username" class="text-xl font-extrabold text-slate-900">Guest Entity Node</h3>
-                        <p id="profile-panel-bio" class="text-xs text-slate-400 mt-1">No customized bio descriptions injected into identity layer records maps yet.</p>
-                        <div class="flex gap-2 mt-3">
-                            <span class="bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] font-bold px-3 py-1 rounded-xl">Entity Node Linked</span>
-                        </div>
-                    </div>
-                </div>
-
-                <form id="profile-customizer-form" class="space-y-4">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Configure Identity Meta Variables</h4>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Display Alias Avatar Initial</label>
-                            <input type="text" id="profile-edit-initial" maxLength="1" placeholder="e.g. A" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs outline-none focus:border-slate-900 focus:bg-white transition">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Status Vibe Parameter Tag</label>
-                            <input type="text" id="profile-edit-tag" placeholder="e.g. 👑 OVERLORD Mode" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs outline-none focus:border-slate-900 focus:bg-white transition">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Identity Vector Account Biography String</label>
-                        <input type="text" id="profile-edit-bio" placeholder="Write something architectural..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs outline-none focus:border-slate-900 focus:bg-white transition">
-                    </div>
-                    <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition">Infect Updated Identity Logs</button>
-                </form>
-
-                <div class="pt-2">
-                    <button onclick="terminateActiveSessionHandle()" class="w-full bg-red-50 border border-red-100 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition">Sever Connection (Logout)</button>
-                </div>
-            </div>
+        <!-- DYNAMIC STREAM FEED TARGET -->
+        <div id="feed-container" class="space-y-6">
+            <!-- Posts automatically yahan load honge -->
         </div>
 
     </main>
 
-    <div id="broadcast-modal-overlay" class="hidden fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-xl flex items-center justify-center p-4 animate-pop">
-        <div class="bg-white border border-slate-100 rounded-[32px] w-full max-w-md shadow-2xl overflow-hidden transform transition-all">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-extrabold text-base tracking-tight text-slate-900">Inject Broadcast Stream</h3>
-                <button onclick="closeBroadcastModal()" class="text-slate-400 hover:text-slate-900 text-sm font-bold h-7 w-7 rounded-full hover:bg-slate-50 flex items-center justify-center transition">✕</button>
-            </div>
-            
-            <form id="broadcast-submission-form" class="p-6 space-y-4">
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Capsule Mood Aura Header</label>
-                    <input type="text" id="broadcast-field-mood" value="⚡ Hyper Drive Mode" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-indigo-600 outline-none focus:border-indigo-600 transition">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Data Stream Body Payload String</label>
-                    <textarea id="broadcast-field-caption" required rows="3" placeholder="Compose high fidelity text packet strings logs here..." class="w-full bg-slate-50 rounded-xl border border-slate-100 p-4 text-xs outline-none text-slate-900 font-medium focus:border-indigo-600 focus:bg-white transition"></textarea>
-                </div>
-                
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">Visual Matrix Asset Artifact</label>
-                    <div class="border border-dashed border-slate-300 rounded-xl p-5 text-center cursor-pointer relative bg-slate-50/50 hover:border-indigo-600 transition group">
-                        <input type="file" id="broadcast-field-file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-500 group-hover:text-indigo-600 transition">📸 Select Local File Device Media Map</p>
-                        <p id="broadcast-file-status-label" class="text-xs font-mono text-indigo-500 font-bold truncate mt-1.5"></p>
-                    </div>
-                </div>
-                
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl text-xs uppercase tracking-wider shadow-md shadow-indigo-600/10 transition">Compile & Publish Capsule</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="fixed bottom-6 left-6 right-6 z-40 bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-xl shadow-slate-200/50 px-3 py-2 max-w-sm mx-auto rounded-2xl">
-        <div class="flex justify-between items-center">
-            <button onclick="switchMainDock('stream')" id="dock-btn-stream" class="nav-dock-active flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
-                <span class="text-lg">⚡</span>
-                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Stream</span>
-            </button>
-            <button onclick="switchMainDock('chat')" id="dock-btn-chat" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
-                <span class="text-lg">💬</span>
-                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Terminal</span>
-            </button>
-            <button onclick="switchMainDock('metrics')" id="dock-btn-metrics" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
-                <span class="text-lg">📊</span>
-                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Metrics</span>
-            </button>
-            <button onclick="switchMainDock('profile')" id="dock-btn-profile" class="flex flex-col items-center justify-center flex-1 py-2 rounded-xl text-slate-400 transition transform active:scale-95">
-                <span class="text-lg">👤</span>
-                <span class="text-[9px] font-bold uppercase tracking-wider mt-0.5">Identity</span>
-            </button>
-        </div>
-    </div>
-
+    <!-- CORE REPLICATION LOGIC ENGINE -->
     <script>
-        // Memory Architecture Model Layer Local Database Storage Representation Shard Objects Maps
-        let appGlobalStateInstance = {
-            users: { 
-                "anivarya": { key: "overlord", tag: "👑 FOUNDER MODE", bio: "Chief Overlord Developer & Platform Core Architect.", avatar: "A" },
-                "elon": { key: "mars", tag: "🚀 Space Lord", bio: "Configuring interplanetary replication hooks.", avatar: "E" }
-            },
+        // System Base Schema Map
+        let systemDataStore = {
             posts: [
                 {
-                    id: 'p_init_0',
-                    author: 'anivarya',
-                    mood: '👑 FOUNDER MODE',
-                    timestamp: 'Active Node Time',
-                    caption: 'Instagram aur Snapchat ke frameworks down ho chuke hain. 1,000+ lines ka enterprise structural white fluid architecture seamlessly load ho chuka hai tumhare machine panel par. Zero clutter layout model locked.',
-                    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
-                    likedEntities: ['elon'],
-                    commentsArray: [
-                        { user: 'elon', text: 'Insane optimization speed master! This interface is completely impossible.' }
-                    ]
-                },
-                {
-                    id: 'p_init_1',
-                    author: 'elon',
-                    mood: '🚀 Space Lord',
-                    timestamp: '0.002s Node Delta',
-                    caption: 'Virtual thread matrices processing vectors securely inside this white dashboard module stream. Absolute design perfection, no fluff.',
-                    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
-                    likedEntities: ['anivarya'],
-                    commentsArray: []
+                    id: 1,
+                    author: "Anivarya",
+                    caption: "Yeh hai bilkul clean aur simple UI. Isme post upload bhi hoga aur page refresh karne par tumhaara data kabhi delete nahi hoga! Try karke dekho. 🔥",
+                    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+                    likes: 12
                 }
-            ],
-            messages: [
-                { user: 'System Bot', text: 'Welcome to the core decentralized handshake room terminal pipeline cluster logs.' },
-                { user: 'anivarya', text: 'Insta/Snap behind the scenes millions lines of backend logic use karte hain, par ye frontend architecture unko design and usability me zameen chatayega!' }
-            ],
-            activeAlgorithmMode: 'foryou' // default feed filter state logic mapping variable tracker
+            ]
         };
 
-        let currentActiveUserHandle = null;
+        // Screen Boot Trigger
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if data exists in LocalStorage
+            const localSavedData = localStorage.getItem("supreme_feed_data");
+            if (localSavedData) {
+                systemDataStore = JSON.parse(localSavedData);
+            } else {
+                saveDataToLocalStorage();
+            }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            bootstrapApplicationMemoryEngine();
-            registerCoreHardwareHooks();
-            instantiateSubOsFailsafes();
+            // Image file select listener to update UI text
+            document.getElementById("post-image").addEventListener("change", function() {
+                if (this.files && this.files[0]) {
+                    document.getElementById("upload-status-text").innerText = `✅ Attached: ${this.files[0].name.substring(0, 15)}...`;
+                }
+            });
+
+            renderFeed();
         });
 
-        // 4-Tab Main Interface Navigation Engine Router Implementation Logic
-        function switchMainDock(panelId) {
-            document.getElementById('viewport-stream').classList.add('hidden');
-            document.getElementById('viewport-chat').classList.add('hidden');
-            document.getElementById('viewport-metrics').classList.add('hidden');
-            document.getElementById('viewport-profile').classList.add('hidden');
-            
-            document.getElementById('dock-btn-stream').classList.remove('nav-dock-active');
-            document.getElementById('dock-btn-chat').classList.remove('nav-dock-active');
-            document.getElementById('dock-btn-metrics').classList.remove('nav-dock-active');
-            document.getElementById('dock-btn-profile').classList.remove('nav-dock-active');
-
-            const viewTarget = document.getElementById(`viewport-${panelId}`);
-            const dockTarget = document.getElementById(`dock-btn-${panelId}`);
-            
-            if(viewTarget && dockTarget) {
-                viewTarget.classList.remove('hidden');
-                dockTarget.classList.add('nav-dock-active');
-            }
+        // Save State into LocalStorage Block
+        function saveDataToLocalStorage() {
+            localStorage.setItem("supreme_feed_data", JSON.stringify(systemDataStore));
         }
 
-        // Sub-Feed Tab Filter Strategy Execution Functions Blocks
-        function switchFeedAlgorithm(algMode) {
-            appGlobalStateInstance.activeAlgorithmMode = algMode;
-            document.getElementById('feed-tab-foryou').classList.remove('feed-tab-active');
-            document.getElementById('feed-tab-trending').classList.remove('feed-tab-active');
-            document.getElementById('feed-tab-verified').classList.remove('feed-tab-active');
+        // Render Feed Elements
+        function renderFeed() {
+            const feedContainer = document.getElementById("feed-container");
+            feedContainer.innerHTML = "";
 
-            document.getElementById(`feed-tab-${algMode}`).classList.add('feed-tab-active');
-            renderContentPipelineFeed();
-        }
-
-        function bootstrapApplicationMemoryEngine() {
-            const compiledStoragePayload = localStorage.getItem('anivarya_supreme_v10_payload');
-            if (compiledStoragePayload) {
-                try { appGlobalStateInstance = JSON.parse(compiledStoragePayload); } catch(err) { rebuildCleanDatabaseState(); }
-            } else {
-                rebuildCleanDatabaseState();
-            }
-            
-            currentActiveUserHandle = localStorage.getItem('anivarya_supreme_v10_session_token') || null;
-            evaluateAuthenticationStateViewports();
-            executeReplicationViewRenders();
-        }
-
-        function rebuildCleanDatabaseState() {
-            localStorage.setItem('anivarya_supreme_v10_payload', JSON.stringify(appGlobalStateInstance));
-        }
-
-        function commitStateToDeviceStorage() {
-            localStorage.setItem('anivarya_supreme_v10_payload', JSON.stringify(appGlobalStateInstance));
-        }
-
-        function registerCoreHardwareHooks() {
-            // Monitor File Selection Text Changes Updates Hooks
-            document.getElementById('broadcast-field-file').addEventListener('change', function() {
-                if(this.files && this.files[0]) {
-                    document.getElementById('broadcast-file-status-label').innerText = `Payload Loaded: ${this.files[0].name}`;
-                }
-            });
-
-            // Handle Registration and Gateway Routing Handshakes Form
-            document.getElementById('auth-pipeline-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const userToken = document.getElementById('auth-field-user').value.trim().toLowerCase();
-                const passToken = document.getElementById('auth-field-pass').value;
-                const isRegistrationPipe = document.getElementById('auth-pipeline-toggle').innerText.includes('Login');
-
-                if (!userToken || !passToken) return;
-
-                if (isRegistrationPipe) {
-                    if (appGlobalStateInstance.users[userToken]) {
-                        alert("Error: Cluster entity handle match found in registers. Choose another tag.");
-                        return;
-                    }
-                    appGlobalStateInstance.users[userToken] = {
-                        key: passToken,
-                        tag: "⚡ Node Explorer",
-                        bio: "This entity biography metadata array string field has not been customized yet.",
-                        avatar: userToken[0].toUpperCase()
-                    };
-                    alert("Success: Account token compiled into operational registers maps safely.");
-                } else {
-                    if (!appGlobalStateInstance.users[userToken] || appGlobalStateInstance.users[userToken].key !== passToken) {
-                        alert("Security Exception: Cryptographic signature credential validation failure.");
-                        return;
-                    }
-                }
-
-                currentActiveUserHandle = userToken;
-                localStorage.setItem('anivarya_supreme_v10_session_token', userToken);
-                document.getElementById('auth-pipeline-form').reset();
-                evaluateAuthenticationStateViewports();
-                commitStateToDeviceStorage();
-                executeReplicationViewRenders();
-            });
-
-            // Global Realtime Chat Room Message Core Pipeline Form
-            document.getElementById('chat-injection-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (!currentActiveUserHandle) { alert("Action Aborted: Please log inside your validation node."); return; }
-                
-                const chatInputRef = document.getElementById('chat-field-message');
-                const rawTxt = chatInputRef.value.trim();
-                if(!rawTxt) return;
-
-                // Process Chat Command Injection Hooks
-                if (rawTxt.startsWith('/')) {
-                    executeTerminalCommandRouting(rawTxt);
-                    chatInputRef.value = '';
-                    return;
-                }
-
-                appGlobalStateInstance.messages.push({ user: currentActiveUserHandle, text: rawTxt });
-                chatInputRef.value = '';
-                commitStateToDeviceStorage();
-                renderGlobalTerminalChatroom();
-                renderHardwareSystemDashboard();
-            });
-
-            // Master Broadcast Post Submissions Form Pipeline Controller Core
-            document.getElementById('broadcast-submission-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (!currentActiveUserHandle) return;
-
-                const capVal = document.getElementById('broadcast-field-caption').value.trim();
-                const moodVal = document.getElementById('broadcast-field-mood').value.trim();
-                const fileRef = document.getElementById('broadcast-field-file').files[0];
-
-                if (fileRef) {
-                    const readerInstance = new FileReader();
-                    readerInstance.onload = function(eventObject) {
-                        const tempImageObj = new Image();
-                        tempImageObj.onload = function() {
-                            const processingCanvas = document.createElement('canvas');
-                            let targetWidth = tempImageObj.width;
-                            if(targetWidth > 650) {
-                                processingCanvas.height = tempImageObj.height * (650 / targetWidth);
-                                targetWidth = 650;
-                            } else {
-                                processingCanvas.height = tempImageObj.height;
-                            }
-                            processingCanvas.width = targetWidth;
-                            processingCanvas.getContext('2d').drawImage(tempImageObj, 0, 0, targetWidth, processingCanvas.height);
-                            dispatchCapsuleToPipeline(capVal, moodVal, processingCanvas.toDataURL('image/jpeg', 0.7));
-                        };
-                        tempImageObj.src = eventObject.target.result;
-                    };
-                    readerInstance.readAsDataURL(fileRef);
-                } else {
-                    dispatchCapsuleToPipeline(capVal, moodVal, null);
-                }
-            });
-
-            // Identity Form Updater Meta Changes Hook Submit
-            document.getElementById('profile-customizer-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                if(!currentActiveUserHandle || !appGlobalStateInstance.users[currentActiveUserHandle]) return;
-
-                const editInit = document.getElementById('profile-edit-initial').value.trim().toUpperCase();
-                const editTag = document.getElementById('profile-edit-tag').value.trim();
-                const editBio = document.getElementById('profile-edit-bio').value.trim();
-
-                if(editInit) appGlobalStateInstance.users[currentActiveUserHandle].avatar = editInit;
-                if(editTag) appGlobalStateInstance.users[currentActiveUserHandle].tag = editTag;
-                if(editBio) appGlobalStateInstance.users[currentActiveUserHandle].bio = editBio;
-
-                commitStateToDeviceStorage();
-                bootstrapApplicationMemoryEngine();
-                alert("Success: Identity memory parameters overwritten.");
-                document.getElementById('profile-customizer-form').reset();
-            });
-        }
-
-        function executeTerminalCommandRouting(cmdStr) {
-            const brokenToken = cmdStr.toLowerCase().split(' ');
-            const primaryCommand = brokenToken[0];
-
-            if (primaryCommand === '/clear') {
-                appGlobalStateInstance.messages = [{ user: 'System Terminal', text: 'Chat buffer registers flushed cleanly.' }];
-            } else if (primaryCommand === '/stats') {
-                appGlobalStateInstance.messages.push({ 
-                    user: 'System Monitor', 
-                    text: `Current memory state summary logs: Users Count = ${Object.keys(appGlobalStateInstance.users).length} nodes, Total Posts array length = ${appGlobalStateInstance.posts.length} entries.` 
-                });
-            } else if (primaryCommand === '/system') {
-                appGlobalStateInstance.messages.push({ user: 'System Matrix', text: 'Sub-OS Kernel Core running on revision allocation engine v10.0 Supreme Operational.' });
-            } else {
-                appGlobalStateInstance.messages.push({ user: 'System Bot', text: `Command parameter mismatch definition error: ${primaryCommand} unknown.` });
-            }
-            commitStateToDeviceStorage();
-            renderGlobalTerminalChatroom();
-        }
-
-        function dispatchCapsuleToPipeline(caption, mood, b64ImageString) {
-            appGlobalStateInstance.posts.unshift({
-                id: 'p_dynamic_time_' + Date.now(),
-                author: currentActiveUserHandle,
-                mood: mood || '✨ Core Energy',
-                timestamp: 'Synced Instantly',
-                caption: caption,
-                image: b64ImageString,
-                likedEntities: [],
-                commentsArray: []
-            });
-            commitStateToDeviceStorage();
-            closeBroadcastModal();
-            executeReplicationViewRenders();
-        }
-
-        function evaluateAuthenticationStateViewports() {
-            const statusIndicatorContainer = document.getElementById('auth-status-bar');
-            const gatewayFormWrapper = document.getElementById('auth-gate-wrapper');
-            
-            const headerAvatar = document.getElementById('header-avatar-node');
-            const controlAvatar = document.getElementById('control-avatar-node');
-
-            if (currentActiveUserHandle && appGlobalStateInstance.users[currentActiveUserHandle]) {
-                gatewayFormWrapper.classList.add('hidden');
-                const userModel = appGlobalStateInstance.users[currentActiveUserHandle];
-                
-                headerAvatar.innerText = userModel.avatar || currentActiveUserHandle[0].toUpperCase();
-                controlAvatar.innerText = userModel.avatar || currentActiveUserHandle[0].toUpperCase();
-                
-                // Bind Dynamic View Data onto Profile Viewport Fields Models
-                document.getElementById('profile-panel-avatar').innerText = userModel.avatar || currentActiveUserHandle[0].toUpperCase();
-                document.getElementById('profile-panel-username').innerText = `@${currentActiveUserHandle.toUpperCase()}`;
-                document.getElementById('profile-panel-bio').innerText = userModel.bio || "No bio information found inside memory banks arrays.";
-            } else {
-                gatewayFormWrapper.classList.remove('hidden');
-                headerAvatar.innerText = '?';
-                controlAvatar.innerText = '?';
-                switchMainDock('stream');
-            }
-        }
-
-        function toggleAuthPipelineMode() {
-            const toggleButtonRef = document.getElementById('auth-pipeline-toggle');
-            const formTitleRef = document.getElementById('auth-title-text');
-            
-            if (toggleButtonRef.innerText.includes('Create')) {
-                formTitleRef.innerText = 'Provision Global Identity Shard';
-                toggleButtonRef.innerText = 'Switch back to login gateway node';
-            } else {
-                formTitleRef.innerText = 'Core Network Authentication';
-                toggleButtonRef.innerText = 'Create New Entity';
-            }
-        }
-
-        function terminateActiveSessionHandle() {
-            localStorage.removeItem('anivarya_supreme_v10_session_token');
-            currentActiveUserHandle = null;
-            bootstrapApplicationMemoryEngine();
-            alert("Connection dissolved. Node set back to guest access states model.");
-        }
-
-        function openBroadcastModal() {
-            if(!currentActiveUserHandle) { alert("Authorization Error: Please resolve identity parameters first."); return; }
-            document.getElementById('broadcast-modal-overlay').classList.remove('hidden');
-        }
-
-        function closeBroadcastModal() {
-            document.getElementById('broadcast-modal-overlay').classList.add('hidden');
-            document.getElementById('broadcast-submission-form').reset();
-            document.getElementById('broadcast-file-status-label').innerText = '';
-        }
-
-        function executeReplicationViewRenders() {
-            renderHardwareSystemDashboard();
-            renderGlobalTerminalChatroom();
-            renderContentPipelineFeed();
-        }
-
-        function renderHardwareSystemDashboard() {
-            document.getElementById('stat-virtual-nodes').innerText = Object.keys(appGlobalStateInstance.users).length;
-            document.getElementById('stat-virtual-capsules').innerText = appGlobalStateInstance.posts.length;
-            
-            let incrementalLikesCounter = 0;
-            appGlobalStateInstance.posts.forEach(postItem => {
-                if(postItem.likedEntities) incrementalLikesCounter += postItem.likedEntities.length;
-                if(postItem.commentsArray) incrementalLikesCounter += postItem.commentsArray.length;
-            });
-            document.getElementById('stat-virtual-flux').innerText = incrementalLikesCounter;
-
-            // Compute and mutate dynamic load metrics progress blocks bars simulations
-            const computedPostMetricFactor = Math.min(92, 8 + (appGlobalStateInstance.posts.length * 4.5));
-            document.getElementById('ram-usage-text').innerText = `${(32 + (appGlobalStateInstance.messages.length * 0.85)).toFixed(2)} MB / 512 MB`;
-            document.getElementById('ram-usage-progressbar').style.width = `${computedPostMetricFactor}%`;
-        }
-
-        function renderGlobalTerminalChatroom() {
-            const chatBoxViewportScroller = document.getElementById('chat-engine-scroller');
-            if(!chatBoxViewportScroller) return;
-
-            chatBoxViewportScroller.innerHTML = appGlobalStateInstance.messages.map(messageItem => {
-                const messageSenderSessionMatch = messageItem.user === currentActiveUserHandle;
-                const senderDetailsObj = appGlobalStateInstance.users[messageItem.user] || { avatar: '?' };
-                
-                return `
-                    <div class="flex items-start gap-3 ${messageSenderSessionMatch ? 'flex-row-reverse' : ''} animate-pop">
-                        <div class="h-7 w-7 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-[10px] font-bold flex items-center justify-center uppercase shrink-0">
-                            ${senderDetailsObj.avatar || messageItem.user[0]}
-                        </div>
-                        <div class="space-y-0.5 max-w-[78%]">
-                            <div class="flex items-center gap-1.5 px-1 ${messageSenderSessionMatch ? 'justify-end' : ''}">
-                                <span class="text-[10px] font-bold text-slate-800 uppercase tracking-tight">@${messageItem.user}</span>
-                            </div>
-                            <div class="${messageSenderSessionMatch ? 'bg-slate-900 text-white rounded-2xl rounded-tr-none' : 'bg-slate-100 text-slate-900 rounded-2xl rounded-tl-none'} px-4 py-2.5 text-xs font-medium leading-relaxed shadow-xs">
-                                ${messageItem.text}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            chatBoxViewportScroller.scrollTop = chatBoxViewportScroller.scrollHeight;
-        }
-
-        function renderContentPipelineFeed() {
-            const feedContainerPipelineTarget = document.getElementById('stream-pipeline-target');
-            if(!feedContainerPipelineTarget) return;
-            feedContainerPipelineTarget.innerHTML = '';
-
-            // Apply Algorithmic Strategy Filtering Sorting Layout Mapping Models
-            let filteredPostsMemoryMap = [...appGlobalStateInstance.posts];
-            
-            if (appGlobalStateInstance.activeAlgorithmMode === 'trending') {
-                filteredPostsMemoryMap.sort((alpha, beta) => (beta.likedEntities.length + (beta.commentsArray?.length || 0)) - (alpha.likedEntities.length + (alpha.commentsArray?.length || 0)));
-            } else if (appGlobalStateInstance.activeAlgorithmMode === 'verified') {
-                filteredPostsMemoryMap = filteredPostsMemoryMap.filter(item => item.author === 'anivarya' || item.author === 'elon');
-            }
-
-            if(filteredPostsMemoryMap.length === 0) {
-                feedContainerPipelineTarget.innerHTML = `
-                    <div class="bg-white border border-slate-200 rounded-[28px] p-8 text-center text-slate-400 font-medium text-xs">
-                        No active structural data pipeline streams detected inside this filter partition matrix mapping channel.
+            if (systemDataStore.posts.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="text-center py-12 text-zinc-400 text-xs font-mono uppercase tracking-wider">
+                        No feeds found inside local data cache memory.
                     </div>
                 `;
                 return;
             }
 
-            filteredPostsMemoryMap.forEach(postNode => {
-                const authorMetaMap = appGlobalStateInstance.users[postNode.author] || { tag: '⚡ Standard Node', avatar: postNode.author[0] };
-                const appCardLayoutComponentNode = document.createElement('article');
-                appCardLayoutComponentNode.className = 'bg-white border border-slate-200 rounded-[32px] overflow-hidden shadow-sm shadow-slate-100 transition-all duration-300 animate-pop';
-                
-                let mediaPayloadRenderChunk = postNode.image 
-                    ? `<div class="bg-slate-50 border-b border-slate-100 overflow-hidden relative group">
-                        <img src="${postNode.image}" class="w-full h-auto max-h-[400px] object-cover mx-auto transition-transform duration-500 group-hover:scale-[1.01]" loading="lazy">
-                       </div>` 
+            systemDataStore.posts.forEach((post, index) => {
+                const postCard = document.createElement("article");
+                postCard.className = "bg-white rounded-[32px] overflow-hidden custom-card cool-shadow";
+
+                let imageTag = post.image 
+                    ? `<div class="border-b border-zinc-100"><img src="${post.image}" class="w-full h-auto max-h-96 object-cover"></div>` 
                     : '';
 
-                const activeUserHasLikedFlag = currentActiveUserHandle && postNode.likedEntities.includes(currentActiveUserHandle);
-                const isEliteAuthorBadge = postNode.author === 'anivarya' || postNode.author === 'elon';
-
-                appCardLayoutComponentNode.innerHTML = `
-                    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100/60">
+                postCard.innerHTML = `
+                    <!-- Post Header -->
+                    <div class="px-5 py-4 flex items-center justify-between border-b border-zinc-50">
                         <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-slate-900 text-white font-extrabold text-xs flex items-center justify-center uppercase shadow-sm">${authorMetaMap.avatar || postNode.author[0]}</div>
+                            <div class="w-9 h-9 rounded-xl bg-black text-white font-mono font-bold text-xs flex items-center justify-center uppercase">
+                                ${post.author[0]}
+                            </div>
                             <div>
-                                <div class="flex items-center gap-1">
-                                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">${postNode.author}</h4>
-                                    ${isEliteAuthorBadge ? `<span class="h-3 w-3 rounded-full bg-indigo-600 text-white text-[7px] flex items-center justify-center font-bold">✓</span>` : ''}
-                                </div>
-                                <span class="text-[9px] font-mono font-bold text-slate-400 block">${postNode.timestamp}</span>
+                                <h4 class="text-xs font-bold text-black uppercase font-mono">@${post.author}</h4>
+                                <span class="text-[9px] font-mono text-zinc-400 block">System Core Verified</span>
                             </div>
                         </div>
-                        <span class="bg-slate-100 text-slate-800 text-[9px] font-bold px-3 py-1 rounded-xl uppercase tracking-wider">${authorMetaMap.tag || postNode.mood}</span>
+                        <button onclick="deletePostByIndex(${index})" class="text-zinc-300 hover:text-red-500 text-xs font-bold transition-all px-2 py-1">✕ Delete</button>
                     </div>
 
-                    ${mediaPayloadRenderChunk}
+                    <!-- Post Image Content -->
+                    ${imageTag}
 
-                    <div class="p-5 text-sm font-medium text-slate-700 leading-relaxed text-left border-b border-slate-100/50">
-                        <span class="font-bold text-slate-900 mr-1">@${postNode.author}</span> ${postNode.caption}
+                    <!-- Post Caption Body -->
+                    <div class="p-6 text-sm font-medium text-zinc-800 leading-relaxed">
+                        ${post.caption}
                     </div>
 
-                    <div class="px-5 py-3.5 bg-slate-50/40 flex items-center justify-between border-b border-slate-100/50">
-                        <button class="action-like-trigger flex items-center gap-2 text-xs font-bold ${activeUserHasLikedFlag ? 'text-indigo-600' : 'text-slate-400'} transition transform active:scale-95">
-                            <span class="${activeUserHasLikedFlag ? 'liked-heart' : ''}">❤️</span>
-                            <span>Reactions Vector (${postNode.likedEntities.length})</span>
+                    <!-- Post Interaction Action Footer Row -->
+                    <div class="px-5 py-3.5 bg-zinc-50/50 flex items-center justify-between border-t border-zinc-100/40">
+                        <button onclick="likePostByIndex(${index})" class="flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-black transition-all">
+                            <span>⚡</span>
+                            <span class="font-mono text-black">Flux Like (${post.likes || 0})</span>
                         </button>
-                        <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">Secure Shared Node Log</span>
+                        <span class="text-[9px] font-mono font-bold text-zinc-400 tracking-wider">LOCAL DATA LOG</span>
                     </div>
+                `;
+                feedContainer.appendChild(postCard);
+            });
+        }
 
-                    <div class="px-5 py-4 bg-slate-50/20 space-y-3">
-                        <div class="comments-pipeline-box text-xs space-y-2 max-h-24 overflow-y-auto font-sans text-slate-600">
-                            ${postNode.commentsArray && postNode.commentsArray.length > 0 
-                                ? postNode.commentsArray.map(cmt => `
-                                    <div class="
+        // Publish New Post System Logic
+        function publishNewPost() {
+            const captionInput = document.getElementById("post-caption");
+            const imageInput = document.getElementById("post-image");
+            
+            const captionText = captionInput.value.trim();
+            if (!captionText) {
+                alert("Bhai, caption me kuch toh solid likho pehle!");
+                return;
+            }
+
+            const imageFile = imageInput.files[0];
+
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Injecting new object block with base64 encoded local image source link data parameters
+                    pushPostObjectData(captionText, e.target.result);
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                pushPostObjectData(captionText, null);
+            }
+        }
+
+        function pushPostObjectData(caption, base64Image) {
+            const newPostObj = {
+                id: Date.now(),
+                author: "Anivarya",
+                caption: caption,
+                image: base64Image,
+                likes: 0
+            };
+
+            systemDataStore.posts.unshift(newPostObj);
+            saveDataToLocalStorage();
+            renderFeed();
+
+            // Resetting Inputs Fields Form Controls Elements 
+            document.getElementById("post-caption").value = "";
+            document.getElementById("post-image").value = "";
+            document.getElementById("upload-status-text").innerText = "📸 Add Cool Image";
+        }
+
+        // Like Increment Trigger Engine Handler
+        function likePostByIndex(index) {
+            systemDataStore.posts[index].likes = (systemDataStore.posts[index].likes || 0) + 1;
+            saveDataToLocalStorage();
+            renderFeed();
+        }
+
+        // Delete Element Handler Loop Map Matrix
+        function deletePostByIndex(index) {
+            if (confirm("Kya aap sach me is post ko system data logs se delete karna chahte hain?")) {
+                systemDataStore.posts.splice(index, 1);
+                saveDataToLocalStorage();
+                renderFeed();
+            }
+        }
+    </script>
+</body>
+</html>
