@@ -89,7 +89,9 @@
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <h2 class="text-xs font-black uppercase tracking-wider text-slate-500">Global Matrix Room</h2>
             </div>
+            <!-- Chat Box Messages -->
             <div id="chat-messages-box" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs"></div>
+            <!-- Message Input Tray -->
             <div class="p-3 border-t dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex gap-2">
                 <input type="text" id="chat-input-text" placeholder="Type an encrypted transmission..." 
                        class="w-full text-xs rounded-xl border dark:border-slate-700 bg-white dark:bg-slate-800 p-3 focus:outline-none font-medium">
@@ -108,7 +110,10 @@
                 <h2 id="profile-handle" class="text-lg font-black text-slate-900 dark:text-white">@username</h2>
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Core Creator Account</p>
             </div>
+            
             <hr class="dark:border-slate-800">
+            
+            <!-- Quick Aesthetics Dashboard -->
             <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border dark:border-slate-800">
                 <div class="text-left">
                     <p class="text-xs font-black">🌓 Cyberpunk Dark Mode</p>
@@ -118,13 +123,14 @@
                     Toggle Vibe
                 </button>
             </div>
+
             <button onclick="logoutSession()" class="w-full bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white font-black text-xs uppercase tracking-widest py-3 rounded-xl transition">
                 Disconnect Transmission Session
             </button>
         </div>
     </section>
 
-    <!-- INSTAGRAM NAVIGATION BAR -->
+    <!-- INSTAGRAM STYLE BOTTOM NAVIGATION BAR -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-6 py-3">
         <div class="max-w-xl mx-auto flex items-center justify-around">
             <button onclick="switchTab('feed')" id="nav-btn-feed" class="flex flex-col items-center gap-0.5 text-indigo-600 dark:text-indigo-400 font-black text-[11px] uppercase tracking-wider transition">
@@ -139,7 +145,7 @@
         </div>
     </div>
 
-    <!-- COMPOSER MODAL -->
+    <!-- COMPOSER MODAL (UNIVERSAL POSTING MATRIX) -->
     <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
             <div class="px-6 py-4 border-b dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
@@ -154,8 +160,9 @@
                               class="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 p-3 text-sm focus:outline-none font-medium resize-none shadow-inner"></textarea>
                 </div>
                 
+                <!-- IMAGE HOOK UP WITH INSTANT PREVIEW & CROPPING SUITE -->
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo Asset</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo Asset (Leave empty for Audio Aura Canvas)</label>
                     <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/30">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
                         <p class="text-xs font-bold text-slate-400">📸 Tap to attach photo asset</p>
@@ -179,14 +186,15 @@
                     </div>
                 </div>
 
+                <!-- SLIDER GAME & EXTRAS TRAY -->
                 <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl space-y-3 border dark:border-slate-700">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">⚡ Secure Game Modules</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">⚡ Simple Features</label>
                     <div class="space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold">💰 Blind Price Guess Match Game:</span>
+                            <span class="text-xs font-bold">💰 Turn On Price Guess Game:</span>
                             <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-indigo-600">
                         </div>
-                        <input type="number" id="luxury-correct-price" placeholder="Enter true valuation (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none">
+                        <input type="number" id="luxury-correct-price" placeholder="Enter correct price (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none">
                     </div>
                     <div class="flex items-center justify-between pt-1 border-t dark:border-slate-700">
                         <span class="text-xs font-bold">💥 Auto-Delete Post After 24 Hours:</span>
@@ -198,11 +206,11 @@
                     </div>
                 </div>
 
-                <!-- SONG SELECTION OVERHAUL -->
+                <!-- REAL HIT SONGS LIST WITH ORIGINAL SINGERS PRESETS -->
                 <div class="bg-slate-50 dark:bg-slate-800 p-4 border dark:border-slate-700 rounded-2xl space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">🎵 Background Track Matrix</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">🎵 Background Music</label>
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search real tracks or original singers..." 
+                        <input type="text" id="music-search-input" placeholder="Search real tracks / artists..." 
                                class="w-full rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 p-2 text-xs focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-indigo-600 text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
@@ -218,7 +226,7 @@
 
                     <div id="selected-music-badge" class="hidden p-2 bg-slate-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
                         <div class="flex items-center gap-2 min-w-0">
-                            <div id="badge-artwork-container" class="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center text-[10px]">🎵</div>
+                            <img id="selected-music-track-img" src="" class="w-6 h-6 rounded-md">
                             <span id="selected-music-text" class="truncate max-w-[180px]">Track Locked</span>
                         </div>
                         <button type="button" onclick="removeSelectedMusic()" class="text-white font-bold text-xs px-1">✕</button>
@@ -233,6 +241,7 @@
     </div>
 
     <script>
+        // CORE FIREBASE INFRASTRUCTURE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyBr4am8q_Gv9gScRy7OWeqn9qBoYzVe7V0",
             authDomain: "anivarya-core.firebaseapp.com",
@@ -263,6 +272,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             evaluateUserSession();
 
+            // FEED LISTENER ENGINE
             database.ref('posts').on('value', (snapshot) => {
                 const data = snapshot.val();
                 posts = [];
@@ -282,6 +292,7 @@
                 computeLiveLeaderboard();
             });
 
+            // INSTANT GLOBAL MESSAGES ENGINE LISTENER
             database.ref('global_chat').limitToLast(40).on('value', (snapshot) => {
                 const box = document.getElementById('chat-messages-box');
                 box.innerHTML = '';
@@ -304,6 +315,7 @@
                 }
             });
 
+            // CROPPING FILE INPUT PIPELINE MANAGER
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
                     document.getElementById('file-chosen-name').innerText = `Target: ${this.files[0].name}`;
@@ -316,6 +328,7 @@
                 }
             });
 
+            // FORM FORMULATION HANDLER
             document.getElementById('post-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const caption = document.getElementById('post-caption').value.trim();
@@ -361,6 +374,7 @@
             }
         });
 
+        // DISPATCH REAL-TIME GLOBAL CHAT MESSAGES
         function sendChatMessage() {
             const el = document.getElementById('chat-input-text');
             const txt = el.value.trim();
@@ -371,6 +385,7 @@
             el.value = '';
         }
 
+        // NAVIGATION SWITCHER CONTROLLER GRID (INSTAGRAM MATRIX ROUTING)
         function switchTab(targetTab) {
             document.getElementById('section-feed').classList.add('hidden');
             document.getElementById('section-messages').classList.add('hidden');
@@ -438,18 +453,12 @@
             const resultsDiv = document.getElementById('music-results');
             resultsDiv.innerHTML = '';
             tracks.forEach(track => {
-                const imgTag = track.artworkUrl100 ? `<img src="${track.artworkUrl100}" class="w-7 h-7 rounded border dark:border-slate-700 object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
-                const fallbackImgTag = `<div class="w-7 h-7 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]" style="display:none;">🎵</div>`;
-                
                 const row = document.createElement('div');
                 row.className = 'flex items-center justify-between p-2 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer rounded-lg transition text-slate-800 dark:text-slate-200';
                 row.onclick = () => launchLiveTrackPreview(track);
                 row.innerHTML = `
                     <div class="flex items-center gap-2 pointer-events-none min-w-0">
-                        <div class="relative w-7 h-7 flex-shrink-0">
-                            ${imgTag}
-                            ${fallbackImgTag}
-                        </div>
+                        <img src="${track.artworkUrl100}" class="w-7 h-7 rounded border dark:border-slate-700">
                         <p class="text-xs font-bold truncate max-w-[200px]">${track.trackName} - <span class="text-slate-400 font-medium">${track.artistName}</span></p>
                     </div>
                     <span class="text-[9px] font-black text-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-1 rounded">🔊 Listen</span>
@@ -465,7 +474,7 @@
                 .then(res => res.json())
                 .then(data => {
                     populateInitialTrendingMusic(data.results.map(t => ({
-                        trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100 || '', previewUrl: t.previewUrl
+                        trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100, previewUrl: t.previewUrl
                     })));
                 });
         }
@@ -491,16 +500,9 @@
             if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
             chosenMusicTrack = {
                 title: currentInspectedTrackData.trackName, artist: currentInspectedTrackData.artistName,
-                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100 || ''
+                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100
             };
-            
-            const container = document.getElementById('badge-artwork-container');
-            if(chosenMusicTrack.coverUrl) {
-                container.innerHTML = `<img src="${chosenMusicTrack.coverUrl}" class="w-full h-full rounded object-cover" onerror="this.outerHTML='🎵'">`;
-            } else {
-                container.innerHTML = '🎵';
-            }
-            
+            document.getElementById('selected-music-track-img').src = currentInspectedTrackData.artworkUrl100;
             document.getElementById('selected-music-text').innerText = currentInspectedTrackData.trackName;
             document.getElementById('selected-music-badge').classList.remove('hidden');
             document.getElementById('preview-control-zone').classList.add('hidden');
@@ -566,6 +568,7 @@
             controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
         }
 
+        // ONE-TIME UNIQUE HYPE TRACKER SYSTEM VERIFIER
         function registerBlindHype(postId) {
             const currentPost = posts.find(p => p.id === postId);
             if (!currentPost) return;
@@ -589,22 +592,13 @@
             }
         }
 
-        // QUANTUM BLIND ENCRYPTED INPUT BUFFER VALIDATOR
-        function verifyQuantumPriceInput(postId, correctVal) {
-            const val = document.getElementById(`luxury-input-${postId}`).value.trim();
+        function checkLuxuryGuess(postId, val, correctVal) {
             const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
-            
-            if(!val) {
-                feedbackEl.innerText = "⚠️ Please enter a valuation amount!";
-                return;
-            }
+            feedbackEl.innerText = `Your Guess: ₹${val}`;
             if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 CORRECT GUESS MATCHED! TRUE VALUE IS ₹${correctVal} 💎`;
-                feedbackEl.className = "text-[11px] font-black text-emerald-500 mt-2 animate-pulse";
-            } else {
-                feedbackEl.innerText = `❌ Valuation mismatch. Try a different range.`;
-                feedbackEl.className = "text-[11px] font-bold text-rose-500 mt-2";
-            }
+                feedbackEl.innerText = `💎 TARGET MATCH DETECTED! VALUE REVEALED! 💎`;
+                feedbackEl.className = "text-[11px] font-black text-emerald-500 mt-1 animate-pulse";
+            } else { feedbackEl.className = "text-[11px] font-bold text-slate-400 mt-1"; }
         }
 
         function ghostPeekTrigger(imgId, reveal) {
@@ -656,29 +650,20 @@
                         </div>
                     `;
                 } else if(post.music) {
-                    let diskImg = post.music.coverUrl ? `<img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
-                    let fallbackDisk = `<div id="disk-fallback-${post.id}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 music-spinning text-white flex items-center justify-center font-black text-xs">VINYL</div>`;
-                    
+                    // GENERATE AUTOMATIC AUDIO AURA ART GRADIENT IF NO PHOTO UPLOADED
                     mediaHtml = `
                         <div class="relative bg-gradient-to-tr from-slate-900 via-indigo-950 to-purple-950 border-y border-slate-800 p-8 flex flex-col items-center justify-center text-center min-h-[180px]">
-                            <div class="relative w-20 h-20 flex-shrink-0">
-                                ${diskImg}
-                                ${fallbackDisk}
-                            </div>
+                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-20 h-20 rounded-full border-4 border-slate-950 shadow-2xl object-cover">
                             <span class="text-[9px] font-black text-indigo-400 tracking-widest mt-3 uppercase">🎨 Dynamic Audio Aura Generated</span>
                         </div>
                     `;
                 }
 
-                // SECURE PRICE GAME MODULE INTERFACE BUILDER
                 let luxurySliderHtml = post.isLuxurySlider ? `
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-b dark:border-slate-800 space-y-2">
-                        <p class="text-[10px] font-black text-slate-400 uppercase">💰 Security Encrypted Price Game</p>
-                        <div class="flex gap-2">
-                            <input type="number" id="luxury-input-${post.id}" placeholder="Guess Valuation amount..." class="w-full text-xs p-2.5 rounded-xl bg-white dark:bg-slate-900 border dark:border-slate-700 focus:outline-none font-bold">
-                            <button onclick="verifyQuantumPriceInput('${post.id}', ${post.targetPrice})" class="bg-indigo-600 text-white font-black text-[10px] uppercase px-4 rounded-xl">Verify</button>
-                        </div>
-                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-400 mt-1">Submit your value evaluation to check alignment...</div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-b dark:border-slate-800">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-1">💰 Price Guess Game</p>
+                        <input type="range" min="0" max="5000" value="0" step="50" oninput="checkLuxuryGuess('${post.id}', this.value, ${post.targetPrice})" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 appearance-none cursor-pointer luxury-slider">
+                        <div id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-400 mt-1">Drag layout thumb line matrix to solve price...</div>
                     </div>
                 ` : '';
 
