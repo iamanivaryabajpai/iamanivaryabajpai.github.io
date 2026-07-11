@@ -37,6 +37,26 @@
         .bar-1 { animation-delay: 0.1s; }
         .bar-2 { animation-delay: 0.4s; }
         .bar-3 { animation-delay: 0.2s; }
+
+        /* Instagram Style Range Slider Styling */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 6px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 3px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 6px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 3px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
     </style>
 
     <!-- FIREBASE INTEGRATION -->
@@ -120,7 +140,7 @@
                     </div>
                 </div>
 
-                <!-- INSTAGRAM LYRIC SELECTION SYSTEM -->
+                <!-- INSTAGRAM LYRIC SELECTION SYSTEM WITH TIMELINE -->
                 <div class="space-y-2">
                     <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Select Lyrics</p>
                     <div class="flex gap-2">
@@ -129,19 +149,33 @@
                     </div>
                     <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <!-- LYRIC SELECTOR WORKSPACE -->
-                    <div id="selected-music-badge" class="hidden p-3 bg-neutral-900 text-white rounded-xl space-y-3 text-xs font-bold">
+                    <!-- REAL INSTAGRAM STYLE MUSIC INTERFACE -->
+                    <div id="selected-music-badge" class="hidden p-4 bg-neutral-900 text-white rounded-2xl space-y-4 text-xs font-bold shadow-xl">
                         <div class="flex items-center justify-between">
-                            <span id="selected-music-text" class="truncate">Attached...</span>
-                            <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white">✕</button>
+                            <div class="flex items-center gap-2 min-w-0">
+                                <img id="selector-art-preview" src="" class="w-6 h-6 rounded object-cover">
+                                <span id="selected-music-text" class="truncate font-black">Attached Track</span>
+                            </div>
+                            <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white bg-neutral-800 p-1 rounded-full w-5 h-5 flex items-center justify-center">✕</button>
                         </div>
                         
-                        <!-- LYRIC SCROLLER PANELS -->
-                        <div class="border-t border-neutral-800 pt-2 space-y-2">
-                            <p class="text-[10px] text-neutral-400 uppercase tracking-wider">Tap a lyric line to select starting frame:</p>
-                            <div id="lyric-lines-container" class="space-y-1.5 max-h-36 overflow-y-auto p-1 bg-neutral-950 rounded-lg text-neutral-300">
-                                <!-- Dynamic lines inject here -->
+                        <!-- INSTAGRAM LYRICS BOX DESIGN -->
+                        <div class="bg-neutral-950 p-4 rounded-xl border border-neutral-800 text-center min-h-[70px] flex items-center justify-center relative overflow-hidden">
+                            <p id="live-lyric-preview" class="text-sm font-extrabold text-white tracking-tight leading-snug drop-shadow">
+                                Selecting lyrics...
+                            </p>
+                        </div>
+
+                        <!-- INSTAGRAM TIMELINE SCROLLER -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[10px] text-neutral-400 font-mono">
+                                <span id="timeline-current-time">0:00</span>
+                                <span>0:30</span>
                             </div>
+                            <div class="relative flex items-center">
+                                <input type="range" id="instagram-music-slider" min="0" max="29" value="0" class="w-full h-1 bg-neutral-700 rounded-lg appearance-none cursor-pointer focus:outline-none">
+                            </div>
+                            <p class="text-[9px] text-neutral-500 text-center mt-1 uppercase tracking-widest">Drag timeline to clip lyrics</p>
                         </div>
                     </div>
                 </div>
@@ -179,26 +213,31 @@
         let chosenMusicTrack = null; 
         let cropperInstance = null;
 
-        // Custom Lyrics library mapped to tracks
+        // Custom Lyrics library mapped to tracks with 30-sec breakdown for timeline sync
         const lyricsDatabase = {
             "Pehle Bhi Main": [
-                { time: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
-                { time: 6, text: "✨ Ajnabee se milke laga hoon..." },
-                { time: 12, text: "❤️ Kehta hai dil ye hathaayi..." },
-                { time: 18, text: "💫 Jaane tu ya jaane na haan..." }
+                { id: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
+                { id: 8, text: "✨ Ajnabee se milke laga hoon..." },
+                { id: 16, text: "❤️ Kehta hai dil ye hathaayi..." },
+                { id: 24, text: "💫 Jaane tu ya jaane na haan..." }
             ],
             "Satranga": [
-                { time: 0, text: "🎵 Satranga re tere rang maahi..." },
-                { time: 7, text: "🍁 Kaisi hai ye teri khudgarzi..." },
-                { time: 14, text: "💔 Aadha main adhoora rha jaise..." },
-                { time: 20, text: "✨ Ishq me tere dil haara..." }
+                { id: 0, text: "🎵 Satranga re tere rang maahi..." },
+                { id: 7, text: "🍁 Kaisi hai ye teri khudgarzi..." },
+                { id: 15, text: "💔 Aadha main adhoora rha jaise..." },
+                { id: 23, text: "✨ Ishq me tere dil haara..." }
             ],
             "Default": [
-                { time: 0, text: "🎵 Hook Line: Intro Music Beats" },
-                { time: 8, text: "🎤 Verse 1: Starting Lyrics Line" },
-                { time: 16, text: "🔥 Chorus: Main Melody Verse" }
+                { id: 0, text: "🎵 Hook Line: Intro Music Beats" },
+                { id: 10, text: "🎤 Verse 1: Starting Lyrics Line" },
+                { id: 20, text: "🔥 Chorus: Main Melody Verse" }
             ]
         };
+
+        const prebuiltTrendingSeeds = [
+            { trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/9e/7b/bf9e7b2f-7db9-e1f2-be7c-a4962cb174e9/192641875150_Cover.jpg/100x100bb.jpg", previewUrl: "" },
+            { trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/90/73/72/907372cf-6ef0-2309-848e-2077f1837ff3/8903431904772_cover.jpg/100x100bb.jpg", previewUrl: "" }
+        ];
 
         window.addEventListener('DOMContentLoaded', () => {
             evaluateUserSession();
@@ -241,6 +280,27 @@
                     saveNewPost(caption, croppedCanvas.toDataURL('image/jpeg', 0.9), isSlider, correctPrice);
                 } else {
                     saveNewPost(caption, null, isSlider, correctPrice);
+                }
+            });
+
+            // Sync Slider timeline moves to live lyrics preview like Instagram
+            document.getElementById('instagram-music-slider').addEventListener('input', function() {
+                const elapsedSeconds = parseInt(this.value);
+                document.getElementById('timeline-current-time').innerText = `0:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}`;
+                
+                if (chosenMusicTrack) {
+                    chosenMusicTrack.startOffset = elapsedSeconds;
+                    const lines = lyricsDatabase[chosenMusicTrack.title] || lyricsDatabase["Default"];
+                    
+                    // Pick matching lyric line based on current timestamp position
+                    let matchedLyric = lines[0].text;
+                    for (let i = 0; i < lines.length; i++) {
+                        if (elapsedSeconds >= lines[i].id) {
+                            matchedLyric = lines[i].text;
+                        }
+                    }
+                    document.getElementById('live-lyric-preview').innerText = matchedLyric;
+                    chosenMusicTrack.selectedLyricText = matchedLyric;
                 }
             });
 
@@ -297,46 +357,23 @@
         }
 
         function selectSongSetup(track) {
+            const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
             chosenMusicTrack = { 
                 title: track.trackName, 
                 artist: track.artistName, 
                 audioUrl: track.previewUrl, 
                 coverUrl: track.artworkUrl100, 
                 startOffset: 0,
-                selectedLyricText: ""
+                selectedLyricText: lines[0].text
             };
             
-            document.getElementById('selected-music-text').innerText = `🎵 ${track.trackName}`;
+            document.getElementById('selected-music-text').innerText = `${track.trackName}`;
+            document.getElementById('selector-art-preview').src = track.artworkUrl100;
+            document.getElementById('live-lyric-preview').innerText = lines[0].text;
+            document.getElementById('instagram-music-slider').value = 0;
+            document.getElementById('timeline-current-time').innerText = "0:00";
+            
             document.getElementById('selected-music-badge').classList.remove('hidden');
-            
-            // Inject lyrics line interface
-            const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
-            const container = document.getElementById('lyric-lines-container');
-            container.innerHTML = '';
-            
-            lines.forEach((line, index) => {
-                const el = document.createElement('div');
-                el.className = `p-2 rounded-md cursor-pointer transition text-[11px] ${index === 0 ? 'bg-white text-black font-extrabold' : 'hover:bg-neutral-800'}`;
-                el.id = `lyric-item-${index}`;
-                el.innerText = line.text;
-                
-                if(index === 0) {
-                    chosenMusicTrack.startOffset = line.time;
-                    chosenMusicTrack.selectedLyricText = line.text;
-                }
-
-                el.onclick = () => {
-                    // Reset styling
-                    lines.forEach((_, idx) => {
-                        const target = document.getElementById(`lyric-item-${idx}`);
-                        if(target) { target.className = 'p-2 rounded-md cursor-pointer transition text-[11px] hover:bg-neutral-800'; }
-                    });
-                    el.className = 'p-2 rounded-md cursor-pointer bg-white text-black font-extrabold text-[11px]';
-                    chosenMusicTrack.startOffset = line.time;
-                    chosenMusicTrack.selectedLyricText = line.text;
-                };
-                container.appendChild(el);
-            });
         }
 
         function removeSelectedMusic() {
@@ -364,7 +401,6 @@
             }).then(() => closeModal());
         }
 
-        // ONE LIKE LIMIT LOGIC (Anti-unlimited loop)
         function handleLike(postId, currentLikes) {
             if(!activeUser) return;
             const likeKey = `liked_${activeUser}_${postId}`;
@@ -373,11 +409,9 @@
             let updatedLikes = currentLikes || 0;
             
             if (alreadyLiked) {
-                // Unlike action
                 updatedLikes = Math.max(0, updatedLikes - 1);
                 localStorage.removeItem(likeKey);
             } else {
-                // Clean single unique like
                 updatedLikes += 1;
                 localStorage.setItem(likeKey, "true");
             }
@@ -411,6 +445,15 @@
                 const oldBtn = document.getElementById(`btn-${currentlyPlayingPostId}`);
                 if (oldVisualizer) oldVisualizer.classList.add('hidden');
                 if (oldBtn) oldBtn.innerText = "▶ Play";
+            }
+
+            if(!url) {
+                // If itunes preview doesn't exist, we mimic playing state visually
+                alert("Playing from synced clip offset: " + startOffset + "s");
+                visualizer.classList.remove('hidden');
+                btn.innerText = "⏸ Pause";
+                currentlyPlayingPostId = postId;
+                return;
             }
 
             currentlyPlayingAudio = new Audio(url);
