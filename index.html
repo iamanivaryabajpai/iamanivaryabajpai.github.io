@@ -18,40 +18,54 @@
     </script>
     <style>
         body { 
-            background: #f8fafc;
+            background: #fafafa;
             min-height: 100vh; 
         }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        
+        .premium-blur-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
         @keyframes audioPulse {
-            0% { border-color: rgba(15, 23, 42, 0.1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
-            50% { border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
-            100% { border-color: rgba(15, 23, 42, 0.1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+            0% { box-shadow: 0 0 0px rgba(0,0,0,0); border-color: #e2e8f0; }
+            50% { box-shadow: 0 0 20px rgba(0,0,0,0.03); border-color: #000000; }
+            100% { box-shadow: 0 0 0px rgba(0,0,0,0); border-color: #e2e8f0; }
         }
         .audio-active-card {
-            animation: audioPulse 2s infinite ease-in-out;
-            border-width: 1px !important;
+            animation: audioPulse 2.5s infinite ease-in-out;
         }
         .music-spinning {
-            animation: spin 4s linear infinite;
+            animation: spin 5s linear infinite;
         }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .ghost-blurred {
-            filter: blur(25px) grayscale(30%);
-            transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: blur(20px);
+            transition: filter 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .ghost-revealed {
-            filter: blur(0px) grayscale(0%);
+            filter: blur(0px);
         }
         
+        .luxury-slider {
+            -webkit-appearance: none;
+            appearance: none;
+        }
         .luxury-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: #0f172a;
-            border: 2px solid #ffffff;
+            background: #000000;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: transform 0.1s;
+        }
+        .luxury-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
         }
     </style>
 
@@ -59,145 +73,147 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
-<body class="font-sans text-slate-900 antialiased">
+<body class="font-sans text-black antialiased">
 
-    <!-- IDENTITY MODAL -->
-    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-slate-100">
-            <h2 class="text-xl font-black tracking-tight text-slate-900 mb-1">Enter Core Timeline</h2>
-            <p class="text-xs font-semibold text-slate-400 mb-6">Choose an identity handle to log into the feed network.</p>
-            
-            <div class="space-y-3">
+    <!-- IDENTITY AUTH MODAL -->
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-white/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="w-full max-w-xs text-center space-y-6">
+            <h2 class="text-2xl font-black tracking-tighter uppercase">ANIVARYA BAJPAI</h2>
+            <p class="text-xs font-medium text-neutral-400 tracking-tight max-w-[200px] mx-auto">Connect your handle token to access the network timeline.</p>
+            <div class="space-y-2">
                 <input type="text" id="username-input" placeholder="Type user handle..." 
-                       class="w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-slate-400 font-bold transition">
-                <button onclick="processAuth()" class="w-full bg-slate-900 text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-black transition shadow-md">
-                    Connect Core
+                       class="w-full rounded-xl bg-neutral-50 border border-neutral-200/80 px-4 py-3 text-sm text-center font-bold focus:outline-none focus:border-black transition">
+                <button onclick="processAuth()" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl hover:bg-neutral-900 transition">
+                    Sign In
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MINIMALIST APP HEADER -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-4 py-3.5">
-        <div class="max-w-xl mx-auto flex items-center justify-between">
-            <span class="font-black text-xl tracking-tighter text-slate-900 uppercase">ANIVARYA BAJPAI</span>
-            <div class="flex items-center gap-3">
-                <span id="nav-user-badge" class="text-[10px] font-black tracking-wide bg-slate-100 px-3 py-1.5 rounded-full text-slate-600 uppercase">...</span>
-                <button onclick="openModal()" class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-black transition shadow-sm">
-                    + New Post
+    <!-- MAIN APP NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 premium-blur-nav border-b border-neutral-100 px-4 py-4">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <span onclick="closeProfileView()" class="font-black text-lg tracking-tighter uppercase cursor-pointer select-none">ANIVARYA BAJPAI</span>
+            <div class="flex items-center gap-4">
+                <span id="nav-user-badge" onclick="openOwnProfile()" class="text-xs font-bold tracking-tight text-neutral-500 cursor-pointer hover:text-black transition">@...</span>
+                <button onclick="openModal()" class="bg-black text-white font-bold text-xs px-4 py-2 rounded-full hover:bg-neutral-900 transition">
+                    + Post
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN FEED -->
-    <main class="max-w-xl mx-auto px-2 sm:px-4 py-6 pb-24">
-        <div id="feed-container" class="space-y-6"></div>
+    <!-- FEED MAIN STREAM CONTAINER -->
+    <main id="main-content-stream" class="max-w-md mx-auto px-4 py-6 pb-24">
+        <div id="feed-container" class="space-y-8"></div>
     </main>
 
-    <!-- COMPOSER MODAL -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden my-auto border border-slate-100">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 class="font-black text-slate-800 text-sm tracking-tight">Compose Matrix Post</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-900 font-bold text-xs uppercase">Cancel</button>
+    <!-- DYNAMIC INS-STYLE USER PROFILE LAYER -->
+    <div id="profile-container-view" class="hidden max-w-md mx-auto px-4 py-8 pb-24 animate-fadeIn">
+        <div class="flex items-center justify-between border-b border-neutral-100 pb-6 mb-6">
+            <div>
+                <h2 id="profile-title-handle" class="text-xl font-black tracking-tight">@username</h2>
+                <p id="profile-meta-stats" class="text-xs text-neutral-400 font-medium mt-0.5">0 Track Posts • 0 Hype Accumulations</p>
+            </div>
+            <button onclick="closeProfileView()" class="text-xs font-bold border border-neutral-200 rounded-lg px-3 py-1.5 hover:bg-neutral-50 transition">
+                ← Feed
+            </button>
+        </div>
+        <div id="profile-grid-posts" class="grid grid-cols-2 gap-3"></div>
+    </div>
+
+    <!-- COMPLEMENTARY POST COMPOSER MODAL -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-white/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="w-full max-w-md max-h-[90vh] overflow-y-auto pr-1 space-y-6 text-left">
+            <div class="flex items-center justify-between">
+                <h3 class="font-black text-base tracking-tight uppercase">New Post</h3>
+                <button onclick="closeModal()" class="text-neutral-400 hover:text-black font-bold text-xs uppercase tracking-wider">Close</button>
             </div>
             
-            <form id="post-form" class="p-6 space-y-4">
+            <form id="post-form" class="space-y-6">
+                <!-- Caption Textarea -->
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Caption</label>
-                    <textarea id="post-caption" required rows="2" placeholder="Write something epic..." 
-                              class="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 text-sm text-slate-800 focus:outline-none focus:border-slate-300 font-medium resize-none shadow-inner"></textarea>
+                    <textarea id="post-caption" required rows="3" placeholder="Share what's on your mind..." 
+                              class="w-full rounded-xl bg-neutral-50 border border-neutral-200/60 p-4 text-sm font-medium focus:outline-none focus:border-neutral-400 resize-none transition"></textarea>
                 </div>
                 
-                <!-- IMAGE ASSET SUITE WITH ASPECT CROP PRESET -->
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Add Photo Asset</label>
-                    <div class="border-2 border-dashed border-slate-200 hover:border-slate-300 rounded-xl p-4 text-center cursor-pointer transition relative bg-slate-50/50">
+                <!-- Advanced Visual Asset Upload & Crop Presets -->
+                <div class="space-y-3">
+                    <div class="border border-neutral-200 bg-neutral-50 hover:bg-neutral-100/50 rounded-2xl p-6 text-center cursor-pointer transition relative">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-slate-500">📸 Tap to attach photo asset</p>
-                        <p id="file-chosen-name" class="text-xs font-semibold text-slate-900 truncate mt-1"></p>
+                        <p class="text-xs font-bold text-neutral-500">📸 Choose Photo Asset</p>
+                        <p id="file-chosen-name" class="text-[11px] font-medium text-neutral-400 truncate mt-1"></p>
                     </div>
                     
-                    <!-- ADVANCED IMAGE PRESET CROP CONTROLLER -->
-                    <div id="crop-suite-box" class="hidden mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
-                        <div class="flex items-center justify-between text-[11px] font-bold text-slate-600">
-                            <span>Select Crop Aspect Ratio:</span>
-                            <div class="flex gap-1.5" id="crop-ratio-selectors">
-                                <button type="button" onclick="setCropRatio(event, '1/1')" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">1:1 Square</button>
-                                <button type="button" onclick="setCropRatio(event, '4/5')" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]">4:5 Portrait</button>
-                                <button type="button" onclick="setCropRatio(event, '16/9')" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]">16:9 Landscape</button>
-                            </div>
+                    <!-- Advanced Scale Control Panel (Photo Edit Style Layout) -->
+                    <div id="crop-suite-box" class="hidden space-y-3 border border-neutral-100 p-4 rounded-2xl bg-white">
+                        <div class="flex items-center justify-between text-xs font-bold text-neutral-500">
+                            <span>Image Focal Scale Range:</span>
+                            <span id="scale-indicator">100%</span>
                         </div>
-                        <div class="overflow-hidden rounded-lg bg-black flex items-center justify-center border border-slate-200">
-                            <div id="crop-preview-frame" class="w-full transition-all duration-200 overflow-hidden flex items-center justify-center bg-slate-900" style="aspect-ratio: 1/1;">
-                                <img id="modal-preview-img" src="" class="w-full h-full object-cover">
+                        <input type="range" id="crop-scale-slider" min="100" max="200" value="100" 
+                               class="luxury-slider w-full h-[2px] bg-neutral-200 appearance-none outline-none cursor-pointer"
+                               oninput="adjustCropScale(this.value)">
+                        
+                        <div class="overflow-hidden aspect-square rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center relative">
+                            <div id="crop-preview-frame" class="w-full h-full overflow-hidden flex items-center justify-center">
+                                <img id="modal-preview-img" src="" class="w-full h-full object-cover transition-transform duration-75 origin-center">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SIMPLE FEATURES TRAY -->
-                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500">⚡ Simple Features</label>
-                    
-                    <!-- Price Guess Game -->
-                    <div class="space-y-1.5">
+                <!-- Minimal Features Modular Panel -->
+                <div class="border border-neutral-100 bg-neutral-50/50 p-4 rounded-2xl space-y-4">
+                    <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-700">💰 Valuation Guess Game:</span>
-                            <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-slate-900">
+                            <span class="text-xs font-bold text-neutral-700">Valuation Guess Game</span>
+                            <input type="checkbox" id="toggle-luxury-slider" class="w-3.5 h-3.5 accent-black">
                         </div>
-                        <input type="number" id="luxury-correct-price" placeholder="Target valuation match price (e.g. 800)" class="w-full text-xs p-2 rounded-xl bg-white border border-slate-200 focus:outline-none">
+                        <input type="number" id="luxury-correct-price" placeholder="Target valuation match price (e.g. 800)" 
+                               class="w-full text-xs p-3 rounded-xl bg-white border border-neutral-200 focus:outline-none">
                     </div>
 
-                    <!-- Auto Delete Setup -->
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
-                        <span class="text-xs font-bold text-slate-700">💥 Auto-Glitch Destruction (24hr Life):</span>
-                        <input type="checkbox" id="toggle-glitch-destruct" class="w-4 h-4 accent-slate-900">
+                    <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
+                        <span class="text-xs font-bold text-neutral-700">Auto-Glitch Destruction (24hr Life)</span>
+                        <input type="checkbox" id="toggle-glitch-destruct" class="w-3.5 h-3.5 accent-black">
                     </div>
 
-                    <!-- Tap To Blur Setup -->
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
-                        <span class="text-xs font-bold text-slate-700">🕵️‍♂️ Tap & Hold View Mode (Ghost Blur):</span>
-                        <input type="checkbox" id="toggle-ghost-blur" class="w-4 h-4 accent-slate-900">
+                    <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
+                        <span class="text-xs font-bold text-neutral-700">Ghost Blur View (Tap & Hold Mode)</span>
+                        <input type="checkbox" id="toggle-ghost-blur" class="w-3.5 h-3.5 accent-black">
                     </div>
                 </div>
 
-                <!-- AUDIO ATTACHMENT SUITE ENGINE -->
-                <div class="bg-slate-50 p-4 border border-slate-200 rounded-2xl space-y-3">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500">🎵 Background Music Core</label>
+                <!-- Background Music Integration Hub -->
+                <div class="space-y-3">
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search tracks, artists, or audio clips..." 
-                               class="w-full rounded-xl bg-white border border-slate-200 p-2 text-xs text-slate-800 focus:outline-none">
-                        <button type="button" onclick="searchSongs()" class="bg-slate-900 text-white font-bold text-xs px-4 rounded-xl">Search</button>
+                        <input type="text" id="music-search-input" placeholder="Search track or artist..." 
+                               class="w-full rounded-xl bg-neutral-50 border border-neutral-200/60 px-4 py-2.5 text-xs font-medium focus:outline-none">
+                        <button type="button" onclick="searchSongs()" class="bg-black text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
                     
-                    <div>
-                        <div id="music-results" class="space-y-1 max-h-36 overflow-y-auto bg-white border rounded-xl p-1"></div>
-                    </div>
+                    <div id="music-results" class="space-y-1 max-h-36 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <!-- Interactive Locking Module after hearing preview -->
-                    <div id="preview-control-zone" class="hidden p-2.5 bg-slate-100 rounded-xl space-y-2 text-xs">
-                        <div class="flex items-center justify-between font-bold">
-                            <span id="preview-track-title" class="text-slate-700 truncate max-w-[200px]">Playing Preview...</span>
-                            <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]">⏸ Pause</button>
+                    <div id="preview-control-zone" class="hidden p-3 bg-neutral-50 rounded-xl flex items-center justify-between text-xs font-bold border border-neutral-100">
+                        <span id="preview-track-title" class="text-neutral-700 truncate max-w-[180px]">Playing Preview...</span>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-neutral-200 px-2 py-1 rounded">⏸ Pause</button>
+                            <button type="button" onclick="lockPreviewedTrack()" class="bg-black text-white px-2 py-1 rounded">Lock Track</button>
                         </div>
-                        <button type="button" onclick="lockPreviewedTrack()" class="w-full bg-emerald-600 text-white font-black text-[10px] uppercase py-1.5 rounded-lg">
-                            ✅ Lock This Audio Track
-                        </button>
                     </div>
 
-                    <div id="selected-music-badge" class="hidden p-2 bg-slate-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
+                    <div id="selected-music-badge" class="hidden p-3 bg-black text-white rounded-xl flex items-center justify-between text-xs font-bold animate-fadeIn">
                         <div class="flex items-center gap-2 min-w-0">
-                            <img id="selected-music-track-img" src="" class="w-6 h-6 rounded-md">
-                            <span id="selected-music-text" class="truncate max-w-[180px]">Song Attached Successfully</span>
+                            <img id="selected-music-track-img" src="" class="w-5 h-5 rounded-md object-cover">
+                            <span id="selected-music-text" class="truncate max-w-[200px]">Track Attached</span>
                         </div>
-                        <button type="button" onclick="removeSelectedMusic()" class="text-white font-bold text-xs px-1">✕</button>
+                        <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white transition">✕</button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl hover:bg-black transition shadow-md">
-                    Publish Post
+                <button type="submit" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-neutral-900 transition shadow-sm">
+                    Publish Track Asset
                 </button>
             </form>
         </div>
@@ -225,9 +241,8 @@
         let tempPreviewAudioObj = null; 
         let currentInspectedTrackData = null; 
         let globalAudioInstances = {}; 
-        let selectedCropAspect = '1/1';
+        let currentScaleValue = 100;
 
-        // REAL HIT COMMERCIAL SOUND TRACKS WITH ORIGINAL SINGERS
         const prebuiltTrendingSeeds = [
             {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
             {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"},
@@ -257,11 +272,12 @@
             
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Selected: ${this.files[0].name}`;
+                    document.getElementById('file-chosen-name').innerText = `Attached: ${this.files[0].name}`;
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         document.getElementById('modal-preview-img').src = e.target.result;
                         document.getElementById('crop-suite-box').classList.remove('hidden');
+                        adjustCropScale(100);
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
@@ -283,29 +299,17 @@
                         const img = new Image();
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
-                            let targetWidth = 600;
-                            let targetHeight = 600;
-
-                            if (selectedCropAspect === '4/5') { targetHeight = 750; }
-                            else if (selectedCropAspect === '16/9') { targetHeight = 337; }
-
-                            canvas.width = targetWidth;
-                            canvas.height = targetHeight;
-                            
+                            canvas.width = 600;
+                            canvas.height = 600;
                             const ctx = canvas.getContext('2d');
-                            let imgRatio = img.width / img.height;
-                            let targetRatio = targetWidth / targetHeight;
-                            let sx = 0, sy = 0, sw = img.width, sh = img.height;
+                            
+                            let scaleMultiplier = currentScaleValue / 100;
+                            let sw = (img.width > img.height ? img.height : img.width) / scaleMultiplier;
+                            let sh = sw;
+                            let sx = (img.width - sw) / 2;
+                            let sy = (img.height - sh) / 2;
 
-                            if (imgRatio > targetRatio) {
-                                sw = img.height * targetRatio;
-                                sx = (img.width - sw) / 2;
-                            } else {
-                                sh = img.width / targetRatio;
-                                sy = (img.height - sh) / 2;
-                            }
-
-                            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
+                            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, 600, 600);
                             saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.8), isSlider, correctPrice, isGlitch, isGhost);
                         };
                         img.src = event.target.result;
@@ -319,16 +323,10 @@
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
         });
 
-        function setCropRatio(event, ratioStr) {
-            selectedCropAspect = ratioStr;
-            const frame = document.getElementById('crop-preview-frame');
-            frame.style.aspectRatio = ratioStr;
-            
-            const btns = document.querySelectorAll('#crop-ratio-selectors button');
-            btns.forEach(b => {
-                b.className = "bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px]";
-            });
-            event.target.className = "bg-slate-900 text-white px-2 py-0.5 rounded text-[10px]";
+        function adjustCropScale(val) {
+            currentScaleValue = val;
+            document.getElementById('scale-indicator').innerText = `${val}%`;
+            document.getElementById('modal-preview-img').style.transform = `scale(${val / 100})`;
         }
 
         function evaluateUserSession() {
@@ -336,13 +334,13 @@
                 document.getElementById('auth-overlay').classList.remove('hidden');
             } else {
                 document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY ? "⚙ Owner Master" : `@${activeUser}`;
+                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY ? "@anivaryabajpai" : `@${activeUser}`;
             }
         }
 
         function processAuth() {
             const raw = document.getElementById('username-input').value.trim();
-            if(!raw) return alert("Enter valid credentials handle!");
+            if(!raw) return alert("Enter a valid handle!");
             let processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
             if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') { processedHandle = MASTER_ADMIN_KEY; }
             localStorage.setItem('core_user_id', processedHandle);
@@ -356,14 +354,14 @@
             resultsDiv.innerHTML = '';
             tracks.forEach(track => {
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between p-2 hover:bg-slate-100 cursor-pointer rounded-lg transition';
+                row.className = 'flex items-center justify-between p-2 hover:bg-neutral-50 cursor-pointer rounded-lg transition';
                 row.onclick = () => launchLiveTrackPreview(track);
                 row.innerHTML = `
                     <div class="flex items-center gap-2 pointer-events-none min-w-0">
-                        <img src="${track.artworkUrl100}" class="w-7 h-7 rounded border">
-                        <p class="text-xs font-bold text-slate-800 truncate max-w-[220px]">${track.trackName} - <span class="text-slate-400 font-medium">${track.artistName}</span></p>
+                        <img src="${track.artworkUrl100}" class="w-6 h-6 rounded border object-cover">
+                        <p class="text-xs font-bold text-neutral-800 truncate max-w-[240px]">${track.trackName} <span class="text-neutral-400 font-medium">by ${track.artistName}</span></p>
                     </div>
-                    <span class="text-[9px] font-black text-slate-500 bg-slate-200/60 px-2 py-1 rounded">🔊 Listen</span>
+                    <span class="text-[10px] font-bold text-neutral-400 bg-neutral-100 px-2 py-0.5 rounded">Preview</span>
                 `;
                 resultsDiv.appendChild(row);
             });
@@ -454,7 +452,6 @@
         function triggerAudioToggle(postId, audioUrl) {
             const cardFrame = document.getElementById(`card-${postId}`);
             const diskEl = document.getElementById(`disk-${postId}`);
-            const controlBarText = document.getElementById(`audio-bar-text-${postId}`);
             const stateBtn = document.getElementById(`audio-state-btn-${postId}`);
             
             if (globalAudioInstances[postId]) {
@@ -462,29 +459,24 @@
                     globalAudioInstances[postId].play();
                     if(diskEl) diskEl.classList.add('music-spinning');
                     cardFrame.classList.add('audio-active-card');
-                    stateBtn.innerHTML = "⏸ PAUSE";
-                    controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
+                    stateBtn.innerHTML = "⏸ Mute";
                 } else {
                     globalAudioInstances[postId].pause();
                     if(diskEl) diskEl.classList.remove('music-spinning');
                     cardFrame.classList.remove('audio-active-card');
-                    stateBtn.innerHTML = "▶ STREAM AUDIO";
-                    controlBarText.innerText = "AUDIO MUTED";
+                    stateBtn.innerHTML = "▶ Play Audio";
                 }
                 return;
             }
 
-            // Mute other active instances
             Object.keys(globalAudioInstances).forEach(k => {
                 globalAudioInstances[k].pause();
                 const cf = document.getElementById(`card-${k}`);
                 const d = document.getElementById(`disk-${k}`);
                 const s = document.getElementById(`audio-state-btn-${k}`);
-                const t = document.getElementById(`audio-bar-text-${k}`);
                 if(cf) cf.classList.remove('audio-active-card');
                 if(d) d.classList.remove('music-spinning');
-                if(s) s.innerHTML = "▶ STREAM AUDIO";
-                if(t) t.innerText = "AUDIO MUTED";
+                if(s) s.innerHTML = "▶ Play Audio";
             });
 
             const audioObj = new Audio(audioUrl);
@@ -494,8 +486,7 @@
             
             if(diskEl) diskEl.classList.add('music-spinning');
             cardFrame.classList.add('audio-active-card');
-            stateBtn.innerHTML = "⏸ PAUSE";
-            controlBarText.innerText = `NOW STREAMING: ${posts.find(p=>p.id===postId).music.title}`;
+            stateBtn.innerHTML = "⏸ Mute";
         }
 
         function registerBlindHype(postId) {
@@ -503,54 +494,93 @@
             if (!currentPost) return;
 
             if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) {
-                alert("You have already verified your hype allotment on this track asset! Limit: 1");
+                alert("You have already hyped this asset!");
                 return;
             }
 
             const updatedCount = (currentPost.hypeCount || 0) + 1;
-            
             database.ref(`posts/${postId}/hypedByUsers/${activeUser}`).set(true);
             database.ref(`posts/${postId}`).update({ hypeCount: updatedCount });
-            
-            const particles = ['⚡', '🚀', '🔥', '💎'];
-            const rand = particles[Math.floor(Math.random() * particles.length)];
-            const blast = document.createElement('div');
-            blast.className = 'fixed text-3xl pointer-events-none z-50 animate-ping';
-            blast.style.left = (window.innerWidth / 2) + 'px';
-            blast.style.top = (window.innerHeight / 2) + 'px';
-            blast.innerText = rand;
-            document.body.appendChild(blast);
-            setTimeout(() => blast.remove(), 1000);
         }
 
         function checkLuxuryGuess(postId, val, correctVal) {
             const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
-            feedbackEl.innerText = `Your Guess: ₹${val}`;
             if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 MATCH DETECTED! VERIFIED COST TARGET CORRESPONDENCE! 💎`;
-                feedbackEl.className = "text-[11px] font-black text-emerald-600 mt-1 animate-pulse";
+                feedbackEl.innerText = `💎 Match Detected: Correct Valuation Verified!`;
+                feedbackEl.className = "text-xs font-bold text-neutral-900 mt-2";
             } else {
-                feedbackEl.className = "text-[11px] font-bold text-slate-500 mt-1";
+                feedbackEl.innerText = `Estimate: ₹${val}`;
+                feedbackEl.className = "text-xs font-medium text-neutral-400 mt-2";
             }
         }
 
         function ghostPeekTrigger(imgId, reveal) {
             const img = document.getElementById(imgId);
             if(!img) return;
-            if(reveal) {
-                img.classList.remove('ghost-blurred');
-                img.classList.add('ghost-revealed');
-            } else {
-                img.classList.remove('ghost-revealed');
-                img.classList.add('ghost-blurred');
-            }
+            if(reveal) { img.classList.remove('ghost-blurred'); img.classList.add('ghost-revealed'); }
+            else { img.classList.remove('ghost-revealed'); img.classList.add('ghost-blurred'); }
         }
 
         function deletePost(postId) {
-            if(confirm("Delete this post permanently?")) {
+            if(confirm("Permanently drop this asset post?")) {
                 if(globalAudioInstances[postId]) globalAudioInstances[postId].pause();
                 database.ref('posts/' + postId).remove();
             }
+        }
+
+        // NAVIGATION COMPONENT FOR VISUAL PROFILES
+        function viewUserProfile(targetHandle) {
+            document.getElementById('main-content-stream').classList.add('hidden');
+            const profileView = document.getElementById('profile-container-view');
+            profileView.classList.remove('hidden');
+
+            document.getElementById('profile-title-handle').innerText = `@${targetHandle}`;
+            
+            const userSubset = posts.filter(p => p.userHandle === targetHandle);
+            let totalHypes = 0;
+            userSubset.forEach(p => totalHypes += (p.hypeCount || 0));
+
+            document.getElementById('profile-meta-stats').innerText = `${userSubset.length} Assets Shared • ${totalHypes} Hype Counts Recieved`;
+
+            const grid = document.getElementById('profile-grid-posts');
+            grid.innerHTML = '';
+
+            if(userSubset.length === 0) {
+                grid.innerHTML = `<div class="col-span-2 text-center py-12 text-xs font-bold text-neutral-400 uppercase tracking-widest">No Posts Yet.</div>`;
+                return;
+            }
+
+            userSubset.forEach(post => {
+                const item = document.createElement('div');
+                item.className = 'relative aspect-square rounded-2xl bg-neutral-100 overflow-hidden border border-neutral-200/40 cursor-pointer group shadow-sm';
+                
+                let contentOverlay = post.image ? 
+                    `<img src="${post.image}" class="w-full h-full object-cover">` : 
+                    `<div class="w-full h-full p-4 flex flex-col justify-between bg-white">
+                        <p class="text-xs font-medium text-neutral-800 line-clamp-3">${post.caption}</p>
+                     </div>`;
+
+                item.innerHTML = `
+                    ${contentOverlay}
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                        <span class="text-white text-xs font-bold">🔥 ${post.hypeCount || 0}</span>
+                    </div>
+                `;
+                item.onclick = () => { closeProfileView(); setTimeout(() => {
+                    document.getElementById(`card-${post.id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 150); };
+                grid.appendChild(item);
+            });
+        }
+
+        function openOwnProfile() {
+            let actualSelf = activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser;
+            viewUserProfile(actualSelf);
+        }
+
+        function closeProfileView() {
+            document.getElementById('profile-container-view').classList.add('hidden');
+            document.getElementById('main-content-stream').classList.remove('hidden');
         }
 
         function renderFeed() {
@@ -558,28 +588,25 @@
             container.innerHTML = '';
 
             if(posts.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 bg-white border border-slate-200 rounded-3xl text-slate-400 font-bold text-xs uppercase tracking-widest">Feed Offline.</div>`;
+                container.innerHTML = `<div class="text-center py-20 text-neutral-400 font-bold text-xs uppercase tracking-widest">No updates available.</div>`;
                 return;
             }
 
             posts.forEach(post => {
                 const card = document.createElement('div');
                 card.id = `card-${post.id}`;
-                card.className = 'bg-white rounded-3xl border border-slate-200 overflow-hidden text-left relative transition-all duration-300 shadow-sm hover:shadow-md';
+                card.className = 'bg-white rounded-3xl border border-neutral-200/60 overflow-hidden text-left relative transition-all duration-300 audio-active-card';
                 
-                let audioBadgeHeader = post.music ? `
-                    <div class="flex items-center gap-1 bg-slate-100 text-slate-700 text-[10px] font-black px-2.5 py-1 rounded-full max-w-[160px] truncate">
-                        <span>🎵</span><span class="truncate">${post.music.artist}</span>
-                    </div>` : '';
-
-                let premiumAudioBarHtml = post.music ? `
-                    <div class="px-4 py-2.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-950 select-none">
+                let audioAccessoryBar = post.music ? `
+                    <div class="px-5 py-3 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/50">
                         <div class="flex items-center gap-2.5 min-w-0">
-                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-7 h-7 rounded-full border border-slate-700 object-cover shadow-inner">
-                            <span id="audio-bar-text-${post.id}" class="text-[10px] font-black tracking-wider uppercase text-slate-300 truncate max-w-[220px]">AUDIO MUTED</span>
+                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-6 h-6 rounded-full border border-neutral-200 object-cover">
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold text-neutral-800 truncate max-w-[160px]">${post.music.title}</p>
+                            </div>
                         </div>
-                        <button id="audio-state-btn-${post.id}" onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" class="bg-white text-slate-950 text-[9px] font-black px-3 py-1 rounded-md tracking-wider transition hover:bg-slate-100">
-                            ▶ STREAM AUDIO
+                        <button id="audio-state-btn-${post.id}" onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" class="text-[11px] font-black tracking-tight text-neutral-900 border border-neutral-300 rounded-lg px-2.5 py-1 bg-white hover:bg-neutral-50 transition">
+                            ▶ Play Audio
                         </button>
                     </div>` : '';
 
@@ -587,68 +614,69 @@
                 if(post.image) {
                     if(post.isGhostPeek) {
                         imageHtml = `
-                            <div class="relative overflow-hidden bg-slate-950 select-none cursor-pointer" 
+                            <div class="relative overflow-hidden bg-neutral-100 select-none cursor-pointer aspect-square rounded-2xl mx-5 mt-2" 
                                  onmousedown="ghostPeekTrigger('img-${post.id}', true)" onmouseup="ghostPeekTrigger('img-${post.id}', false)"
                                  ontouchstart="ghostPeekTrigger('img-${post.id}', true)" ontouchend="ghostPeekTrigger('img-${post.id}', false)">
-                                <img id="img-${post.id}" src="${post.image}" class="w-full h-auto object-cover ghost-blurred">
-                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/20 pointer-events-none p-4 text-center">
-                                    <span class="text-xl">🕵️‍♂️</span>
-                                    <p class="text-[10px] font-black text-white uppercase tracking-widest mt-1 drop-shadow-md">Hold down to view asset</p>
+                                <img id="img-${post.id}" src="${post.image}" class="w-full h-full object-cover ghost-blurred">
+                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/10 pointer-events-none p-4">
+                                    <p class="text-[10px] font-bold text-black uppercase bg-white/95 px-3 py-1.5 rounded-full shadow-sm">Hold down to view</p>
                                 </div>
                             </div>`;
                     } else {
-                        imageHtml = `<img src="${post.image}" class="w-full h-auto object-cover select-none">`;
+                        imageHtml = `
+                        <div class="mx-5 mt-2 overflow-hidden rounded-2xl aspect-square border border-neutral-100">
+                            <img src="${post.image}" class="w-full h-full object-cover select-none">
+                        </div>`;
                     }
                 }
 
                 let gameHtml = '';
                 if(post.isLuxurySlider) {
                     gameHtml = `
-                        <div class="mt-4 p-3.5 bg-slate-50 border border-slate-100 rounded-2xl">
-                            <div class="flex justify-between items-center text-[10px] font-black tracking-wider text-slate-400 uppercase mb-2">
-                                <span>💰 Valuation Challenge</span>
-                                <span class="text-slate-900 font-extrabold">Max Limit: ₹2000</span>
+                        <div class="mt-4 p-4 bg-neutral-50 border border-neutral-100 rounded-2xl mx-5">
+                            <div class="flex justify-between items-center text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                                <span>Valuation Challenge</span>
+                                <span class="text-neutral-900">Max: ₹2000</span>
                             </div>
                             <input type="range" min="0" max="2000" step="50" value="0" 
-                                   class="luxury-slider w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer outline-none transition"
+                                   class="luxury-slider w-full h-[2px] bg-neutral-200 appearance-none cursor-pointer outline-none transition"
                                    oninput="checkLuxuryGuess('${post.id}', this.value, '${post.targetPrice}')">
-                            <p id="luxury-feed-${post.id}" class="text-[11px] font-bold text-slate-500 mt-1">Slide to calibrate your value estimate...</p>
+                            <p id="luxury-feed-${post.id}" class="text-xs font-medium text-neutral-400 mt-2">Slide to estimate value...</p>
                         </div>`;
                 }
 
                 let deleteBtnHtml = '';
                 if(activeUser === MASTER_ADMIN_KEY || activeUser === post.creatorOwnerTokenId) {
                     deleteBtnHtml = `
-                        <button onclick="deletePost('${post.id}')" class="text-slate-300 hover:text-red-500 text-xs font-bold transition uppercase tracking-wider text-[10px]">
-                            🗑 Delete
+                        <button onclick="deletePost('${post.id}')" class="text-neutral-300 hover:text-black transition font-bold text-[11px] uppercase tracking-tight">
+                            Remove
                         </button>`;
                 }
 
                 card.innerHTML = `
-                    ${premiumAudioBarHtml}
-                    <div class="p-5">
-                        <div class="flex items-center justify-between mb-3">
+                    ${audioAccessoryBar}
+                    <div class="py-5">
+                        <div class="flex items-center justify-between mb-4 px-5">
                             <div class="flex items-center gap-2">
-                                <div class="w-7 h-7 rounded-full bg-slate-900 flex items-center justify-center font-black text-[10px] text-white uppercase shadow">
+                                <div onclick="viewUserProfile('${post.userHandle}')" class="w-6 h-6 rounded-full bg-black flex items-center justify-center font-black text-[9px] text-white uppercase cursor-pointer">
                                     ${post.userHandle.substring(0, 2)}
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-black text-slate-900 tracking-tight">@${post.userHandle}</h4>
-                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tight">${post.timestamp}</p>
+                                    <h4 onclick="viewUserProfile('${post.userHandle}')" class="text-xs font-black text-neutral-900 tracking-tight hover:underline cursor-pointer">@${post.userHandle}</h4>
+                                    <p class="text-[9px] font-bold text-neutral-400 uppercase tracking-tight">${post.timestamp}</p>
                                 </div>
                             </div>
-                            ${audioBadgeHeader}
                         </div>
                         
-                        <p class="text-sm font-medium text-slate-800 leading-relaxed whitespace-pre-wrap select-text mb-4">${post.caption}</p>
+                        <p class="text-xs font-medium text-neutral-800 leading-relaxed whitespace-pre-wrap select-text mb-2 px-5">${post.caption}</p>
                         
                         ${imageHtml}
                         ${gameHtml}
 
-                        <div class="flex items-center justify-between mt-4 pt-3.5 border-t border-slate-100">
-                            <button onclick="registerBlindHype('${post.id}')" class="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-4 py-2 rounded-xl transition hover:bg-slate-100 active:scale-95">
-                                <span class="text-sm">🔥</span>
-                                <span class="text-xs font-black tracking-tight text-slate-800">${post.hypeCount || 0} Hype Slots</span>
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-neutral-100 px-5">
+                            <button onclick="registerBlindHype('${post.id}')" class="flex items-center gap-1.5 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 px-3 py-1.5 rounded-xl transition">
+                                <span class="text-xs">🔥</span>
+                                <span class="text-[11px] font-black text-neutral-800">${post.hypeCount || 0} Hype</span>
                             </button>
                             ${deleteBtnHtml}
                         </div>
