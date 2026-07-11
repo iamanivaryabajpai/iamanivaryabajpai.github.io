@@ -7,6 +7,11 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- CROPPER.JS FOR EXACT GOOGLE PHOTOS STYLE CROP -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -17,204 +22,150 @@
         }
     </script>
     <style>
-        body { 
-            background: #fafafa;
-            min-height: 100vh; 
-        }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        body { background: #fafafa; min-height: 100vh; }
+        .premium-blur-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        .premium-blur-nav {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
+        /* Cropper Custom Overrides to Look Exactly Like Google Photos */
+        .cropper-view-box, .cropper-face { border-radius: 16px; }
+        .cropper-line, .cropper-point { background-color: #ffffff; }
+        .cropper-bg { background-image: none; background-color: #171717; }
         
-        @keyframes audioPulse {
-            0% { box-shadow: 0 0 0px rgba(0,0,0,0); border-color: #e2e8f0; }
-            50% { box-shadow: 0 0 20px rgba(0,0,0,0.03); border-color: #000000; }
-            100% { box-shadow: 0 0 0px rgba(0,0,0,0); border-color: #e2e8f0; }
+        @keyframes pulse-music {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
         }
-        .audio-active-card {
-            animation: audioPulse 2.5s infinite ease-in-out;
-        }
-        .music-spinning {
-            animation: spin 5s linear infinite;
-        }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        .ghost-blurred {
-            filter: blur(20px);
-            transition: filter 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .ghost-revealed {
-            filter: blur(0px);
-        }
-        
-        .luxury-slider {
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .luxury-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #000000;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .luxury-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.3);
+        .music-bar { animation: pulse-music 1.2s ease-in-out infinite; }
+        .bar-1 { animation-delay: 0.1s; }
+        .bar-2 { animation-delay: 0.4s; }
+        .bar-3 { animation-delay: 0.2s; }
+
+        /* Style for the active lyric chunk selected by the user */
+        .lyric-segment-node.active-segment {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 800;
+            transform: scale(1.02);
         }
     </style>
 
-    <!-- FIREBASE MODULES -->
+    <!-- FIREBASE INTEGRATION -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body class="font-sans text-black antialiased">
 
-    <!-- IDENTITY AUTH MODAL -->
-    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-white/90 backdrop-blur-xl flex items-center justify-center p-4">
+    <!-- LOGIN OVERLAY -->
+    <div id="auth-overlay" class="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4">
         <div class="w-full max-w-xs text-center space-y-6">
             <h2 class="text-2xl font-black tracking-tighter uppercase">ANIVARYA BAJPAI</h2>
-            <p class="text-xs font-medium text-neutral-400 tracking-tight max-w-[200px] mx-auto">Connect your handle token to access the network timeline.</p>
             <div class="space-y-2">
-                <input type="text" id="username-input" placeholder="Type user handle..." 
-                       class="w-full rounded-xl bg-neutral-50 border border-neutral-200/80 px-4 py-3 text-sm text-center font-bold focus:outline-none focus:border-black transition">
-                <button onclick="processAuth()" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl hover:bg-neutral-900 transition">
-                    Sign In
-                </button>
+                <input type="text" id="username-input" placeholder="Type user handle..." class="w-full rounded-xl bg-neutral-50 border border-neutral-200 px-4 py-3 text-sm text-center font-bold focus:outline-none focus:border-black">
+                <button onclick="processAuth()" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl">Sign In</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP NAVIGATION BAR -->
+    <!-- STICKY HEADER -->
     <nav class="sticky top-0 z-50 premium-blur-nav border-b border-neutral-100 px-4 py-4">
         <div class="max-w-md mx-auto flex items-center justify-between">
-            <span onclick="closeProfileView()" class="font-black text-lg tracking-tighter uppercase cursor-pointer select-none">ANIVARYA BAJPAI</span>
+            <span onclick="closeProfileView()" class="font-black text-lg tracking-tighter uppercase cursor-pointer">ANIVARYA BAJPAI</span>
             <div class="flex items-center gap-4">
-                <span id="nav-user-badge" onclick="openOwnProfile()" class="text-xs font-bold tracking-tight text-neutral-500 cursor-pointer hover:text-black transition">@...</span>
-                <button onclick="openModal()" class="bg-black text-white font-bold text-xs px-4 py-2 rounded-full hover:bg-neutral-900 transition">
-                    + Post
-                </button>
+                <span id="nav-user-badge" onclick="openOwnProfile()" class="text-xs font-bold text-neutral-500 cursor-pointer hover:text-black">@...</span>
+                <button onclick="openModal()" class="bg-black text-white font-bold text-xs px-4 py-2 rounded-full">+ Post</button>
             </div>
         </div>
     </nav>
 
-    <!-- FEED MAIN STREAM CONTAINER -->
+    <!-- MAIN TIMELINE -->
     <main id="main-content-stream" class="max-w-md mx-auto px-4 py-6 pb-24">
-        <div id="feed-container" class="space-y-8"></div>
+        <div id="feed-container" class="space-y-6"></div>
     </main>
 
-    <!-- DYNAMIC INS-STYLE USER PROFILE LAYER -->
-    <div id="profile-container-view" class="hidden max-w-md mx-auto px-4 py-8 pb-24 animate-fadeIn">
-        <div class="flex items-center justify-between border-b border-neutral-100 pb-6 mb-6">
-            <div>
+    <!-- INSTAGRAM-INSPIRED LUXURY PROFILE LAYER -->
+    <div id="profile-container-view" class="hidden max-w-md mx-auto px-4 py-8 pb-24">
+        <div class="flex items-center gap-6 border-b border-neutral-100 pb-8 mb-6">
+            <div class="w-20 h-20 rounded-full bg-neutral-900 text-white flex items-center justify-center font-black text-2xl uppercase" id="profile-avatar-placeholder">U</div>
+            <div class="flex-1 space-y-3">
                 <h2 id="profile-title-handle" class="text-xl font-black tracking-tight">@username</h2>
-                <p id="profile-meta-stats" class="text-xs text-neutral-400 font-medium mt-0.5">0 Track Posts • 0 Hype Accumulations</p>
+                <div class="flex gap-6">
+                    <div>
+                        <span id="profile-stat-posts-count" class="font-black text-sm">0</span>
+                        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Assets</p>
+                    </div>
+                    <div>
+                        <span id="profile-stat-hypes-count" class="font-black text-sm">0</span>
+                        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Hype</p>
+                    </div>
+                </div>
             </div>
-            <button onclick="closeProfileView()" class="text-xs font-bold border border-neutral-200 rounded-lg px-3 py-1.5 hover:bg-neutral-50 transition">
-                ← Feed
-            </button>
         </div>
-        <div id="profile-grid-posts" class="grid grid-cols-2 gap-3"></div>
+        <div class="mb-6"><button onclick="closeProfileView()" class="w-full text-xs font-bold border border-neutral-200 py-2.5 rounded-xl bg-white hover:bg-neutral-50">← Back to Feed</button></div>
+        <div id="profile-grid-posts" class="grid grid-cols-3 gap-1"></div>
     </div>
 
-    <!-- COMPLEMENTARY POST COMPOSER MODAL -->
-    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-white/80 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="w-full max-w-md max-h-[90vh] overflow-y-auto pr-1 space-y-6 text-left">
+    <!-- POST COMPOSER MODAL -->
+    <div id="post-modal" class="hidden fixed inset-0 z-50 bg-white flex items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-md space-y-6 py-6">
             <div class="flex items-center justify-between">
-                <h3 class="font-black text-base tracking-tight uppercase">New Post</h3>
-                <button onclick="closeModal()" class="text-neutral-400 hover:text-black font-bold text-xs uppercase tracking-wider">Close</button>
+                <h3 class="font-black text-sm tracking-widest uppercase text-neutral-400">Create Asset Stream</h3>
+                <button onclick="closeModal()" class="text-black font-bold text-xs uppercase">Close</button>
             </div>
             
-            <form id="post-form" class="space-y-6">
-                <!-- Caption Textarea -->
-                <div>
-                    <textarea id="post-caption" required rows="3" placeholder="Share what's on your mind..." 
-                              class="w-full rounded-xl bg-neutral-50 border border-neutral-200/60 p-4 text-sm font-medium focus:outline-none focus:border-neutral-400 resize-none transition"></textarea>
-                </div>
+            <form id="post-form" class="space-y-4">
+                <textarea id="post-caption" required rows="3" placeholder="Write context or thoughts..." class="w-full rounded-2xl bg-neutral-50 border border-neutral-100 p-4 text-sm font-medium focus:outline-none"></textarea>
                 
-                <!-- Advanced Visual Asset Upload & Crop Presets -->
+                <!-- ADVANCED IMAGE UPLOADER & CROP SUITE -->
                 <div class="space-y-3">
-                    <div class="border border-neutral-200 bg-neutral-50 hover:bg-neutral-100/50 rounded-2xl p-6 text-center cursor-pointer transition relative">
+                    <div class="border border-dashed border-neutral-200 bg-neutral-50 rounded-2xl p-4 text-center relative">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <p class="text-xs font-bold text-neutral-500">📸 Choose Photo Asset</p>
-                        <p id="file-chosen-name" class="text-[11px] font-medium text-neutral-400 truncate mt-1"></p>
+                        <p class="text-xs font-bold text-neutral-600">📸 Choose Image</p>
                     </div>
                     
-                    <!-- Advanced Scale Control Panel (Photo Edit Style Layout) -->
-                    <div id="crop-suite-box" class="hidden space-y-3 border border-neutral-100 p-4 rounded-2xl bg-white">
-                        <div class="flex items-center justify-between text-xs font-bold text-neutral-500">
-                            <span>Image Focal Scale Range:</span>
-                            <span id="scale-indicator">100%</span>
-                        </div>
-                        <input type="range" id="crop-scale-slider" min="100" max="200" value="100" 
-                               class="luxury-slider w-full h-[2px] bg-neutral-200 appearance-none outline-none cursor-pointer"
-                               oninput="adjustCropScale(this.value)">
-                        
-                        <div class="overflow-hidden aspect-square rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center relative">
-                            <div id="crop-preview-frame" class="w-full h-full overflow-hidden flex items-center justify-center">
-                                <img id="modal-preview-img" src="" class="w-full h-full object-cover transition-transform duration-75 origin-center">
-                            </div>
+                    <!-- Cropper Sandbox Area -->
+                    <div id="crop-suite-box" class="hidden space-y-2">
+                        <p class="text-[11px] font-bold text-neutral-400 uppercase">Crop Frame (Adjust freely):</p>
+                        <div class="max-h-72 overflow-hidden bg-neutral-900 rounded-2xl">
+                            <img id="modal-preview-img" class="block max-w-full">
                         </div>
                     </div>
                 </div>
 
-                <!-- Minimal Features Modular Panel -->
-                <div class="border border-neutral-100 bg-neutral-50/50 p-4 rounded-2xl space-y-4">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-neutral-700">Valuation Guess Game</span>
-                            <input type="checkbox" id="toggle-luxury-slider" class="w-3.5 h-3.5 accent-black">
-                        </div>
-                        <input type="number" id="luxury-correct-price" placeholder="Target valuation match price (e.g. 800)" 
-                               class="w-full text-xs p-3 rounded-xl bg-white border border-neutral-200 focus:outline-none">
-                    </div>
-
-                    <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
-                        <span class="text-xs font-bold text-neutral-700">Auto-Glitch Destruction (24hr Life)</span>
-                        <input type="checkbox" id="toggle-glitch-destruct" class="w-3.5 h-3.5 accent-black">
-                    </div>
-
-                    <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
-                        <span class="text-xs font-bold text-neutral-700">Ghost Blur View (Tap & Hold Mode)</span>
-                        <input type="checkbox" id="toggle-ghost-blur" class="w-3.5 h-3.5 accent-black">
-                    </div>
-                </div>
-
-                <!-- Background Music Integration Hub -->
-                <div class="space-y-3">
+                <!-- DYNAMIC LYRIC/AUDIO TRACER MODULE -->
+                <div class="space-y-2">
+                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music Track</p>
                     <div class="flex gap-2">
-                        <input type="text" id="music-search-input" placeholder="Search track or artist..." 
-                               class="w-full rounded-xl bg-neutral-50 border border-neutral-200/60 px-4 py-2.5 text-xs font-medium focus:outline-none">
+                        <input type="text" id="music-search-input" placeholder="Search track name..." class="w-full rounded-xl bg-neutral-50 border border-neutral-100 px-3 py-2 text-xs focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-black text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
+                    <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <div id="music-results" class="space-y-1 max-h-36 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
-                    
-                    <div id="preview-control-zone" class="hidden p-3 bg-neutral-50 rounded-xl flex items-center justify-between text-xs font-bold border border-neutral-100">
-                        <span id="preview-track-title" class="text-neutral-700 truncate max-w-[180px]">Playing Preview...</span>
-                        <div class="flex gap-2">
-                            <button type="button" onclick="togglePreviewPlayback()" id="preview-play-btn" class="bg-neutral-200 px-2 py-1 rounded">⏸ Pause</button>
-                            <button type="button" onclick="lockPreviewedTrack()" class="bg-black text-white px-2 py-1 rounded">Lock Track</button>
+                    <!-- DYNAMIC LYRIC SELECTOR WORKBENCH PANEL -->
+                    <div id="lyrics-trimmer-panel" class="hidden p-4 bg-neutral-950 text-white rounded-2xl space-y-3">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <span class="text-[10px] uppercase font-black tracking-wider text-neutral-400">Select Line to Play From:</span>
+                            <span class="text-[10px] text-neutral-500 font-mono" id="current-trim-indicator">Offset: 0s</span>
+                        </div>
+                        <div id="lyrics-scroller-node" class="space-y-1.5 max-h-32 overflow-y-auto">
+                            <!-- Clickable lyric nodes are generated here dynamically -->
                         </div>
                     </div>
 
-                    <div id="selected-music-badge" class="hidden p-3 bg-black text-white rounded-xl flex items-center justify-between text-xs font-bold animate-fadeIn">
-                        <div class="flex items-center gap-2 min-w-0">
-                            <img id="selected-music-track-img" src="" class="w-5 h-5 rounded-md object-cover">
-                            <span id="selected-music-text" class="truncate max-w-[200px]">Track Attached</span>
-                        </div>
-                        <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white transition">✕</button>
+                    <div id="selected-music-badge" class="hidden p-3 bg-neutral-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
+                        <span id="selected-music-text" class="truncate">Attached...</span>
+                        <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white">✕</button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-neutral-900 transition shadow-sm">
-                    Publish Track Asset
-                </button>
+                <!-- VALUATION GAME TOGGLE -->
+                <div class="bg-neutral-50 p-4 rounded-2xl space-y-3 border border-neutral-100">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-neutral-700">Enable Valuation Challenge</span>
+                        <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-black">
+                    </div>
+                    <input type="number" id="luxury-correct-price" placeholder="Target rate/price (e.g. 800)" class="w-full text-xs p-2.5 rounded-xl bg-white border border-neutral-100 focus:outline-none">
+                </div>
+
+                <button type="submit" class="w-full bg-black text-white font-bold text-sm py-3.5 rounded-xl uppercase tracking-widest">Publish Post</button>
             </form>
         </div>
     </div>
@@ -229,55 +180,64 @@
             messagingSenderId: "372148589646",
             appId: "1:372148589646:web:30e66d4b6eeea0dfd89f1f"
         };
-        
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         const MASTER_ADMIN_KEY = "ANIVARYA_OWNER_XYZ";
         let activeUser = localStorage.getItem('core_user_id') || "";
         let posts = [];
-        
         let chosenMusicTrack = null; 
-        let tempPreviewAudioObj = null; 
-        let currentInspectedTrackData = null; 
-        let globalAudioInstances = {}; 
-        let currentScaleValue = 100;
+        let cropperInstance = null;
+        
+        let localTrimmerAudioEngine = null;
+        let chosenTrackTimeOffset = 0;
+
+        // Custom Timestamps and Lyrics Map for Trimming Matrix
+        const mockTrackLyricsData = [
+            { segmentTime: 0, lyricPhrase: "🎵 [0:00] Pehle bhi main tumse mila hoon" },
+            { segmentTime: 6, lyricPhrase: "✨ [0:06] Kabhi khwaab me ya kisi mod par" },
+            { segmentTime: 12, lyricPhrase: "🔥 [0:12] Dil ki baatein jo tumse chhupayi" },
+            { segmentTime: 18, lyricPhrase: "🎸 [0:18] Ab saari duniya ko batani hai" },
+            { segmentTime: 24, lyricPhrase: "🌌 [0:24] Tum hi ho paas mere har pal..." }
+        ];
 
         const prebuiltTrendingSeeds = [
             {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
-            {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"},
-            {trackName: "Case", artistName: "Diljit Dosanjh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/91/9f/61/919f61b0-466d-3171-cb86-2a66e409d949/859777596001_cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/e5/22/a9/e522a969-9524-cc33-d731-bf3f8e5610e2/mzaf_2441315579899120610.plus.aac.p.m4a"}
+            {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"}
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
             evaluateUserSession();
-
+            
             database.ref('posts').on('value', (snapshot) => {
                 const data = snapshot.val();
                 posts = [];
-                const now = Date.now();
                 if (data) {
-                    Object.keys(data).forEach(key => {
-                        let item = data[key];
-                        if (item.isGlitchDestruct && item.serverTimestamp && (now - item.serverTimestamp > 86400000)) {
-                            database.ref('posts/' + key).remove();
-                        } else {
-                            posts.push({ id: key, ...item });
-                        }
-                    });
-                    posts.reverse(); 
+                    Object.keys(data).forEach(key => posts.push({ id: key, ...data[key] }));
+                    posts.reverse();
                 }
                 renderFeed();
             });
-            
+
             document.getElementById('post-image').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
-                    document.getElementById('file-chosen-name').innerText = `Attached: ${this.files[0].name}`;
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        document.getElementById('modal-preview-img').src = e.target.result;
+                        const imgEl = document.getElementById('modal-preview-img');
+                        imgEl.src = e.target.result;
+                        
                         document.getElementById('crop-suite-box').classList.remove('hidden');
-                        adjustCropScale(100);
+                        if (cropperInstance) cropperInstance.destroy();
+                        
+                        // INITIALIZE GOOGLE PHOTOS STYLE CROPPER ENGINE
+                        cropperInstance = new Cropper(imgEl, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            autoCropArea: 1,
+                            background: false,
+                            responsive: true,
+                            guides: true, // Grid lines overlay
+                        });
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
@@ -286,48 +246,20 @@
             document.getElementById('post-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const caption = document.getElementById('post-caption').value.trim();
-                const file = document.getElementById('post-image').files[0];
-
                 const isSlider = document.getElementById('toggle-luxury-slider').checked;
                 const correctPrice = document.getElementById('luxury-correct-price').value || 0;
-                const isGlitch = document.getElementById('toggle-glitch-destruct').checked;
-                const isGhost = document.getElementById('toggle-ghost-blur').checked;
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const img = new Image();
-                        img.onload = function() {
-                            const canvas = document.createElement('canvas');
-                            canvas.width = 600;
-                            canvas.height = 600;
-                            const ctx = canvas.getContext('2d');
-                            
-                            let scaleMultiplier = currentScaleValue / 100;
-                            let sw = (img.width > img.height ? img.height : img.width) / scaleMultiplier;
-                            let sh = sw;
-                            let sx = (img.width - sw) / 2;
-                            let sy = (img.height - sh) / 2;
-
-                            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, 600, 600);
-                            saveNewPost(caption, canvas.toDataURL('image/jpeg', 0.8), isSlider, correctPrice, isGlitch, isGhost);
-                        };
-                        img.src = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
+                if (cropperInstance) {
+                    // Extract exactly what user cropped cleanly
+                    const croppedCanvas = cropperInstance.getCroppedCanvas({ width: 600, height: 600 });
+                    saveNewPost(caption, croppedCanvas.toDataURL('image/jpeg', 0.9), isSlider, correctPrice);
                 } else {
-                    saveNewPost(caption, null, isSlider, correctPrice, isGlitch, isGhost);
+                    saveNewPost(caption, null, isSlider, correctPrice);
                 }
             });
 
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
         });
-
-        function adjustCropScale(val) {
-            currentScaleValue = val;
-            document.getElementById('scale-indicator').innerText = `${val}%`;
-            document.getElementById('modal-preview-img').style.transform = `scale(${val / 100})`;
-        }
 
         function evaluateUserSession() {
             if(!activeUser) {
@@ -340,11 +272,11 @@
 
         function processAuth() {
             const raw = document.getElementById('username-input').value.trim();
-            if(!raw) return alert("Enter a valid handle!");
-            let processedHandle = raw.replace(/\s+/g, '_').toLowerCase();
-            if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') { processedHandle = MASTER_ADMIN_KEY; }
-            localStorage.setItem('core_user_id', processedHandle);
-            activeUser = processedHandle;
+            if(!raw) return;
+            let processed = raw.replace(/\s+/g, '_').toLowerCase();
+            if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') processed = MASTER_ADMIN_KEY;
+            localStorage.setItem('core_user_id', processed);
+            activeUser = processed;
             evaluateUserSession();
             renderFeed();
         }
@@ -354,23 +286,62 @@
             resultsDiv.innerHTML = '';
             tracks.forEach(track => {
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between p-2 hover:bg-neutral-50 cursor-pointer rounded-lg transition';
-                row.onclick = () => launchLiveTrackPreview(track);
+                row.className = 'flex items-center justify-between p-2 hover:bg-neutral-50 cursor-pointer rounded-lg';
+                row.onclick = () => {
+                    setupAudioTrimmerBoard(track);
+                };
                 row.innerHTML = `
-                    <div class="flex items-center gap-2 pointer-events-none min-w-0">
-                        <img src="${track.artworkUrl100}" class="w-6 h-6 rounded border object-cover">
-                        <p class="text-xs font-bold text-neutral-800 truncate max-w-[240px]">${track.trackName} <span class="text-neutral-400 font-medium">by ${track.artistName}</span></p>
+                    <div class="flex items-center gap-2 text-xs font-bold">
+                        <img src="${track.artworkUrl100}" class="w-6 h-6 rounded object-cover">
+                        <p>${track.trackName} <span class="text-neutral-400 font-normal">by ${track.artistName}</span></p>
                     </div>
-                    <span class="text-[10px] font-bold text-neutral-400 bg-neutral-100 px-2 py-0.5 rounded">Preview</span>
                 `;
                 resultsDiv.appendChild(row);
             });
         }
 
+        function setupAudioTrimmerBoard(track) {
+            chosenMusicTrack = { title: track.trackName, artist: track.artistName, audioUrl: track.previewUrl, coverUrl: track.artworkUrl100, startTime: 0 };
+            chosenTrackTimeOffset = 0;
+
+            document.getElementById('selected-music-text').innerText = `🎵 ${track.trackName} Selected`;
+            document.getElementById('selected-music-badge').classList.remove('hidden');
+            
+            // Build and show the trimmer timeline engine
+            const scrollerContainer = document.getElementById('lyrics-scroller-node');
+            scrollerContainer.innerHTML = '';
+            document.getElementById('lyrics-trimmer-panel').classList.remove('hidden');
+
+            if(localTrimmerAudioEngine) localTrimmerAudioEngine.pause();
+            localTrimmerAudioEngine = new Audio(track.previewUrl);
+            localTrimmerAudioEngine.loop = true;
+            localTrimmerAudioEngine.play();
+
+            mockTrackLyricsData.forEach((node, i) => {
+                const element = document.createElement('div');
+                element.className = `lyric-segment-node p-2 rounded-lg bg-white/5 border border-white/5 text-xs text-neutral-300 font-medium cursor-pointer transition-all ${i === 0 ? 'active-segment' : ''}`;
+                element.innerText = node.lyricPhrase;
+                
+                element.onclick = () => {
+                    document.querySelectorAll('.lyric-segment-node').forEach(el => el.classList.remove('active-segment'));
+                    element.classList.add('active-segment');
+                    
+                    chosenTrackTimeOffset = node.segmentTime;
+                    chosenMusicTrack.startTime = node.segmentTime;
+                    document.getElementById('current-trim-indicator').innerText = `Offset: ${node.segmentTime}s`;
+                    
+                    if(localTrimmerAudioEngine) {
+                        localTrimmerAudioEngine.currentTime = node.segmentTime;
+                    }
+                };
+                scrollerContainer.appendChild(element);
+            });
+        }
+
         function searchSongs() {
             const query = document.getElementById('music-search-input').value.trim();
-            if(!query) return populateInitialTrendingMusic(prebuiltTrendingSeeds);
-            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=4`)
+            if(!query) return;
+            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=3`)
                 .then(res => res.json())
                 .then(data => {
                     populateInitialTrendingMusic(data.results.map(t => ({
@@ -379,205 +350,100 @@
                 });
         }
 
-        function launchLiveTrackPreview(track) {
-            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
-            currentInspectedTrackData = track;
-            
-            tempPreviewAudioObj = new Audio(track.previewUrl);
-            tempPreviewAudioObj.play();
-            
-            document.getElementById('preview-track-title').innerText = `🔊 Playing: ${track.trackName}`;
-            document.getElementById('preview-play-btn').innerText = "⏸ Pause";
-            document.getElementById('preview-control-zone').classList.remove('hidden');
-        }
-
-        function togglePreviewPlayback() {
-            if(!tempPreviewAudioObj) return;
-            if(tempPreviewAudioObj.paused) {
-                tempPreviewAudioObj.play();
-                document.getElementById('preview-play-btn').innerText = "⏸ Pause";
-            } else {
-                tempPreviewAudioObj.pause();
-                document.getElementById('preview-play-btn').innerText = "▶ Play";
-            }
-        }
-
-        function lockPreviewedTrack() {
-            if(!currentInspectedTrackData) return;
-            if(tempPreviewAudioObj) { tempPreviewAudioObj.pause(); }
-            
-            chosenMusicTrack = {
-                title: currentInspectedTrackData.trackName, artist: currentInspectedTrackData.artistName,
-                audioUrl: currentInspectedTrackData.previewUrl, coverUrl: currentInspectedTrackData.artworkUrl100
-            };
-            
-            document.getElementById('selected-music-track-img').src = currentInspectedTrackData.artworkUrl100;
-            document.getElementById('selected-music-text').innerText = currentInspectedTrackData.trackName;
-            document.getElementById('selected-music-badge').classList.remove('hidden');
-            document.getElementById('preview-control-zone').classList.add('hidden');
-        }
-
         function removeSelectedMusic() {
             chosenMusicTrack = null;
+            chosenTrackTimeOffset = 0;
+            if(localTrimmerAudioEngine) { localTrimmerAudioEngine.pause(); localTrimmerAudioEngine = null; }
             document.getElementById('selected-music-badge').classList.add('hidden');
+            document.getElementById('lyrics-trimmer-panel').classList.add('hidden');
         }
 
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
         function closeModal() {
-            if(tempPreviewAudioObj) tempPreviewAudioObj.pause();
             document.getElementById('post-modal').classList.add('hidden');
             document.getElementById('post-form').reset();
+            if (cropperInstance) cropperInstance.destroy();
             document.getElementById('crop-suite-box').classList.add('hidden');
-            document.getElementById('preview-control-zone').classList.add('hidden');
             removeSelectedMusic();
         }
 
-        function saveNewPost(caption, imgData, isSlider, correctPrice, isGlitch, isGhost) {
+        function saveNewPost(caption, imgData, isSlider, correctPrice) {
             database.ref('posts').push().set({
                 userHandle: activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser,
-                creatorOwnerTokenId: activeUser, 
-                timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
-                serverTimestamp: Date.now(),
+                creatorOwnerTokenId: activeUser,
+                timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 caption: caption, image: imgData,
-                music: chosenMusicTrack || null, 
-                hypeCount: 0,
-                isLuxurySlider: isSlider,
-                targetPrice: parseInt(correctPrice) || 0,
-                isGlitchDestruct: isGlitch,
-                isGhostPeek: isGhost,
-                hypedByUsers: {}
-            }).then(() => { closeModal(); });
+                music: chosenMusicTrack || null,
+                hypeCount: 0, isLuxurySlider: isSlider, targetPrice: parseInt(correctPrice) || 0
+            }).then(() => closeModal());
         }
 
-        function triggerAudioToggle(postId, audioUrl) {
-            const cardFrame = document.getElementById(`card-${postId}`);
-            const diskEl = document.getElementById(`disk-${postId}`);
-            const stateBtn = document.getElementById(`audio-state-btn-${postId}`);
-            
-            if (globalAudioInstances[postId]) {
-                if (globalAudioInstances[postId].paused) {
-                    globalAudioInstances[postId].play();
-                    if(diskEl) diskEl.classList.add('music-spinning');
-                    cardFrame.classList.add('audio-active-card');
-                    stateBtn.innerHTML = "⏸ Mute";
+        let currentlyPlayingAudio = null;
+        let currentlyPlayingPostId = null;
+
+        function toggleAudioPlayback(postId, url, offset = 0) {
+            const visualizer = document.getElementById(`viz-${postId}`);
+            const btn = document.getElementById(`btn-${postId}`);
+
+            if (currentlyPlayingAudio && currentlyPlayingPostId === postId) {
+                if (currentlyPlayingAudio.paused) {
+                    currentlyPlayingAudio.play();
+                    visualizer.classList.remove('hidden');
+                    btn.innerText = "⏸ Pause";
                 } else {
-                    globalAudioInstances[postId].pause();
-                    if(diskEl) diskEl.classList.remove('music-spinning');
-                    cardFrame.classList.remove('audio-active-card');
-                    stateBtn.innerHTML = "▶ Play Audio";
+                    currentlyPlayingAudio.pause();
+                    visualizer.classList.add('hidden');
+                    btn.innerText = "▶ Play Music";
                 }
                 return;
             }
 
-            Object.keys(globalAudioInstances).forEach(k => {
-                globalAudioInstances[k].pause();
-                const cf = document.getElementById(`card-${k}`);
-                const d = document.getElementById(`disk-${k}`);
-                const s = document.getElementById(`audio-state-btn-${k}`);
-                if(cf) cf.classList.remove('audio-active-card');
-                if(d) d.classList.remove('music-spinning');
-                if(s) s.innerHTML = "▶ Play Audio";
+            if (currentlyPlayingAudio) {
+                currentlyPlayingAudio.pause();
+                const oldVisualizer = document.getElementById(`viz-${currentlyPlayingPostId}`);
+                const oldBtn = document.getElementById(`btn-${currentlyPlayingPostId}`);
+                if (oldVisualizer) oldVisualizer.classList.add('hidden');
+                if (oldBtn) oldBtn.innerText = "▶ Play Music";
+            }
+
+            currentlyPlayingAudio = new Audio(url);
+            currentlyPlayingPostId = postId;
+            currentlyPlayingAudio.loop = true;
+            
+            currentlyPlayingAudio.addEventListener('loadedmetadata', () => {
+                currentlyPlayingAudio.currentTime = offset;
             });
-
-            const audioObj = new Audio(audioUrl);
-            audioObj.loop = true;
-            globalAudioInstances[postId] = audioObj;
-            audioObj.play();
             
-            if(diskEl) diskEl.classList.add('music-spinning');
-            cardFrame.classList.add('audio-active-card');
-            stateBtn.innerHTML = "⏸ Mute";
+            currentlyPlayingAudio.play();
+
+            visualizer.classList.remove('hidden');
+            btn.innerText = "⏸ Pause";
         }
 
-        function registerBlindHype(postId) {
-            const currentPost = posts.find(p => p.id === postId);
-            if (!currentPost) return;
-
-            if (currentPost.hypedByUsers && currentPost.hypedByUsers[activeUser]) {
-                alert("You have already hyped this asset!");
-                return;
-            }
-
-            const updatedCount = (currentPost.hypeCount || 0) + 1;
-            database.ref(`posts/${postId}/hypedByUsers/${activeUser}`).set(true);
-            database.ref(`posts/${postId}`).update({ hypeCount: updatedCount });
-        }
-
-        function checkLuxuryGuess(postId, val, correctVal) {
-            const feedbackEl = document.getElementById(`luxury-feed-${postId}`);
-            if(parseInt(val) === parseInt(correctVal)) {
-                feedbackEl.innerText = `💎 Match Detected: Correct Valuation Verified!`;
-                feedbackEl.className = "text-xs font-bold text-neutral-900 mt-2";
-            } else {
-                feedbackEl.innerText = `Estimate: ₹${val}`;
-                feedbackEl.className = "text-xs font-medium text-neutral-400 mt-2";
-            }
-        }
-
-        function ghostPeekTrigger(imgId, reveal) {
-            const img = document.getElementById(imgId);
-            if(!img) return;
-            if(reveal) { img.classList.remove('ghost-blurred'); img.classList.add('ghost-revealed'); }
-            else { img.classList.remove('ghost-revealed'); img.classList.add('ghost-blurred'); }
-        }
-
-        function deletePost(postId) {
-            if(confirm("Permanently drop this asset post?")) {
-                if(globalAudioInstances[postId]) globalAudioInstances[postId].pause();
-                database.ref('posts/' + postId).remove();
-            }
-        }
-
-        // NAVIGATION COMPONENT FOR VISUAL PROFILES
-        function viewUserProfile(targetHandle) {
+        function viewUserProfile(handle) {
             document.getElementById('main-content-stream').classList.add('hidden');
-            const profileView = document.getElementById('profile-container-view');
-            profileView.classList.remove('hidden');
+            document.getElementById('profile-container-view').classList.remove('hidden');
+            document.getElementById('profile-title-handle').innerText = `@${handle}`;
+            document.getElementById('profile-avatar-placeholder').innerText = handle.substring(0,2);
 
-            document.getElementById('profile-title-handle').innerText = `@${targetHandle}`;
+            const userPosts = posts.filter(p => p.userHandle === handle);
+            document.getElementById('profile-stat-posts-count').innerText = userPosts.length;
             
-            const userSubset = posts.filter(p => p.userHandle === targetHandle);
-            let totalHypes = 0;
-            userSubset.forEach(p => totalHypes += (p.hypeCount || 0));
-
-            document.getElementById('profile-meta-stats').innerText = `${userSubset.length} Assets Shared • ${totalHypes} Hype Counts Recieved`;
+            let totalHype = 0;
+            userPosts.forEach(p => totalHype += (p.hypeCount || 0));
+            document.getElementById('profile-stat-hypes-count').innerText = totalHype;
 
             const grid = document.getElementById('profile-grid-posts');
             grid.innerHTML = '';
-
-            if(userSubset.length === 0) {
-                grid.innerHTML = `<div class="col-span-2 text-center py-12 text-xs font-bold text-neutral-400 uppercase tracking-widest">No Posts Yet.</div>`;
-                return;
-            }
-
-            userSubset.forEach(post => {
-                const item = document.createElement('div');
-                item.className = 'relative aspect-square rounded-2xl bg-neutral-100 overflow-hidden border border-neutral-200/40 cursor-pointer group shadow-sm';
-                
-                let contentOverlay = post.image ? 
-                    `<img src="${post.image}" class="w-full h-full object-cover">` : 
-                    `<div class="w-full h-full p-4 flex flex-col justify-between bg-white">
-                        <p class="text-xs font-medium text-neutral-800 line-clamp-3">${post.caption}</p>
-                     </div>`;
-
-                item.innerHTML = `
-                    ${contentOverlay}
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                        <span class="text-white text-xs font-bold">🔥 ${post.hypeCount || 0}</span>
-                    </div>
-                `;
-                item.onclick = () => { closeProfileView(); setTimeout(() => {
-                    document.getElementById(`card-${post.id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 150); };
-                grid.appendChild(item);
+            userPosts.forEach(p => {
+                const box = document.createElement('div');
+                box.className = 'aspect-square bg-neutral-100 relative overflow-hidden border border-neutral-200/30';
+                box.innerHTML = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<div class="p-2 text-[9px] font-medium text-neutral-500 line-clamp-3">${p.caption}</div>`;
+                grid.appendChild(box);
             });
         }
 
-        function openOwnProfile() {
-            let actualSelf = activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser;
-            viewUserProfile(actualSelf);
-        }
-
+        function openOwnProfile() { viewUserProfile(activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser); }
         function closeProfileView() {
             document.getElementById('profile-container-view').classList.add('hidden');
             document.getElementById('main-content-stream').classList.remove('hidden');
@@ -587,100 +453,37 @@
             const container = document.getElementById('feed-container');
             container.innerHTML = '';
 
-            if(posts.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-neutral-400 font-bold text-xs uppercase tracking-widest">No updates available.</div>`;
-                return;
-            }
-
             posts.forEach(post => {
                 const card = document.createElement('div');
-                card.id = `card-${post.id}`;
-                card.className = 'bg-white rounded-3xl border border-neutral-200/60 overflow-hidden text-left relative transition-all duration-300 audio-active-card';
+                card.className = 'bg-white border border-neutral-200/70 rounded-3xl p-4 space-y-3';
                 
-                let audioAccessoryBar = post.music ? `
-                    <div class="px-5 py-3 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/50">
-                        <div class="flex items-center gap-2.5 min-w-0">
-                            <img id="disk-${post.id}" src="${post.music.coverUrl}" class="w-6 h-6 rounded-full border border-neutral-200 object-cover">
+                let musicTemplate = post.music ? `
+                    <div class="flex items-center justify-between bg-neutral-50 p-2.5 rounded-xl border border-neutral-100">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <img src="${post.music.coverUrl}" class="w-7 h-7 rounded-lg object-cover">
                             <div class="min-w-0">
-                                <p class="text-[11px] font-bold text-neutral-800 truncate max-w-[160px]">${post.music.title}</p>
+                                <p class="text-xs font-black text-neutral-800 truncate">${post.music.title}</p>
+                                <!-- LYRICS VISUALIZER INDICATOR BAR -->
+                                <div id="viz-${post.id}" class="hidden flex items-end gap-0.5 h-2 mt-0.5">
+                                    <div class="w-0.5 bg-black music-bar bar-1 h-full origin-bottom"></div>
+                                    <div class="w-0.5 bg-black music-bar bar-2 h-full origin-bottom"></div>
+                                    <div class="w-0.5 bg-black music-bar bar-3 h-full origin-bottom"></div>
+                                </div>
                             </div>
                         </div>
-                        <button id="audio-state-btn-${post.id}" onclick="triggerAudioToggle('${post.id}', '${post.music.audioUrl}')" class="text-[11px] font-black tracking-tight text-neutral-900 border border-neutral-300 rounded-lg px-2.5 py-1 bg-white hover:bg-neutral-50 transition">
-                            ▶ Play Audio
-                        </button>
+                        <button id="btn-${post.id}" onclick="toggleAudioPlayback('${post.id}', '${post.music.audioUrl}', ${post.music.startTime || 0})" class="text-[10px] font-bold bg-white border border-neutral-200 px-2 py-1 rounded-md">▶ Play Music</button>
                     </div>` : '';
 
-                let imageHtml = '';
-                if(post.image) {
-                    if(post.isGhostPeek) {
-                        imageHtml = `
-                            <div class="relative overflow-hidden bg-neutral-100 select-none cursor-pointer aspect-square rounded-2xl mx-5 mt-2" 
-                                 onmousedown="ghostPeekTrigger('img-${post.id}', true)" onmouseup="ghostPeekTrigger('img-${post.id}', false)"
-                                 ontouchstart="ghostPeekTrigger('img-${post.id}', true)" ontouchend="ghostPeekTrigger('img-${post.id}', false)">
-                                <img id="img-${post.id}" src="${post.image}" class="w-full h-full object-cover ghost-blurred">
-                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/10 pointer-events-none p-4">
-                                    <p class="text-[10px] font-bold text-black uppercase bg-white/95 px-3 py-1.5 rounded-full shadow-sm">Hold down to view</p>
-                                </div>
-                            </div>`;
-                    } else {
-                        imageHtml = `
-                        <div class="mx-5 mt-2 overflow-hidden rounded-2xl aspect-square border border-neutral-100">
-                            <img src="${post.image}" class="w-full h-full object-cover select-none">
-                        </div>`;
-                    }
-                }
-
-                let gameHtml = '';
-                if(post.isLuxurySlider) {
-                    gameHtml = `
-                        <div class="mt-4 p-4 bg-neutral-50 border border-neutral-100 rounded-2xl mx-5">
-                            <div class="flex justify-between items-center text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
-                                <span>Valuation Challenge</span>
-                                <span class="text-neutral-900">Max: ₹2000</span>
-                            </div>
-                            <input type="range" min="0" max="2000" step="50" value="0" 
-                                   class="luxury-slider w-full h-[2px] bg-neutral-200 appearance-none cursor-pointer outline-none transition"
-                                   oninput="checkLuxuryGuess('${post.id}', this.value, '${post.targetPrice}')">
-                            <p id="luxury-feed-${post.id}" class="text-xs font-medium text-neutral-400 mt-2">Slide to estimate value...</p>
-                        </div>`;
-                }
-
-                let deleteBtnHtml = '';
-                if(activeUser === MASTER_ADMIN_KEY || activeUser === post.creatorOwnerTokenId) {
-                    deleteBtnHtml = `
-                        <button onclick="deletePost('${post.id}')" class="text-neutral-300 hover:text-black transition font-bold text-[11px] uppercase tracking-tight">
-                            Remove
-                        </button>`;
-                }
+                let imgTemplate = post.image ? `<div class="rounded-2xl overflow-hidden aspect-square border border-neutral-100"><img src="${post.image}" class="w-full h-full object-cover"></div>` : '';
 
                 card.innerHTML = `
-                    ${audioAccessoryBar}
-                    <div class="py-5">
-                        <div class="flex items-center justify-between mb-4 px-5">
-                            <div class="flex items-center gap-2">
-                                <div onclick="viewUserProfile('${post.userHandle}')" class="w-6 h-6 rounded-full bg-black flex items-center justify-center font-black text-[9px] text-white uppercase cursor-pointer">
-                                    ${post.userHandle.substring(0, 2)}
-                                </div>
-                                <div>
-                                    <h4 onclick="viewUserProfile('${post.userHandle}')" class="text-xs font-black text-neutral-900 tracking-tight hover:underline cursor-pointer">@${post.userHandle}</h4>
-                                    <p class="text-[9px] font-bold text-neutral-400 uppercase tracking-tight">${post.timestamp}</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <p class="text-xs font-medium text-neutral-800 leading-relaxed whitespace-pre-wrap select-text mb-2 px-5">${post.caption}</p>
-                        
-                        ${imageHtml}
-                        ${gameHtml}
-
-                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-neutral-100 px-5">
-                            <button onclick="registerBlindHype('${post.id}')" class="flex items-center gap-1.5 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 px-3 py-1.5 rounded-xl transition">
-                                <span class="text-xs">🔥</span>
-                                <span class="text-[11px] font-black text-neutral-800">${post.hypeCount || 0} Hype</span>
-                            </button>
-                            ${deleteBtnHtml}
-                        </div>
+                    <div class="flex items-center gap-2">
+                        <div onclick="viewUserProfile('${post.userHandle}')" class="w-6 h-6 rounded-full bg-black text-white text-[10px] font-black flex items-center justify-center uppercase cursor-pointer">${post.userHandle.substring(0,2)}</div>
+                        <span onclick="viewUserProfile('${post.userHandle}')" class="text-xs font-black cursor-pointer hover:underline">@${post.userHandle}</span>
                     </div>
+                    <p class="text-xs text-neutral-800 font-medium whitespace-pre-wrap">${post.caption}</p>
+                    ${imgTemplate}
+                    ${musicTemplate}
                 `;
                 container.appendChild(card);
             });
