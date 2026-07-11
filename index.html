@@ -131,7 +131,6 @@
     <div id="auth-overlay" class="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4">
         <div class="w-full max-w-xs text-center space-y-6">
             <h2 class="text-2xl font-black tracking-tighter uppercase">ANIVARYA BAJPAI</h2>
-            <p class="text-xs text-neutral-400 font-bold uppercase tracking-wider">Use 'ANIVARYA_OWNER_XYZ' for Master Access</p>
             <div class="space-y-2">
                 <input type="text" id="username-input" placeholder="Type user handle..." class="w-full rounded-xl bg-neutral-50 border border-neutral-200 px-4 py-3 text-sm text-center font-bold focus:outline-none focus:border-black">
                 <button onclick="processAuth()" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl">Sign In</button>
@@ -203,7 +202,7 @@
                     </div>
                 </div>
 
-                <!-- MUSIC PREVIEW DRAGGABLE WORKSPACE -->
+                <!-- MUSIC PREVIEW -->
                 <div class="space-y-2">
                     <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Drag Lyrics Track</p>
                     <div class="flex gap-2">
@@ -317,7 +316,6 @@
                 }
                 renderFeed();
                 
-                // If profile view is active, update profile container dynamically too
                 const currentProfileHandle = document.getElementById('profile-title-handle').innerText.replace('@', '');
                 if (!document.getElementById('profile-container-view').classList.contains('hidden') && currentProfileHandle) {
                     viewUserProfile(currentProfileHandle);
@@ -443,9 +441,7 @@
         }
 
         function selectSongSetup(track) {
-            if (previewAudioInstance) {
-                previewAudioInstance.pause();
-            }
+            if (previewAudioInstance) previewAudioInstance.pause();
 
             const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
             chosenMusicTrack = { 
@@ -572,7 +568,7 @@
             const finalHandle = isCurrentSessionOwner() ? "anivaryabajpai" : activeUser;
             database.ref('posts').push().set({
                 userHandle: finalHandle,
-                creatorOwnerTokenId: activeUser, // Used to verify ownership
+                creatorOwnerTokenId: activeUser, 
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 caption: caption, image: imgData,
                 music: chosenMusicTrack || null,
@@ -580,15 +576,14 @@
             }).then(() => closeModal());
         }
 
-        // ABSOLUTE DELETE SYSTEM (OWNER CAN DELETE EVERYTHING, USER ONLY THEIRS)
         function triggerDeletePost(postId) {
             if(confirm("Are you sure you want to permanently delete this post?")) {
                 if (currentlyPlayingAudio && currentlyPlayingPostId === postId) {
                     currentlyPlayingAudio.pause();
                 }
                 database.ref(`posts/${postId}`).remove()
-                    .then(() => alert("Post successfully deleted from matrix database."))
-                    .catch(err => alert("Error deleting post: " + err.message));
+                    .then(() => alert("Post successfully deleted from database."))
+                    .catch(err => alert("Error: " + err.message));
             }
         }
 
@@ -650,7 +645,6 @@
             if(btn) btn.innerText = "⏸ Pause";
         }
 
-        // VIEW USER PROFILE (ONLY RELEVANT OWNER SHOWN)
         function viewUserProfile(handle) {
             document.getElementById('main-content-stream').classList.add('hidden');
             document.getElementById('profile-container-view').classList.remove('hidden');
@@ -678,8 +672,8 @@
                 
                 let imgPart = p.image ? `<div class="rounded-xl overflow-hidden aspect-square border"><img src="${p.image}" class="w-full h-full object-cover"></div>` : '';
                 
-                // Show delete button on profile if master owner OR if it belongs to the logged-in user session token
                 let deleteBtnPart = '';
+                // CRITICAL FIX: Master Account can delete from profile lists too
                 if (isCurrentSessionOwner() || p.creatorOwnerTokenId === activeUser) {
                     deleteBtnPart = `<button onclick="triggerDeletePost('${p.id}')" class="text-[10px] font-bold bg-red-50 text-red-600 border border-red-100 px-2.5 py-1 rounded-md ml-auto">🗑️ Delete</button>`;
                 }
@@ -744,8 +738,8 @@
                 const hasLiked = localStorage.getItem(likeKey);
                 const heartIcon = hasLiked ? "❤️" : "🤍";
 
-                // CONDITIONAL DELETE PERMISSION LOGIC
                 let deleteButtonHTML = '';
+                // CRITICAL FIX: Master Account can delete ANY post in the main feed
                 if (isCurrentSessionOwner() || post.creatorOwnerTokenId === activeUser) {
                     deleteButtonHTML = `
                         <button onclick="triggerDeletePost('${post.id}')" class="flex items-center gap-1.5 text-xs font-bold text-red-500 hover:text-red-700 transition ml-auto">
