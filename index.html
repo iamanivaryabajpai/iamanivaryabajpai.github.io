@@ -1,833 +1,449 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>ANIVARYA BAJPAI | Elite Media Matrix</title>
 
-
-
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     
-
     <!-- CROPPER.JS FOR EXACT GOOGLE PHOTOS STYLE CROP -->
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
-
-
     <script>
-
         tailwind.config = {
-
             theme: {
-
                 extend: {
-
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
-
                 }
-
             }
-
         }
-
     </script>
-
     <style>
-
         body { background: #fafafa; min-height: 100vh; }
-
         .premium-blur-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-
         
-
         /* Cropper Custom Overrides to Look Exactly Like Google Photos */
-
         .cropper-view-box, .cropper-face { border-radius: 16px; }
-
         .cropper-line, .cropper-point { background-color: #ffffff; }
-
         .cropper-bg { background-image: none; background-color: #171717; }
-
         
-
         @keyframes pulse-music {
-
             0%, 100% { transform: scaleY(0.3); }
-
             50% { transform: scaleY(1); }
-
         }
-
         .music-bar { animation: pulse-music 1.2s ease-in-out infinite; }
-
         .bar-1 { animation-delay: 0.1s; }
-
         .bar-2 { animation-delay: 0.4s; }
-
         .bar-3 { animation-delay: 0.2s; }
-
     </style>
 
-
-
     <!-- FIREBASE INTEGRATION -->
-
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
 </head>
-
 <body class="font-sans text-black antialiased">
 
-
-
     <!-- LOGIN OVERLAY -->
-
     <div id="auth-overlay" class="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4">
-
         <div class="w-full max-w-xs text-center space-y-6">
-
             <h2 class="text-2xl font-black tracking-tighter uppercase">ANIVARYA BAJPAI</h2>
-
             <div class="space-y-2">
-
                 <input type="text" id="username-input" placeholder="Type user handle..." class="w-full rounded-xl bg-neutral-50 border border-neutral-200 px-4 py-3 text-sm text-center font-bold focus:outline-none focus:border-black">
-
                 <button onclick="processAuth()" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl">Sign In</button>
-
             </div>
-
         </div>
-
     </div>
-
-
 
     <!-- STICKY HEADER -->
-
     <nav class="sticky top-0 z-50 premium-blur-nav border-b border-neutral-100 px-4 py-4">
-
         <div class="max-w-md mx-auto flex items-center justify-between">
-
             <span onclick="closeProfileView()" class="font-black text-lg tracking-tighter uppercase cursor-pointer">ANIVARYA BAJPAI</span>
-
             <div class="flex items-center gap-4">
-
                 <span id="nav-user-badge" onclick="openOwnProfile()" class="text-xs font-bold text-neutral-500 cursor-pointer hover:text-black">@...</span>
-
                 <button onclick="openModal()" class="bg-black text-white font-bold text-xs px-4 py-2 rounded-full">+ Post</button>
-
             </div>
-
         </div>
-
     </nav>
 
-
-
     <!-- MAIN TIMELINE -->
-
     <main id="main-content-stream" class="max-w-md mx-auto px-4 py-6 pb-24">
-
         <div id="feed-container" class="space-y-6"></div>
-
     </main>
 
-
-
-    <!-- INSTAGRAM-INSPIRED LUXURY PROFILE LAYER -->
-
+    <!-- INSTAGRAM PROFILE LAYER -->
     <div id="profile-container-view" class="hidden max-w-md mx-auto px-4 py-8 pb-24">
-
         <div class="flex items-center gap-6 border-b border-neutral-100 pb-8 mb-6">
-
             <div class="w-20 h-20 rounded-full bg-neutral-900 text-white flex items-center justify-center font-black text-2xl uppercase" id="profile-avatar-placeholder">U</div>
-
             <div class="flex-1 space-y-3">
-
                 <h2 id="profile-title-handle" class="text-xl font-black tracking-tight">@username</h2>
-
                 <div class="flex gap-6">
-
                     <div>
-
                         <span id="profile-stat-posts-count" class="font-black text-sm">0</span>
-
-                        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Assets</p>
-
+                        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Posts</p>
                     </div>
-
                     <div>
-
                         <span id="profile-stat-hypes-count" class="font-black text-sm">0</span>
-
-                        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Hype</p>
-
+                        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Likes</p>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
         <div class="mb-6"><button onclick="closeProfileView()" class="w-full text-xs font-bold border border-neutral-200 py-2.5 rounded-xl bg-white hover:bg-neutral-50">← Back to Feed</button></div>
-
         <div id="profile-grid-posts" class="grid grid-cols-3 gap-1"></div>
-
     </div>
-
-
 
     <!-- POST COMPOSER MODAL -->
-
     <div id="post-modal" class="hidden fixed inset-0 z-50 bg-white flex items-center justify-center p-4 overflow-y-auto">
-
         <div class="w-full max-w-md space-y-6 py-6">
-
             <div class="flex items-center justify-between">
-
                 <h3 class="font-black text-sm tracking-widest uppercase text-neutral-400">Create Asset Stream</h3>
-
                 <button onclick="closeModal()" class="text-black font-bold text-xs uppercase">Close</button>
-
             </div>
-
             
-
             <form id="post-form" class="space-y-4">
-
                 <textarea id="post-caption" required rows="3" placeholder="Write context or thoughts..." class="w-full rounded-2xl bg-neutral-50 border border-neutral-100 p-4 text-sm font-medium focus:outline-none"></textarea>
-
                 
-
                 <!-- ADVANCED IMAGE UPLOADER & CROP SUITE -->
-
                 <div class="space-y-3">
-
                     <div class="border border-dashed border-neutral-200 bg-neutral-50 rounded-2xl p-4 text-center relative">
-
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-
                         <p class="text-xs font-bold text-neutral-600">📸 Choose Image</p>
-
                     </div>
-
                     
-
                     <!-- Cropper Sandbox Area -->
-
                     <div id="crop-suite-box" class="hidden space-y-2">
-
                         <p class="text-[11px] font-bold text-neutral-400 uppercase">Crop Frame (Adjust freely):</p>
-
                         <div class="max-h-72 overflow-hidden bg-neutral-900 rounded-2xl">
-
                             <img id="modal-preview-img" class="block max-w-full">
-
                         </div>
-
                     </div>
-
                 </div>
 
-
-
-                <!-- DYNAMIC LYRIC/AUDIO TRACER MODULE -->
-
+                <!-- DYNAMIC LYRIC/AUDIO TRACER MODULE WITH TIMESTAMPS -->
                 <div class="space-y-2">
-
                     <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music Track</p>
-
                     <div class="flex gap-2">
-
                         <input type="text" id="music-search-input" placeholder="Search track name..." class="w-full rounded-xl bg-neutral-50 border border-neutral-100 px-3 py-2 text-xs focus:outline-none">
-
                         <button type="button" onclick="searchSongs()" class="bg-black text-white font-bold text-xs px-4 rounded-xl">Search</button>
-
                     </div>
-
                     <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
-
-                    <div id="selected-music-badge" class="hidden p-3 bg-neutral-900 text-white rounded-xl flex items-center justify-between text-xs font-bold">
-
-                        <span id="selected-music-text" class="truncate">Attached...</span>
-
-                        <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white">✕</button>
-
+                    
+                    <!-- Selected Music Badge & Lyric Slider -->
+                    <div id="selected-music-badge" class="hidden p-3 bg-neutral-900 text-white rounded-xl space-y-3 text-xs font-bold">
+                        <div class="flex items-center justify-between">
+                            <span id="selected-music-text" class="truncate">Attached...</span>
+                            <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white">✕</button>
+                        </div>
+                        <div class="border-t border-neutral-800 pt-2 space-y-1">
+                            <div class="flex justify-between text-[10px] text-neutral-400">
+                                <span>Select Lyric/Track Start Position</span>
+                                <span id="lyric-time-display">0s</span>
+                            </div>
+                            <input type="range" id="lyric-start-offset" min="0" max="25" value="0" class="w-full accent-white" oninput="document.getElementById('lyric-time-display').innerText = this.value + 's'">
+                        </div>
                     </div>
-
                 </div>
-
-
 
                 <!-- VALUATION GAME TOGGLE -->
-
                 <div class="bg-neutral-50 p-4 rounded-2xl space-y-3 border border-neutral-100">
-
                     <div class="flex items-center justify-between">
-
                         <span class="text-xs font-bold text-neutral-700">Enable Valuation Challenge</span>
-
                         <input type="checkbox" id="toggle-luxury-slider" class="w-4 h-4 accent-black">
-
                     </div>
-
                     <input type="number" id="luxury-correct-price" placeholder="Target rate/price (e.g. 800)" class="w-full text-xs p-2.5 rounded-xl bg-white border border-neutral-100 focus:outline-none">
-
                 </div>
 
-
-
                 <button type="submit" class="w-full bg-black text-white font-bold text-sm py-3.5 rounded-xl uppercase tracking-widest">Publish Post</button>
-
             </form>
-
         </div>
-
     </div>
 
-
-
     <script>
-
         const firebaseConfig = {
-
             apiKey: "AIzaSyBr4am8q_Gv9gScRy7OWeqn9qBoYzVe7V0",
-
             authDomain: "anivarya-core.firebaseapp.com",
-
             databaseURL: "https://anivarya-core-default-rtdb.firebaseio.com",
-
             projectId: "anivarya-core",
-
             storageBucket: "anivarya-core.firebasestorage.app",
-
             messagingSenderId: "372148589646",
-
             appId: "1:372148589646:web:30e66d4b6eeea0dfd89f1f"
-
         };
-
         firebase.initializeApp(firebaseConfig);
-
         const database = firebase.database();
 
-
-
         const MASTER_ADMIN_KEY = "ANIVARYA_OWNER_XYZ";
-
         let activeUser = localStorage.getItem('core_user_id') || "";
-
         let posts = [];
-
         let chosenMusicTrack = null; 
-
         let cropperInstance = null;
 
-
-
         const prebuiltTrendingSeeds = [
-
             {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
-
             {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"}
-
         ];
 
-
-
         window.addEventListener('DOMContentLoaded', () => {
-
             evaluateUserSession();
-
             
-
             database.ref('posts').on('value', (snapshot) => {
-
                 const data = snapshot.val();
-
                 posts = [];
-
                 if (data) {
-
                     Object.keys(data).forEach(key => posts.push({ id: key, ...data[key] }));
-
                     posts.reverse();
-
                 }
-
                 renderFeed();
-
             });
-
-
 
             document.getElementById('post-image').addEventListener('change', function() {
-
                 if(this.files && this.files[0]) {
-
                     const reader = new FileReader();
-
                     reader.onload = (e) => {
-
                         const imgEl = document.getElementById('modal-preview-img');
-
                         imgEl.src = e.target.result;
-
                         
-
                         document.getElementById('crop-suite-box').classList.remove('hidden');
-
                         if (cropperInstance) cropperInstance.destroy();
-
                         
-
-                        // INITIALIZE GOOGLE PHOTOS STYLE CROPPER ENGINE
-
                         cropperInstance = new Cropper(imgEl, {
-
                             aspectRatio: 1,
-
                             viewMode: 1,
-
                             autoCropArea: 1,
-
                             background: false,
-
                             responsive: true,
-
-                            guides: true, // Grid lines overlay
-
+                            guides: true,
                         });
-
                     }
-
                     reader.readAsDataURL(this.files[0]);
-
                 }
-
             });
-
-
 
             document.getElementById('post-form').addEventListener('submit', function(e) {
-
                 e.preventDefault();
-
                 const caption = document.getElementById('post-caption').value.trim();
-
                 const isSlider = document.getElementById('toggle-luxury-slider').checked;
-
                 const correctPrice = document.getElementById('luxury-correct-price').value || 0;
-
-
+                
+                if (chosenMusicTrack) {
+                    chosenMusicTrack.startOffset = parseInt(document.getElementById('lyric-start-offset').value) || 0;
+                }
 
                 if (cropperInstance) {
-
-                    // Extract exactly what user cropped cleanly
-
                     const croppedCanvas = cropperInstance.getCroppedCanvas({ width: 600, height: 600 });
-
                     saveNewPost(caption, croppedCanvas.toDataURL('image/jpeg', 0.9), isSlider, correctPrice);
-
                 } else {
-
                     saveNewPost(caption, null, isSlider, correctPrice);
-
                 }
-
             });
-
-
 
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
-
         });
 
-
-
         function evaluateUserSession() {
-
             if(!activeUser) {
-
                 document.getElementById('auth-overlay').classList.remove('hidden');
-
             } else {
-
                 document.getElementById('auth-overlay').classList.add('hidden');
-
                 document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY ? "@anivaryabajpai" : `@${activeUser}`;
-
             }
-
         }
-
-
 
         function processAuth() {
-
             const raw = document.getElementById('username-input').value.trim();
-
             if(!raw) return;
-
             let processed = raw.replace(/\s+/g, '_').toLowerCase();
-
             if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') processed = MASTER_ADMIN_KEY;
-
             localStorage.setItem('core_user_id', processed);
-
             activeUser = processed;
-
             evaluateUserSession();
-
             renderFeed();
-
         }
-
-
 
         function populateInitialTrendingMusic(tracks) {
-
             const resultsDiv = document.getElementById('music-results');
-
             resultsDiv.innerHTML = '';
-
             tracks.forEach(track => {
-
                 const row = document.createElement('div');
-
                 row.className = 'flex items-center justify-between p-2 hover:bg-neutral-50 cursor-pointer rounded-lg';
-
                 row.onclick = () => {
-
-                    chosenMusicTrack = { title: track.trackName, artist: track.artistName, audioUrl: track.previewUrl, coverUrl: track.artworkUrl100 };
-
+                    chosenMusicTrack = { title: track.trackName, artist: track.artistName, audioUrl: track.previewUrl, coverUrl: track.artworkUrl100, startOffset: 0 };
                     document.getElementById('selected-music-text').innerText = `🎵 ${track.trackName} Selected`;
-
                     document.getElementById('selected-music-badge').classList.remove('hidden');
-
                 };
-
                 row.innerHTML = `
-
                     <div class="flex items-center gap-2 text-xs font-bold">
-
                         <img src="${track.artworkUrl100}" class="w-6 h-6 rounded object-cover">
-
                         <p>${track.trackName} <span class="text-neutral-400 font-normal">by ${track.artistName}</span></p>
-
                     </div>
-
                 `;
-
                 resultsDiv.appendChild(row);
-
             });
-
         }
-
-
 
         function searchSongs() {
-
             const query = document.getElementById('music-search-input').value.trim();
-
             if(!query) return;
-
             fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=3`)
-
                 .then(res => res.json())
-
                 .then(data => {
-
                     populateInitialTrendingMusic(data.results.map(t => ({
-
                         trackName: t.trackName, artistName: t.artistName, artworkUrl100: t.artworkUrl100, previewUrl: t.previewUrl
-
                     })));
-
                 });
-
         }
-
-
 
         function removeSelectedMusic() {
-
             chosenMusicTrack = null;
-
             document.getElementById('selected-music-badge').classList.add('hidden');
-
+            document.getElementById('lyric-start-offset').value = 0;
+            document.getElementById('lyric-time-display').innerText = "0s";
         }
-
-
 
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
-
         function closeModal() {
-
             document.getElementById('post-modal').classList.add('hidden');
-
             document.getElementById('post-form').reset();
-
             if (cropperInstance) cropperInstance.destroy();
-
             document.getElementById('crop-suite-box').classList.add('hidden');
-
             removeSelectedMusic();
-
         }
-
-
 
         function saveNewPost(caption, imgData, isSlider, correctPrice) {
-
             database.ref('posts').push().set({
-
                 userHandle: activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser,
-
                 creatorOwnerTokenId: activeUser,
-
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-
                 caption: caption, image: imgData,
-
                 music: chosenMusicTrack || null,
-
                 hypeCount: 0, isLuxurySlider: isSlider, targetPrice: parseInt(correctPrice) || 0
-
             }).then(() => closeModal());
-
         }
 
-
+        function handleLike(postId, currentLikes) {
+            const updatedLikes = (currentLikes || 0) + 1;
+            database.ref(`posts/${postId}`).update({ hypeCount: updatedLikes });
+        }
 
         let currentlyPlayingAudio = null;
-
         let currentlyPlayingPostId = null;
 
-
-
-        function toggleAudioPlayback(postId, url) {
-
+        function toggleAudioPlayback(postId, url, startOffset) {
             const visualizer = document.getElementById(`viz-${postId}`);
-
             const btn = document.getElementById(`btn-${postId}`);
 
-
-
             if (currentlyPlayingAudio && currentlyPlayingPostId === postId) {
-
                 if (currentlyPlayingAudio.paused) {
-
                     currentlyPlayingAudio.play();
-
                     visualizer.classList.remove('hidden');
-
                     btn.innerText = "⏸ Pause";
-
                 } else {
-
                     currentlyPlayingAudio.pause();
-
                     visualizer.classList.add('hidden');
-
                     btn.innerText = "▶ Play Music";
-
                 }
-
                 return;
-
             }
-
-
 
             if (currentlyPlayingAudio) {
-
                 currentlyPlayingAudio.pause();
-
                 const oldVisualizer = document.getElementById(`viz-${currentlyPlayingPostId}`);
-
                 const oldBtn = document.getElementById(`btn-${currentlyPlayingPostId}`);
-
                 if (oldVisualizer) oldVisualizer.classList.add('hidden');
-
                 if (oldBtn) oldBtn.innerText = "▶ Play Music";
-
             }
 
-
-
             currentlyPlayingAudio = new Audio(url);
-
             currentlyPlayingPostId = postId;
-
             currentlyPlayingAudio.loop = true;
-
-            currentlyPlayingAudio.play();
-
-
-
-            visualizer.classList.remove('hidden');
-
-            btn.innerText = "⏸ Pause";
-
-        }
-
-
-
-        function viewUserProfile(handle) {
-
-            document.getElementById('main-content-stream').classList.add('hidden');
-
-            document.getElementById('profile-container-view').classList.remove('hidden');
-
-            document.getElementById('profile-title-handle').innerText = `@${handle}`;
-
-            document.getElementById('profile-avatar-placeholder').innerText = handle.substring(0,2);
-
-
-
-            const userPosts = posts.filter(p => p.userHandle === handle);
-
-            document.getElementById('profile-stat-posts-count').innerText = userPosts.length;
-
             
-
-            let totalHype = 0;
-
-            userPosts.forEach(p => totalHype += (p.hypeCount || 0));
-
-            document.getElementById('profile-stat-hypes-count').innerText = totalHype;
-
-
-
-            const grid = document.getElementById('profile-grid-posts');
-
-            grid.innerHTML = '';
-
-            userPosts.forEach(p => {
-
-                const box = document.createElement('div');
-
-                box.className = 'aspect-square bg-neutral-100 relative overflow-hidden border border-neutral-200/30';
-
-                box.innerHTML = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<div class="p-2 text-[9px] font-medium text-neutral-500 line-clamp-3">${p.caption}</div>`;
-
-                grid.appendChild(box);
-
+            // Apply the chosen lyric start timestamp perfectly
+            currentlyPlayingAudio.addEventListener('loadedmetadata', () => {
+                currentlyPlayingAudio.currentTime = startOffset || 0;
             });
 
+            currentlyPlayingAudio.play();
+            visualizer.classList.remove('hidden');
+            btn.innerText = "⏸ Pause";
         }
 
+        function viewUserProfile(handle) {
+            document.getElementById('main-content-stream').classList.add('hidden');
+            document.getElementById('profile-container-view').classList.remove('hidden');
+            document.getElementById('profile-title-handle').innerText = `@${handle}`;
+            document.getElementById('profile-avatar-placeholder').innerText = handle.substring(0,2);
 
+            const userPosts = posts.filter(p => p.userHandle === handle);
+            document.getElementById('profile-stat-posts-count').innerText = userPosts.length;
+            
+            let totalHype = 0;
+            userPosts.forEach(p => totalHype += (p.hypeCount || 0));
+            document.getElementById('profile-stat-hypes-count').innerText = totalHype;
+
+            const grid = document.getElementById('profile-grid-posts');
+            grid.innerHTML = '';
+            userPosts.forEach(p => {
+                const box = document.createElement('div');
+                box.className = 'aspect-square bg-neutral-100 relative overflow-hidden border border-neutral-200/30';
+                box.innerHTML = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<div class="p-2 text-[9px] font-medium text-neutral-500 line-clamp-3">${p.caption}</div>`;
+                grid.appendChild(box);
+            });
+        }
 
         function openOwnProfile() { viewUserProfile(activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser); }
-
         function closeProfileView() {
-
             document.getElementById('profile-container-view').classList.add('hidden');
-
             document.getElementById('main-content-stream').classList.remove('hidden');
-
         }
 
-
-
         function renderFeed() {
-
             const container = document.getElementById('feed-container');
-
             container.innerHTML = '';
 
-
-
             posts.forEach(post => {
-
                 const card = document.createElement('div');
-
                 card.className = 'bg-white border border-neutral-200/70 rounded-3xl p-4 space-y-3';
-
                 
+                const startOffset = post.music && post.music.startOffset ? post.music.startOffset : 0;
 
                 let musicTemplate = post.music ? `
-
                     <div class="flex items-center justify-between bg-neutral-50 p-2.5 rounded-xl border border-neutral-100">
-
                         <div class="flex items-center gap-2 min-w-0">
-
                             <img src="${post.music.coverUrl}" class="w-7 h-7 rounded-lg object-cover">
-
                             <div class="min-w-0">
-
                                 <p class="text-xs font-black text-neutral-800 truncate">${post.music.title}</p>
-
-                                <!-- LYRICS VISUALIZER INDICATOR BAR -->
-
                                 <div id="viz-${post.id}" class="hidden flex items-end gap-0.5 h-2 mt-0.5">
-
                                     <div class="w-0.5 bg-black music-bar bar-1 h-full origin-bottom"></div>
-
                                     <div class="w-0.5 bg-black music-bar bar-2 h-full origin-bottom"></div>
-
                                     <div class="w-0.5 bg-black music-bar bar-3 h-full origin-bottom"></div>
-
                                 </div>
-
                             </div>
-
                         </div>
-
-                        <button id="btn-${post.id}" onclick="toggleAudioPlayback('${post.id}', '${post.music.audioUrl}')" class="text-[10px] font-bold bg-white border border-neutral-200 px-2 py-1 rounded-md">▶ Play Music</button>
-
+                        <button id="btn-${post.id}" onclick="toggleAudioPlayback('${post.id}', '${post.music.audioUrl}', ${startOffset})" class="text-[10px] font-bold bg-white border border-neutral-200 px-2 py-1 rounded-md">▶ Play Music</button>
                     </div>` : '';
-
-
 
                 let imgTemplate = post.image ? `<div class="rounded-2xl overflow-hidden aspect-square border border-neutral-100"><img src="${post.image}" class="w-full h-full object-cover"></div>` : '';
 
-
-
                 card.innerHTML = `
-
                     <div class="flex items-center gap-2">
-
                         <div onclick="viewUserProfile('${post.userHandle}')" class="w-6 h-6 rounded-full bg-black text-white text-[10px] font-black flex items-center justify-center uppercase cursor-pointer">${post.userHandle.substring(0,2)}</div>
-
                         <span onclick="viewUserProfile('${post.userHandle}')" class="text-xs font-black cursor-pointer hover:underline">@${post.userHandle}</span>
-
                     </div>
-
                     <p class="text-xs text-neutral-800 font-medium whitespace-pre-wrap">${post.caption}</p>
-
                     ${imgTemplate}
-
                     ${musicTemplate}
-
+                    <div class="flex items-center border-t border-neutral-50 pt-2">
+                        <button onclick="handleLike('${post.id}', ${post.hypeCount || 0})" class="flex items-center gap-1.5 text-xs font-bold text-neutral-600 hover:text-black transition">
+                            <span>❤️ Like</span>
+                            <span class="bg-neutral-50 px-2 py-0.5 rounded-full text-[10px] text-neutral-500">${post.hypeCount || 0}</span>
+                        </button>
+                    </div>
                 `;
-
                 container.appendChild(card);
-
             });
-
         }
-
     </script>
-
 </body>
-
 </html>
