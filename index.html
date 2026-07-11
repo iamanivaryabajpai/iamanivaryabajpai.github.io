@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIVARYA BAJPAI | Elite Media Matrix</title>
+    <title>Core Network | Elite Media Matrix</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,72 +30,105 @@
         .cropper-bg { background-image: none; background-color: #171717; }
         
         @keyframes pulse-music {
-            0%, 100__ { transform: scaleY(0.3); }
-            50__ { transform: scaleY(1); }
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
         }
         .music-bar { animation: pulse-music 1.2s ease-in-out infinite; }
         .bar-1 { animation-delay: 0.1s; }
         .bar-2 { animation-delay: 0.4s; }
         .bar-3 { animation-delay: 0.2s; }
 
-        /* Instagram Lyrics Carousel & Container */
-        .instagram-lyric-viewport {
+        /* REAL INSTAGRAM DRAGGABLE LYRICS WORKSPACE */
+        .ig-lyrics-window {
             position: relative;
-            width: 100__;
-            height: 110px;
-            overflow: hidden;
-            background: #000000;
-        }
-        .instagram-lyric-track {
+            width: 100%;
+            height: 140px;
+            background: #121212;
+            overflow-x: scroll;
+            overflow-y: hidden;
             display: flex;
-            position: absolute;
-            left: 50__;
-            top: 0;
-            height: 100__;
-            transform: translateX(-50__);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             align-items: center;
-            will-change: transform;
+            scroll-behavior: smooth;
+            cursor: grab;
+            -webkit-overflow-scrolling: touch;
+            /* Hide default scrollbars completely */
+            scrollbar-width: none;
         }
-        .instagram-lyric-card {
-            min-width: 220px;
-            max-width: 220px;
-            text-align: center;
-            padding: 0 15px;
-            opacity: 0.25;
-            transform: scale(0.85);
-            transition: all 0.3s ease;
-            font-size: 15px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.3;
-            user-select: none;
+        .ig-lyrics-window::-webkit-scrollbar {
+            display: none;
         }
-        .instagram-lyric-card.active-lyric {
-            opacity: 1;
-            transform: scale(1.1);
-            color: #ffffff;
-            text-shadow: 0 0 12px rgba(255,255,255,0.4);
+        .ig-lyrics-window:active {
+            cursor: grabbing;
         }
 
-        /* Instagram Style Range Slider Styling */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 8px;
-            height: 28px;
-            background: #ffffff;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        /* Padding boxes to allow first and last item to perfectly center */
+        .ig-lyrics-edge-pad {
+            min-width: 50%;
+            height: 100%;
+            flex-shrink: 0;
         }
-        input[type="range"]::-moz-range-thumb {
-            width: 8px;
-            height: 28px;
+
+        .ig-lyric-card-node {
+            min-width: 200px;
+            max-width: 200px;
+            text-align: center;
+            padding: 0 10px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1.3;
+            opacity: 0.3;
+            transform: scale(0.85);
+            transition: opacity 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            user-select: none;
+        }
+        
+        /* Highlighting active center card node */
+        .ig-lyric-card-node.node-center-active {
+            opacity: 1;
+            transform: scale(1.1);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Instagram Visual Timeline Center Bar Indicator */
+        .ig-center-marker-line {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        /* Custom Subtle Timeline Bars at the bottom of the container */
+        .ig-ticks-timeline-container {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            pointer-events: none;
+        }
+        .ig-tick-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.2s;
+        }
+        .ig-tick-dot.active-dot {
             background: #ffffff;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            transform: scale(1.3);
         }
     </style>
 
@@ -180,43 +213,43 @@
                     </div>
                 </div>
 
-                <!-- REAL INSTAGRAM LIVE LYRIC SWIPER & SCROLLER -->
+                <!-- REAL HANDS-ON DRAGGABLE LYRIC SWIPER -->
                 <div class="space-y-2">
-                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Clip Lyrics</p>
+                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Drag Lyrics Track</p>
                     <div class="flex gap-2">
                         <input type="text" id="music-search-input" placeholder="Search track name..." class="w-full rounded-xl bg-neutral-50 border border-neutral-100 px-3 py-2 text-xs focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-black text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
                     <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <!-- INSTAGRAM PRECISE WORKSPACE LAYER -->
-                    <div id="selected-music-badge" class="hidden bg-neutral-900 text-white rounded-2xl p-4 space-y-4 shadow-xl">
+                    <!-- HIGH-FI INSTAGRAM REALTIME LYRIC CONTAINER -->
+                    <div id="selected-music-badge" class="hidden bg-neutral-950 text-white rounded-2xl p-4 space-y-3 shadow-xl relative">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2 min-w-0">
                                 <img id="selector-art-preview" src="" class="w-6 h-6 rounded object-cover">
-                                <span id="selected-music-text" class="truncate text-xs font-black">Attached Track</span>
+                                <div class="min-w-0">
+                                    <p id="selected-music-text" class="truncate text-xs font-black">Attached Track</p>
+                                    <p id="live-timeline-timestamp" class="text-[9px] font-mono text-neutral-400">Timestamp: 0s</p>
+                                </div>
                             </div>
                             <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white bg-neutral-800 p-1 rounded-full w-5 h-5 flex items-center justify-center text-[10px]">✕</button>
                         </div>
                         
-                        <!-- INSTAGRAM DYNAMIC HORIZONTAL LYRIC TRACK VIEWPORT -->
-                        <div class="instagram-lyric-viewport rounded-xl border border-neutral-800">
-                            <div id="scrolling-lyric-track" class="instagram-lyric-track">
-                                <!-- Generated Cards will scroll beautifully here -->
+                        <!-- THE DRAGGABLE VIEWPORT FRAME -->
+                        <div class="relative rounded-xl overflow-hidden border border-neutral-800">
+                            <div class="ig-center-marker-line"></div>
+                            
+                            <div id="ig-drag-scroller" class="ig-lyrics-window">
+                                <div class="ig-lyrics-edge-pad"></div>
+                                <!-- Dynamic Lyric Card Nodes generated on the fly -->
+                                <div id="dynamic-nodes-wrapper" class="flex items-center"></div>
+                                <div class="ig-lyrics-edge-pad"></div>
                             </div>
-                        </div>
 
-                        <!-- INSTAGRAM TIMELINE SLIDER CONTROL -->
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[10px] text-neutral-400 font-mono px-1">
-                                <span id="timeline-current-time">0:00</span>
-                                <span>0:30</span>
-                            </div>
-                            <div class="relative flex items-center">
-                                <input type="range" id="instagram-music-slider" min="0" max="30" value="0" class="w-full h-1 bg-neutral-700 rounded-lg appearance-none cursor-pointer focus:outline-none">
-                            </div>
-                            <p class="text-[9px] text-neutral-500 text-center mt-1 uppercase tracking-widest">Slide line to adjust lyrics clip</p>
+                            <!-- Instagram Bottom Active Dots -->
+                            <div id="ig-dots-wrapper" class="ig-ticks-timeline-container"></div>
                         </div>
+                        <p class="text-[9px] text-neutral-500 text-center uppercase tracking-widest">Swipe or Drag cards directly to change segment</p>
                     </div>
                 </div>
 
@@ -253,7 +286,6 @@
         let chosenMusicTrack = null; 
         let cropperInstance = null;
 
-        // Custom Time-Segmented Lyrics database mapped to exact timeline slots
         const lyricsDatabase = {
             "Pehle Bhi Main": [
                 { timeSlot: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
@@ -307,7 +339,6 @@
                         imgEl.src = e.target.result;
                         document.getElementById('crop-suite-box').classList.remove('hidden');
                         if (cropperInstance) cropperInstance.destroy();
-                        
                         cropperInstance = new Cropper(imgEl, {
                             aspectRatio: 1, viewMode: 1, autoCropArea: 1, background: false, responsive: true, guides: true,
                         });
@@ -330,46 +361,130 @@
                 }
             });
 
-            // INSTAGRAM TWO-WAY TIMELINE SYNC ENGINE
-            document.getElementById('instagram-music-slider').addEventListener('input', function() {
-                const elapsedSeconds = parseInt(this.value);
-                document.getElementById('timeline-current-time').innerText = `0:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}`;
-                
-                if (chosenMusicTrack) {
-                    chosenMusicTrack.startOffset = elapsedSeconds;
-                    const lines = lyricsDatabase[chosenMusicTrack.title] || lyricsDatabase["Default"];
-                    
-                    // Identify active indexed segment card
-                    let targetIndex = 0;
-                    for (let i = 0; i < lines.length; i++) {
-                        if (elapsedSeconds >= lines[i].timeSlot) {
-                            targetIndex = i;
-                        }
-                    }
+            // INSTAGRAM MOUSE DRAG VELOCITY ENGINE FOR SCROLLER
+            const scroller = document.getElementById('ig-drag-scroller');
+            let isDown = false; let startX; let scrollLeft;
 
-                    // Perform smooth CSS Horizontal scrolling based on active card index
-                    const track = document.getElementById('scrolling-lyric-track');
-                    const cardWidth = 220; // Exact width assigned in CSS
-                    const newTranslateX = - (targetIndex * cardWidth);
-                    track.style.transform = `translateX(calc(-50__ + ${newTranslateX}px + ${cardWidth/2}px))`;
+            scroller.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - scroller.offsetLeft;
+                scrollLeft = scroller.scrollLeft;
+                scroller.style.scrollBehavior = 'auto';
+            });
+            scroller.addEventListener('mouseleave', () => { isDown = false; });
+            scroller.addEventListener('mouseup', () => { 
+                isDown = false; 
+                scroller.style.scrollBehavior = 'smooth';
+                snapToNearestLyricCard();
+            });
+            scroller.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scroller.offsetLeft;
+                const walk = (x - startX) * 1.5; // Drag speed multiplier
+                scroller.scrollLeft = scrollLeft - walk;
+                processActiveLyricNodeCalculation();
+            });
 
-                    // Handle classes toggle for exact visual zoom scaling
-                    lines.forEach((_, idx) => {
-                        const card = document.getElementById(`ig-card-${idx}`);
-                        if(card) {
-                            if(idx === targetIndex) {
-                                card.classList.add('active-lyric');
-                                chosenMusicTrack.selectedLyricText = lines[idx].text;
-                            } else {
-                                card.classList.remove('active-lyric');
-                            }
-                        }
-                    });
-                }
+            // Mobile Touch Support
+            scroller.addEventListener('touchstart', () => { scroller.style.scrollBehavior = 'auto'; });
+            scroller.addEventListener('touchend', () => { 
+                scroller.style.scrollBehavior = 'smooth';
+                snapToNearestLyricCard(); 
+            });
+            scroller.addEventListener('scroll', () => {
+                if (!isDown) processActiveLyricNodeCalculation();
             });
 
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
         });
+
+        // Calculate which lyric card node is sitting directly in the center window view
+        function processActiveLyricNodeCalculation() {
+            if (!chosenMusicTrack) return;
+            const scroller = document.getElementById('ig-drag-scroller');
+            const nodes = document.querySelectorAll('.ig-lyric-card-node');
+            const scrollerCenter = scroller.scrollLeft + (scroller.offsetWidth / 2);
+
+            let closestNodeIdx = 0;
+            let minDistance = Infinity;
+
+            nodes.forEach((node, idx) => {
+                const nodeCenter = node.offsetLeft + (node.offsetWidth / 2);
+                const distance = Math.abs(scrollerCenter - nodeCenter);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestNodeIdx = idx;
+                }
+            });
+
+            nodes.forEach((node, idx) => {
+                const dot = document.getElementById(`ig-dot-${idx}`);
+                if (idx === closestNodeIdx) {
+                    node.classList.add('node-center-active');
+                    if (dot) dot.classList.add('active-dot');
+                    
+                    // Update object payload dynamically
+                    const lines = lyricsDatabase[chosenMusicTrack.title] || lyricsDatabase["Default"];
+                    chosenMusicTrack.startOffset = lines[idx].timeSlot;
+                    chosenMusicTrack.selectedLyricText = lines[idx].text;
+                    document.getElementById('live-timeline-timestamp').innerText = `Timestamp: ${lines[idx].timeSlot}s`;
+                } else {
+                    node.classList.remove('node-center-active');
+                    if (dot) dot.classList.remove('active-dot');
+                }
+            });
+        }
+
+        // Instagram Snap Engine - Shifts the closest card exactly to the absolute center position
+        function snapToNearestLyricCard() {
+            if (!chosenMusicTrack) return;
+            const scroller = document.getElementById('ig-drag-scroller');
+            const activeNode = document.querySelector('.ig-lyric-card-node.node-center-active');
+            if (activeNode) {
+                const targetScrollLeft = activeNode.offsetLeft - (scroller.offsetWidth / 2) + (activeNode.offsetWidth / 2);
+                scroller.scrollLeft = targetScrollLeft;
+            }
+        }
+
+        function selectSongSetup(track) {
+            const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
+            chosenMusicTrack = { 
+                title: track.trackName, artist: track.artistName, 
+                audioUrl: track.previewUrl, coverUrl: track.artworkUrl100, 
+                startOffset: 0, selectedLyricText: lines[0].text
+            };
+            
+            document.getElementById('selected-music-text').innerText = `${track.trackName}`;
+            document.getElementById('selector-art-preview').src = track.artworkUrl100;
+            
+            // Rebuild the absolute drag nodes structure
+            const wrapper = document.getElementById('dynamic-nodes-wrapper');
+            const dotsWrapper = document.getElementById('ig-dots-wrapper');
+            wrapper.innerHTML = '';
+            dotsWrapper.innerHTML = '';
+            
+            lines.forEach((line, idx) => {
+                const node = document.createElement('div');
+                node.className = `ig-lyric-card-node ${idx === 0 ? 'node-center-active' : ''}`;
+                node.innerText = line.text;
+                wrapper.appendChild(node);
+
+                const dot = document.createElement('div');
+                dot.id = `ig-dot-${idx}`;
+                dot.className = `ig-tick-dot ${idx === 0 ? 'active-dot' : ''}`;
+                dotsWrapper.appendChild(dot);
+            });
+
+            document.getElementById('selected-music-badge').classList.remove('hidden');
+            
+            // Reset position to zero
+            setTimeout(() => {
+                const scroller = document.getElementById('ig-drag-scroller');
+                scroller.scrollLeft = 0;
+                processActiveLyricNodeCalculation();
+            }, 50);
+        }
 
         function evaluateUserSession() {
             if(!activeUser) {
@@ -420,40 +535,6 @@
                 });
         }
 
-        function selectSongSetup(track) {
-            const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
-            chosenMusicTrack = { 
-                title: track.trackName, 
-                artist: track.artistName, 
-                audioUrl: track.previewUrl, 
-                coverUrl: track.artworkUrl100, 
-                startOffset: 0,
-                selectedLyricText: lines[0].text
-            };
-            
-            document.getElementById('selected-music-text').innerText = `${track.trackName}`;
-            document.getElementById('selector-art-preview').src = track.artworkUrl100;
-            
-            // Rebuild the carousel slider track dynamically
-            const trackContainer = document.getElementById('scrolling-lyric-track');
-            trackContainer.innerHTML = '';
-            
-            lines.forEach((line, idx) => {
-                const card = document.createElement('div');
-                card.id = `ig-card-${idx}`;
-                card.className = `instagram-lyric-card ${idx === 0 ? 'active-lyric' : ''}`;
-                card.innerText = line.text;
-                trackContainer.appendChild(card);
-            });
-
-            // Reset positioning vectors
-            trackContainer.style.transform = `translateX(calc(-50__ + 110px))`;
-            document.getElementById('instagram-music-slider').value = 0;
-            document.getElementById('timeline-current-time').innerText = "0:00";
-            
-            document.getElementById('selected-music-badge').classList.remove('hidden');
-        }
-
         function removeSelectedMusic() {
             chosenMusicTrack = null;
             document.getElementById('selected-music-badge').classList.add('hidden');
@@ -483,9 +564,7 @@
             if(!activeUser) return;
             const likeKey = `liked_${activeUser}_${postId}`;
             const alreadyLiked = localStorage.getItem(likeKey);
-            
             let updatedLikes = currentLikes || 0;
-            
             if (alreadyLiked) {
                 updatedLikes = Math.max(0, updatedLikes - 1);
                 localStorage.removeItem(likeKey);
@@ -493,7 +572,6 @@
                 updatedLikes += 1;
                 localStorage.setItem(likeKey, "true");
             }
-            
             database.ref(`posts/${postId}`).update({ hypeCount: updatedLikes });
         }
 
