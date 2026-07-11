@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Core Network | Elite Media Matrix</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- CROPPER.JS FOR EXACT GOOGLE PHOTOS STYLE CROP -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
@@ -38,7 +37,6 @@
         .bar-2 { animation-delay: 0.4s; }
         .bar-3 { animation-delay: 0.2s; }
 
-        /* REAL INSTAGRAM DRAGGABLE LYRICS WORKSPACE */
         .ig-lyrics-window {
             position: relative;
             width: 100%;
@@ -51,17 +49,11 @@
             scroll-behavior: smooth;
             cursor: grab;
             -webkit-overflow-scrolling: touch;
-            /* Hide default scrollbars completely */
             scrollbar-width: none;
         }
-        .ig-lyrics-window::-webkit-scrollbar {
-            display: none;
-        }
-        .ig-lyrics-window:active {
-            cursor: grabbing;
-        }
+        .ig-lyrics-window::-webkit-scrollbar { display: none; }
+        .ig-lyrics-window:active { cursor: grabbing; }
 
-        /* Padding boxes to allow first and last item to perfectly center */
         .ig-lyrics-edge-pad {
             min-width: 50%;
             height: 100%;
@@ -69,15 +61,15 @@
         }
 
         .ig-lyric-card-node {
-            min-width: 200px;
-            max-width: 200px;
+            min-width: 220px;
+            max-width: 220px;
             text-align: center;
-            padding: 0 10px;
+            padding: 0 15px;
             color: #ffffff;
             font-size: 16px;
             font-weight: 800;
             line-height: 1.3;
-            opacity: 0.3;
+            opacity: 0.25;
             transform: scale(0.85);
             transition: opacity 0.2s, transform 0.2s;
             display: flex;
@@ -88,27 +80,24 @@
             user-select: none;
         }
         
-        /* Highlighting active center card node */
         .ig-lyric-card-node.node-center-active {
             opacity: 1;
-            transform: scale(1.1);
+            transform: scale(1.05);
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
         }
 
-        /* Instagram Visual Timeline Center Bar Indicator */
         .ig-center-marker-line {
             position: absolute;
             left: 50%;
             top: 10px;
             bottom: 10px;
             width: 2px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
             pointer-events: none;
             transform: translateX(-50%);
             z-index: 10;
         }
 
-        /* Custom Subtle Timeline Bars at the bottom of the container */
         .ig-ticks-timeline-container {
             position: absolute;
             bottom: 8px;
@@ -120,10 +109,10 @@
             pointer-events: none;
         }
         .ig-tick-dot {
-            width: 4px;
-            height: 4px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.3);
             transition: all 0.2s;
         }
         .ig-tick-dot.active-dot {
@@ -198,7 +187,6 @@
             <form id="post-form" class="space-y-4">
                 <textarea id="post-caption" required rows="3" placeholder="Write context or thoughts..." class="w-full rounded-2xl bg-neutral-50 border border-neutral-100 p-4 text-sm font-medium focus:outline-none"></textarea>
                 
-                <!-- ADVANCED IMAGE UPLOADER & CROP SUITE -->
                 <div class="space-y-3">
                     <div class="border border-dashed border-neutral-200 bg-neutral-50 rounded-2xl p-4 text-center relative">
                         <input type="file" id="post-image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
@@ -213,7 +201,7 @@
                     </div>
                 </div>
 
-                <!-- REAL HANDS-ON DRAGGABLE LYRIC SWIPER -->
+                <!-- REAL TIME PREVIEW DRAGGABLE WORKSPACE -->
                 <div class="space-y-2">
                     <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Drag Lyrics Track</p>
                     <div class="flex gap-2">
@@ -222,34 +210,30 @@
                     </div>
                     <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <!-- HIGH-FI INSTAGRAM REALTIME LYRIC CONTAINER -->
                     <div id="selected-music-badge" class="hidden bg-neutral-950 text-white rounded-2xl p-4 space-y-3 shadow-xl relative">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2 min-w-0">
                                 <img id="selector-art-preview" src="" class="w-6 h-6 rounded object-cover">
                                 <div class="min-w-0">
                                     <p id="selected-music-text" class="truncate text-xs font-black">Attached Track</p>
-                                    <p id="live-timeline-timestamp" class="text-[9px] font-mono text-neutral-400">Timestamp: 0s</p>
+                                    <p id="live-timeline-timestamp" class="text-[9px] font-mono text-neutral-400">Preview Playing: 0s</p>
                                 </div>
                             </div>
                             <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white bg-neutral-800 p-1 rounded-full w-5 h-5 flex items-center justify-center text-[10px]">✕</button>
                         </div>
                         
-                        <!-- THE DRAGGABLE VIEWPORT FRAME -->
                         <div class="relative rounded-xl overflow-hidden border border-neutral-800">
                             <div class="ig-center-marker-line"></div>
                             
                             <div id="ig-drag-scroller" class="ig-lyrics-window">
                                 <div class="ig-lyrics-edge-pad"></div>
-                                <!-- Dynamic Lyric Card Nodes generated on the fly -->
                                 <div id="dynamic-nodes-wrapper" class="flex items-center"></div>
                                 <div class="ig-lyrics-edge-pad"></div>
                             </div>
 
-                            <!-- Instagram Bottom Active Dots -->
                             <div id="ig-dots-wrapper" class="ig-ticks-timeline-container"></div>
                         </div>
-                        <p class="text-[9px] text-neutral-500 text-center uppercase tracking-widest">Swipe or Drag cards directly to change segment</p>
+                        <p class="text-[9px] text-neutral-400 text-center uppercase tracking-widest">🎵 Song plays live as you drag cards</p>
                     </div>
                 </div>
 
@@ -285,37 +269,38 @@
         let posts = [];
         let chosenMusicTrack = null; 
         let cropperInstance = null;
+        let previewAudioInstance = null;
 
         const lyricsDatabase = {
             "Pehle Bhi Main": [
                 { timeSlot: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
-                { timeSlot: 6, text: "✨ Ajnabee se milke laga hoon..." },
-                { timeSlot: 12, text: "❤️ Kehta hai dil ye hathaayi..." },
-                { timeSlot: 18, text: "💫 Jaane tu ya jaane na haan..." },
-                { timeSlot: 24, text: "🔥 Phir wahi lamhe laaya hoon..." },
-                { timeSlot: 30, text: "🎸 [Instrumental Music Outro]" }
+                { timeSlot: 5, text: "✨ Ajnabee se milke laga hoon..." },
+                { timeSlot: 10, text: "❤️ Kehta hai dil ye hathaayi..." },
+                { timeSlot: 15, text: "💫 Jaane tu ya jaane na haan..." },
+                { timeSlot: 20, text: "🔥 Phir wahi lamhe laaya hoon..." },
+                { timeSlot: 25, text: "🎸 [Instrumental Music Outro]" }
             ],
             "Satranga": [
                 { timeSlot: 0, text: "🎵 Satranga re tere rang maahi..." },
-                { timeSlot: 6, text: "🍁 Kaisi hai ye teri khudgarzi..." },
-                { timeSlot: 12, text: "💔 Aadha main adhoora rha jaise..." },
-                { timeSlot: 18, text: "✨ Ishq me tere dil haara..." },
-                { timeSlot: 24, text: "🥀 Todi maine saari ki saari rasmein..." },
-                { timeSlot: 30, text: "🌟 [Music Symphony Outro]" }
+                { timeSlot: 5, text: "🍁 Kaisi hai ye teri khudgarzi..." },
+                { timeSlot: 10, text: "💔 Aadha main adhoora rha jaise..." },
+                { timeSlot: 15, text: "✨ Ishq me tere dil haara..." },
+                { timeSlot: 20, text: "🥀 Todi maine saari ki saari rasmein..." },
+                { timeSlot: 25, text: "🌟 [Music Symphony Outro]" }
             ],
             "Default": [
                 { timeSlot: 0, text: "🎵 Hook Line: Intro Music Beats" },
-                { timeSlot: 6, text: "🎤 Verse 1: Opening Lyrics Sequence" },
-                { timeSlot: 12, text: "🔥 Chorus: High Pitch Symphony" },
-                { timeSlot: 18, text: "⚡ Interlude: Bass Drop Rhythm" },
-                { timeSlot: 24, text: "✨ Outro: Fading Melody Vibe" },
-                { timeSlot: 30, text: "🎵 Track Ending Segment" }
+                { timeSlot: 5, text: "🎤 Verse 1: Opening Lyrics Sequence" },
+                { timeSlot: 10, text: "🔥 Chorus: High Pitch Symphony" },
+                { timeSlot: 15, text: "⚡ Interlude: Bass Drop Rhythm" },
+                { timeSlot: 20, text: "✨ Outro: Fading Melody Vibe" },
+                { timeSlot: 25, text: "🎵 Track Ending Segment" }
             ]
         };
 
         const prebuiltTrendingSeeds = [
-            { trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/9e/7b/bf9e7b2f-7db9-e1f2-be7c-a4962cb174e9/192641875150_Cover.jpg/100x100bb.jpg", previewUrl: "" },
-            { trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/90/73/72/907372cf-6ef0-2309-848e-2077f1837ff3/8903431904772_cover.jpg/100x100bb.jpg", previewUrl: "" }
+            { trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/9e/7b/bf9e7b2f-7db9-e1f2-be7c-a4962cb174e9/192641875150_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/31/b4/0f/31b40f31-8f43-f11b-7414-b2c607ecbb0a/mzaf_11370258197775924749.plus.aac.p.m4a" },
+            { trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/90/73/72/907372cf-6ef0-2309-848e-2077f1837ff3/8903431904772_cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/fa/f3/73/faf37397-6a4a-5f33-ef8a-e99d2ad4f713/mzaf_16480746937669466395.plus.aac.p.m4a" }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -361,7 +346,6 @@
                 }
             });
 
-            // INSTAGRAM MOUSE DRAG VELOCITY ENGINE FOR SCROLLER
             const scroller = document.getElementById('ig-drag-scroller');
             let isDown = false; let startX; let scrollLeft;
 
@@ -381,12 +365,11 @@
                 if(!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - scroller.offsetLeft;
-                const walk = (x - startX) * 1.5; // Drag speed multiplier
+                const walk = (x - startX) * 1.5;
                 scroller.scrollLeft = scrollLeft - walk;
                 processActiveLyricNodeCalculation();
             });
 
-            // Mobile Touch Support
             scroller.addEventListener('touchstart', () => { scroller.style.scrollBehavior = 'auto'; });
             scroller.addEventListener('touchend', () => { 
                 scroller.style.scrollBehavior = 'smooth';
@@ -399,7 +382,6 @@
             populateInitialTrendingMusic(prebuiltTrendingSeeds);
         });
 
-        // Calculate which lyric card node is sitting directly in the center window view
         function processActiveLyricNodeCalculation() {
             if (!chosenMusicTrack) return;
             const scroller = document.getElementById('ig-drag-scroller');
@@ -424,11 +406,18 @@
                     node.classList.add('node-center-active');
                     if (dot) dot.classList.add('active-dot');
                     
-                    // Update object payload dynamically
                     const lines = lyricsDatabase[chosenMusicTrack.title] || lyricsDatabase["Default"];
-                    chosenMusicTrack.startOffset = lines[idx].timeSlot;
-                    chosenMusicTrack.selectedLyricText = lines[idx].text;
-                    document.getElementById('live-timeline-timestamp').innerText = `Timestamp: ${lines[idx].timeSlot}s`;
+                    
+                    // IF TIMESTAMPS CHANGED, FORCE JUMP AUDIO IMMEDIATELY FOR TRUE LIVE FEEL
+                    if (chosenMusicTrack.startOffset !== lines[idx].timeSlot) {
+                        chosenMusicTrack.startOffset = lines[idx].timeSlot;
+                        chosenMusicTrack.selectedLyricText = lines[idx].text;
+                        document.getElementById('live-timeline-timestamp').innerText = `Preview Playing: ${lines[idx].timeSlot}s`;
+                        
+                        if (previewAudioInstance && !previewAudioInstance.paused) {
+                            previewAudioInstance.currentTime = lines[idx].timeSlot;
+                        }
+                    }
                 } else {
                     node.classList.remove('node-center-active');
                     if (dot) dot.classList.remove('active-dot');
@@ -436,7 +425,6 @@
             });
         }
 
-        // Instagram Snap Engine - Shifts the closest card exactly to the absolute center position
         function snapToNearestLyricCard() {
             if (!chosenMusicTrack) return;
             const scroller = document.getElementById('ig-drag-scroller');
@@ -448,6 +436,10 @@
         }
 
         function selectSongSetup(track) {
+            if (previewAudioInstance) {
+                previewAudioInstance.pause();
+            }
+
             const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
             chosenMusicTrack = { 
                 title: track.trackName, artist: track.artistName, 
@@ -458,7 +450,6 @@
             document.getElementById('selected-music-text').innerText = `${track.trackName}`;
             document.getElementById('selector-art-preview').src = track.artworkUrl100;
             
-            // Rebuild the absolute drag nodes structure
             const wrapper = document.getElementById('dynamic-nodes-wrapper');
             const dotsWrapper = document.getElementById('ig-dots-wrapper');
             wrapper.innerHTML = '';
@@ -478,7 +469,13 @@
 
             document.getElementById('selected-music-badge').classList.remove('hidden');
             
-            // Reset position to zero
+            // AUTOMATIC LIVE INSTAGRAM PREVIEW PLAYBACK START
+            if(track.previewUrl) {
+                previewAudioInstance = new Audio(track.previewUrl);
+                previewAudioInstance.loop = true;
+                previewAudioInstance.play().catch(e => console.log("Audio play blocked, interaction needed"));
+            }
+
             setTimeout(() => {
                 const scroller = document.getElementById('ig-drag-scroller');
                 scroller.scrollLeft = 0;
@@ -491,7 +488,7 @@
                 document.getElementById('auth-overlay').classList.remove('hidden');
             } else {
                 document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY ? "@anivaryabajpai" : `@${activeUser}`;
+                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai' ? "@anivaryabajpai" : `@${activeUser}`;
             }
         }
 
@@ -499,7 +496,9 @@
             const raw = document.getElementById('username-input').value.trim();
             if(!raw) return;
             let processed = raw.replace(/\s+/g, '_').toLowerCase();
-            if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') processed = MASTER_ADMIN_KEY;
+            if(raw === MASTER_ADMIN_KEY || raw.toLowerCase() === 'anivaryabajpai') {
+                processed = MASTER_ADMIN_KEY;
+            }
             localStorage.setItem('core_user_id', processed);
             activeUser = processed;
             evaluateUserSession();
@@ -536,12 +535,16 @@
         }
 
         function removeSelectedMusic() {
+            if (previewAudioInstance) {
+                previewAudioInstance.pause();
+            }
             chosenMusicTrack = null;
             document.getElementById('selected-music-badge').classList.add('hidden');
         }
 
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
         function closeModal() {
+            if (previewAudioInstance) previewAudioInstance.pause();
             document.getElementById('post-modal').classList.add('hidden');
             document.getElementById('post-form').reset();
             if (cropperInstance) cropperInstance.destroy();
@@ -550,8 +553,9 @@
         }
 
         function saveNewPost(caption, imgData, isSlider, correctPrice) {
+            const finalHandle = (activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai') ? "anivaryabajpai" : activeUser;
             database.ref('posts').push().set({
-                userHandle: activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser,
+                userHandle: finalHandle,
                 creatorOwnerTokenId: activeUser,
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 caption: caption, image: imgData,
@@ -603,12 +607,7 @@
                 if (oldBtn) oldBtn.innerText = "▶ Play";
             }
 
-            if(!url) {
-                visualizer.classList.remove('hidden');
-                btn.innerText = "⏸ Pause";
-                currentlyPlayingPostId = postId;
-                return;
-            }
+            if(!url) return;
 
             currentlyPlayingAudio = new Audio(url);
             currentlyPlayingPostId = postId;
@@ -646,7 +645,11 @@
             });
         }
 
-        function openOwnProfile() { viewUserProfile(activeUser === MASTER_ADMIN_KEY ? "anivaryabajpai" : activeUser); }
+        function openOwnProfile() { 
+            const finalHandle = (activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai') ? "anivaryabajpai" : activeUser;
+            viewUserProfile(finalHandle); 
+        }
+        
         function closeProfileView() {
             document.getElementById('profile-container-view').classList.add('hidden');
             document.getElementById('main-content-stream').classList.remove('hidden');
