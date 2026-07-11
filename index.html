@@ -131,6 +131,7 @@
     <div id="auth-overlay" class="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4">
         <div class="w-full max-w-xs text-center space-y-6">
             <h2 class="text-2xl font-black tracking-tighter uppercase">ANIVARYA BAJPAI</h2>
+            <p class="text-xs text-neutral-400 font-bold uppercase tracking-wider">Use 'ANIVARYA_OWNER_XYZ' for Master Access</p>
             <div class="space-y-2">
                 <input type="text" id="username-input" placeholder="Type user handle..." class="w-full rounded-xl bg-neutral-50 border border-neutral-200 px-4 py-3 text-sm text-center font-bold focus:outline-none focus:border-black">
                 <button onclick="processAuth()" class="w-full bg-black text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl">Sign In</button>
@@ -141,9 +142,10 @@
     <!-- STICKY HEADER -->
     <nav class="sticky top-0 z-50 premium-blur-nav border-b border-neutral-100 px-4 py-4">
         <div class="max-w-md mx-auto flex items-center justify-between">
-            <span onclick="closeProfileView()" class="font-black text-lg tracking-tighter uppercase cursor-pointer">ANIVARYA BAJPAI</span>
+            <span onclick="closeProfileView()" class="font-black text-lg tracking-tighter uppercase cursor-pointer">ANIVARYA CORE</span>
             <div class="flex items-center gap-4">
                 <span id="nav-user-badge" onclick="openOwnProfile()" class="text-xs font-bold text-neutral-500 cursor-pointer hover:text-black">@...</span>
+                <span onclick="triggerLogout()" class="text-[10px] bg-neutral-100 text-neutral-600 font-bold px-2 py-1 rounded cursor-pointer uppercase">Logout</span>
                 <button onclick="openModal()" class="bg-black text-white font-bold text-xs px-4 py-2 rounded-full">+ Post</button>
             </div>
         </div>
@@ -173,7 +175,7 @@
             </div>
         </div>
         <div class="mb-6"><button onclick="closeProfileView()" class="w-full text-xs font-bold border border-neutral-200 py-2.5 rounded-xl bg-white hover:bg-neutral-50">← Back to Feed</button></div>
-        <div id="profile-grid-posts" class="grid grid-cols-3 gap-1"></div>
+        <div id="profile-grid-posts" class="space-y-4"></div>
     </div>
 
     <!-- POST COMPOSER MODAL -->
@@ -201,7 +203,7 @@
                     </div>
                 </div>
 
-                <!-- REAL TIME PREVIEW DRAGGABLE WORKSPACE -->
+                <!-- MUSIC PREVIEW DRAGGABLE WORKSPACE -->
                 <div class="space-y-2">
                     <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Drag Lyrics Track</p>
                     <div class="flex gap-2">
@@ -314,6 +316,12 @@
                     posts.reverse();
                 }
                 renderFeed();
+                
+                // If profile view is active, update profile container dynamically too
+                const currentProfileHandle = document.getElementById('profile-title-handle').innerText.replace('@', '');
+                if (!document.getElementById('profile-container-view').classList.contains('hidden') && currentProfileHandle) {
+                    viewUserProfile(currentProfileHandle);
+                }
             });
 
             document.getElementById('post-image').addEventListener('change', function() {
@@ -408,7 +416,6 @@
                     
                     const lines = lyricsDatabase[chosenMusicTrack.title] || lyricsDatabase["Default"];
                     
-                    // IF TIMESTAMPS CHANGED, FORCE JUMP AUDIO IMMEDIATELY FOR TRUE LIVE FEEL
                     if (chosenMusicTrack.startOffset !== lines[idx].timeSlot) {
                         chosenMusicTrack.startOffset = lines[idx].timeSlot;
                         chosenMusicTrack.selectedLyricText = lines[idx].text;
@@ -469,11 +476,10 @@
 
             document.getElementById('selected-music-badge').classList.remove('hidden');
             
-            // AUTOMATIC LIVE INSTAGRAM PREVIEW PLAYBACK START
             if(track.previewUrl) {
                 previewAudioInstance = new Audio(track.previewUrl);
                 previewAudioInstance.loop = true;
-                previewAudioInstance.play().catch(e => console.log("Audio play blocked, interaction needed"));
+                previewAudioInstance.play().catch(e => console.log("Audio play blocked"));
             }
 
             setTimeout(() => {
@@ -488,8 +494,12 @@
                 document.getElementById('auth-overlay').classList.remove('hidden');
             } else {
                 document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('nav-user-badge').innerText = activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai' ? "@anivaryabajpai" : `@${activeUser}`;
+                document.getElementById('nav-user-badge').innerText = isCurrentSessionOwner() ? "@anivaryabajpai (Owner)" : `@${activeUser}`;
             }
+        }
+
+        function isCurrentSessionOwner() {
+            return activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai';
         }
 
         function processAuth() {
@@ -503,6 +513,14 @@
             activeUser = processed;
             evaluateUserSession();
             renderFeed();
+        }
+
+        function triggerLogout() {
+            if (currentlyPlayingAudio) currentlyPlayingAudio.pause();
+            localStorage.removeItem('core_user_id');
+            activeUser = "";
+            evaluateUserSession();
+            closeProfileView();
         }
 
         function populateInitialTrendingMusic(tracks) {
@@ -535,9 +553,7 @@
         }
 
         function removeSelectedMusic() {
-            if (previewAudioInstance) {
-                previewAudioInstance.pause();
-            }
+            if (previewAudioInstance) previewAudioInstance.pause();
             chosenMusicTrack = null;
             document.getElementById('selected-music-badge').classList.add('hidden');
         }
@@ -553,15 +569,27 @@
         }
 
         function saveNewPost(caption, imgData, isSlider, correctPrice) {
-            const finalHandle = (activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai') ? "anivaryabajpai" : activeUser;
+            const finalHandle = isCurrentSessionOwner() ? "anivaryabajpai" : activeUser;
             database.ref('posts').push().set({
                 userHandle: finalHandle,
-                creatorOwnerTokenId: activeUser,
+                creatorOwnerTokenId: activeUser, // Used to verify ownership
                 timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 caption: caption, image: imgData,
                 music: chosenMusicTrack || null,
                 hypeCount: 0, isLuxurySlider: isSlider, targetPrice: parseInt(correctPrice) || 0
             }).then(() => closeModal());
+        }
+
+        // ABSOLUTE DELETE SYSTEM (OWNER CAN DELETE EVERYTHING, USER ONLY THEIRS)
+        function triggerDeletePost(postId) {
+            if(confirm("Are you sure you want to permanently delete this post?")) {
+                if (currentlyPlayingAudio && currentlyPlayingPostId === postId) {
+                    currentlyPlayingAudio.pause();
+                }
+                database.ref(`posts/${postId}`).remove()
+                    .then(() => alert("Post successfully deleted from matrix database."))
+                    .catch(err => alert("Error deleting post: " + err.message));
+            }
         }
 
         function handleLike(postId, currentLikes) {
@@ -589,12 +617,12 @@
             if (currentlyPlayingAudio && currentlyPlayingPostId === postId) {
                 if (currentlyPlayingAudio.paused) {
                     currentlyPlayingAudio.play();
-                    visualizer.classList.remove('hidden');
-                    btn.innerText = "⏸ Pause";
+                    if(visualizer) visualizer.classList.remove('hidden');
+                    if(btn) btn.innerText = "⏸ Pause";
                 } else {
                     currentlyPlayingAudio.pause();
-                    visualizer.classList.add('hidden');
-                    btn.innerText = "▶ Play";
+                    if(visualizer) visualizer.classList.add('hidden');
+                    if(btn) btn.innerText = "▶ Play";
                 }
                 return;
             }
@@ -618,10 +646,11 @@
             });
 
             currentlyPlayingAudio.play();
-            visualizer.classList.remove('hidden');
-            btn.innerText = "⏸ Pause";
+            if(visualizer) visualizer.classList.remove('hidden');
+            if(btn) btn.innerText = "⏸ Pause";
         }
 
+        // VIEW USER PROFILE (ONLY RELEVANT OWNER SHOWN)
         function viewUserProfile(handle) {
             document.getElementById('main-content-stream').classList.add('hidden');
             document.getElementById('profile-container-view').classList.remove('hidden');
@@ -637,16 +666,38 @@
 
             const grid = document.getElementById('profile-grid-posts');
             grid.innerHTML = '';
+            
+            if(userPosts.length === 0) {
+                grid.innerHTML = `<p class="text-xs text-neutral-400 font-bold text-center py-8">No assets uploaded yet.</p>`;
+                return;
+            }
+
             userPosts.forEach(p => {
-                const box = document.createElement('div');
-                box.className = 'aspect-square bg-neutral-100 relative overflow-hidden border border-neutral-200/30';
-                box.innerHTML = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<div class="p-2 text-[9px] font-medium text-neutral-500 line-clamp-3">${p.caption}</div>`;
-                grid.appendChild(box);
+                const item = document.createElement('div');
+                item.className = 'bg-white border border-neutral-200/70 rounded-2xl p-4 space-y-3';
+                
+                let imgPart = p.image ? `<div class="rounded-xl overflow-hidden aspect-square border"><img src="${p.image}" class="w-full h-full object-cover"></div>` : '';
+                
+                // Show delete button on profile if master owner OR if it belongs to the logged-in user session token
+                let deleteBtnPart = '';
+                if (isCurrentSessionOwner() || p.creatorOwnerTokenId === activeUser) {
+                    deleteBtnPart = `<button onclick="triggerDeletePost('${p.id}')" class="text-[10px] font-bold bg-red-50 text-red-600 border border-red-100 px-2.5 py-1 rounded-md ml-auto">🗑️ Delete</button>`;
+                }
+
+                item.innerHTML = `
+                    <p class="text-xs text-neutral-800 font-medium">${p.caption}</p>
+                    ${imgPart}
+                    <div class="flex items-center justify-between border-t border-neutral-50 pt-2">
+                        <span class="text-[10px] font-mono text-neutral-400">${p.timestamp}</span>
+                        ${deleteBtnPart}
+                    </div>
+                `;
+                grid.appendChild(item);
             });
         }
 
         function openOwnProfile() { 
-            const finalHandle = (activeUser === MASTER_ADMIN_KEY || activeUser === 'anivaryabajpai') ? "anivaryabajpai" : activeUser;
+            const finalHandle = isCurrentSessionOwner() ? "anivaryabajpai" : activeUser;
             viewUserProfile(finalHandle); 
         }
         
@@ -693,19 +744,33 @@
                 const hasLiked = localStorage.getItem(likeKey);
                 const heartIcon = hasLiked ? "❤️" : "🤍";
 
+                // CONDITIONAL DELETE PERMISSION LOGIC
+                let deleteButtonHTML = '';
+                if (isCurrentSessionOwner() || post.creatorOwnerTokenId === activeUser) {
+                    deleteButtonHTML = `
+                        <button onclick="triggerDeletePost('${post.id}')" class="flex items-center gap-1.5 text-xs font-bold text-red-500 hover:text-red-700 transition ml-auto">
+                            <span>🗑️ Delete</span>
+                        </button>
+                    `;
+                }
+
                 card.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <div onclick="viewUserProfile('${post.userHandle}')" class="w-6 h-6 rounded-full bg-black text-white text-[10px] font-black flex items-center justify-center uppercase cursor-pointer">${post.userHandle.substring(0,2)}</div>
-                        <span onclick="viewUserProfile('${post.userHandle}')" class="text-xs font-black cursor-pointer hover:underline">@${post.userHandle}</span>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div onclick="viewUserProfile('${post.userHandle}')" class="w-6 h-6 rounded-full bg-black text-white text-[10px] font-black flex items-center justify-center uppercase cursor-pointer">${post.userHandle.substring(0,2)}</div>
+                            <span onclick="viewUserProfile('${post.userHandle}')" class="text-xs font-black cursor-pointer hover:underline">@${post.userHandle}</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-neutral-400">${post.timestamp || ''}</span>
                     </div>
                     <p class="text-xs text-neutral-800 font-medium whitespace-pre-wrap">${post.caption}</p>
                     ${imgTemplate}
                     ${musicTemplate}
-                    <div class="flex items-center border-t border-neutral-50 pt-2">
+                    <div class="flex items-center border-t border-neutral-50 pt-2 justify-between">
                         <button onclick="handleLike('${post.id}', ${post.hypeCount || 0})" class="flex items-center gap-1.5 text-xs font-bold text-neutral-600 hover:text-black transition">
                             <span>${heartIcon} Like</span>
                             <span class="bg-neutral-50 px-2 py-0.5 rounded-full text-[10px] text-neutral-500">${post.hypeCount || 0}</span>
                         </button>
+                        ${deleteButtonHTML}
                     </div>
                 `;
                 container.appendChild(card);
