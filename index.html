@@ -25,7 +25,6 @@
         body { background: #fafafa; min-height: 100vh; }
         .premium-blur-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        /* Cropper Custom Overrides to Look Exactly Like Google Photos */
         .cropper-view-box, .cropper-face { border-radius: 16px; }
         .cropper-line, .cropper-point { background-color: #ffffff; }
         .cropper-bg { background-image: none; background-color: #171717; }
@@ -113,36 +112,36 @@
                         <p class="text-xs font-bold text-neutral-600">📸 Choose Image</p>
                     </div>
                     
-                    <!-- Cropper Sandbox Area -->
                     <div id="crop-suite-box" class="hidden space-y-2">
-                        <p class="text-[11px] font-bold text-neutral-400 uppercase">Crop Frame (Adjust freely):</p>
+                        <p class="text-[11px] font-bold text-neutral-400 uppercase">Crop Frame:</p>
                         <div class="max-h-72 overflow-hidden bg-neutral-900 rounded-2xl">
                             <img id="modal-preview-img" class="block max-w-full">
                         </div>
                     </div>
                 </div>
 
-                <!-- DYNAMIC LYRIC/AUDIO TRACER MODULE WITH TIMESTAMPS -->
+                <!-- INSTAGRAM LYRIC SELECTION SYSTEM -->
                 <div class="space-y-2">
-                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music Track</p>
+                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Select Lyrics</p>
                     <div class="flex gap-2">
                         <input type="text" id="music-search-input" placeholder="Search track name..." class="w-full rounded-xl bg-neutral-50 border border-neutral-100 px-3 py-2 text-xs focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-black text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
                     <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <!-- Selected Music Badge & Lyric Slider -->
+                    <!-- LYRIC SELECTOR WORKSPACE -->
                     <div id="selected-music-badge" class="hidden p-3 bg-neutral-900 text-white rounded-xl space-y-3 text-xs font-bold">
                         <div class="flex items-center justify-between">
                             <span id="selected-music-text" class="truncate">Attached...</span>
                             <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white">✕</button>
                         </div>
-                        <div class="border-t border-neutral-800 pt-2 space-y-1">
-                            <div class="flex justify-between text-[10px] text-neutral-400">
-                                <span>Select Lyric/Track Start Position</span>
-                                <span id="lyric-time-display">0s</span>
+                        
+                        <!-- LYRIC SCROLLER PANELS -->
+                        <div class="border-t border-neutral-800 pt-2 space-y-2">
+                            <p class="text-[10px] text-neutral-400 uppercase tracking-wider">Tap a lyric line to select starting frame:</p>
+                            <div id="lyric-lines-container" class="space-y-1.5 max-h-36 overflow-y-auto p-1 bg-neutral-950 rounded-lg text-neutral-300">
+                                <!-- Dynamic lines inject here -->
                             </div>
-                            <input type="range" id="lyric-start-offset" min="0" max="25" value="0" class="w-full accent-white" oninput="document.getElementById('lyric-time-display').innerText = this.value + 's'">
                         </div>
                     </div>
                 </div>
@@ -180,10 +179,26 @@
         let chosenMusicTrack = null; 
         let cropperInstance = null;
 
-        const prebuiltTrendingSeeds = [
-            {trackName: "Pehle Bhi Main", artistName: "Vishal Mishra", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/bf/20/0a/bf200aa0-8025-b461-8cf6-cbf65e2361dc/192641870233_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/ef/c7/2befc74b-61bd-3453-294b-14c1fa6e9fb3/mzaf_10526081471746654823.plus.aac.p.m4a"},
-            {trackName: "Satranga", artistName: "Arijit Singh", artworkUrl100: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/64/00/df/6400df8a-ec75-b657-37df-2f74bfd4e137/192641846528_Cover.jpg/100x100bb.jpg", previewUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/44/2c/64/442c64e6-ee32-d819-3356-fcbaec38fbcd/mzaf_10189012351912850942.plus.aac.p.m4a"}
-        ];
+        // Custom Lyrics library mapped to tracks
+        const lyricsDatabase = {
+            "Pehle Bhi Main": [
+                { time: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
+                { time: 6, text: "✨ Ajnabee se milke laga hoon..." },
+                { time: 12, text: "❤️ Kehta hai dil ye hathaayi..." },
+                { time: 18, text: "💫 Jaane tu ya jaane na haan..." }
+            ],
+            "Satranga": [
+                { time: 0, text: "🎵 Satranga re tere rang maahi..." },
+                { time: 7, text: "🍁 Kaisi hai ye teri khudgarzi..." },
+                { time: 14, text: "💔 Aadha main adhoora rha jaise..." },
+                { time: 20, text: "✨ Ishq me tere dil haara..." }
+            ],
+            "Default": [
+                { time: 0, text: "🎵 Hook Line: Intro Music Beats" },
+                { time: 8, text: "🎤 Verse 1: Starting Lyrics Line" },
+                { time: 16, text: "🔥 Chorus: Main Melody Verse" }
+            ]
+        };
 
         window.addEventListener('DOMContentLoaded', () => {
             evaluateUserSession();
@@ -204,17 +219,11 @@
                     reader.onload = (e) => {
                         const imgEl = document.getElementById('modal-preview-img');
                         imgEl.src = e.target.result;
-                        
                         document.getElementById('crop-suite-box').classList.remove('hidden');
                         if (cropperInstance) cropperInstance.destroy();
                         
                         cropperInstance = new Cropper(imgEl, {
-                            aspectRatio: 1,
-                            viewMode: 1,
-                            autoCropArea: 1,
-                            background: false,
-                            responsive: true,
-                            guides: true,
+                            aspectRatio: 1, viewMode: 1, autoCropArea: 1, background: false, responsive: true, guides: true,
                         });
                     }
                     reader.readAsDataURL(this.files[0]);
@@ -226,10 +235,6 @@
                 const caption = document.getElementById('post-caption').value.trim();
                 const isSlider = document.getElementById('toggle-luxury-slider').checked;
                 const correctPrice = document.getElementById('luxury-correct-price').value || 0;
-                
-                if (chosenMusicTrack) {
-                    chosenMusicTrack.startOffset = parseInt(document.getElementById('lyric-start-offset').value) || 0;
-                }
 
                 if (cropperInstance) {
                     const croppedCanvas = cropperInstance.getCroppedCanvas({ width: 600, height: 600 });
@@ -268,11 +273,7 @@
             tracks.forEach(track => {
                 const row = document.createElement('div');
                 row.className = 'flex items-center justify-between p-2 hover:bg-neutral-50 cursor-pointer rounded-lg';
-                row.onclick = () => {
-                    chosenMusicTrack = { title: track.trackName, artist: track.artistName, audioUrl: track.previewUrl, coverUrl: track.artworkUrl100, startOffset: 0 };
-                    document.getElementById('selected-music-text').innerText = `🎵 ${track.trackName} Selected`;
-                    document.getElementById('selected-music-badge').classList.remove('hidden');
-                };
+                row.onclick = () => selectSongSetup(track);
                 row.innerHTML = `
                     <div class="flex items-center gap-2 text-xs font-bold">
                         <img src="${track.artworkUrl100}" class="w-6 h-6 rounded object-cover">
@@ -295,11 +296,52 @@
                 });
         }
 
+        function selectSongSetup(track) {
+            chosenMusicTrack = { 
+                title: track.trackName, 
+                artist: track.artistName, 
+                audioUrl: track.previewUrl, 
+                coverUrl: track.artworkUrl100, 
+                startOffset: 0,
+                selectedLyricText: ""
+            };
+            
+            document.getElementById('selected-music-text').innerText = `🎵 ${track.trackName}`;
+            document.getElementById('selected-music-badge').classList.remove('hidden');
+            
+            // Inject lyrics line interface
+            const lines = lyricsDatabase[track.trackName] || lyricsDatabase["Default"];
+            const container = document.getElementById('lyric-lines-container');
+            container.innerHTML = '';
+            
+            lines.forEach((line, index) => {
+                const el = document.createElement('div');
+                el.className = `p-2 rounded-md cursor-pointer transition text-[11px] ${index === 0 ? 'bg-white text-black font-extrabold' : 'hover:bg-neutral-800'}`;
+                el.id = `lyric-item-${index}`;
+                el.innerText = line.text;
+                
+                if(index === 0) {
+                    chosenMusicTrack.startOffset = line.time;
+                    chosenMusicTrack.selectedLyricText = line.text;
+                }
+
+                el.onclick = () => {
+                    // Reset styling
+                    lines.forEach((_, idx) => {
+                        const target = document.getElementById(`lyric-item-${idx}`);
+                        if(target) { target.className = 'p-2 rounded-md cursor-pointer transition text-[11px] hover:bg-neutral-800'; }
+                    });
+                    el.className = 'p-2 rounded-md cursor-pointer bg-white text-black font-extrabold text-[11px]';
+                    chosenMusicTrack.startOffset = line.time;
+                    chosenMusicTrack.selectedLyricText = line.text;
+                };
+                container.appendChild(el);
+            });
+        }
+
         function removeSelectedMusic() {
             chosenMusicTrack = null;
             document.getElementById('selected-music-badge').classList.add('hidden');
-            document.getElementById('lyric-start-offset').value = 0;
-            document.getElementById('lyric-time-display').innerText = "0s";
         }
 
         function openModal() { document.getElementById('post-modal').classList.remove('hidden'); }
@@ -322,8 +364,24 @@
             }).then(() => closeModal());
         }
 
+        // ONE LIKE LIMIT LOGIC (Anti-unlimited loop)
         function handleLike(postId, currentLikes) {
-            const updatedLikes = (currentLikes || 0) + 1;
+            if(!activeUser) return;
+            const likeKey = `liked_${activeUser}_${postId}`;
+            const alreadyLiked = localStorage.getItem(likeKey);
+            
+            let updatedLikes = currentLikes || 0;
+            
+            if (alreadyLiked) {
+                // Unlike action
+                updatedLikes = Math.max(0, updatedLikes - 1);
+                localStorage.removeItem(likeKey);
+            } else {
+                // Clean single unique like
+                updatedLikes += 1;
+                localStorage.setItem(likeKey, "true");
+            }
+            
             database.ref(`posts/${postId}`).update({ hypeCount: updatedLikes });
         }
 
@@ -342,7 +400,7 @@
                 } else {
                     currentlyPlayingAudio.pause();
                     visualizer.classList.add('hidden');
-                    btn.innerText = "▶ Play Music";
+                    btn.innerText = "▶ Play";
                 }
                 return;
             }
@@ -352,14 +410,13 @@
                 const oldVisualizer = document.getElementById(`viz-${currentlyPlayingPostId}`);
                 const oldBtn = document.getElementById(`btn-${currentlyPlayingPostId}`);
                 if (oldVisualizer) oldVisualizer.classList.add('hidden');
-                if (oldBtn) oldBtn.innerText = "▶ Play Music";
+                if (oldBtn) oldBtn.innerText = "▶ Play";
             }
 
             currentlyPlayingAudio = new Audio(url);
             currentlyPlayingPostId = postId;
             currentlyPlayingAudio.loop = true;
             
-            // Apply the chosen lyric start timestamp perfectly
             currentlyPlayingAudio.addEventListener('loadedmetadata', () => {
                 currentlyPlayingAudio.currentTime = startOffset || 0;
             });
@@ -407,24 +464,34 @@
                 card.className = 'bg-white border border-neutral-200/70 rounded-3xl p-4 space-y-3';
                 
                 const startOffset = post.music && post.music.startOffset ? post.music.startOffset : 0;
+                const displayLyric = post.music && post.music.selectedLyricText ? post.music.selectedLyricText : "🎵 Music Track attached";
 
                 let musicTemplate = post.music ? `
-                    <div class="flex items-center justify-between bg-neutral-50 p-2.5 rounded-xl border border-neutral-100">
-                        <div class="flex items-center gap-2 min-w-0">
-                            <img src="${post.music.coverUrl}" class="w-7 h-7 rounded-lg object-cover">
-                            <div class="min-w-0">
-                                <p class="text-xs font-black text-neutral-800 truncate">${post.music.title}</p>
-                                <div id="viz-${post.id}" class="hidden flex items-end gap-0.5 h-2 mt-0.5">
-                                    <div class="w-0.5 bg-black music-bar bar-1 h-full origin-bottom"></div>
-                                    <div class="w-0.5 bg-black music-bar bar-2 h-full origin-bottom"></div>
-                                    <div class="w-0.5 bg-black music-bar bar-3 h-full origin-bottom"></div>
+                    <div class="bg-neutral-50 p-3 rounded-2xl border border-neutral-100 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <img src="${post.music.coverUrl}" class="w-7 h-7 rounded-lg object-cover">
+                                <div class="min-w-0">
+                                    <p class="text-xs font-black text-neutral-800 truncate">${post.music.title}</p>
+                                    <div id="viz-${post.id}" class="hidden flex items-end gap-0.5 h-2 mt-0.5">
+                                        <div class="w-0.5 bg-black music-bar bar-1 h-full origin-bottom"></div>
+                                        <div class="w-0.5 bg-black music-bar bar-2 h-full origin-bottom"></div>
+                                        <div class="w-0.5 bg-black music-bar bar-3 h-full origin-bottom"></div>
+                                    </div>
                                 </div>
                             </div>
+                            <button id="btn-${post.id}" onclick="toggleAudioPlayback('${post.id}', '${post.music.audioUrl}', ${startOffset})" class="text-[10px] font-bold bg-white border border-neutral-200 px-2.5 py-1 rounded-md">▶ Play</button>
                         </div>
-                        <button id="btn-${post.id}" onclick="toggleAudioPlayback('${post.id}', '${post.music.audioUrl}', ${startOffset})" class="text-[10px] font-bold bg-white border border-neutral-200 px-2 py-1 rounded-md">▶ Play Music</button>
+                        <div class="bg-white/80 p-2 rounded-xl border border-neutral-100/50 text-center">
+                            <p class="text-[11px] font-bold text-neutral-700 italic">${displayLyric}</p>
+                        </div>
                     </div>` : '';
 
                 let imgTemplate = post.image ? `<div class="rounded-2xl overflow-hidden aspect-square border border-neutral-100"><img src="${post.image}" class="w-full h-full object-cover"></div>` : '';
+
+                const likeKey = `liked_${activeUser}_${post.id}`;
+                const hasLiked = localStorage.getItem(likeKey);
+                const heartIcon = hasLiked ? "❤️" : "🤍";
 
                 card.innerHTML = `
                     <div class="flex items-center gap-2">
@@ -436,7 +503,7 @@
                     ${musicTemplate}
                     <div class="flex items-center border-t border-neutral-50 pt-2">
                         <button onclick="handleLike('${post.id}', ${post.hypeCount || 0})" class="flex items-center gap-1.5 text-xs font-bold text-neutral-600 hover:text-black transition">
-                            <span>❤️ Like</span>
+                            <span>${heartIcon} Like</span>
                             <span class="bg-neutral-50 px-2 py-0.5 rounded-full text-[10px] text-neutral-500">${post.hypeCount || 0}</span>
                         </button>
                     </div>
