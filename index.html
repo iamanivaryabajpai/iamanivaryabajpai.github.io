@@ -30,32 +30,72 @@
         .cropper-bg { background-image: none; background-color: #171717; }
         
         @keyframes pulse-music {
-            0%, 100% { transform: scaleY(0.3); }
-            50% { transform: scaleY(1); }
+            0%, 100__ { transform: scaleY(0.3); }
+            50__ { transform: scaleY(1); }
         }
         .music-bar { animation: pulse-music 1.2s ease-in-out infinite; }
         .bar-1 { animation-delay: 0.1s; }
         .bar-2 { animation-delay: 0.4s; }
         .bar-3 { animation-delay: 0.2s; }
 
+        /* Instagram Lyrics Carousel & Container */
+        .instagram-lyric-viewport {
+            position: relative;
+            width: 100__;
+            height: 110px;
+            overflow: hidden;
+            background: #000000;
+        }
+        .instagram-lyric-track {
+            display: flex;
+            position: absolute;
+            left: 50__;
+            top: 0;
+            height: 100__;
+            transform: translateX(-50__);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            align-items: center;
+            will-change: transform;
+        }
+        .instagram-lyric-card {
+            min-width: 220px;
+            max-width: 220px;
+            text-align: center;
+            padding: 0 15px;
+            opacity: 0.25;
+            transform: scale(0.85);
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+            user-select: none;
+        }
+        .instagram-lyric-card.active-lyric {
+            opacity: 1;
+            transform: scale(1.1);
+            color: #ffffff;
+            text-shadow: 0 0 12px rgba(255,255,255,0.4);
+        }
+
         /* Instagram Style Range Slider Styling */
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 6px;
-            height: 24px;
+            width: 8px;
+            height: 28px;
             background: #ffffff;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
         input[type="range"]::-moz-range-thumb {
-            width: 6px;
-            height: 24px;
+            width: 8px;
+            height: 28px;
             background: #ffffff;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
     </style>
 
@@ -140,42 +180,42 @@
                     </div>
                 </div>
 
-                <!-- INSTAGRAM LYRIC SELECTION SYSTEM WITH TIMELINE -->
+                <!-- REAL INSTAGRAM LIVE LYRIC SWIPER & SCROLLER -->
                 <div class="space-y-2">
-                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Select Lyrics</p>
+                    <p class="text-[11px] font-bold text-neutral-400 uppercase">Attach Music & Clip Lyrics</p>
                     <div class="flex gap-2">
                         <input type="text" id="music-search-input" placeholder="Search track name..." class="w-full rounded-xl bg-neutral-50 border border-neutral-100 px-3 py-2 text-xs focus:outline-none">
                         <button type="button" onclick="searchSongs()" class="bg-black text-white font-bold text-xs px-4 rounded-xl">Search</button>
                     </div>
                     <div id="music-results" class="space-y-1 max-h-28 overflow-y-auto border border-neutral-100 rounded-xl p-1 bg-white"></div>
                     
-                    <!-- REAL INSTAGRAM STYLE MUSIC INTERFACE -->
-                    <div id="selected-music-badge" class="hidden p-4 bg-neutral-900 text-white rounded-2xl space-y-4 text-xs font-bold shadow-xl">
+                    <!-- INSTAGRAM PRECISE WORKSPACE LAYER -->
+                    <div id="selected-music-badge" class="hidden bg-neutral-900 text-white rounded-2xl p-4 space-y-4 shadow-xl">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2 min-w-0">
                                 <img id="selector-art-preview" src="" class="w-6 h-6 rounded object-cover">
-                                <span id="selected-music-text" class="truncate font-black">Attached Track</span>
+                                <span id="selected-music-text" class="truncate text-xs font-black">Attached Track</span>
                             </div>
-                            <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white bg-neutral-800 p-1 rounded-full w-5 h-5 flex items-center justify-center">✕</button>
+                            <button type="button" onclick="removeSelectedMusic()" class="text-neutral-400 hover:text-white bg-neutral-800 p-1 rounded-full w-5 h-5 flex items-center justify-center text-[10px]">✕</button>
                         </div>
                         
-                        <!-- INSTAGRAM LYRICS BOX DESIGN -->
-                        <div class="bg-neutral-950 p-4 rounded-xl border border-neutral-800 text-center min-h-[70px] flex items-center justify-center relative overflow-hidden">
-                            <p id="live-lyric-preview" class="text-sm font-extrabold text-white tracking-tight leading-snug drop-shadow">
-                                Selecting lyrics...
-                            </p>
+                        <!-- INSTAGRAM DYNAMIC HORIZONTAL LYRIC TRACK VIEWPORT -->
+                        <div class="instagram-lyric-viewport rounded-xl border border-neutral-800">
+                            <div id="scrolling-lyric-track" class="instagram-lyric-track">
+                                <!-- Generated Cards will scroll beautifully here -->
+                            </div>
                         </div>
 
-                        <!-- INSTAGRAM TIMELINE SCROLLER -->
+                        <!-- INSTAGRAM TIMELINE SLIDER CONTROL -->
                         <div class="space-y-1">
-                            <div class="flex justify-between text-[10px] text-neutral-400 font-mono">
+                            <div class="flex justify-between text-[10px] text-neutral-400 font-mono px-1">
                                 <span id="timeline-current-time">0:00</span>
                                 <span>0:30</span>
                             </div>
                             <div class="relative flex items-center">
-                                <input type="range" id="instagram-music-slider" min="0" max="29" value="0" class="w-full h-1 bg-neutral-700 rounded-lg appearance-none cursor-pointer focus:outline-none">
+                                <input type="range" id="instagram-music-slider" min="0" max="30" value="0" class="w-full h-1 bg-neutral-700 rounded-lg appearance-none cursor-pointer focus:outline-none">
                             </div>
-                            <p class="text-[9px] text-neutral-500 text-center mt-1 uppercase tracking-widest">Drag timeline to clip lyrics</p>
+                            <p class="text-[9px] text-neutral-500 text-center mt-1 uppercase tracking-widest">Slide line to adjust lyrics clip</p>
                         </div>
                     </div>
                 </div>
@@ -213,24 +253,31 @@
         let chosenMusicTrack = null; 
         let cropperInstance = null;
 
-        // Custom Lyrics library mapped to tracks with 30-sec breakdown for timeline sync
+        // Custom Time-Segmented Lyrics database mapped to exact timeline slots
         const lyricsDatabase = {
             "Pehle Bhi Main": [
-                { id: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
-                { id: 8, text: "✨ Ajnabee se milke laga hoon..." },
-                { id: 16, text: "❤️ Kehta hai dil ye hathaayi..." },
-                { id: 24, text: "💫 Jaane tu ya jaane na haan..." }
+                { timeSlot: 0, text: "🎵 Pehle bhi main tumse mila hoon..." },
+                { timeSlot: 6, text: "✨ Ajnabee se milke laga hoon..." },
+                { timeSlot: 12, text: "❤️ Kehta hai dil ye hathaayi..." },
+                { timeSlot: 18, text: "💫 Jaane tu ya jaane na haan..." },
+                { timeSlot: 24, text: "🔥 Phir wahi lamhe laaya hoon..." },
+                { timeSlot: 30, text: "🎸 [Instrumental Music Outro]" }
             ],
             "Satranga": [
-                { id: 0, text: "🎵 Satranga re tere rang maahi..." },
-                { id: 7, text: "🍁 Kaisi hai ye teri khudgarzi..." },
-                { id: 15, text: "💔 Aadha main adhoora rha jaise..." },
-                { id: 23, text: "✨ Ishq me tere dil haara..." }
+                { timeSlot: 0, text: "🎵 Satranga re tere rang maahi..." },
+                { timeSlot: 6, text: "🍁 Kaisi hai ye teri khudgarzi..." },
+                { timeSlot: 12, text: "💔 Aadha main adhoora rha jaise..." },
+                { timeSlot: 18, text: "✨ Ishq me tere dil haara..." },
+                { timeSlot: 24, text: "🥀 Todi maine saari ki saari rasmein..." },
+                { timeSlot: 30, text: "🌟 [Music Symphony Outro]" }
             ],
             "Default": [
-                { id: 0, text: "🎵 Hook Line: Intro Music Beats" },
-                { id: 10, text: "🎤 Verse 1: Starting Lyrics Line" },
-                { id: 20, text: "🔥 Chorus: Main Melody Verse" }
+                { timeSlot: 0, text: "🎵 Hook Line: Intro Music Beats" },
+                { timeSlot: 6, text: "🎤 Verse 1: Opening Lyrics Sequence" },
+                { timeSlot: 12, text: "🔥 Chorus: High Pitch Symphony" },
+                { timeSlot: 18, text: "⚡ Interlude: Bass Drop Rhythm" },
+                { timeSlot: 24, text: "✨ Outro: Fading Melody Vibe" },
+                { timeSlot: 30, text: "🎵 Track Ending Segment" }
             ]
         };
 
@@ -283,7 +330,7 @@
                 }
             });
 
-            // Sync Slider timeline moves to live lyrics preview like Instagram
+            // INSTAGRAM TWO-WAY TIMELINE SYNC ENGINE
             document.getElementById('instagram-music-slider').addEventListener('input', function() {
                 const elapsedSeconds = parseInt(this.value);
                 document.getElementById('timeline-current-time').innerText = `0:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}`;
@@ -292,15 +339,32 @@
                     chosenMusicTrack.startOffset = elapsedSeconds;
                     const lines = lyricsDatabase[chosenMusicTrack.title] || lyricsDatabase["Default"];
                     
-                    // Pick matching lyric line based on current timestamp position
-                    let matchedLyric = lines[0].text;
+                    // Identify active indexed segment card
+                    let targetIndex = 0;
                     for (let i = 0; i < lines.length; i++) {
-                        if (elapsedSeconds >= lines[i].id) {
-                            matchedLyric = lines[i].text;
+                        if (elapsedSeconds >= lines[i].timeSlot) {
+                            targetIndex = i;
                         }
                     }
-                    document.getElementById('live-lyric-preview').innerText = matchedLyric;
-                    chosenMusicTrack.selectedLyricText = matchedLyric;
+
+                    // Perform smooth CSS Horizontal scrolling based on active card index
+                    const track = document.getElementById('scrolling-lyric-track');
+                    const cardWidth = 220; // Exact width assigned in CSS
+                    const newTranslateX = - (targetIndex * cardWidth);
+                    track.style.transform = `translateX(calc(-50__ + ${newTranslateX}px + ${cardWidth/2}px))`;
+
+                    // Handle classes toggle for exact visual zoom scaling
+                    lines.forEach((_, idx) => {
+                        const card = document.getElementById(`ig-card-${idx}`);
+                        if(card) {
+                            if(idx === targetIndex) {
+                                card.classList.add('active-lyric');
+                                chosenMusicTrack.selectedLyricText = lines[idx].text;
+                            } else {
+                                card.classList.remove('active-lyric');
+                            }
+                        }
+                    });
                 }
             });
 
@@ -369,7 +433,21 @@
             
             document.getElementById('selected-music-text').innerText = `${track.trackName}`;
             document.getElementById('selector-art-preview').src = track.artworkUrl100;
-            document.getElementById('live-lyric-preview').innerText = lines[0].text;
+            
+            // Rebuild the carousel slider track dynamically
+            const trackContainer = document.getElementById('scrolling-lyric-track');
+            trackContainer.innerHTML = '';
+            
+            lines.forEach((line, idx) => {
+                const card = document.createElement('div');
+                card.id = `ig-card-${idx}`;
+                card.className = `instagram-lyric-card ${idx === 0 ? 'active-lyric' : ''}`;
+                card.innerText = line.text;
+                trackContainer.appendChild(card);
+            });
+
+            // Reset positioning vectors
+            trackContainer.style.transform = `translateX(calc(-50__ + 110px))`;
             document.getElementById('instagram-music-slider').value = 0;
             document.getElementById('timeline-current-time').innerText = "0:00";
             
@@ -448,8 +526,6 @@
             }
 
             if(!url) {
-                // If itunes preview doesn't exist, we mimic playing state visually
-                alert("Playing from synced clip offset: " + startOffset + "s");
                 visualizer.classList.remove('hidden');
                 btn.innerText = "⏸ Pause";
                 currentlyPlayingPostId = postId;
